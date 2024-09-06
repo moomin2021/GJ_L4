@@ -5,11 +5,10 @@
 
 SceneManager::SceneManager()
 {
-	// ImGuiの管理クラスのインスタンスを取得
+	// インスタンス取得
 	imGuiMgr_ = ImGuiManager::GetInstance();
-
-	// DirectXのインスタンスを取得
 	dx12Cmd_ = DX12Cmd::GetInstance();
+	timeMgr_ = TimeManager::GetInstance();
 }
 
 void SceneManager::Initialize()
@@ -21,6 +20,9 @@ void SceneManager::Initialize()
 
 void SceneManager::Update()
 {
+	// 時間管理クラスの更新
+	timeMgr_->Update();
+
 	// 次のシーンが設定されたら
 	if (nextScene_ != Scene::NONE)
 	{
@@ -52,6 +54,8 @@ void SceneManager::Update()
 	// 現在のシーンを更新
 	nowScene_->Update();
 	nowScene_->MatUpdate();
+
+	timeMgr_->ImGuiUpdate();
 }
 
 void SceneManager::Draw()

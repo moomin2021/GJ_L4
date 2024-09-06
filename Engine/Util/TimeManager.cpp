@@ -20,3 +20,16 @@ void TimeManager::Update()
 	// ゲームデルタタイムの計算
 	gameDeltaTime_ = deltaTime_ * gameSpd_;
 }
+
+void TimeManager::ImGuiUpdate()
+{
+#ifdef _DEBUG
+	imGuiMgr_->BeginWindow("TimeManager");
+
+	imGuiMgr_->Text("DeltaTime = %f", deltaTime_);
+	imGuiMgr_->Text("GameDeltaTime = %f", gameDeltaTime_);
+	imGuiMgr_->InputFloat("ゲーム速度", gameSpd_, 0.1f, 1.0f);
+
+	imGuiMgr_->EndWindow();
+#endif
+}

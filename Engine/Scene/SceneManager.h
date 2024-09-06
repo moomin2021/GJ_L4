@@ -12,6 +12,7 @@
 
 #include "ImGuiManager.h"
 #include "DX12Cmd.h"
+#include "TimeManager.h"
 
 #include <memory>
 
@@ -22,6 +23,7 @@ private:
 	// シングルトンのインスタンス
 	ImGuiManager* imGuiMgr_ = nullptr;// ImGuiの管理クラス
 	DX12Cmd* dx12Cmd_ = nullptr;// DirectXのインスタンス
+	TimeManager* timeMgr_ = nullptr;// 時間管理クラス
 
 	// 現在のシーンのインスタンス
 	std::unique_ptr<BaseScene> nowScene_ = nullptr;

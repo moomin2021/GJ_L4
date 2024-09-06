@@ -1,10 +1,15 @@
 #pragma once
+#include "ImGuiManager.h"
+
 #include <chrono>
 
 class TimeManager
 {
 #pragma region メンバ変数
 private:
+	// インスタンス
+	ImGuiManager* imGuiMgr_ = nullptr;
+
 	// 1フレの経過時間
 	float deltaTime_ = 0.0f;	// スローやヒットストップの影響を受けないものに使う(UIなど)
 	float gameDeltaTime_ = 0.0f;// スローやヒットストップを掛けるものに使う(例：プレイヤーや敵)
@@ -23,6 +28,7 @@ public:
 
 	// 更新処理
 	void Update();
+	void ImGuiUpdate();
 
 private:
 	// コンストラクタとデストラクタ
