@@ -49,6 +49,7 @@ void TitleScene::MatUpdate()
 void TitleScene::Draw()
 {
 	PipelineManager::PreDraw("Sprite");
+
 	sprite0_->Draw(texture_);
 	sprite1_->Draw();
 }
