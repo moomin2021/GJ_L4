@@ -279,22 +279,22 @@
     <ClCompile Include="Engine\Scene\IScene.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="M_RectCollider.cpp">
+    <ClCompile Include="Application\Collision\M_RectCollider.cpp">
       <Filter>Application\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="M_CircleCollider.cpp">
+    <ClCompile Include="Application\Collision\M_CircleCollider.cpp">
       <Filter>Application\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="M_ColliderManager.cpp">
+    <ClCompile Include="Application\Collision\M_ColliderManager.cpp">
       <Filter>Application\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionChecker.cpp">
+    <ClCompile Include="Application\Collision\CollisionChecker.cpp">
       <Filter>Application\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="ColliderTag.cpp">
+    <ClCompile Include="Application\Collision\ColliderTag.cpp">
       <Filter>Application\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="ICollider.cpp">
+    <ClCompile Include="Application\Collision\ICollider.cpp">
       <Filter>Application\Collision</Filter>
     </ClCompile>
   </ItemGroup>
@@ -476,25 +476,25 @@
     <ClInclude Include="Engine\Scene\IScene.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="M_RectCollider.h">
+    <ClInclude Include="Application\Collision\M_RectCollider.h">
       <Filter>Application\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="M_CircleCollider.h">
+    <ClInclude Include="Application\Collision\M_CircleCollider.h">
       <Filter>Application\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="M_ColliderManager.h">
+    <ClInclude Include="Application\Collision\M_ColliderManager.h">
       <Filter>Application\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="ICollider.h">
+    <ClInclude Include="Application\Collision\ICollider.h">
       <Filter>Application\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionChecker.h">
+    <ClInclude Include="Application\Collision\CollisionChecker.h">
       <Filter>Application\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderShape.h">
+    <ClInclude Include="Application\Collision\ColliderShape.h">
       <Filter>Application\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderTag.h">
+    <ClInclude Include="Application\Collision\ColliderTag.h">
       <Filter>Application\Collision</Filter>
     </ClInclude>
   </ItemGroup>
