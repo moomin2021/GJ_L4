@@ -124,6 +124,9 @@
     <Filter Include="Application\ソースファイル\Setting">
       <UniqueIdentifier>{5b39294d-0657-4a38-943b-2f5c5ab04bca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Collision">
+      <UniqueIdentifier>{abedde82-11e0-4381-b27d-dea3f926d79e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Base\WinAPI.cpp">
@@ -276,23 +279,23 @@
     <ClCompile Include="Engine\Scene\IScene.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ColliderTag.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ICollider.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="M_ColliderManager.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionChecker.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="M_RectCollider.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
+      <Filter>Application\Collision</Filter>
     </ClCompile>
     <ClCompile Include="M_CircleCollider.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
+      <Filter>Application\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="M_ColliderManager.cpp">
+      <Filter>Application\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionChecker.cpp">
+      <Filter>Application\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderTag.cpp">
+      <Filter>Application\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ICollider.cpp">
+      <Filter>Application\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -473,26 +476,26 @@
     <ClInclude Include="Engine\Scene\IScene.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ColliderTag.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ICollider.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ColliderShape.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="M_ColliderManager.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionChecker.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="M_RectCollider.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+      <Filter>Application\Collision</Filter>
     </ClInclude>
     <ClInclude Include="M_CircleCollider.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+      <Filter>Application\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="M_ColliderManager.h">
+      <Filter>Application\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ICollider.h">
+      <Filter>Application\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionChecker.h">
+      <Filter>Application\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderShape.h">
+      <Filter>Application\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderTag.h">
+      <Filter>Application\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
