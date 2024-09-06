@@ -122,6 +122,7 @@
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
     <ClCompile Include="Engine\Base\Texture.cpp" />
+    <ClCompile Include="Engine\Util\TimeManager.cpp" />
     <ClCompile Include="Engine\Util\Util.cpp" />
     <ClCompile Include="Engine\Util\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Util\Math\Vector3.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Engine\Light\SpotLight.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
     <ClInclude Include="Engine\Base\Texture.h" />
+    <ClInclude Include="Engine\Util\TimeManager.h" />
     <ClInclude Include="Engine\Util\Util.h" />
     <ClInclude Include="Engine\Util\Math\Vector2.h" />
     <ClInclude Include="Engine\Util\Math\Vector3.h" />
