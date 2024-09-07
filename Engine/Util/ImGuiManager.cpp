@@ -43,9 +43,8 @@ void ImGuiManager::Initialize()
 		srvHeap_.Get(), srvHeap_->GetCPUDescriptorHandleForHeapStart(), srvHeap_->GetGPUDescriptorHandleForHeapStart());
 
 	ImGuiIO& io = ImGui::GetIO();
-
-	// 標準フォントを追加する
-	io.Fonts->AddFontDefault();
+	ImFontConfig config;
+	io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\meiryo.ttc", 18.0f, &config, io.Fonts->GetGlyphRangesJapanese());
 }
 
 void ImGuiManager::Begin()
@@ -72,6 +71,88 @@ void ImGuiManager::Draw()
 
 	// 描画コマンドを発行
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList);
+}
+
+void ImGuiManager::BeginWindow(const std::string& winName)
+{
+	ImGui::Begin(winName.c_str());
+}
+
+void ImGuiManager::EndWindow()
+{
+	ImGui::End();
+}
+
+bool ImGuiManager::BeginMenuBar()
+{
+	return ImGui::BeginMenuBar();
+}
+
+void ImGuiManager::EndMenuBar()
+{
+	ImGui::EndMenuBar();
+}
+
+bool ImGuiManager::BeginMenu(const std::string& menuName, bool enable)
+{
+	return ImGui::BeginMenu(menuName.c_str(), enable);
+}
+
+void ImGuiManager::EndMenu()
+{
+	ImGui::EndMenu();
+}
+
+bool ImGuiManager::MenuItem(const std::string& label)
+{
+	return ImGui::MenuItem(label.c_str());
+}
+
+void ImGuiManager::InputInt(const std::string& label, int& v)
+{
+	ImGui::InputInt(label.c_str(), &v);
+}
+
+void ImGuiManager::InputInt(const std::string& label, int& v, int step, int step_fast)
+{
+	ImGui::InputInt(label.c_str(), &v, step, step_fast);
+}
+
+void ImGuiManager::InputFloat(const std::string& label, float& v)
+{
+	ImGui::InputFloat(label.c_str(), &v);
+}
+
+void ImGuiManager::InputFloat(const std::string& label, float& v, float step, float step_fast)
+{
+	ImGui::InputFloat(label.c_str(), &v, step, step_fast);
+}
+
+void ImGuiManager::InputVector2(const std::string& label, Vector2& v)
+{
+	float value[2] = { v.x, v.y };
+	ImGui::InputFloat2(label.c_str(), value);
+	v = { value[0], value[1] };
+}
+
+void ImGuiManager::InputVector3(const std::string& label, Vector3& v)
+{
+	float value[3] = { v.x, v.y, v.z };
+	ImGui::InputFloat3(label.c_str(), value);
+	v = { value[0], value[1], value[2] };
+}
+
+bool ImGuiManager::CheckBox(const std::string& label, bool& flag)
+{
+	return ImGui::Checkbox(label.c_str(), &flag);
+}
+
+void ImGuiManager::Text(const char* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	ImGui::TextV(fmt, args);
+	va_end(args);
 }
 
 ImGuiManager::ImGuiManager() {}

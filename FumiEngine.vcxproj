@@ -101,7 +101,6 @@
     <ClCompile Include="Application\Collision\CollisionChecker.cpp" />
     <ClCompile Include="Engine\Collision\CollisionManager3D.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
-    <ClCompile Include="Engine\Util\DeltaTime.cpp" />
     <ClCompile Include="Engine\Util\Buffer.cpp" />
     <ClCompile Include="Engine\Collision\AABBCollider.cpp" />
     <ClCompile Include="Engine\Util\Easing.cpp" />
@@ -125,6 +124,7 @@
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
     <ClCompile Include="Engine\Base\Texture.cpp" />
+    <ClCompile Include="Engine\Util\TimeManager.cpp" />
     <ClCompile Include="Engine\Util\Util.cpp" />
     <ClCompile Include="Engine\Util\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Util\Math\Vector3.cpp" />
@@ -149,7 +149,6 @@
     <ClCompile Include="Engine\Util\Math\Quaternion.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
     <ClCompile Include="Application\Scene\TransitionScene.cpp" />
-    <ClCompile Include="Engine\Util\Timer.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="Application\Collision\M_CircleCollider.cpp" />
     <ClCompile Include="Application\Collision\M_ColliderManager.cpp" />
@@ -166,7 +165,6 @@
     <ClInclude Include="Engine\Collision\CollisionManager3D.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Util\BasicTask.h" />
-    <ClInclude Include="Engine\Util\DeltaTime.h" />
     <ClInclude Include="Engine\Util\Buffer.h" />
     <ClInclude Include="Engine\Collision\AABBCollider.h" />
     <ClInclude Include="Engine\Util\Easing.h" />
@@ -199,6 +197,7 @@
     <ClInclude Include="Engine\Light\SpotLight.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
     <ClInclude Include="Engine\Base\Texture.h" />
+    <ClInclude Include="Engine\Util\TimeManager.h" />
     <ClInclude Include="Engine\Util\Util.h" />
     <ClInclude Include="Engine\Util\Math\Vector2.h" />
     <ClInclude Include="Engine\Util\Math\Vector3.h" />
@@ -219,7 +218,6 @@
     <ClInclude Include="Application\Scene\TransitionScene.h" />
     <ClInclude Include="Engine\3d\Line3D.h" />
     <ClInclude Include="Engine\Base\Instancing3D.h" />
-    <ClInclude Include="Engine\Util\Timer.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Scene\IScene.h" />
     <ClInclude Include="Application\Collision\ICollider.h" />
