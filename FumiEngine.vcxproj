@@ -135,6 +135,7 @@
     <ClCompile Include="Engine\Base\Instancing3D.cpp" />
     <ClCompile Include="Engine\Scene\IScene.cpp" />
     <ClCompile Include="Application\Collision\ICollider.cpp" />
+    <ClCompile Include="IPlayerBehavior.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Mesh.cpp" />
     <ClCompile Include="Engine\3d\Material.cpp" />
@@ -153,6 +154,10 @@
     <ClCompile Include="Application\Collision\M_CircleCollider.cpp" />
     <ClCompile Include="Application\Collision\M_ColliderManager.cpp" />
     <ClCompile Include="Application\Collision\M_RectCollider.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBehaviorFactory.cpp" />
+    <ClCompile Include="PlayerBehaviorMachine.cpp" />
+    <ClCompile Include="PlayerCommonInfomation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -221,6 +226,11 @@
     <ClInclude Include="Application\Collision\M_CircleCollider.h" />
     <ClInclude Include="Application\Collision\M_ColliderManager.h" />
     <ClInclude Include="Application\Collision\M_RectCollider.h" />
+    <ClInclude Include="IPlayerBehavior.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerBehaviorFactory.h" />
+    <ClInclude Include="PlayerBehaviorMachine.h" />
+    <ClInclude Include="PlayerCommonInfomation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />
