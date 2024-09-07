@@ -4,20 +4,20 @@
 
 namespace CollisionChecker
 {
-    // 2ŸŒ³‚Ì‰ñ“]‰^“®B‰ñ“]‚Ì’†S,Œ»İˆÊ’u,‰ñ“]Šp“x
+    // 2ï¿½ï¿½ï¿½ï¿½ï¿½Ì‰ï¿½]ï¿½^ï¿½ï¿½ï¿½Bï¿½ï¿½]ï¿½Ì’ï¿½ï¿½S,ï¿½ï¿½ï¿½İˆÊ’u,ï¿½ï¿½]ï¿½pï¿½x
     Vector2 Rotate2d(const Vector2& arg_center, const Vector2& arg_pos, float arg_radian);
     Vector2 RotateVec2(const Vector2& arg_vec2, float arg_radian);
 
     //-OBB--------------------------------------------------
-    // ‰ñ“]‚·‚é‹éŒ`“¯m‚Ì“–‚½‚è”»’è
+    // ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½mï¿½Ì“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½
     bool Check_OBB2OBB(const Square& arg_sq1, const Square& arg_sq2);
     bool Check_OBB2AABB(const Square& arg_sq1, const Square& arg_sq2);
     bool Check_OBB2Circle(const Square& arg_sq, const Circle& arg_c);
 
     //-AABB-------------------------------------------------
-    // ‹éŒ`“¯m‚Ì“–‚½‚è”»’èi‰ñ“]‚Íl—¶‚³‚ê‚È‚¢j
+    // ï¿½ï¿½`ï¿½ï¿½ï¿½mï¿½Ì“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½iï¿½ï¿½]ï¿½Ílï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½j
     bool Check_AABB2AABB(const Square& arg_sq1, const Square& arg_sq2);
-    // ‹éŒ`‚Æ‰~‚Ì“–‚½‚è”»’è
+    // ï¿½ï¿½`ï¿½Æ‰~ï¿½Ì“ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½
     bool Check_AABB2Circle(const Square& arg_sq, const Circle& arg_c);
 }
 
@@ -31,9 +31,9 @@ namespace CollisionResponse
     Vector2 PushBack_OBB2Circle(const Square& arg_sq, const Circle& arg_c);
 
     //-AABB-------------------------------------------------
-    // ‹éŒ`“¯m‚Ì‰Ÿ‚µ–ß‚µi‰ñ“]‚Íl—¶‚³‚ê‚È‚¢j
+    // ï¿½ï¿½`ï¿½ï¿½ï¿½mï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ß‚ï¿½ï¿½iï¿½ï¿½]ï¿½Ílï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½j
     Vector2 PushBack_AABB2AABB(const Square& arg_sq1, const Square& arg_sq2);
-    // ‹éŒ`‚Æ‰~‚Ì‰Ÿ‚µ–ß‚µ
+    // ï¿½ï¿½`ï¿½Æ‰~ï¿½Ì‰ï¿½ï¿½ï¿½ï¿½ß‚ï¿½
     Vector2 PushBack_AABB2Circle(const Square& arg_sq, const Circle& arg_c);
 }
 

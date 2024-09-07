@@ -5,7 +5,7 @@
 class PlayerBehaviorMachine
 {
 public:
-    //>> ŠÖ”
+    //>> ï¿½Öï¿½
     PlayerBehaviorMachine(void) = default;
     PlayerBehaviorMachine(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr);
     ~PlayerBehaviorMachine(void) = default;
@@ -14,10 +14,10 @@ public:
     void Update(void);
 
 private:
-    // ó‘Ô‘JˆÚğŒ‚ğ–‚½‚µ‚Ä‚¢‚é‚©Šm”F‚µA‘JˆÚ‚·‚é
+    // ï¿½ï¿½Ô‘Jï¿½Úï¿½ï¿½ï¿½ï¿½ğ–‚ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½mï¿½Fï¿½ï¿½ï¿½Aï¿½Jï¿½Ú‚ï¿½ï¿½ï¿½
     void NextStateCheck(void);
 
-    //>> •Ï”
+    //>> ï¿½Ïï¿½
     PlayerBehavior behavior_current_;
     PlayerBehavior behavior_next_;
     std::unique_ptr<IPlayerBehavior> statePtr_;

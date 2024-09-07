@@ -7,6 +7,6 @@ bool ColliderTag::Tag_Search(const std::string& arg_tagName)
         if (tag == arg_tagName) { return true; }
     }
 
-    // ‚Ý‚Â‚©‚ç‚È‚©‚Á‚½
+    // ï¿½Ý‚Â‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½
     return false;
 }

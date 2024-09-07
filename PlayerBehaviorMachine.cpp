@@ -13,12 +13,12 @@ void PlayerBehaviorMachine::Initialize(std::shared_ptr<PlayerCommonInfomation>* 
 
 void PlayerBehaviorMachine::Update(void)
 {
-    // nullƒ`ƒFƒbƒN
+    // nullï¿½`ï¿½Fï¿½bï¿½N
     if (!statePtr_) { return; }
 
     NextStateCheck();
 
-    // ó‘ÔXV
+    // ï¿½ï¿½ÔXï¿½V
     statePtr_->Execute();
 }
 
@@ -26,11 +26,11 @@ void PlayerBehaviorMachine::NextStateCheck(void)
 {
     if (behavior_next_ == behavior_current_) { return; }
 
-    // Šù‘¶‚Ìstate‚ª‚ ‚ê‚ÎI—¹ˆ—
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½stateï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     statePtr_->Exit();
-    // ã‘‚«
+    // ï¿½ã‘ï¿½ï¿½
     statePtr_.reset();
     statePtr_ = behaviorFactory_.Create(behavior_next_);
-    // ‰Šú‰»ˆ—
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     statePtr_->Entry();
 }

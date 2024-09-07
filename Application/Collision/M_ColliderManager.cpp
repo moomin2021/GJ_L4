@@ -5,58 +5,58 @@
 
 void M_ColliderManager::Update(void)
 {
-    // callback‚ğÀs‚·‚éƒRƒ‰ƒCƒ_[ƒŠƒXƒg‚ğ‰Šú‰»
+    // callbackï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     colliders_executeCallback_.clear();
     if (is_active_ == false) { return; }
 
-    // ƒtƒ‰ƒO‚âptr‚ÌXVˆ—‚È‚Ì‚ÅAÕ“ËŒŸ’m‚Æ•ª‚¯‚Äs‚¤B
+    // ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ptrï¿½ÌXï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½È‚Ì‚ÅAï¿½Õ“ËŒï¿½ï¿½mï¿½Æ•ï¿½ï¿½ï¿½ï¿½Äsï¿½ï¿½ï¿½B
     for (const auto& collider : colliders_)
     {
-        // 1.Õ“Ëƒtƒ‰ƒO‚âƒRƒ‰ƒCƒ_[ptr‚Ì•Û‘¶‚ÆA‚»‚ê‚ç‚Ì‰Šú‰»
+        // 1.ï¿½Õ“Ëƒtï¿½ï¿½ï¿½Oï¿½ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ptrï¿½Ì•Û‘ï¿½ï¿½ÆAï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½
         collider->Execute_UpdateColFlags();
     }
 
-    // Õ“ËŒŸ’m
+    // ï¿½Õ“ËŒï¿½ï¿½m
     for (auto it1 = colliders_.begin(); it1 != colliders_.end(); ++it1)
     {
-        // ƒRƒ‰ƒCƒ_[‚ª—LŒø‚É‚È‚Á‚Ä‚¢‚é‚©
+        // ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚©
         if ((*it1)->Get_IsActive() == false) { continue; }
 
 
-        // it1‚Ì1‚Âæ‚ÌƒCƒeƒŒ[ƒ^
+        // it1ï¿½ï¿½1ï¿½Âï¿½ÌƒCï¿½eï¿½ï¿½ï¿½[ï¿½^
         auto it2 = it1;
         it2++;
-        // ++it1 ~ colliders_.end()‚Ü‚Å‚ğ‘SŒŸõ
+        // ++it1 ~ colliders_.end()ï¿½Ü‚Å‚ï¿½Sï¿½ï¿½ï¿½ï¿½
         for (; it2 != colliders_.end(); ++it2)
         {
-            // ƒRƒ‰ƒCƒ_[‚ª—LŒø‚É‚È‚Á‚Ä‚¢‚é‚©
+            // ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½é‚©
             if ((*it2)->Get_IsActive() == false) { continue; }
 
-            // 2.it1‚Æit2‚ÌÕ“Ë”»’è‚ğŠm”F
-            // 3.Õ“Ë”»’èƒtƒ‰ƒO‚âÚG‘Šè‚Ìptr‚ğæ“¾
+            // 2.it1ï¿½ï¿½it2ï¿½ÌÕ“Ë”ï¿½ï¿½ï¿½ï¿½ï¿½mï¿½F
+            // 3.ï¿½Õ“Ë”ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ÚGï¿½ï¿½ï¿½ï¿½ï¿½ptrï¿½ï¿½ï¿½æ“¾
             Collision(*it1, *it2);
         }
 
-        // 4.callback‚ğÀs‚·‚éƒRƒ‰ƒCƒ_[‚ğ‹L˜^
+        // 4.callbackï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½ï¿½Lï¿½^
         colliders_executeCallback_.push_back(it1);
     }
 
-    // ƒR[ƒ‹ƒoƒbƒN‚ÌÀs
+    // ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Ìï¿½ï¿½s
     for (auto& it : colliders_executeCallback_)
     {
-        // À•W•â³“™‚àŠÜ‚ß‚Äs‚¤ê‡AŒÂ•Ê‚ÉÀs‚µ‚Ä‚Ù‚µ‚­‚È‚¢
+        // ï¿½ï¿½ï¿½Wï¿½â³ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ß‚Äsï¿½ï¿½ï¿½ê‡ï¿½Aï¿½Â•Ê‚Éï¿½ï¿½sï¿½ï¿½ï¿½Ä‚Ù‚ï¿½ï¿½ï¿½ï¿½È‚ï¿½
         (*it)->Execute_Callback();
     }
 }
 
 void M_ColliderManager::Register(ICollider* arg_collider)
 {
-    // Id‚ÌŠ„‚è“–‚Ä
+    // Idï¿½ÌŠï¿½ï¿½è“–ï¿½ï¿½
     arg_collider->id_ = countId_;
-    // Ÿ—p‚ÌId‚ğ‚¸‚ç‚·
+    // ï¿½ï¿½ï¿½pï¿½ï¿½Idï¿½ï¿½ï¿½ï¿½ï¿½ç‚·
     countId_++;
 
-    // ƒŠƒXƒg‚É“o˜^
+    // ï¿½ï¿½ï¿½Xï¿½gï¿½É“oï¿½^
     colliders_.push_back(arg_collider);
 }
 
@@ -65,16 +65,16 @@ void M_ColliderManager::Collision(ICollider* arg_col1, ICollider* arg_col2)
     bool isCol = false;
     bool temp = false;
 
-    // ‹éŒ`‚Æ‹éŒ`
+    // ï¿½ï¿½`ï¿½Æ‹ï¿½`
     temp = Rect2Rect(arg_col1, arg_col2);
-    isCol = (std::max)(isCol, temp);        // true‚ªfalse‚É‘‚«Š·‚í‚ç‚È‚¢‚æ‚¤‚É
-    // ‹éŒ`‚Æ‰~
+    isCol = (std::max)(isCol, temp);        // trueï¿½ï¿½falseï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½ï¿½
+    // ï¿½ï¿½`ï¿½Æ‰~
     temp = Rect2Circle(arg_col1, arg_col2);
-    isCol = (std::max)(isCol, temp);        // true‚ªfalse‚É‘‚«Š·‚í‚ç‚È‚¢‚æ‚¤‚É
+    isCol = (std::max)(isCol, temp);        // trueï¿½ï¿½falseï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½ï¿½
 
     if (!isCol) { return; }
 
-    // Õ“Ë”»’èƒtƒ‰ƒO‚âÚG‘Šè‚Ìptr‚ğæ“¾
+    // ï¿½Õ“Ë”ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ï¿½ÚGï¿½ï¿½ï¿½ï¿½ï¿½ptrï¿½ï¿½ï¿½æ“¾
     arg_col1->Set_IsCol(true);
     arg_col1->Record_Collider(arg_col2);
 
@@ -98,7 +98,7 @@ bool M_ColliderManager::Rect2Circle(ICollider* arg_col1, ICollider* arg_col2)
 {
     bool isCorrectShape1 = (arg_col1->Get_Shape() == SHAPE_RECT) && (arg_col2->Get_Shape() == SHAPE_CIRCLE);
     bool isCorrectShape2 = (arg_col1->Get_Shape() == SHAPE_CIRCLE) && (arg_col2->Get_Shape() == SHAPE_RECT);
-    // ‚Ç‚¿‚ç‚àfalse‚È‚çAŠÖ”ƒXƒLƒbƒv
+    // ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½falseï¿½È‚ï¿½Aï¿½Öï¿½ï¿½Xï¿½Lï¿½bï¿½v
     if (!isCorrectShape1 && !isCorrectShape2) { return false; }
 
     if (isCorrectShape1)

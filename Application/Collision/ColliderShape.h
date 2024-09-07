@@ -15,7 +15,7 @@ struct Square
     float radian;
 };
 
-//‰~
+//ï¿½~
 struct Circle {
     Vector2 center;
     float radius;

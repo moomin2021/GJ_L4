@@ -4,11 +4,11 @@
 class M_ColliderManager
 {
 public:
-    //>> ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    //>> ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
     M_ColliderManager(void) : is_active_(true) {}
     ~M_ColliderManager(void) = default;
 
-    //>> ŠÖ”
+    //>> ï¿½Öï¿½
     void Update(void);
 
     void Register(ICollider* arg_collider);
@@ -21,10 +21,10 @@ private:
     bool Rect2Rect(ICollider* arg_col1, ICollider* arg_col2);
     bool Rect2Circle(ICollider* arg_col1, ICollider* arg_col2);
 
-    //>> •Ï”
+    //>> ï¿½Ïï¿½
     std::list<ICollider*> colliders_;
     std::list< std::list<ICollider*>::iterator> colliders_executeCallback_;
-    size_t countId_ = 1; // ¦0ƒXƒ^[ƒg‚Í‚ ‚è‚¦‚È‚¢
+    size_t countId_ = 1; // ï¿½ï¿½0ï¿½Xï¿½^ï¿½[ï¿½gï¿½Í‚ï¿½ï¿½è‚¦ï¿½È‚ï¿½
 
     bool is_active_{};
 

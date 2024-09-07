@@ -10,96 +10,96 @@ class M_ColliderManager;
 class ICollider
 {
 public:
-    //>> ’è‹`
+    //>> ï¿½ï¿½`
     friend M_ColliderManager;
 
-    //>> ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    //>> ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
     ICollider(void) = default;
     ICollider(const std::string& arg_name, const std::function<void(void)>& arg_callback, M_ColliderManager* arg_colMPtr);
     virtual ~ICollider(void) = default;
 
-    //>> ŠÖ”
-    // –¼‘O‚Ìİ’è/ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^/ƒRƒ‰ƒCƒ_[ƒ}ƒl[ƒWƒƒ[‚Ìptræ“¾
+    //>> ï¿½Öï¿½
+    // ï¿½ï¿½ï¿½Oï¿½Ìİ’ï¿½/ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Öï¿½ï¿½Ì“oï¿½^/ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½}ï¿½lï¿½[ï¿½Wï¿½ï¿½ï¿½[ï¿½ï¿½ptrï¿½æ“¾
     virtual void Initialize(const std::string& arg_name, const std::function<void(void)>& arg_callback, M_ColliderManager* arg_colMPtr);
     virtual void Finalize(void);
 
-    // ©•ª‚ªÕ“Ë‚µ‚½‚©
-    bool IsTrigger_Col(void) { return is_col_ && !is_colPre_; } // ¡ == true && ‘O == false
-    bool IsDetect_Col(void) { return is_col_; }                 // ¡ == true
-    bool IsRelease_Col(void) { return !is_col_ && is_colPre_; } // ¡ == false && ‘O == true
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ“Ë‚ï¿½ï¿½ï¿½ï¿½ï¿½
+    bool IsTrigger_Col(void) { return is_col_ && !is_colPre_; } // ï¿½ï¿½ == true && ï¿½O == false
+    bool IsDetect_Col(void) { return is_col_; }                 // ï¿½ï¿½ == true
+    bool IsRelease_Col(void) { return !is_col_ && is_colPre_; } // ï¿½ï¿½ == false && ï¿½O == true
 
-    // Id(size_t)‚ÆÕ“Ë‚µ‚½‚©
-    bool IsTrigger_Id(size_t arg_id) { return IsExist_Cur(arg_id) && !IsExist_Pre(arg_id); } // ¡ == true && ‘O == false
-    bool IsDetect_Id(size_t arg_id) { return IsExist_Cur(arg_id); }                          // ¡ == true
-    bool IsRelease_Id(size_t arg_id) { return !IsExist_Cur(arg_id) && IsExist_Pre(arg_id); } // ¡ == false && ‘O == true
+    // Id(size_t)ï¿½ÆÕ“Ë‚ï¿½ï¿½ï¿½ï¿½ï¿½
+    bool IsTrigger_Id(size_t arg_id) { return IsExist_Cur(arg_id) && !IsExist_Pre(arg_id); } // ï¿½ï¿½ == true && ï¿½O == false
+    bool IsDetect_Id(size_t arg_id) { return IsExist_Cur(arg_id); }                          // ï¿½ï¿½ == true
+    bool IsRelease_Id(size_t arg_id) { return !IsExist_Cur(arg_id) && IsExist_Pre(arg_id); } // ï¿½ï¿½ == false && ï¿½O == true
 
-    // "Name"‚ÆÕ“Ë‚µ‚½‚©
-    bool IsTrigger_Name(const std::string& arg_name) { return IsExist_Cur(arg_name) && !IsExist_Pre(arg_name); } // ¡ == true && ‘O == false
-    bool IsDetect_Name(const std::string& arg_name) { return IsExist_Cur(arg_name); }                            // ¡ == true
-    bool IsRelease_Name(const std::string& arg_name) { return !IsExist_Cur(arg_name) && IsExist_Pre(arg_name); } // ¡ == false && ‘O == true
+    // "Name"ï¿½ÆÕ“Ë‚ï¿½ï¿½ï¿½ï¿½ï¿½
+    bool IsTrigger_Name(const std::string& arg_name) { return IsExist_Cur(arg_name) && !IsExist_Pre(arg_name); } // ï¿½ï¿½ == true && ï¿½O == false
+    bool IsDetect_Name(const std::string& arg_name) { return IsExist_Cur(arg_name); }                            // ï¿½ï¿½ == true
+    bool IsRelease_Name(const std::string& arg_name) { return !IsExist_Cur(arg_name) && IsExist_Pre(arg_name); } // ï¿½ï¿½ == false && ï¿½O == true
 
-    // std::vector‚âstd::list‚Æ‚¢‚Á‚½Šg’£”z—ñ‚Ì‚İw’è‰Â”\
+    // std::vectorï¿½ï¿½std::listï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½zï¿½ï¿½Ì‚İwï¿½ï¿½Â”
     template <template <class, class> class T>
     T<ICollider*, std::allocator<ICollider*>> Extract_Colliders(const std::string& arg_name);
-    // ÚG‚µ‚½‘¼ƒRƒ‰ƒCƒ_[‚ğ’P‘Ì‚Åæ“¾B•¡”‚ ‚éê‡Aæ“ª‚ÉŒŸ’m‚µ‚½‚à‚Ì‚ğ•Ô‚·B
-    ICollider* Extract_Collider(const std::string& arg_name) { return *GetCollider(arg_name, colliders_); } // —áŠOƒXƒ[‚Ìê‡colliders_.end()‚Å‚ ‚é
+    // ï¿½ÚGï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½Pï¿½Ì‚Åæ“¾ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½æ“ªï¿½ÉŒï¿½ï¿½mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½Ô‚ï¿½ï¿½B
+    ICollider* Extract_Collider(const std::string& arg_name) { return *GetCollider(arg_name, colliders_); } // ï¿½ï¿½Oï¿½Xï¿½ï¿½ï¿½[ï¿½Ìê‡colliders_.end()ï¿½Å‚ï¿½ï¿½ï¿½
 
-    // ƒ†[ƒU[—p|‚¨‹C‚É“ü‚èƒRƒ‰ƒCƒ_[“o˜^ŠÖ”
+    // ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½p|ï¿½ï¿½ï¿½Cï¿½É“ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½oï¿½^ï¿½Öï¿½
     void Bookmark_Add(ICollider* const arg_collierPtr) { bookmarks_.push_back(arg_collierPtr); }
-    // ƒ†[ƒU[—p|‚¨‹C‚É“ü‚èƒRƒ‰ƒCƒ_[–•ÁŠÖ”
+    // ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½p|ï¿½ï¿½ï¿½Cï¿½É“ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
     void Bookmark_Remove(ICollider* const arg_collierPtr) { bookmarks_.remove(arg_collierPtr); }
-    // ƒ†[ƒU[—p|‚¨‹C‚É“ü‚èƒRƒ‰ƒCƒ_[æ“¾ŠÖ”
-    ICollider* Bookmark_GetCollider(const std::string& arg_name) { return *GetCollider(arg_name, bookmarks_); } // —áŠOƒXƒ[‚Ìê‡bookmarks_.end()‚Å‚ ‚é
+    // ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½p|ï¿½ï¿½ï¿½Cï¿½É“ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½æ“¾ï¿½Öï¿½
+    ICollider* Bookmark_GetCollider(const std::string& arg_name) { return *GetCollider(arg_name, bookmarks_); } // ï¿½ï¿½Oï¿½Xï¿½ï¿½ï¿½[ï¿½Ìê‡bookmarks_.end()ï¿½Å‚ï¿½ï¿½ï¿½
 
-    // ƒ†[ƒU[—p|“`‚¦‚½‚¢î•ñ“o˜^ŠÖ”
+    // ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½p|ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½Öï¿½
     void Data_Add(const std::string& arg_key, const std::any& arg_any) { datas_.emplace(arg_key, arg_any); }
-    // ƒ†[ƒU[—p|“`‚¦‚½‚¢î•ñ–•ÁŠÖ”
+    // ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½p|ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñ–•ï¿½ï¿½Öï¿½
     void Data_Remove(const std::string& arg_key) { datas_.erase(arg_key); }
-    // ƒ†[ƒU[—p|“`‚¦‚½‚¢î•ñ‘SíœŠÖ”
+    // ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½p|ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½íœï¿½Öï¿½
     void Data_Clear(void) { datas_.clear(); }
-    // ƒ†[ƒU[—p|“`‚¦‚½‚¢î•ñæ“¾ŠÖ”
+    // ï¿½ï¿½ï¿½[ï¿½Uï¿½[ï¿½p|ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½Öï¿½
     template<class T>
     T Data_Get(const std::string& arg_key);
 
 private:
-    // ƒŠƒXƒg“à‚Éˆê’v‚·‚é‚à‚Ì‚ª‚ ‚é‚©ŒŸõ‚ğs‚¤
+    // ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Éˆï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½é‚©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
     bool IsSameCollider(size_t arg_id, std::list<ICollider*> arg_list);                                 // id
-    bool IsSameCollider(const std::string& arg_name, std::list<ICollider*> arg_list);                   // –¼‘O
+    bool IsSameCollider(const std::string& arg_name, std::list<ICollider*> arg_list);                   // ï¿½ï¿½ï¿½O
     // internal
-    std::list<ICollider*>::iterator GetCollider(const std::string& arg_name, std::list<ICollider*> arg_list);                   // –¼‘O
+    std::list<ICollider*>::iterator GetCollider(const std::string& arg_name, std::list<ICollider*> arg_list);                   // ï¿½ï¿½ï¿½O
 
-    // ƒRƒ‰ƒCƒ_[ƒŠƒXƒg“à‚Éˆê’v‚·‚é‚à‚Ì‚ª‚ ‚é‚©ŒŸõ‚ğs‚¤
-    bool IsExist_Cur(size_t arg_id) { return IsSameCollider(arg_id, colliders_); }                             // Œ»F idŒŸõ
-    bool IsExist_Cur(const std::string& arg_name) { return IsSameCollider(arg_name, colliders_); }             // Œ»F –¼‘OŒŸõ
-    bool IsExist_Pre(size_t arg_id) { return IsSameCollider(arg_id, collidersPre_); }                          // ‘OF idŒŸõ
-    bool IsExist_Pre(const std::string& arg_name) { return IsSameCollider(arg_name, collidersPre_); }          // ‘OF –¼‘OŒŸõ
+    // ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Éˆï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½é‚©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
+    bool IsExist_Cur(size_t arg_id) { return IsSameCollider(arg_id, colliders_); }                             // ï¿½ï¿½F idï¿½ï¿½ï¿½ï¿½
+    bool IsExist_Cur(const std::string& arg_name) { return IsSameCollider(arg_name, colliders_); }             // ï¿½ï¿½F ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
+    bool IsExist_Pre(size_t arg_id) { return IsSameCollider(arg_id, collidersPre_); }                          // ï¿½OF idï¿½ï¿½ï¿½ï¿½
+    bool IsExist_Pre(const std::string& arg_name) { return IsSameCollider(arg_name, collidersPre_); }          // ï¿½OF ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½
 
     void Record_Collider(ICollider* const arg_colPtr) { colliders_.push_back(arg_colPtr); }
 
     void Execute_UpdateColFlags(void);
     void Execute_Callback(void);
 
-    //>> •Ï”
-    // d•¡‰ñ”ğ—p
+    //>> ï¿½Ïï¿½
+    // ï¿½dï¿½ï¿½ï¿½ï¿½ï¿½p
     size_t id_{};
-    // ¯•Ê–¼
+    // ï¿½ï¿½ï¿½Ê–ï¿½
     std::string name_;
-    // —LŒøƒtƒ‰ƒO
+    // ï¿½Lï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
     bool is_active_{};
 
-    // ÚGŒŸ’m
+    // ï¿½ÚGï¿½ï¿½ï¿½m
     bool is_col_{};
     bool is_colPre_{};
-    // ÚGƒRƒ‰ƒCƒ_[s
+    // ï¿½ÚGï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[s
     std::list<ICollider*> colliders_;
     std::list<ICollider*> collidersPre_;
-    // ƒR[ƒ‹ƒoƒbƒNŠÖ”
+    // ï¿½Rï¿½[ï¿½ï¿½ï¿½oï¿½bï¿½Nï¿½Öï¿½
     std::function<void(void)> callback_;
-    // ‚¨‹C‚É“ü‚è“o˜^ƒRƒ‰ƒCƒ_[
+    // ï¿½ï¿½ï¿½Cï¿½É“ï¿½ï¿½ï¿½oï¿½^ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[
     std::list<ICollider*> bookmarks_;
-    // ƒ^ƒO
+    // ï¿½^ï¿½O
     ColliderTag context_;
-    // “`‚¦‚½‚¢î•ñ
+    // ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     std::unordered_map<std::string, std::any> datas_;
 
 protected:
@@ -112,7 +112,7 @@ public:
     Shape Get_Shape(void) { return shape_; }
     const std::list<ICollider*>& Get_Colliders(void) { return colliders_; }
     const std::string& Get_Name(void) { return name_; }
-    // ƒ^ƒO•Ï”‚ÉƒAƒNƒZƒX‚·‚é‚½‚ßQÆ“n‚µ
+    // ï¿½^ï¿½Oï¿½Ïï¿½ï¿½ÉƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½é‚½ï¿½ßQï¿½Æ“nï¿½ï¿½
     ColliderTag& Get_Context(void) { return context_; }
 
     //>> setter
@@ -124,30 +124,30 @@ public:
 template <template <class, class> class T>
 inline T<ICollider*, std::allocator<ICollider*>> ICollider::Extract_Colliders(const std::string& arg_name)
 {
-    // ƒeƒ“ƒvƒŒ[ƒgƒRƒ“ƒeƒi‚Ì¶¬
+    // ï¿½eï¿½ï¿½ï¿½vï¿½ï¿½ï¿½[ï¿½gï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½Ìï¿½ï¿½ï¿½
     T<ICollider*, std::allocator<ICollider*>> container{};
 
-    // colliders‚ğ‘SŒŸõ
+    // collidersï¿½ï¿½Sï¿½ï¿½ï¿½ï¿½
     for (const auto& collider : colliders_)
     {
-        // w’è‚³‚ê‚½–¼‘O‚Æˆê’v‚µ‚Ä‚¢‚È‚¢ê‡AŸ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğŒŸõ
+        // ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½Oï¿½Æˆï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ÌƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (collider->name_ != arg_name) { continue; }
-        // w’è‚³‚ê‚½–¼‘O‚ÌƒRƒ‰ƒCƒ_[‚ğƒRƒ“ƒeƒi‚ÉÏ‚Ş
+        // ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½Oï¿½ÌƒRï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½ÉÏ‚ï¿½
         container.push_back(collider);
     }
 
-    // Ï‚İI‚í‚Á‚½ƒRƒ“ƒeƒi‚ğ•Ô‚·B
+    // ï¿½Ï‚İIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½eï¿½iï¿½ï¿½Ô‚ï¿½ï¿½B
     return container;
 }
 
 template<class T>
 inline T ICollider::Data_Get(const std::string& arg_key)
 {
-    // ‰º‹L—¼•û‚Æ‚à‹N‚±‚è‚¤‚éB
-    // ‚±‚±‚Å—áŠOƒXƒ[‚ª”­¶‚µ‚½ê‡Akey‚Ì’l‚ğŠÔˆá‚¦‚Ä‚¢‚é‰Â”\«‚ª‚ ‚éB
-    // ‚±‚±‚Å—áŠOƒXƒ[‚ª”­¶‚µ‚½ê‡AData_GetŠÖ”‚ğÀs‚µ‚Ä‚¢‚éƒRƒ‰ƒCƒ_[‚ğŠÔˆá‚¦‚Ä‚¢‚é‰Â”\«‚ª‚ ‚éB
+    // ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Nï¿½ï¿½ï¿½è‚¤ï¿½ï¿½B
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Å—ï¿½Oï¿½Xï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Akeyï¿½Ì’lï¿½ï¿½ï¿½Ôˆá‚¦ï¿½Ä‚ï¿½ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Å—ï¿½Oï¿½Xï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½AData_Getï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½ï¿½Ôˆá‚¦ï¿½Ä‚ï¿½ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
     auto& a = datas_[arg_key];
-    // ‚±‚±‚Å—áŠOƒXƒ[‚ª”­¶‚µ‚½ê‡A“n‚·Œ^‚ğŠÔˆá‚¦‚Ä‚¢‚é‰Â”\«‚ª‚ ‚éB
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Å—ï¿½Oï¿½Xï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½nï¿½ï¿½ï¿½^ï¿½ï¿½ï¿½Ôˆá‚¦ï¿½Ä‚ï¿½ï¿½ï¿½Â”\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
     return std::any_cast<T>(a);
 }
 

@@ -5,25 +5,25 @@
 class ColliderTag
 {
 public:
-    //>> ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    //>> ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
     ColliderTag(void) = default;
     ~ColliderTag(void) = default;
 
-    //>> ŠÖ”
-    // ƒ^ƒO|’Ç‰Á
+    //>> ï¿½Öï¿½
+    // ï¿½^ï¿½O|ï¿½Ç‰ï¿½
     void Tag_Add(const std::string& arg_tagName) { tags_.push_back(arg_tagName); }
-    // ƒ^ƒO|w’èíœ
+    // ï¿½^ï¿½O|ï¿½wï¿½ï¿½íœ
     void Tag_Remove(const std::string& arg_tagName) { tags_.remove(arg_tagName); }
-    // ƒ^ƒO|‘Síœ
+    // ï¿½^ï¿½O|ï¿½Sï¿½íœ
     void Tag_Clear(void) { tags_.clear(); }
-    // ƒ^ƒO|‘¶İŒŸõ
+    // ï¿½^ï¿½O|ï¿½ï¿½ï¿½İŒï¿½ï¿½ï¿½
     bool Tag_IsExist(const std::string& arg_tagName) { return Tag_Search(arg_tagName); }
 
 private:
-    // ƒ^ƒO|‘¶İŒŸõi‰B•Áj
+    // ï¿½^ï¿½O|ï¿½ï¿½ï¿½İŒï¿½ï¿½ï¿½ï¿½iï¿½Bï¿½ï¿½ï¿½j
     bool Tag_Search(const std::string& arg_tagName);
 
-    //>> •Ï”
+    //>> ï¿½Ïï¿½
     std::list<std::string> tags_;
 };
 

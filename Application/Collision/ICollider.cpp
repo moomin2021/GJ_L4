@@ -9,14 +9,14 @@ ICollider::ICollider(const std::string& arg_name, const std::function<void(void)
 
 void ICollider::Initialize(const std::string& arg_name, const std::function<void(void)>& arg_callback, M_ColliderManager* arg_colMPtr)
 {
-    // ƒƒ“ƒo‚Ö‚Ì‘ã“ü
+    // ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½Ö‚Ì‘ï¿½ï¿½
     name_ = arg_name;
     callback_ = arg_callback;
     colMPtr_ = arg_colMPtr;
     assert(colMPtr_);
     colMPtr_->Register(this);
 
-    // ƒRƒ‰ƒCƒ_[‚ğ—LŒø‚É‚·‚é
+    // ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½ï¿½Lï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
     is_active_ = true;
 }
 
@@ -29,10 +29,10 @@ void ICollider::Finalize(void)
 
 bool ICollider::IsSameCollider(size_t arg_id, std::list<ICollider*> arg_list)
 {
-    // ID‚Å‘SŒŸõ
+    // IDï¿½Å‘Sï¿½ï¿½ï¿½ï¿½
     for (const ICollider* const col : arg_list)
     {
-        // –¼‘O‚ªˆê’v‚µ‚Ä‚¢‚ê‚Îtrue
+        // ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½true
         if (col->id_ == arg_id) { return true; }
     }
 
@@ -41,10 +41,10 @@ bool ICollider::IsSameCollider(size_t arg_id, std::list<ICollider*> arg_list)
 
 bool ICollider::IsSameCollider(const std::string& arg_name, std::list<ICollider*> arg_list)
 {
-    // –¼‘O‚Å‘SŒŸõ
+    // ï¿½ï¿½ï¿½Oï¿½Å‘Sï¿½ï¿½ï¿½ï¿½
     for (const ICollider* const col : arg_list)
     {
-        // –¼‘O‚ªˆê’v‚µ‚Ä‚¢‚ê‚Îtrue
+        // ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½true
         if (col->name_ == arg_name) { return true; }
     }
 
@@ -53,10 +53,10 @@ bool ICollider::IsSameCollider(const std::string& arg_name, std::list<ICollider*
 
 std::list<ICollider*>::iterator ICollider::GetCollider(const std::string& arg_name, std::list<ICollider*> arg_list)
 {
-    // ID‚Å‘SŒŸõ
+    // IDï¿½Å‘Sï¿½ï¿½ï¿½ï¿½
     for (auto it = arg_list.begin(); it != arg_list.end(); it++)
     {
-        // –¼‘O‚ªˆê’v‚µ‚Ä‚¢‚ê‚Îtrue
+        // ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½true
         if ((*it)->name_ == arg_name) { return it; }
     }
 
@@ -65,20 +65,20 @@ std::list<ICollider*>::iterator ICollider::GetCollider(const std::string& arg_na
 
 void ICollider::Execute_UpdateColFlags(void)
 {
-    // 1ƒtƒŒ[ƒ€‘O‚ÌŒ‹‰Ê‚ğ•Û‘¶
-    collidersPre_ = colliders_; // ”z—ñ: ƒRƒ‰ƒCƒ_[ptr‚Ìlist
-    is_colPre_ = is_col_;       // ƒtƒ‰ƒO: Õ“Ë”»’è‚Ìbool
+    // 1ï¿½tï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½Oï¿½ÌŒï¿½ï¿½Ê‚ï¿½Û‘ï¿½
+    collidersPre_ = colliders_; // ï¿½zï¿½ï¿½: ï¿½Rï¿½ï¿½ï¿½Cï¿½_ï¿½[ptrï¿½ï¿½list
+    is_colPre_ = is_col_;       // ï¿½tï¿½ï¿½ï¿½O: ï¿½Õ“Ë”ï¿½ï¿½ï¿½ï¿½bool
 
-    // Œ»İƒtƒŒ[ƒ€‚ÌŒ‹‰Ê—p‚É‰Šú‰»
+    // ï¿½ï¿½ï¿½İƒtï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌŒï¿½ï¿½Ê—pï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½
     is_col_ = false;
     colliders_.clear();
 }
 
 void ICollider::Execute_Callback(void)
 {
-    // nullptr‚È‚çÀs‚µ‚È‚¢
+    // nullptrï¿½È‚ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½È‚ï¿½
     if (!callback_) { return; }
 
-    // Às
+    // ï¿½ï¿½ï¿½s
     callback_();
 }

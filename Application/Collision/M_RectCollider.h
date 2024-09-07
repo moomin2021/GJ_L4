@@ -6,14 +6,14 @@
 struct M_RectCollider final : public ICollider
 {
 public:
-    //>> ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    //>> ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
     M_RectCollider(void);
     M_RectCollider(const std::string& arg_name, const std::function<void(void)>& arg_callback, M_ColliderManager* arg_colMPtr);
     ~M_RectCollider(void) override = default;
 
     void Initialize(const std::string& arg_name, const std::function<void(void)>& arg_callback, M_ColliderManager* arg_colMPtr) override;
 
-    //>> •Ï”
+    //>> ï¿½Ïï¿½
     Square square_;
 };
 

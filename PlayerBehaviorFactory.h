@@ -4,7 +4,7 @@
 class PlayerBehaviorFactory
 {
 public:
-    //>> ŠÖ”
+    //>> ï¿½Öï¿½
     PlayerBehaviorFactory(void) = default;
     PlayerBehaviorFactory(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr);
     ~PlayerBehaviorFactory(void) = default;
@@ -13,7 +13,7 @@ public:
     std::unique_ptr<IPlayerBehavior> Create(PlayerBehavior arg_state);
 
 private:
-    //>> •Ï”
+    //>> ï¿½Ïï¿½
     std::shared_ptr<PlayerCommonInfomation>* ptr_playerCommonInfomation_{};
 };
 

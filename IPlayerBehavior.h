@@ -15,11 +15,11 @@ public:
     IPlayerBehavior(const std::shared_ptr<PlayerCommonInfomation>& arg_commonInfomation) : commonInfomation_(arg_commonInfomation) {}
     virtual ~IPlayerBehavior(void) = default;
 
-    // ó‘Ô‘JˆÚ‚Ì‰Šú‰»ˆ—
+    // ï¿½ï¿½Ô‘Jï¿½Úï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     virtual void Entry(void) = 0;
-    // “–ŠYó‘Ô‚Ì—lq
+    // ï¿½ï¿½ï¿½Yï¿½ï¿½Ôï¿½ï¿½Ì—lï¿½q
     virtual void Execute(void) = 0;
-    // ó‘Ô‘JˆÚ‘JˆÚ‘O‚ÌI—¹ˆ—
+    // ï¿½ï¿½Ô‘Jï¿½Ú‘Jï¿½Ú‘Oï¿½ÌIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     virtual void Exit(void) = 0;
 
 private:
