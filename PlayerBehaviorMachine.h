@@ -7,17 +7,17 @@ class PlayerBehaviorMachine
 public:
     //>> �֐�
     PlayerBehaviorMachine(void) = default;
-    PlayerBehaviorMachine(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr);
+    PlayerBehaviorMachine(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr, PlayerBehavior arg_firstBehavior = PlayerBehavior::PB_IDLE);
     ~PlayerBehaviorMachine(void) = default;
 
     void Initialize(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr, PlayerBehavior arg_firstBehavior = PlayerBehavior::PB_IDLE);
     void Update(void);
 
 private:
-    // ��ԑJ�ڏ����𖞂����Ă��邩�m�F���A�J�ڂ���
+    // 状態遷移条件を満たしているか確認し、遷移する
     void NextStateCheck(void);
 
-    //>> �ϐ�
+    //>> 変数
     PlayerBehavior behavior_current_;
     PlayerBehavior behavior_next_;
     std::unique_ptr<IPlayerBehavior> statePtr_;

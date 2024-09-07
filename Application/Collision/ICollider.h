@@ -10,96 +10,96 @@ class M_ColliderManager;
 class ICollider
 {
 public:
-    //>> ��`
+    //>> 定義
     friend M_ColliderManager;
 
-    //>> �R���X�g���N�^
+    //>> コンストラクタ
     ICollider(void) = default;
     ICollider(const std::string& arg_name, const std::function<void(void)>& arg_callback, M_ColliderManager* arg_colMPtr);
     virtual ~ICollider(void) = default;
 
-    //>> �֐�
-    // ���O�̐ݒ�/�R�[���o�b�N�֐��̓o�^/�R���C�_�[�}�l�[�W���[��ptr�擾
+    //>> 関数
+    // 名前の設定/コールバック関数の登録/コライダーマネージャーのptr取得
     virtual void Initialize(const std::string& arg_name, const std::function<void(void)>& arg_callback, M_ColliderManager* arg_colMPtr);
     virtual void Finalize(void);
 
-    // �������Փ˂�����
-    bool IsTrigger_Col(void) { return is_col_ && !is_colPre_; } // �� == true && �O == false
-    bool IsDetect_Col(void) { return is_col_; }                 // �� == true
-    bool IsRelease_Col(void) { return !is_col_ && is_colPre_; } // �� == false && �O == true
+    // 自分が衝突したか
+    bool IsTrigger_Col(void) { return is_col_ && !is_colPre_; } // 今 == true && 前 == false
+    bool IsDetect_Col(void) { return is_col_; }                 // 今 == true
+    bool IsRelease_Col(void) { return !is_col_ && is_colPre_; } // 今 == false && 前 == true
 
-    // Id(size_t)�ƏՓ˂�����
-    bool IsTrigger_Id(size_t arg_id) { return IsExist_Cur(arg_id) && !IsExist_Pre(arg_id); } // �� == true && �O == false
-    bool IsDetect_Id(size_t arg_id) { return IsExist_Cur(arg_id); }                          // �� == true
-    bool IsRelease_Id(size_t arg_id) { return !IsExist_Cur(arg_id) && IsExist_Pre(arg_id); } // �� == false && �O == true
+    // Id(size_t)と衝突したか
+    bool IsTrigger_Id(size_t arg_id) { return IsExist_Cur(arg_id) && !IsExist_Pre(arg_id); } // 今 == true && 前 == false
+    bool IsDetect_Id(size_t arg_id) { return IsExist_Cur(arg_id); }                          // 今 == true
+    bool IsRelease_Id(size_t arg_id) { return !IsExist_Cur(arg_id) && IsExist_Pre(arg_id); } // 今 == false && 前 == true
 
-    // "Name"�ƏՓ˂�����
-    bool IsTrigger_Name(const std::string& arg_name) { return IsExist_Cur(arg_name) && !IsExist_Pre(arg_name); } // �� == true && �O == false
-    bool IsDetect_Name(const std::string& arg_name) { return IsExist_Cur(arg_name); }                            // �� == true
-    bool IsRelease_Name(const std::string& arg_name) { return !IsExist_Cur(arg_name) && IsExist_Pre(arg_name); } // �� == false && �O == true
+    // "Name"と衝突したか
+    bool IsTrigger_Name(const std::string& arg_name) { return IsExist_Cur(arg_name) && !IsExist_Pre(arg_name); } // 今 == true && 前 == false
+    bool IsDetect_Name(const std::string& arg_name) { return IsExist_Cur(arg_name); }                            // 今 == true
+    bool IsRelease_Name(const std::string& arg_name) { return !IsExist_Cur(arg_name) && IsExist_Pre(arg_name); } // 今 == false && 前 == true
 
-    // std::vector��std::list�Ƃ������g���z��̂ݎw��
+    // std::vectorやstd::listといった拡張配列のみ指定可能
     template <template <class, class> class T>
     T<ICollider*, std::allocator<ICollider*>> Extract_Colliders(const std::string& arg_name);
-    // �ڐG�������R���C�_�[��P�̂Ŏ擾�B��������ꍇ�A�擪�Ɍ��m�������̂�Ԃ��B
-    ICollider* Extract_Collider(const std::string& arg_name) { return *GetCollider(arg_name, colliders_); } // ��O�X���[�̏ꍇcolliders_.end()�ł���
+    // 接触した他コライダーを単体で取得。複数ある場合、先頭に検知したものを返す。
+    ICollider* Extract_Collider(const std::string& arg_name) { return *GetCollider(arg_name, colliders_); } // 例外スローした場合、colliders_.end()が返却されているかも
 
-    // ���[�U�[�p|���C�ɓ���R���C�_�[�o�^�֐�
+    // ユーザー用|お気に入りコライダー登録関数
     void Bookmark_Add(ICollider* const arg_collierPtr) { bookmarks_.push_back(arg_collierPtr); }
-    // ���[�U�[�p|���C�ɓ���R���C�_�[�����֐�
+    // ユーザー用|お気に入りコライダー抹消関数
     void Bookmark_Remove(ICollider* const arg_collierPtr) { bookmarks_.remove(arg_collierPtr); }
-    // ���[�U�[�p|���C�ɓ���R���C�_�[�擾�֐�
-    ICollider* Bookmark_GetCollider(const std::string& arg_name) { return *GetCollider(arg_name, bookmarks_); } // ��O�X���[�̏ꍇbookmarks_.end()�ł���
+    // ユーザー用|お気に入りコライダー取得関数
+    ICollider* Bookmark_GetCollider(const std::string& arg_name) { return *GetCollider(arg_name, bookmarks_); } // 例外スローした場合、colliders_.end()が返却されているかも
 
-    // ���[�U�[�p|�`���������o�^�֐�
+    // ユーザー用|伝えたい情報登録関数
     void Data_Add(const std::string& arg_key, const std::any& arg_any) { datas_.emplace(arg_key, arg_any); }
-    // ���[�U�[�p|�`��������񖕏��֐�
+    // ユーザー用|伝えたい情報抹消関数
     void Data_Remove(const std::string& arg_key) { datas_.erase(arg_key); }
-    // ���[�U�[�p|�`���������S�폜�֐�
+    // ユーザー用|伝えたい情報全削除関数
     void Data_Clear(void) { datas_.clear(); }
-    // ���[�U�[�p|�`���������擾�֐�
+    // ユーザー用|伝えたい情報取得関数
     template<class T>
     T Data_Get(const std::string& arg_key);
 
 private:
-    // ���X�g���Ɉ�v������̂����邩�������s��
+    // リスト内に一致するものがあるか検索を行う
     bool IsSameCollider(size_t arg_id, std::list<ICollider*> arg_list);                                 // id
-    bool IsSameCollider(const std::string& arg_name, std::list<ICollider*> arg_list);                   // ���O
+    bool IsSameCollider(const std::string& arg_name, std::list<ICollider*> arg_list);                   // 名前
     // internal
-    std::list<ICollider*>::iterator GetCollider(const std::string& arg_name, std::list<ICollider*> arg_list);                   // ���O
+    std::list<ICollider*>::iterator GetCollider(const std::string& arg_name, std::list<ICollider*> arg_list);
 
-    // �R���C�_�[���X�g���Ɉ�v������̂����邩�������s��
-    bool IsExist_Cur(size_t arg_id) { return IsSameCollider(arg_id, colliders_); }                             // ��F id����
-    bool IsExist_Cur(const std::string& arg_name) { return IsSameCollider(arg_name, colliders_); }             // ��F ���O����
-    bool IsExist_Pre(size_t arg_id) { return IsSameCollider(arg_id, collidersPre_); }                          // �OF id����
-    bool IsExist_Pre(const std::string& arg_name) { return IsSameCollider(arg_name, collidersPre_); }          // �OF ���O����
+    // コライダーリスト内に一致するものがあるか検索を行う
+    bool IsExist_Cur(size_t arg_id) { return IsSameCollider(arg_id, colliders_); }                             // 現F id検索
+    bool IsExist_Cur(const std::string& arg_name) { return IsSameCollider(arg_name, colliders_); }             // 現F 名前検索
+    bool IsExist_Pre(size_t arg_id) { return IsSameCollider(arg_id, collidersPre_); }                          // 前F id検索
+    bool IsExist_Pre(const std::string& arg_name) { return IsSameCollider(arg_name, collidersPre_); }          // 前F 名前検索
 
     void Record_Collider(ICollider* const arg_colPtr) { colliders_.push_back(arg_colPtr); }
 
     void Execute_UpdateColFlags(void);
     void Execute_Callback(void);
 
-    //>> �ϐ�
-    // �d�����p
+    //>> 変数
+    // 重複回避用
     size_t id_{};
-    // ���ʖ�
+    // 識別名
     std::string name_;
-    // �L���t���O
+    // 有効フラグ
     bool is_active_{};
 
-    // �ڐG���m
+    // 接触検知
     bool is_col_{};
     bool is_colPre_{};
-    // �ڐG�R���C�_�[s
+    // 接触コライダー
     std::list<ICollider*> colliders_;
     std::list<ICollider*> collidersPre_;
-    // �R�[���o�b�N�֐�
+    // コールバック関数
     std::function<void(void)> callback_;
-    // ���C�ɓ���o�^�R���C�_�[
+    // お気に入り登録コライダー
     std::list<ICollider*> bookmarks_;
-    // �^�O
+    // タグ
     ColliderTag context_;
-    // �`���������
+    // 伝えたい情報
     std::unordered_map<std::string, std::any> datas_;
 
 protected:
@@ -112,7 +112,7 @@ public:
     Shape Get_Shape(void) { return shape_; }
     const std::list<ICollider*>& Get_Colliders(void) { return colliders_; }
     const std::string& Get_Name(void) { return name_; }
-    // �^�O�ϐ��ɃA�N�Z�X���邽�ߎQ�Ɠn��
+    // タグ変数にアクセスするため参照渡し
     ColliderTag& Get_Context(void) { return context_; }
 
     //>> setter
@@ -143,11 +143,11 @@ inline T<ICollider*, std::allocator<ICollider*>> ICollider::Extract_Colliders(co
 template<class T>
 inline T ICollider::Data_Get(const std::string& arg_key)
 {
-    // ���L�����Ƃ��N���肤��B
-    // �����ŗ�O�X���[�����������ꍇ�Akey�̒l���ԈႦ�Ă���\��������B
-    // �����ŗ�O�X���[�����������ꍇ�AData_Get�֐������s���Ă���R���C�_�[���ԈႦ�Ă���\��������B
+    // 下記両方とも起こりうる。
+    // ここで例外スローが発生した場合、keyの値を間違えている可能性がある。
+    // ここで例外スローが発生した場合、Data_Get関数を実行しているコライダーが間違えている可能性がある。
     auto& a = datas_[arg_key];
-    // �����ŗ�O�X���[�����������ꍇ�A�n���^���ԈႦ�Ă���\��������B
+    // ここで例外スローが発生した場合、渡す型を間違えている可能性がある。
     return std::any_cast<T>(a);
 }
 
