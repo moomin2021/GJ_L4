@@ -1,4 +1,6 @@
 #pragma once
+#include "Matrix4.h"
+
 class Vector3;
 
 struct float4
@@ -29,3 +31,5 @@ const float4 operator-(const float4& f1, const float4& f2);
 const float4 operator*(const float4& f, float s);
 const float4 operator*(float s, const float4& f);
 const float4 operator/(const float4& f, float s);
+
+const float4 operator*(const float4& v, const Matrix4& m);
