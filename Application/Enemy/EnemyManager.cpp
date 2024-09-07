@@ -8,7 +8,7 @@ void EnemyManager::Initialize()
 	stage_.square_.length = { 100.0f, 100.0f };
 
 	std::string name = "Stage";
-	auto callback = std::bind(&)
+	//auto callback = std::bind(&)
 }
 
 void EnemyManager::Update()
