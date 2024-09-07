@@ -151,6 +151,9 @@
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
     <ClCompile Include="Application\Scene\TransitionScene.cpp" />
     <ClCompile Include="Engine\Scene\SceneManager.cpp" />
+    <ClCompile Include="Engine\2d\ParticleManager2D.cpp" />
+    <ClCompile Include="Engine\2d\ParticleEmitter2D.cpp" />
+    <ClCompile Include="Application\Scene\TestScene.cpp" />
     <ClCompile Include="Application\Collision\M_CircleCollider.cpp" />
     <ClCompile Include="Application\Collision\M_ColliderManager.cpp" />
     <ClCompile Include="Application\Collision\M_RectCollider.cpp" />
@@ -222,6 +225,9 @@
     <ClInclude Include="Engine\Base\Instancing3D.h" />
     <ClInclude Include="Engine\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Scene\IScene.h" />
+    <ClInclude Include="Engine\2d\ParticleManager2D.h" />
+    <ClInclude Include="Engine\2d\ParticleEmitter2D.h" />
+    <ClInclude Include="Application\Scene\TestScene.h" />
     <ClInclude Include="Application\Collision\ICollider.h" />
     <ClInclude Include="Application\Collision\M_CircleCollider.h" />
     <ClInclude Include="Application\Collision\M_ColliderManager.h" />
@@ -240,6 +246,7 @@
     <None Include="Resources\Shaders\Line3D.hlsli" />
     <None Include="Resources\Shaders\Object3D.hlsli" />
     <None Include="Resources\Shaders\Particle.hlsli" />
+    <None Include="Resources\Shaders\Particle2D.hlsli" />
     <None Include="Resources\Shaders\PostEffectTest.hlsli" />
     <None Include="Resources\Shaders\Sprite.hlsli" />
     <None Include="Resources\Shaders\Toon.hlsli" />
@@ -316,6 +323,20 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle2DGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle2DPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle2DVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ParticleGS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>

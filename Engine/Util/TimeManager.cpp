@@ -1,9 +1,19 @@
 #include "TimeManager.h"
+#include "Util.h"
 
 TimeManager* TimeManager::GetInstance()
 {
 	static TimeManager instance;
 	return &instance;
+}
+
+void TimeManager::Initialize()
+{
+	// インスタンス取得
+	imGuiMgr_ = ImGuiManager::GetInstance();
+
+	// 現在の時間でoldTime_を初期化
+	oldTime_ = std::chrono::system_clock::now();
 }
 
 void TimeManager::Update()
@@ -30,6 +40,9 @@ void TimeManager::ImGuiUpdate()
 	imGuiMgr_->Text("GameDeltaTime = %f", gameDeltaTime_);
 	imGuiMgr_->InputFloat("ゲーム速度", gameSpd_, 0.1f, 1.0f);
 
+	static float gameTime = 0.0f;
+	gameTime += deltaTime_;
+	imGuiMgr_->Text("ゲーム開始から%f秒", gameTime);
 	imGuiMgr_->EndWindow();
 #endif
 }

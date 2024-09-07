@@ -309,6 +309,15 @@
     <ClCompile Include="Engine\Util\TimeManager.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\2d\ParticleManager2D.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\2d\ParticleEmitter2D.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\TestScene.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Application\Enemy\EnemyManager.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
@@ -521,6 +530,15 @@
     <ClInclude Include="Engine\Util\TimeManager.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\2d\ParticleManager2D.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\2d\ParticleEmitter2D.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\TestScene.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Scene\SceneManager.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
@@ -557,6 +575,7 @@
       <Filter>Engine\シェーダーファイル</Filter>
     </None>
     <None Include="Resources\Shaders\Instancing3D.hlsli" />
+    <None Include="Resources\Shaders\Particle2D.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\Object3DPS.hlsl">
@@ -618,5 +637,8 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Instancing3DVS.hlsl" />
     <FxCompile Include="Resources\Shaders\Instancing3DPS.hlsl" />
+    <FxCompile Include="Resources\Shaders\Particle2DGS.hlsl" />
+    <FxCompile Include="Resources\Shaders\Particle2DVS.hlsl" />
+    <FxCompile Include="Resources\Shaders\Particle2DPS.hlsl" />
   </ItemGroup>
 </Project>
