@@ -5,46 +5,46 @@
 
 void M_ColliderManager::Update(void)
 {
-    // callback�����s����R���C�_�[���X�g��������
+    // callback実行用の配列を初期化
     colliders_executeCallback_.clear();
     if (is_active_ == false) { return; }
 
-    // �t���O��ptr�̍X�V�����Ȃ̂ŁA�Փˌ��m�ƕ����čs���B
+    // フラグやptrの更新処理なので、衝突検知と分けて行う。
     for (const auto& collider : colliders_)
     {
-        // 1.�Փ˃t���O��R���C�_�[ptr�̕ۑ��ƁA�����̏�����
+        // 1.衝突フラグやコライダーptrの保存と、それらの初期化
         collider->Execute_UpdateColFlags();
     }
 
-    // �Փˌ��m
+    // 衝突検知
     for (auto it1 = colliders_.begin(); it1 != colliders_.end(); ++it1)
     {
-        // �R���C�_�[���L���ɂȂ��Ă��邩
+        // コライダーが有効になっているか
         if ((*it1)->Get_IsActive() == false) { continue; }
 
 
-        // it1��1��̃C�e���[�^
+        // it1の1つ先のイテレータ
         auto it2 = it1;
         it2++;
-        // ++it1 ~ colliders_.end()�܂ł�S����
+        // ++it1 ~ colliders_.end()までを全検索
         for (; it2 != colliders_.end(); ++it2)
         {
-            // �R���C�_�[���L���ɂȂ��Ă��邩
+            // コライダーが有効になっているか
             if ((*it2)->Get_IsActive() == false) { continue; }
 
-            // 2.it1��it2�̏Փ˔�����m�F
-            // 3.�Փ˔���t���O��ڐG�����ptr���擾
+            // 2.it1とit2の衝突判定を確認
+            // 3.衝突判定フラグや接触相手のptrを取得
             Collision(*it1, *it2);
         }
 
-        // 4.callback�����s����R���C�_�[���L�^
+        // 4.callbackを実行するコライダーを記録
         colliders_executeCallback_.push_back(it1);
     }
 
     // �R�[���o�b�N�̎��s
     for (auto& it : colliders_executeCallback_)
     {
-        // ���W�␳�����܂߂čs���ꍇ�A�ʂɎ��s���Ăق����Ȃ�
+        // まとめて実行する
         (*it)->Execute_Callback();
     }
 }

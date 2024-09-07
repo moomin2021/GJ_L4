@@ -25,6 +25,6 @@ private:
 
 public:
     void Set_Behavior(PlayerBehavior arg_nextBehavior) { behavior_next_ = arg_nextBehavior; }
-    PlayerBehavior Get_Behavior(PlayerBehavior arg_nextBehavior) { return behavior_current_; }
+    PlayerBehavior Get_Behavior(void) { return behavior_current_; }
 };
 
