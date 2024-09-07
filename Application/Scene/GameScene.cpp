@@ -34,6 +34,8 @@ void GameScene::Update()
 	if (key_->TriggerKey(DIK_Q)) {
 		sceneIf_->ChangeScene(Scene::TITLE);
 	}
+
+    colliderManager_.Update();
 }
 
 void GameScene::MatUpdate()

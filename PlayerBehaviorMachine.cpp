@@ -19,7 +19,7 @@ void PlayerBehaviorMachine::Update(void)
 
     NextStateCheck();
 
-    // ��ԍX�V
+    // 更新処理
     statePtr_->Execute();
 }
 
