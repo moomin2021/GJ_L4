@@ -230,13 +230,13 @@ std::vector<uint16_t> Texture::LoadDivTexture(const std::string& fileName, int16
 	ID3D12Device* device = DX12Cmd::GetInstance()->GetDevice();
 
 	int32_t texIdx = 0;
-	std::string path = "Resources/Sprite/" + fileName + std::to_string(texIdx);
+	std::string path = "Resources/Sprite/" + fileName + "/" + std::to_string(texIdx);
 
 	// 既に読み込んだ物だったら
 	while (texBuff_.count(path) != 0) {
-		handles.emplace_back(texIndex_[fileName + std::to_string(texIdx)]);
+		handles.emplace_back(texIndex_[fileName + "/" + std::to_string(texIdx)]);
 		texIdx++;
-		path = "Resources/Sprite/" + fileName + std::to_string(texIdx);
+		path = "Resources/Sprite/" + fileName + "/" + std::to_string(texIdx);
 	}
 
 	// 読み込まれていたら終了
@@ -263,7 +263,6 @@ std::vector<uint16_t> Texture::LoadDivTexture(const std::string& fileName, int16
 	uint64_t sHeight = sheetMetaData.height;
 
 	std::vector<ScratchImage> spriteImages(xNum);
-	int32_t imageIndex = 0;
 
 	for (size_t i = 0; i < xNum; i++) {
 		size_t row = i / xNum;
@@ -297,29 +296,26 @@ std::vector<uint16_t> Texture::LoadDivTexture(const std::string& fileName, int16
 
 		// ミップマップが正常に生成されたら
 		if (SUCCEEDED(result)) {
-			scratchImage = move(mipChain);
-			metadata = scratchImage.GetMetadata();
+			spriteImg = move(mipChain);
 		}
 
 		// 読み込んだディフューズテクスチャをSRGBとして扱う
-		metadata.format = MakeSRGB(metadata.format);
+		TexMetadata spriteMetadata = spriteImg.GetMetadata();
+		spriteMetadata.format = MakeSRGB(spriteMetadata.format);
 
 		D3D12_RESOURCE_DESC texResourceDesc{};
 		ID3D12Resource* texResource{};
 
 		// テクスチャバッファの生成
-		texResource = CreateTextureResource(metadata, texResourceDesc);
+		texResource = CreateTextureResource(spriteMetadata, texResourceDesc);
 
 		// テクスチャバッファにデータを転送
-		intermediateResources_.emplace_back(UploadTextureData(texResource, scratchImage));
-
-		// 読み込んだディフューズテクスチャをSRGBとして扱う
-		metadata.format = MakeSRGB(metadata.format);
+		intermediateResources_.emplace_back(UploadTextureData(texResource, spriteImg));
 
 		// 設定を保存
-		texBuff_.emplace(fileName + std::to_string(i), texResource);
-		texIndex_.emplace(fileName + std::to_string(i), indexCounter_);
-		texName_.emplace(indexCounter_, fileName + std::to_string(i));
+		texBuff_.emplace(fileName + "/" + std::to_string(i), texResource);
+		texIndex_.emplace(fileName + "/" + std::to_string(i), indexCounter_);
+		texName_.emplace(indexCounter_, fileName + "/" + std::to_string(i));
 
 		// シェーダリソースビュー設定
 		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
@@ -331,7 +327,7 @@ std::vector<uint16_t> Texture::LoadDivTexture(const std::string& fileName, int16
 		D3D12_CPU_DESCRIPTOR_HANDLE handle = GetCPUDescriptorHandle(DescSIZE::SRV, indexCounter_);
 
 		// ハンドルの指す位置にシェーダーリソースビュー作成
-		device->CreateShaderResourceView(texBuff_[fileName].Get(), &srvDesc, handle);
+		device->CreateShaderResourceView(texBuff_[fileName + "/" + std::to_string(i)].Get(), &srvDesc, handle);
 
 		handles.emplace_back(indexCounter_);
 		indexCounter_++;
