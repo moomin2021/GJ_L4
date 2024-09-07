@@ -23,13 +23,13 @@ void ParticleManager2D::Update()
 {
 	Vector2 genPos = { Util::GetRandomFloat(-100.0f, 100.0f), Util::GetRandomFloat(-100.0f, 100.0f) };
 	emitter_.back().AddParticle(genPos, 2.0f, 100.0f, 0.0f);
-	for (auto& it : emitter_) it.Update();
-	for (auto& it : emitter_) it.ImGuiUpdate();
+	for (auto& it : emitter_) it->Update();
+	for (auto& it : emitter_) it->ImGuiUpdate();
 }
 
 void ParticleManager2D::MatUpdate()
 {
-	for (auto& it : emitter_) it.MatUpdate();
+	for (auto& it : emitter_) it->MatUpdate();
 }
 
 void ParticleManager2D::DrawBack()
@@ -40,5 +40,5 @@ void ParticleManager2D::DrawBack()
 void ParticleManager2D::DrawFront()
 {
 	PipelineManager::PreDraw("Particle2D", D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
-	for (auto& it : emitter_) it.Draw();
+	for (auto& it : emitter_) it->Draw();
 }

@@ -7,7 +7,7 @@ class ParticleManager2D
 {
 #pragma region メンバ変数
 private:
-	std::vector<ParticleEmitter2D> emitter_ = {};
+	std::vector<ParticleEmitter2D*> emitter_ = {};
 #pragma endregion
 
 #pragma region メンバ関数
@@ -21,6 +21,12 @@ public:
 	void MatUpdate();
 	void DrawBack();
 	void DrawFront();
+
+	/// <summary>
+	/// エミッターの追加
+	/// </summary>
+	/// <param name="emitter"> エミッターのポインタ </param>
+	void AddParticleEmitter(ParticleEmitter2D* emitter) { emitter_.emplace_back(emitter); }
 
 private:
 	// コンストラクタとデストラクタ

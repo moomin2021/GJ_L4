@@ -9,6 +9,10 @@
 #include <wrl.h>
 #include <deque>
 
+struct SettingParticleEmitter {
+
+};
+
 class ParticleEmitter2D
 {
 private:
