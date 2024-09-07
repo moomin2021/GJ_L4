@@ -27,6 +27,7 @@ public:
 	static TimeManager* GetInstance();
 
 	// 更新処理
+	void Initialize();
 	void Update();
 	void ImGuiUpdate();
 

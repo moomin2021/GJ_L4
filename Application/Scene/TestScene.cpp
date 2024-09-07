@@ -1,11 +1,11 @@
-#include "TitleScene.h"
+#include "TestScene.h"
 #include "PipelineManager.h"
 #include "ParticleEmitter2D.h"
 #include "Texture.h"
 
-TitleScene::TitleScene(IScene* sceneIf) : BaseScene(sceneIf) {}
+TestScene::TestScene(IScene* sceneIf) : BaseScene(sceneIf) {}
 
-void TitleScene::Initialize()
+void TestScene::Initialize()
 {
 #pragma region インスタンス
 	key_ = Key::GetInstance();
@@ -31,14 +31,14 @@ void TitleScene::Initialize()
 #pragma endregion
 }
 
-void TitleScene::Update()
+void TestScene::Update()
 {
 	if (key_->TriggerKey(DIK_Q)) {
-		sceneIf_->ChangeScene(Scene::GAME);
+		sceneIf_->ChangeScene(Scene::TITLE);
 	}
 }
 
-void TitleScene::MatUpdate()
+void TestScene::MatUpdate()
 {
 	// カメラ更新
 	camera_->Update();
@@ -48,14 +48,14 @@ void TitleScene::MatUpdate()
 	sprite1_->MatUpdate();
 }
 
-void TitleScene::Draw()
+void TestScene::Draw()
 {
 	PipelineManager::PreDraw("Sprite");
 	sprite0_->Draw(texture_);
 	sprite1_->Draw();
 }
 
-void TitleScene::Finalize()
+void TestScene::Finalize()
 {
 	Texture::GetInstance()->ReleaseIntermediateResources();
 }
