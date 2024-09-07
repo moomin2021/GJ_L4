@@ -16,6 +16,7 @@ void PlayerBehaviorMachine::Update(void)
     // nullチェック
     if (!statePtr_) { return; }
 
+    NextStateCheck();
 
     // 状態更新
     statePtr_->Execute();
