@@ -17,10 +17,6 @@ public:
 private:
     void Collision(ICollider* arg_col1, ICollider* arg_col2);
 
-    //--Circle_to----------------------------------------
-    bool Circle2Circle(ICollider* arg_col1, ICollider* arg_col2);
-    bool Circle2Rect(ICollider* arg_col1, ICollider* arg_col2);
-
     //--Rect_to------------------------------------------
     bool Rect2Rect(ICollider* arg_col1, ICollider* arg_col2);
     bool Rect2Circle(ICollider* arg_col1, ICollider* arg_col2);
