@@ -99,6 +99,7 @@
   <ItemGroup>
     <ClCompile Include="Application\Collision\ColliderTag.cpp" />
     <ClCompile Include="Application\Collision\CollisionChecker.cpp" />
+    <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Engine\Collision\CollisionManager3D.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Util\Buffer.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Application\Collision\ColliderShape.h" />
     <ClInclude Include="Application\Collision\ColliderTag.h" />
     <ClInclude Include="Application\Collision\CollisionChecker.h" />
+    <ClInclude Include="Application\Enemy\EnemyManager.h" />
     <ClInclude Include="Engine\Collision\CollisionManager3D.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Util\BasicTask.h" />
