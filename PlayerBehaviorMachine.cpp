@@ -1,20 +1,21 @@
 #include "PlayerBehaviorMachine.h"
+#include <cassert>
 
 PlayerBehaviorMachine::PlayerBehaviorMachine(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr)
 {
     Initialize(arg_commonInfomationPtr);
 }
 
-void PlayerBehaviorMachine::Initialize(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr)
+void PlayerBehaviorMachine::Initialize(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr, PlayerBehavior arg_firstBehavior)
 {
     statePtr_ = nullptr;
     behaviorFactory_.Initialize(arg_commonInfomationPtr);
+    Set_Behavior(arg_firstBehavior);
 }
 
 void PlayerBehaviorMachine::Update(void)
 {
-    // null�`�F�b�N
-    if (!statePtr_) { return; }
+    assert(statePtr_);
 
     NextStateCheck();
 
