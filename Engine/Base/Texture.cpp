@@ -221,6 +221,126 @@ uint16_t Texture::LoadTexture(const std::string fileName)
 	return result;
 }
 
+std::vector<uint16_t> Texture::LoadDivTexture(const std::string& fileName, int16_t xNum)
+{
+	// 連番読み込みテクスチャハンドル配列
+	std::vector<uint16_t> handles = {};
+
+	// デバイス取得
+	ID3D12Device* device = DX12Cmd::GetInstance()->GetDevice();
+
+	int32_t texIdx = 0;
+	std::string path = "Resources/Sprite/" + fileName + std::to_string(texIdx);
+
+	// 既に読み込んだ物だったら
+	while (texBuff_.count(path) != 0) {
+		handles.emplace_back(texIndex_[fileName + std::to_string(texIdx)]);
+		texIdx++;
+		path = "Resources/Sprite/" + fileName + std::to_string(texIdx);
+	}
+
+	// 読み込まれていたら終了
+	if (handles.begin() != handles.end()) return handles;
+
+	HRESULT result;
+	TexMetadata metadata{};
+	ScratchImage scratchImage{};
+	////////////
+
+	// WICテクスチャロード
+	result = LoadFromWICFile(
+		Util::StringToWideChar("Resources/Sprite/" + fileName).data(),
+		WIC_FLAGS_FORCE_SRGB,
+		&metadata, scratchImage
+	);
+
+	// シートのメタデータ
+	const TexMetadata& sheetMetaData = scratchImage.GetMetadata();
+	const Image* sheet = scratchImage.GetImage(0, 0, 0);
+
+	// 1スプライト分のサイズ
+	uint64_t sWidth = sheetMetaData.width / xNum;
+	uint64_t sHeight = sheetMetaData.height;
+
+	std::vector<ScratchImage> spriteImages(xNum);
+	int32_t imageIndex = 0;
+
+	for (size_t i = 0; i < xNum; i++) {
+		size_t row = i / xNum;
+		size_t col = i % xNum;
+
+		ScratchImage& spriteImg = spriteImages[i];
+		result = spriteImg.Initialize2D(
+			sheetMetaData.format,
+			sWidth,
+			sHeight,
+			1, 1);
+
+		const Image* sprite = spriteImg.GetImage(0, 0, 0);
+
+		for (size_t y = 0; y < sHeight; ++y) {
+			memcpy(
+				sprite->pixels + y * sprite->rowPitch,
+				sheet->pixels + ((row * sHeight + y) * sheet->rowPitch + col * sWidth * 4),
+				sWidth * 4); // 4はRGBAのバイト数
+		}
+
+		// ミップマップ生成
+		ScratchImage mipChain{};
+		result = GenerateMipMaps(
+			spriteImg.GetImages(),
+			spriteImg.GetImageCount(),
+			spriteImg.GetMetadata(),
+			TEX_FILTER_SRGB,
+			0, mipChain
+		);
+
+		// ミップマップが正常に生成されたら
+		if (SUCCEEDED(result)) {
+			scratchImage = move(mipChain);
+			metadata = scratchImage.GetMetadata();
+		}
+
+		// 読み込んだディフューズテクスチャをSRGBとして扱う
+		metadata.format = MakeSRGB(metadata.format);
+
+		D3D12_RESOURCE_DESC texResourceDesc{};
+		ID3D12Resource* texResource{};
+
+		// テクスチャバッファの生成
+		texResource = CreateTextureResource(metadata, texResourceDesc);
+
+		// テクスチャバッファにデータを転送
+		intermediateResources_.emplace_back(UploadTextureData(texResource, scratchImage));
+
+		// 読み込んだディフューズテクスチャをSRGBとして扱う
+		metadata.format = MakeSRGB(metadata.format);
+
+		// 設定を保存
+		texBuff_.emplace(fileName + std::to_string(i), texResource);
+		texIndex_.emplace(fileName + std::to_string(i), indexCounter_);
+		texName_.emplace(indexCounter_, fileName + std::to_string(i));
+
+		// シェーダリソースビュー設定
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = texResourceDesc.Format;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = UINT(texResourceDesc.MipLevels);
+
+		D3D12_CPU_DESCRIPTOR_HANDLE handle = GetCPUDescriptorHandle(DescSIZE::SRV, indexCounter_);
+
+		// ハンドルの指す位置にシェーダーリソースビュー作成
+		device->CreateShaderResourceView(texBuff_[fileName].Get(), &srvDesc, handle);
+
+		handles.emplace_back(indexCounter_);
+		indexCounter_++;
+	}
+
+	// ハンドルを返す
+	return handles;
+}
+
 void Texture::ReleaseIntermediateResources()
 {
 	if (intermediateResources_.empty()) return;
@@ -277,4 +397,10 @@ void Texture::CreateDescriptorHeap()
 uint16_t LoadTexture(const std::string fileName) {
 	// 画像読み込み
 	return Texture::GetInstance()->LoadTexture(fileName);
+}
+
+std::vector<uint16_t> LoadDivTexture(const std::string& fileName, int16_t xNum)
+{
+	// 画像を分割して読み込み
+	return Texture::GetInstance()->LoadDivTexture(fileName, xNum);
 }
