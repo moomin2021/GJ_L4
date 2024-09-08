@@ -24,10 +24,13 @@ private:
     std::unique_ptr<IPlayerBehavior> statePtr_;
     PlayerBehaviorFactory behaviorFactory_;
 
+    // imgui
+    std::vector<std::string> behaviorLog_{}; // 一瞬しか表示されない状態を見やすくする
 public:
     void Set_Behavior(PlayerBehavior arg_nextBehavior) { behavior_next_ = arg_nextBehavior; }
 
     PlayerBehavior Get_Behavior(void) { return behavior_current_; }
     IPlayerBehavior* Get_PlayerBehaviorPtr(void) { return statePtr_.get(); }
+    std::vector<std::string>& Get_ImGui_BehaviorLog(void) { return behaviorLog_; }
 };
 

@@ -9,6 +9,7 @@ enum PlayerBehavior
     PB_IDLE,
     PB_MOVE,
     PB_JUMP,
+    PB_ATTACK,
 };
 
 class IPlayerBehavior

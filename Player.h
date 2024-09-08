@@ -4,6 +4,7 @@
 #include "PlayerCommonInfomation.h"
 #include "Sprite.h"
 #include "M_ColliderManager.h"
+#include <vector>
 
 class Player
 {
@@ -17,7 +18,8 @@ public:
     void Draw(void);
 
 private:
-    void CallBack(void);
+    void DrawImGUi(void);
+    void Callback(void);
 
     std::unique_ptr<Sprite> sprite0_ = nullptr;
     PlayerBehaviorMachine behaviorMachine_;

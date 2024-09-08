@@ -16,11 +16,15 @@ struct PlayerCommonInfomation
     const float kJumpPower = -5.f;
 
     // Collider
-    const Vector2 kLength = { 20,20 };
+    const Vector2 kLength_collider = { 20,20 };
+    const Vector2 kLength_attackCollider = { 20,20 };
+    const Vector2 kOffset_attackCollider = { 0 ,30 };
 
-    Vector2 position;
-    Gravity gravity;
-    M_RectCollider collider;
+    Vector2 position{};
+    Gravity gravity{};
+
+    M_ColliderManager* ptr_colliderManager{};
+    M_RectCollider collider{};
 
     void Update(void);
 };

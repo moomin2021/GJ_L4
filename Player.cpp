@@ -3,6 +3,7 @@
 #include "CollisionChecker.h"
 #include "ImGuiManager.h"
 #include "Key.h"
+#include "imgui.h"
 
 Player::~Player(void)
 {
@@ -14,6 +15,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     // スマートポインタの生成
     commonInfomation_ = std::make_shared<PlayerCommonInfomation>();
     commonInfomation_->position = { 300,540 };
+    commonInfomation_->ptr_colliderManager = arg_colliderManagerPtr;
 
     // 初期設定
     behaviorMachine_.Initialize(&commonInfomation_);
@@ -28,10 +30,10 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     //** コライダー
     // メンバ変数の設定
     commonInfomation_->collider.square_.center = commonInfomation_->position;
-    commonInfomation_->collider.square_.length = commonInfomation_->kLength;
+    commonInfomation_->collider.square_.length = commonInfomation_->kLength_collider;
     // ローカル変数
     std::string name = "Player";
-    auto callback = std::bind(&Player::CallBack, this);
+    auto callback = std::bind(&Player::Callback, this);
     // 初期化関数
     commonInfomation_->collider.Initialize(name, callback, arg_colliderManagerPtr);
 }
@@ -44,14 +46,7 @@ void Player::Update(void)
     commonInfomation_->Update();
     commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
 
-    auto& myCol = commonInfomation_->collider;
-    auto imgui = ImGuiManager::GetInstance();
-    imgui->BeginWindow("player");
-    imgui->Text("player_pos : [%f][%f]", myCol.square_.center.x, myCol.square_.center.y);
-    imgui->Text("player_size: [%f][%f]", myCol.square_.length.x, myCol.square_.length.y);
-    imgui->Text("player_minX: [%f][%f]", myCol.square_.center.x - myCol.square_.length.x / 2, myCol.square_.center.y);
-    imgui->EndWindow();
-
+    DrawImGUi();
 }
 
 void Player::MatUpdate(void)
@@ -65,7 +60,43 @@ void Player::Draw(void)
     sprite0_->Draw(texture);
 }
 
-void Player::CallBack(void)
+void Player::DrawImGUi(void)
+{
+    auto& myCol = commonInfomation_->collider;
+    auto imgui = ImGuiManager::GetInstance();
+    imgui->BeginWindow("player");
+    ImGui::SeparatorText("behavior");
+    auto getBehavior = behaviorMachine_.Get_Behavior();
+    std::string strBehavior = "current: ";
+    if (getBehavior == PlayerBehavior::PB_DEFAULT) { strBehavior += "PB_DEFAULT"; }
+    else if (getBehavior == PlayerBehavior::PB_IDLE) { strBehavior += "PB_IDLE"; }
+    else if (getBehavior == PlayerBehavior::PB_MOVE) { strBehavior += "PB_MOVE"; }
+    else if (getBehavior == PlayerBehavior::PB_JUMP) { strBehavior += "PB_JUMP"; }
+    else if (getBehavior == PlayerBehavior::PB_ATTACK) { strBehavior += "PB_ATTACK"; }
+    imgui->Text(strBehavior.c_str());
+    static bool isShowLog{};
+    imgui->CheckBox("Show Log", isShowLog);
+    if (isShowLog)
+    {
+        ImGui::Begin("behaviorLog", nullptr, ImGuiWindowFlags_NoTitleBar);
+        ImGui::SeparatorText("Behavior Log");
+        auto& log = behaviorMachine_.Get_ImGui_BehaviorLog();
+        for (const auto& str : log)
+        {
+            imgui->Text(str.c_str());
+        }
+        if (ImGui::Button("clear")) { log.clear(); }
+        ImGui::End();
+    }
+    ImGui::Spacing();
+    ImGui::SeparatorText("collider");
+    imgui->Text("player_pos : [%f][%f]", myCol.square_.center.x, myCol.square_.center.y);
+    imgui->Text("player_size: [%f][%f]", myCol.square_.length.x, myCol.square_.length.y);
+    imgui->Text("player_minX: [%f][%f]", myCol.square_.center.x - myCol.square_.length.x / 2, myCol.square_.center.y);
+    imgui->EndWindow();
+}
+
+void Player::Callback(void)
 {
     auto& myCol = commonInfomation_->collider;
     auto imgui = ImGuiManager::GetInstance();
