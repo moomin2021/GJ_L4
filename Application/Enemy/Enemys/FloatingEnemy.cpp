@@ -76,14 +76,41 @@ void FloatingEnemy::CollisionCallBack()
 	//		rotaSpd_ = knockFirstRotaSpd_;
 	//	}
 	//}
-
-	if (collider_.IsDetect_Name("Boss")) {
-		if (state_ == State::FirstBeaten) {
-			state_ = State::KnockBack;
-			moveVec_ = knockVec_;
-			moveSpd_ = knockFirstSpd_;
-			rotaSpd_ = knockFirstRotaSpd_;
+	if (collider_.IsTrigger_Col()) {
+		for (size_t i = 0; i < 4; i++) {
+			if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
+				if (state_ == State::FirstBeaten) {
+					state_ = State::KnockBack;
+					moveVec_ = knockVec_;
+					moveSpd_ = knockFirstSpd_;
+					rotaSpd_ = knockFirstRotaSpd_;
+				}
+			}
 		}
+
+		//if (collider_.IsDetect_Name("Boss0")) {
+		//	if (state_ == State::SecondBeaten) {
+		//		moveVec_.y = -moveVec_.y;
+		//	}
+		//}
+
+		//else if (collider_.IsDetect_Name("Boss1")) {
+		//	if (state_ == State::SecondBeaten) {
+		//		moveVec_.x = -moveVec_.x;
+		//	}
+		//}
+
+		//else if (collider_.IsDetect_Name("Boss2")) {
+		//	if (state_ == State::SecondBeaten) {
+		//		moveVec_.y = -moveVec_.y;
+		//	}
+		//}
+
+		//else if (collider_.IsDetect_Name("Boss3")) {
+		//	if (state_ == State::SecondBeaten) {
+		//		moveVec_.x = -moveVec_.x;
+		//	}
+		//}
 	}
 }
 
