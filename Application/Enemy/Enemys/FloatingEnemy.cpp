@@ -1,5 +1,7 @@
 #include "FloatingEnemy.h"
 #include "Key.h"
+#include "Util.h"
+#include "TimeManager.h"
 
 using namespace EnemyStatus;
 
@@ -115,8 +117,23 @@ void FloatingEnemy::KnockBack()
 {
 	moveSpd_ -= knockAddSpd_;
 	rotaSpd_ -= knockAddRotaSpd_;
+
+	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+		state_ = State::SecondBeaten;
+		secondBeatenVec_ = { Util::GetRandomFloat(-1.0f, 1.0f), Util::GetRandomFloat(-1.0f, 1.0f) };
+		secondBeatenVec_.normalize();
+		moveVec_ = secondBeatenVec_;
+		moveSpd_ = secondBeatenMoveSpd_;
+		rotaSpd_ = secondBeatenRotaSpd_;
+	}
 }
 
 void FloatingEnemy::SecondBeaten()
 {
+	TimeManager* time = TimeManager::GetInstance();
+	nowTime_ += time->GetGameDeltaTime();
+
+	if (nowTime_ >= aliveTime_) {
+		isAlive_ = false;
+	}
 }
