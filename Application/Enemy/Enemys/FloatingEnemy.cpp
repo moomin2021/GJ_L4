@@ -3,7 +3,7 @@
 
 using namespace EnemyStatus;
 
-void FloatingEnemy::Initialize(const Vector2& inPos, uint16_t tex)
+void FloatingEnemy::Initialize(const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr)
 {
 	// 座標の設定
 	position_ = inPos;
@@ -15,6 +15,13 @@ void FloatingEnemy::Initialize(const Vector2& inPos, uint16_t tex)
 	sprite_->SetPosition(position_);
 	sprite_->SetSize(size_);
 	sprite_->SetAnchorPoint({ 0.5f, 0.5f });
+
+	// コライダーの設定
+	collider_.circle_.center = position_;
+	collider_.circle_.radius = 32.0f;
+	std::string name = "FloatingEnemy_" + std::to_string(1);
+	auto callback = std::bind(&FloatingEnemy::CollisionCallBack, this);
+	collider_.Initialize(name, callback, colMgrPtr);
 }
 
 void FloatingEnemy::Update()
@@ -49,6 +56,10 @@ void FloatingEnemy::ImGuiUpdate(ImGuiManager* imGuiMgrPtr)
 {
 	// 座標の表示
 	imGuiMgrPtr->Text("座標 = { %f, %f }", position_.x, position_.y);
+}
+
+void FloatingEnemy::CollisionCallBack()
+{
 }
 
 void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {

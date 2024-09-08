@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseEnemy.h"
 #include "EnemyStatus.h"
+#include "M_CircleCollider.h"
 
 class FloatingEnemy : public BaseEnemy
 {
@@ -14,6 +15,7 @@ private:
 	Vector2 moveVec_ = Vector2();// 動く方向
 	float moveSpd_ = 0.0f;// 移動速度
 	float rotaSpd_ = 0.0f;// 回転速度
+	M_CircleCollider collider_;
 
 	// 一回目殴られた時に使う変数
 	Vector2 firstBeatenVec_ = Vector2(0.0f, 1.0f);// 殴られた時の方向
@@ -31,7 +33,7 @@ private:
 #pragma region メンバ関数
 public:
 	// 各基本処理
-	void Initialize(const Vector2& inPos, uint16_t tex) override;
+	void Initialize(const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr) override;
 	void Update() override;
 	void MatUpdate() override;
 	void Draw() override;
@@ -39,6 +41,9 @@ public:
 	void ImGuiUpdate(ImGuiManager* imGuiMgrPtr) override;
 
 private:
+	// 衝突時のコールバック関数
+	void CollisionCallBack();
+
 	// 状態別処理
 	static void (FloatingEnemy::*stateTable[]) ();
 	void Normal();
