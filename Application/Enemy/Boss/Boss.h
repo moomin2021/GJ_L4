@@ -21,6 +21,8 @@ private:
 	uint16_t debugT_ = 0;	// デバック
 
 	// ボス関連
+	const uint16_t maxHP_ = 1000;
+	uint16_t nowHP_ = 0;
 	Vector2 bossPos_ = Vector2();	// 座標
 	Vector2 bossSize_ = Vector2();	// サイズ
 	std::unique_ptr<Sprite> bossS_ = nullptr;	// スプライト

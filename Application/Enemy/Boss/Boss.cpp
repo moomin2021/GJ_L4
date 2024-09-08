@@ -19,6 +19,8 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	Vector2 winSize = { (float)winApi->GetWidth(), (float)winApi->GetHeight() };
 
 	// --ボス関連-- //
+	// HPの設定
+	nowHP_ = maxHP_;
 	// 中心座標の設定
 	bossPos_ = { winSize.x / 2.0f, winSize.y / 2.0f };
 	// サイズの設定
