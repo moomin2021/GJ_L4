@@ -21,8 +21,24 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     behaviorMachine_.Initialize(&commonInfomation_);
 
     // スプライト
+    png_hae_ = LoadTexture("hae.png");
+    png_white_ = LoadTexture("white.png");
+    png_frame_ = LoadTexture("frame.png");
+
     sprite0_ = std::make_unique<Sprite>();
     sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    commonInfomation_->sprite_collider = std::make_unique<Sprite>();
+    commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
+    commonInfomation_->sprite_collider->SetSize(commonInfomation_->kLength_collider);
+    commonInfomation_->sprite_collider->SetAnchorPoint({ 0.5f, 0.5f });
+    commonInfomation_->sprite_collider->SetColor({ 1.0f, 1.0f, 1.0f, 0.3f });
+
+    commonInfomation_->sprite_attackCollider = std::make_unique<Sprite>();
+    commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + commonInfomation_->kOffset_attackCollider);
+    commonInfomation_->sprite_attackCollider->SetSize(commonInfomation_->kLength_attackCollider);
+    commonInfomation_->sprite_attackCollider->SetAnchorPoint({ 0.5f, 0.5f });
+    commonInfomation_->sprite_attackCollider->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
     // 重力
     commonInfomation_->gravity.Initialize(commonInfomation_->kGravity_max, commonInfomation_->kGravity_add);
@@ -42,6 +58,8 @@ void Player::Update(void)
 {
     behaviorMachine_.Update();
     sprite0_->SetPosition(commonInfomation_->position);
+    commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
+    commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + commonInfomation_->kOffset_attackCollider);
 
     commonInfomation_->Update();
     commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
@@ -52,12 +70,26 @@ void Player::Update(void)
 void Player::MatUpdate(void)
 {
     sprite0_->MatUpdate();
+    commonInfomation_->sprite_collider->MatUpdate();
+    commonInfomation_->sprite_attackCollider->MatUpdate();
 }
 
 void Player::Draw(void)
 {
-    auto texture = LoadTexture("hae.png");
-    sprite0_->Draw(texture);
+    bool isBehaviorAttack = behaviorMachine_.Get_Behavior() == PB_ATTACK;
+    isBehaviorAttack ?
+        sprite0_->SetColor({ 1.0f, 0.0f, 0.0f, 1.f }) :
+        sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+    sprite0_->Draw(png_hae_);
+
+    // 当たり判定表示
+    if (commonInfomation_->is_drawCollider)
+    {
+        commonInfomation_->sprite_collider->Draw(png_white_);
+        isBehaviorAttack ?
+            commonInfomation_->sprite_attackCollider->Draw(png_white_):
+            commonInfomation_->sprite_attackCollider->Draw(png_frame_);
+    }
 }
 
 void Player::DrawImGUi(void)
@@ -90,6 +122,8 @@ void Player::DrawImGUi(void)
     }
     ImGui::Spacing();
     ImGui::SeparatorText("collider");
+    // 当たり判定表示
+    if (ImGui::Button("isShowCol")) { commonInfomation_->is_drawCollider = !commonInfomation_->is_drawCollider; }
     imgui->Text("player_pos : [%f][%f]", myCol.square_.center.x, myCol.square_.center.y);
     imgui->Text("player_size: [%f][%f]", myCol.square_.length.x, myCol.square_.length.y);
     imgui->Text("player_minX: [%f][%f]", myCol.square_.center.x - myCol.square_.length.x / 2, myCol.square_.center.y);

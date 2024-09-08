@@ -2,6 +2,8 @@
 #include "Vector2.h"
 #include "Gravity.h"
 #include "M_RectCollider.h"
+#include "Sprite.h"
+#include <memory>
 
 struct PlayerCommonInfomation
 {
@@ -15,7 +17,7 @@ struct PlayerCommonInfomation
     // Jump
     const float kJumpPower = -5.f;
 
-    // Collider
+    // Collider - k
     const Vector2 kLength_collider = { 20,20 };
     const Vector2 kLength_attackCollider = { 20,20 };
     const Vector2 kOffset_attackCollider = { 0 ,30 };
@@ -23,8 +25,14 @@ struct PlayerCommonInfomation
     Vector2 position{};
     Gravity gravity{};
 
+    // Collider - v
     M_ColliderManager* ptr_colliderManager{};
     M_RectCollider collider{};
+
+    // sprite
+    bool is_drawCollider{};
+    std::unique_ptr<Sprite> sprite_collider = nullptr;
+    std::unique_ptr<Sprite> sprite_attackCollider = nullptr;
 
     void Update(void);
 };

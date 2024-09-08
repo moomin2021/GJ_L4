@@ -95,12 +95,12 @@ void PlayerBehaviorMachine::BehaviorInput(void)
         if (isJump) { strBehavior += "PB_JUMP";  behaviorLog_.push_back(strBehavior); }
         if (isJump) { Set_Behavior(PB_JUMP); return; }
 
-        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
-        if (isMove) { return; }
-
         bool isAttack = Key::GetInstance()->TriggerKey(DIK_F);
         if (isAttack) { strBehavior += "PB_ATTACK"; behaviorLog_.push_back(strBehavior); }
         if (isAttack) { Set_Behavior(PB_ATTACK); return; }
+
+        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
+        if (isMove) { return; }
 
         // 何も入力が無ければIDLE
         bool noInput = !isJump &&!isMove && !isAttack;
