@@ -18,7 +18,7 @@ void Player::Update(void)
     behaviorMachine_.Update();
     sprite0_->SetPosition(commonInfomation_->position);
 
-    //commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
+    commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
 }
 
 void Player::MatUpdate(void)

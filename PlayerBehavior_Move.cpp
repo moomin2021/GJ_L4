@@ -19,7 +19,7 @@ Vector2 PlayerBehavior_Move::Move(void)
     auto key = Key::GetInstance();
 
     Vector2 velocity{};
-    velocity.x = (float)(key->PushKey(DIK_D) + key->PushKey(DIK_A));
+    velocity.x = (float)(key->PushKey(DIK_D) - key->PushKey(DIK_A));
     velocity.x = velocity.x * commonInfomation_->kMoveSpeed;
 
     return velocity;
