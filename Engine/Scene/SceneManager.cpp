@@ -22,7 +22,7 @@ void SceneManager::Initialize()
 	particleMgr2D->Initialize();
 
 	// 最初のシーンの生成と初期化
-	nowScene_ = std::make_unique<TitleScene>(this);
+	nowScene_ = std::make_unique<GameScene>(this);
 	nowScene_->Initialize();
 }
 

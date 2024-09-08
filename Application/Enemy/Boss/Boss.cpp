@@ -19,6 +19,8 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	Vector2 winSize = { (float)winApi->GetWidth(), (float)winApi->GetHeight() };
 
 	// --ボス関連-- //
+	// HPの設定
+	nowHP_ = maxHP_;
 	// 中心座標の設定
 	bossPos_ = { winSize.x / 2.0f, winSize.y / 2.0f };
 	// サイズの設定
@@ -44,7 +46,7 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	for (size_t i = 0; i < 4; i++) {
 		bossCol_[i].square_.center = bossColCenter_[i];
 		bossCol_[i].square_.length = bossColLength_[i];
-		std::string name = "BossRect" + std::to_string(i);
+		std::string name = "Boss" + std::to_string(i);
 		auto callback = std::bind(&Boss::CollisionCallBack, this);
 		bossCol_[i].Initialize(name, callback, pColMgr_);
 	}

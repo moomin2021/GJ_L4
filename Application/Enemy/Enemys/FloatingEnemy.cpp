@@ -1,0 +1,175 @@
+#include "FloatingEnemy.h"
+#include "Key.h"
+#include "Util.h"
+
+using namespace EnemyStatus;
+
+void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr)
+{
+	// 座標の設定
+	position_ = inPos;
+	// テクスチャの設定
+	texture_ = tex;
+	// IDの設定
+	id_ = id;
+
+	// インスタンス取得
+	pTimeMgr_ = TimeManager::GetInstance();
+
+	// スプライトの生成、設定
+	sprite_ = std::make_unique<Sprite>();
+	sprite_->SetPosition(position_);
+	sprite_->SetSize(size_);
+	sprite_->SetAnchorPoint({ 0.5f, 0.5f });
+	sprite_->SetColor({ 0.0f, 0.0f, 0.0f, 0.0f });
+
+	// コライダーの設定
+	collider_.circle_.center = position_;
+	collider_.circle_.radius = 32.0f;
+	std::string name = "FloatingEnemy_" + std::to_string(id);
+	auto callback = std::bind(&FloatingEnemy::CollisionCallBack, this);
+	collider_.Initialize(name, callback, colMgrPtr);
+}
+
+void FloatingEnemy::Update()
+{
+	if (color_ < 1.0f) {
+		color_ += addColor_ * pTimeMgr_->GetGameDeltaTime();
+		color_ = Util::Clamp(color_, 1.0f, 0.0f);
+		sprite_->SetColor({ color_, color_ , color_ , color_ });
+	}
+
+	collider_.circle_.center = position_;
+
+	// 状態別更新処理
+	(this->*stateTable[(size_t)state_])();
+
+	// 座標の更新
+	position_ += moveVec_ * moveSpd_;
+	rotation_ += rotaSpd_;
+
+	// スプライトの更新
+	sprite_->SetPosition(position_);
+	sprite_->SetRotation(rotation_);
+}
+
+void FloatingEnemy::MatUpdate()
+{
+	sprite_->MatUpdate();
+}
+
+void FloatingEnemy::Draw()
+{
+	sprite_->Draw(texture_);
+}
+
+void FloatingEnemy::Finalize()
+{
+	collider_.Finalize();
+}
+
+void FloatingEnemy::ImGuiUpdate(ImGuiManager* imGuiMgrPtr)
+{
+	// 座標の表示
+	imGuiMgrPtr->Text("ID = %d, 座標 = { %f, %f }", id_, position_.x, position_.y);
+}
+
+void FloatingEnemy::CollisionCallBack()
+{
+	// あたった瞬間
+	//if (collider_.IsTrigger_Col()) {
+	//	if (state_ == State::FirstBeaten) {
+	//		state_ = State::KnockBack;
+	//		moveVec_ = knockVec_;
+	//		moveSpd_ = knockFirstSpd_;
+	//		rotaSpd_ = knockFirstRotaSpd_;
+	//	}
+	//}
+	if (collider_.IsTrigger_Col()) {
+		for (size_t i = 0; i < 4; i++) {
+			if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
+				if (state_ == State::FirstBeaten) {
+					state_ = State::KnockBack;
+					moveVec_ = knockVec_;
+					moveSpd_ = knockFirstSpd_;
+					rotaSpd_ = knockFirstRotaSpd_;
+				}
+			}
+		}
+
+		//if (collider_.IsDetect_Name("Boss0")) {
+		//	if (state_ == State::SecondBeaten) {
+		//		moveVec_.y = -moveVec_.y;
+		//	}
+		//}
+
+		//else if (collider_.IsDetect_Name("Boss1")) {
+		//	if (state_ == State::SecondBeaten) {
+		//		moveVec_.x = -moveVec_.x;
+		//	}
+		//}
+
+		//else if (collider_.IsDetect_Name("Boss2")) {
+		//	if (state_ == State::SecondBeaten) {
+		//		moveVec_.y = -moveVec_.y;
+		//	}
+		//}
+
+		//else if (collider_.IsDetect_Name("Boss3")) {
+		//	if (state_ == State::SecondBeaten) {
+		//		moveVec_.x = -moveVec_.x;
+		//	}
+		//}
+	}
+}
+
+void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {
+	&FloatingEnemy::Normal,
+	&FloatingEnemy::FirstBeaten,
+	&FloatingEnemy::KnockBack,
+	&FloatingEnemy::SecondBeaten,
+};
+
+void FloatingEnemy::Normal()
+{
+	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+		state_ = State::FirstBeaten;
+		moveVec_ = firstBeatenVec_;
+		moveSpd_ = firstBeatenMoveSpd_;
+		rotaSpd_ = firstBeatenRotaSpd_;
+	}
+}
+
+void FloatingEnemy::FirstBeaten()
+{
+	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+		state_ = State::KnockBack;
+		moveVec_ = knockVec_;
+		moveSpd_ = knockFirstSpd_;
+		rotaSpd_ = knockFirstRotaSpd_;
+	}
+}
+
+void FloatingEnemy::KnockBack()
+{
+	moveSpd_ -= knockAddSpd_;
+	rotaSpd_ -= knockAddRotaSpd_;
+
+	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+		state_ = State::SecondBeaten;
+		secondBeatenVec_ = { Util::GetRandomFloat(-1.0f, 1.0f), Util::GetRandomFloat(-1.0f, 1.0f) };
+		secondBeatenVec_.normalize();
+		moveVec_ = secondBeatenVec_;
+		moveSpd_ = secondBeatenMoveSpd_;
+		rotaSpd_ = secondBeatenRotaSpd_;
+	}
+}
+
+void FloatingEnemy::SecondBeaten()
+{
+	nowTime_ += pTimeMgr_->GetGameDeltaTime();
+
+	if (nowTime_ >= aliveTime_) {
+		isAlive_ = false;
+	}
+}
