@@ -42,7 +42,7 @@ void Player::Update(void)
     sprite0_->SetPosition(commonInfomation_->position);
 
     commonInfomation_->Update();
-    //commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
+    commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
 
     auto& myCol = commonInfomation_->collider;
     auto imgui = ImGuiManager::GetInstance();
@@ -90,6 +90,12 @@ void Player::CallBack(void)
 
         M_RectCollider* rect = static_cast<M_RectCollider*>(contacted);
 
+        //if (Key::GetInstance()->TriggerKey(DIK_SPACE))
+        //{
+        //    int a = 0;
+        //    a;
+        //}
+
         Vector2 pushBack = CollisionResponse::PushBack_AABB2AABB(myCol.square_, rect->square_);
         commonInfomation_->position += pushBack;
         commonInfomation_->collider.square_.center = commonInfomation_->position;
@@ -111,12 +117,6 @@ void Player::CallBack(void)
     if (myCol.IsDetect_Name("BossRect3"))
     {
         auto* const contacted = myCol.Extract_Collider("BossRect3");
-
-        if (Key::GetInstance()->TriggerKey(DIK_D))
-        {
-            int a = 0;
-            a;
-        }
 
         M_RectCollider* rect = static_cast<M_RectCollider*>(contacted);
 
