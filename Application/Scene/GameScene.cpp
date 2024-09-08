@@ -17,16 +17,9 @@ void GameScene::Initialize()
 	Sprite::SetCamera(camera_.get());
 #pragma endregion
 
-#pragma region スプライト
-	sprite0_ = std::make_unique<Sprite>();
-	sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
-	sprite1_ = std::make_unique<Sprite>();
-	sprite1_->SetSize({ 200.0f, 200.0f });
-#pragma endregion
-
-#pragma region テクスチャ
-	texture_ = LoadTexture("hae.png");
-#pragma endregion
+	// 敵管理クラスの生成、初期化
+	enemyMgr_ = std::make_unique<EnemyManager>();
+	enemyMgr_->Initialize();
 }
 
 void GameScene::Update()
@@ -35,6 +28,8 @@ void GameScene::Update()
 		sceneIf_->ChangeScene(Scene::TITLE);
 	}
 
+	// 各クラス更新処理
+	enemyMgr_->Update();
     colliderManager_.Update();
 }
 
@@ -43,16 +38,16 @@ void GameScene::MatUpdate()
 	// カメラ更新
 	camera_->Update();
 
-	// スプライト行列更新
-	sprite0_->MatUpdate();
-	sprite1_->MatUpdate();
+	// 各クラス行列更新処理
+	enemyMgr_->MatUpdate();
 }
 
 void GameScene::Draw()
 {
 	PipelineManager::PreDraw("Sprite");
-	sprite1_->Draw();
-	sprite0_->Draw(texture_);
+	
+	// 各クラス描画処理
+	enemyMgr_->Draw();
 }
 
 void GameScene::Finalize()

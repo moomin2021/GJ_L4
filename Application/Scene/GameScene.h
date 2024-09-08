@@ -5,6 +5,7 @@
 #include "Sprite.h"
 
 #include "M_ColliderManager.h"
+#include "EnemyManager.h"
 
 #include <memory>
 
@@ -18,14 +19,11 @@ private:
 	// カメラ
 	std::unique_ptr<Camera> camera_ = nullptr;
 
-	// スプライト
-	std::unique_ptr<Sprite> sprite0_ = nullptr;
-	std::unique_ptr<Sprite> sprite1_ = nullptr;
-
-	// テクスチャ
-	int32_t texture_ = 0;
-
+	// 衝突判定マネージャー
     M_ColliderManager colliderManager_;
+
+	// 敵マネージャー
+	std::unique_ptr<EnemyManager> enemyMgr_ = nullptr;
 #pragma endregion
 
 #pragma region メンバ関数

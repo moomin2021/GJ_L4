@@ -100,6 +100,7 @@
     <ClCompile Include="Application\Collision\ColliderTag.cpp" />
     <ClCompile Include="Application\Collision\CollisionChecker.cpp" />
     <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Application\Enemy\Boss\Boss.cpp" />
     <ClCompile Include="Engine\Collision\CollisionManager3D.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Util\Buffer.cpp" />
@@ -161,12 +162,14 @@
     <ClCompile Include="PlayerBehaviorFactory.cpp" />
     <ClCompile Include="PlayerBehaviorMachine.cpp" />
     <ClCompile Include="PlayerCommonInfomation.cpp" />
+    <ClCompile Include="Application\Enemy\Boss\SubBoss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
     <ClInclude Include="Application\Collision\ColliderTag.h" />
     <ClInclude Include="Application\Collision\CollisionChecker.h" />
     <ClInclude Include="Application\Enemy\EnemyManager.h" />
+    <ClInclude Include="Application\Enemy\Boss\Boss.h" />
     <ClInclude Include="Engine\Collision\CollisionManager3D.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Util\BasicTask.h" />
@@ -237,6 +240,7 @@
     <ClInclude Include="PlayerBehaviorFactory.h" />
     <ClInclude Include="PlayerBehaviorMachine.h" />
     <ClInclude Include="PlayerCommonInfomation.h" />
+    <ClInclude Include="Application\Enemy\Boss\SubBoss.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />
