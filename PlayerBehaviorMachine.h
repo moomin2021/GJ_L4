@@ -16,6 +16,7 @@ public:
 private:
     // 状態遷移条件を満たしているか確認し、遷移する
     void NextStateCheck(void);
+    void BehaviorInput(void);
 
     //>> 変数
     PlayerBehavior behavior_current_;
@@ -25,6 +26,8 @@ private:
 
 public:
     void Set_Behavior(PlayerBehavior arg_nextBehavior) { behavior_next_ = arg_nextBehavior; }
+
     PlayerBehavior Get_Behavior(void) { return behavior_current_; }
+    IPlayerBehavior* Get_PlayerBehaviorPtr(void) { return statePtr_.get(); }
 };
 

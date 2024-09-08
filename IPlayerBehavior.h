@@ -7,14 +7,15 @@ enum PlayerBehavior
     PB_DEFAULT = -1,
 
     PB_IDLE,
-    PB_WALK,
+    PB_MOVE,
     PB_JUMP,
 };
 
 class IPlayerBehavior
 {
 public:
-    IPlayerBehavior(const std::shared_ptr<PlayerCommonInfomation>& arg_commonInfomation) : commonInfomation_(arg_commonInfomation) {}
+    IPlayerBehavior(void) = default;
+    IPlayerBehavior(const std::shared_ptr<PlayerCommonInfomation>& arg_commonInfomation);
     virtual ~IPlayerBehavior(void) = default;
 
     // ��ԑJ�ڎ��̏���������
@@ -24,7 +25,9 @@ public:
     // ��ԑJ�ڑJ�ڑO�̏I������
     virtual void Exit(void) = 0;
 
-private:
+    Vector2 Gravity(void) { return Vector2(0, commonInfomation_->kGravity); }
+protected:
+
     std::shared_ptr<PlayerCommonInfomation> commonInfomation_;
 };
 

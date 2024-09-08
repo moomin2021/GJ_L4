@@ -27,6 +27,8 @@ void GameScene::Initialize()
 #pragma region テクスチャ
 	texture_ = LoadTexture("hae.png");
 #pragma endregion
+
+    player_.Initialize();
 }
 
 void GameScene::Update()
@@ -36,6 +38,8 @@ void GameScene::Update()
 	}
 
     colliderManager_.Update();
+
+    player_.Update();
 }
 
 void GameScene::MatUpdate()
@@ -46,6 +50,7 @@ void GameScene::MatUpdate()
 	// スプライト行列更新
 	sprite0_->MatUpdate();
 	sprite1_->MatUpdate();
+    player_.MatUpdate();
 }
 
 void GameScene::Draw()
@@ -53,6 +58,7 @@ void GameScene::Draw()
 	PipelineManager::PreDraw("Sprite");
 	sprite1_->Draw();
 	sprite0_->Draw(texture_);
+    player_.Draw();
 }
 
 void GameScene::Finalize()

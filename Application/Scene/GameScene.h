@@ -5,6 +5,7 @@
 #include "Sprite.h"
 
 #include "M_ColliderManager.h"
+#include "Player.h"
 
 #include <memory>
 
@@ -26,6 +27,7 @@ private:
 	int32_t texture_ = 0;
 
     M_ColliderManager colliderManager_;
+    Player player_;
 #pragma endregion
 
 #pragma region メンバ関数
