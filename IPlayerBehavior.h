@@ -4,6 +4,8 @@
 
 enum PlayerBehavior
 {
+    PB_DEFAULT = -1,
+
     PB_IDLE,
     PB_WALK,
     PB_JUMP,

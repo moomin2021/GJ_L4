@@ -4,6 +4,8 @@
 #include "Camera.h"
 #include "Sprite.h"
 
+#include "M_ColliderManager.h"
+
 #include <memory>
 
 class GameScene : public BaseScene
@@ -22,6 +24,8 @@ private:
 
 	// テクスチャ
 	int32_t texture_ = 0;
+
+    M_ColliderManager colliderManager_;
 #pragma endregion
 
 #pragma region メンバ関数
