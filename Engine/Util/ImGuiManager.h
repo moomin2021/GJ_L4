@@ -153,6 +153,22 @@ public:
 	void EndTabItem();
 #pragma endregion
 
+#pragma region Button
+	/// <summary>
+	/// ボタンの表示
+	/// </summary>
+	/// <param name="label"> 表示文字 </param>
+	/// <returns> 押されたらTRUEが返される </returns>
+	bool Button(const std::string& label);
+	/// <summary>
+	/// ボタンの表示
+	/// </summary>
+	/// <param name="label"> 表示文字 </param>
+	/// <param name="size"> ボタンのサイズ </param>
+	/// <returns> 押されたらTRUEが返される </returns>
+	bool Button(const std::string& label, const Vector2& size);
+#pragma endregion
+
 	/// <summary>
 	/// テキストの表示
 	/// </summary>
