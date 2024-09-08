@@ -3,6 +3,7 @@
 
 PlayerBehaviorMachine::PlayerBehaviorMachine(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr, PlayerBehavior arg_firstBehavior)
 {
+    arg_firstBehavior;
     Initialize(arg_commonInfomationPtr, PlayerBehavior::PB_IDLE);
 }
 
