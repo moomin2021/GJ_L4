@@ -3,10 +3,11 @@
 #include "Enemys/FloatingEnemy.h"
 #include "EnemyManager.h"
 
-void EnemyFactory::Initialize(EnemyManager* enemyMgrPtr)
+void EnemyFactory::Initialize(EnemyManager* enemyMgrPtr, M_ColliderManager* colMgrPtr)
 {
-	// 敵管理クラスの設定
+	// ポインタ受取り
 	pEnemyMgr_ = enemyMgrPtr;
+	pColMgr_ = colMgrPtr;
 
 	// テクスチャの読み込み
 	textures_.emplace_back(LoadTexture("zakoEnemy01.png"));
@@ -27,8 +28,11 @@ void EnemyFactory::CreateEnemy(const Vector2& inPos)
 {
 	// 敵の新規生成、初期化
 	std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<FloatingEnemy>();
-	newEnemy->Initialize(inPos, textures_[0]);
+	newEnemy->Initialize(createCounter_, inPos, textures_[0], pColMgr_);
 
 	// 敵管理クラスに新しく作成したデータを追加
 	pEnemyMgr_->AddEnemy(std::move(newEnemy));
+
+	// カウントを進める
+	createCounter_++;
 }

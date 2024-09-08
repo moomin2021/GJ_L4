@@ -25,7 +25,7 @@ public:
 	virtual ~BaseEnemy() {}
 
 	// 各基本処理
-	virtual void Initialize(const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr) = 0;
+	virtual void Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr) = 0;
 	virtual void Update() = 0;
 	virtual void MatUpdate() = 0;
 	virtual void Draw() = 0;

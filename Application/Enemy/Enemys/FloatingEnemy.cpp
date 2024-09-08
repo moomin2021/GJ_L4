@@ -3,12 +3,14 @@
 
 using namespace EnemyStatus;
 
-void FloatingEnemy::Initialize(const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr)
+void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr)
 {
 	// 座標の設定
 	position_ = inPos;
 	// テクスチャの設定
 	texture_ = tex;
+	// IDの設定
+	id_ = id;
 
 	// スプライトの生成、設定
 	sprite_ = std::make_unique<Sprite>();
@@ -19,7 +21,7 @@ void FloatingEnemy::Initialize(const Vector2& inPos, uint16_t tex, M_ColliderMan
 	// コライダーの設定
 	collider_.circle_.center = position_;
 	collider_.circle_.radius = 32.0f;
-	std::string name = "FloatingEnemy_" + std::to_string(1);
+	std::string name = "FloatingEnemy_" + std::to_string(id);
 	auto callback = std::bind(&FloatingEnemy::CollisionCallBack, this);
 	collider_.Initialize(name, callback, colMgrPtr);
 }
@@ -55,11 +57,20 @@ void FloatingEnemy::Finalize()
 void FloatingEnemy::ImGuiUpdate(ImGuiManager* imGuiMgrPtr)
 {
 	// 座標の表示
-	imGuiMgrPtr->Text("座標 = { %f, %f }", position_.x, position_.y);
+	imGuiMgrPtr->Text("ID = %d, 座標 = { %f, %f }", id_, position_.x, position_.y);
 }
 
 void FloatingEnemy::CollisionCallBack()
 {
+	// あたった瞬間
+	if (collider_.IsTrigger_Col()) {
+		if (state_ == State::FirstBeaten) {
+			state_ = State::KnockBack;
+			moveVec_ = knockVec_;
+			moveSpd_ = knockFirstSpd_;
+			rotaSpd_ = knockFirstRotaSpd_;
+		}
+	}
 }
 
 void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {

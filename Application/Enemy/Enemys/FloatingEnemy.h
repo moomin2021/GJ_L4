@@ -8,6 +8,7 @@ class FloatingEnemy : public BaseEnemy
 #pragma region メンバ変数
 private:
 	// 敵関連
+	size_t id_ = 0;
 	EnemyStatus::State state_ = EnemyStatus::State::Normal;// 状態
 	Vector2 position_ = Vector2();// 座標
 	Vector2 size_ = Vector2(64.0f, 64.0f);// サイズ
@@ -33,7 +34,7 @@ private:
 #pragma region メンバ関数
 public:
 	// 各基本処理
-	void Initialize(const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr) override;
+	void Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr) override;
 	void Update() override;
 	void MatUpdate() override;
 	void Draw() override;
