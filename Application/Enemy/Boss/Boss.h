@@ -26,7 +26,7 @@ private:
 	std::vector<Vector2> bossColLength_;	// 各コライダーの直径
 	std::vector<M_RectCollider> bossCol_;	// コライダー
 	std::vector<std::unique_ptr<Sprite>> bossColS_;// コライダーのスプライト
-	bool isDisplayCol_ = true;	// 当たり判定を表示するか
+	bool isDisplayCol_ = false;	// 当たり判定を表示するか
 #pragma endregion
 
 #pragma region メンバ関数

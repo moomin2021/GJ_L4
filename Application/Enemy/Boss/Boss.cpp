@@ -76,5 +76,6 @@ void Boss::Finalize()
 
 void Boss::ImGuiUpdate(ImGuiManager* pImGuiMgr)
 {
+	// 当たり判定を表示するか
 	pImGuiMgr->CheckBox("当たり判定表示", isDisplayCol_);
 }

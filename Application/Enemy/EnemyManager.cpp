@@ -34,7 +34,22 @@ void EnemyManager::Finalize()
 
 void EnemyManager::ImGuiUpdate()
 {
-	pImGuiMgr_->BeginWindow("Enemy");
-	boss_->ImGuiUpdate(pImGuiMgr_);
+	// ウィンドウの開始
+	pImGuiMgr_->BeginWindow("エネミー");
+
+	// タブバーの開始
+	if (pImGuiMgr_->BeginTabBar("EnemyTab")) {
+		// ボスのタブ開始
+		if (pImGuiMgr_->BeginTabItem("ボス")) {
+			// ボスのImGui更新処理
+			boss_->ImGuiUpdate(pImGuiMgr_);
+			// ボスのタブ終了
+			pImGuiMgr_->EndTabItem();
+		}
+		// タブバーの終了
+		pImGuiMgr_->EndTabBar();
+	}
+
+	// ウィンドウの終了
 	pImGuiMgr_->EndWindow();
 }
