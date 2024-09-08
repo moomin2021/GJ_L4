@@ -4,30 +4,27 @@
 
 void EnemyManager::Initialize()
 {
-	stage_.square_.center = { 0.0f, 0.0f };
-	stage_.square_.length = { 100.0f, 100.0f };
-
-	std::string name = "Stage";
-	//auto callback = std::bind(&)
+	// ボスの生成、初期化
+	boss_ = std::make_unique<Boss>();
+	boss_->Initialize();
 }
 
 void EnemyManager::Update()
 {
+	boss_->Update();
 }
 
 void EnemyManager::MatUpdate()
 {
+	boss_->MatUpdate();
 }
 
 void EnemyManager::Draw()
 {
+	boss_->Draw();
 }
 
 void EnemyManager::Finalize()
 {
-}
-
-void EnemyManager::Collision()
-{
-
+	boss_->Finalize();
 }

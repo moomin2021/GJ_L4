@@ -1,12 +1,11 @@
 #pragma once
-#include "Collision/M_RectCollider.h"
+#include "Boss/Boss.h"
 
 class EnemyManager
 {
 #pragma region メンバ変数
 private:
-	// 当たり判定
-	M_RectCollider stage_ = {};
+	std::unique_ptr<Boss> boss_ = nullptr;
 #pragma endregion
 
 #pragma region メンバ関数
@@ -21,8 +20,5 @@ public:
 	void MatUpdate();
 	void Draw();
 	void Finalize();
-
-private:
-	void Collision();
 #pragma endregion
 };

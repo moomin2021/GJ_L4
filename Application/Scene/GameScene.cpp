@@ -53,4 +53,5 @@ void GameScene::Draw()
 void GameScene::Finalize()
 {
 	Texture::GetInstance()->ReleaseIntermediateResources();
+	enemyMgr_->Finalize();
 }
