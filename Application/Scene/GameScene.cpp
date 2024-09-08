@@ -31,6 +31,9 @@ void GameScene::Update()
 	// 各クラス更新処理
 	enemyMgr_->Update();
     colliderManager_.Update();
+
+	// ImGuiの処理
+	enemyMgr_->ImGuiUpdate();
 }
 
 void GameScene::MatUpdate()
