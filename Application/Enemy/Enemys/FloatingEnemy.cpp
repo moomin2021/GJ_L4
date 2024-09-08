@@ -56,6 +56,7 @@ void FloatingEnemy::Draw()
 
 void FloatingEnemy::Finalize()
 {
+	collider_.Finalize();
 }
 
 void FloatingEnemy::ImGuiUpdate(ImGuiManager* imGuiMgrPtr)

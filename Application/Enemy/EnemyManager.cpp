@@ -19,7 +19,17 @@ void EnemyManager::Initialize(M_ColliderManager* colMgrPtr)
 void EnemyManager::Update()
 {
 	boss_->Update();
-	for (auto& it : enemys_) it->Update();
+	// 敵の更新と死んだ時の処理
+	for (auto it = enemys_.begin(); it != enemys_.end();)
+	{
+		(*it)->Update();
+		if ((*it)->GetIsAlive() == false)
+		{
+			(*it)->Finalize();
+			it = enemys_.erase(it);
+		}
+		else ++it;
+	}
 }
 
 void EnemyManager::MatUpdate()
