@@ -18,7 +18,7 @@ void GameScene::Initialize()
 #pragma endregion
 
 
-    player_.Initialize();
+    player_.Initialize(&colliderManager_);
 	// 敵管理クラスの生成、初期化
 	enemyMgr_ = std::make_unique<EnemyManager>();
 	enemyMgr_->Initialize(&colliderManager_);

@@ -3,17 +3,21 @@
 #include "PlayerBehaviorMachine.h"
 #include "PlayerCommonInfomation.h"
 #include "Sprite.h"
+#include "M_ColliderManager.h"
 
 class Player
 {
 public:
     Player(void) = default;
-    ~Player(void) = default;
+    ~Player(void);
 
-    void Initialize(void);
+    void Initialize(M_ColliderManager* arg_colliderManagerPtr);
     void Update(void);
     void MatUpdate(void);
     void Draw(void);
+
+private:
+    void CallBack(void);
 
     std::unique_ptr<Sprite> sprite0_ = nullptr;
     PlayerBehaviorMachine behaviorMachine_;
