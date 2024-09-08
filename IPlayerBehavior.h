@@ -25,7 +25,7 @@ public:
     // ��ԑJ�ڑJ�ڑO�̏I������
     virtual void Exit(void) = 0;
 
-    Vector2 Gravity(void) { return Vector2(0, commonInfomation_->kGravity); }
+    Vector2 Gravity(void);
 protected:
 
     std::shared_ptr<PlayerCommonInfomation> commonInfomation_;

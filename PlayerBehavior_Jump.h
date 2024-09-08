@@ -14,6 +14,6 @@ public:
     virtual void Exit(void) override;
 
 private:
-    Vector2 Jump(void) { return Vector2(0, commonInfomation_->kJumpPower); } // いったん適当に
+    void Jump(void);
 };
 

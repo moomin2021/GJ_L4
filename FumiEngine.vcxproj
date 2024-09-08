@@ -137,6 +137,7 @@
     <ClCompile Include="Engine\Base\Instancing3D.cpp" />
     <ClCompile Include="Engine\Scene\IScene.cpp" />
     <ClCompile Include="Application\Collision\ICollider.cpp" />
+    <ClCompile Include="Gravity.cpp" />
     <ClCompile Include="IPlayerBehavior.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Mesh.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="Application\Collision\M_CircleCollider.h" />
     <ClInclude Include="Application\Collision\M_ColliderManager.h" />
     <ClInclude Include="Application\Collision\M_RectCollider.h" />
+    <ClInclude Include="Gravity.h" />
     <ClInclude Include="IPlayerBehavior.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBehaviorFactory.h" />

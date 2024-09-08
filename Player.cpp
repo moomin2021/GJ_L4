@@ -11,6 +11,8 @@ void Player::Initialize(void)
 
     sprite0_ = std::make_unique<Sprite>();
     sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    commonInfomation_->gravity.Initialize(commonInfomation_->kGravity_max, commonInfomation_->kGravity_add);
 }
 
 void Player::Update(void)
@@ -18,6 +20,7 @@ void Player::Update(void)
     behaviorMachine_.Update();
     sprite0_->SetPosition(commonInfomation_->position);
 
+    commonInfomation_->Update();
     commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
 }
 
