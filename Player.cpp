@@ -72,9 +72,9 @@ void Player::CallBack(void)
     imgui->BeginWindow("player");
     Vector2 pushbackv{};
 
-    if (myCol.IsDetect_Name("BossRect0"))
+    if (myCol.IsDetect_Name("Boss0"))
     {
-        auto* const contacted = myCol.Extract_Collider("BossRect0");
+        auto* const contacted = myCol.Extract_Collider("Boss0");
 
         M_RectCollider* rect = static_cast<M_RectCollider*>(contacted);
 
@@ -84,9 +84,9 @@ void Player::CallBack(void)
 
         pushbackv = pushBack;
     }
-    if (myCol.IsDetect_Name("BossRect1"))
+    if (myCol.IsDetect_Name("Boss1"))
     {
-        auto* const contacted = myCol.Extract_Collider("BossRect1");
+        auto* const contacted = myCol.Extract_Collider("Boss1");
 
         M_RectCollider* rect = static_cast<M_RectCollider*>(contacted);
 
@@ -102,9 +102,9 @@ void Player::CallBack(void)
 
         pushbackv = pushBack;
     }
-    if (myCol.IsDetect_Name("BossRect2"))
+    if (myCol.IsDetect_Name("Boss2"))
     {
-        auto* const contacted = myCol.Extract_Collider("BossRect2");
+        auto* const contacted = myCol.Extract_Collider("Boss2");
 
         M_RectCollider* rect = static_cast<M_RectCollider*>(contacted);
 
@@ -114,9 +114,9 @@ void Player::CallBack(void)
 
         pushbackv = pushBack;
     }
-    if (myCol.IsDetect_Name("BossRect3"))
+    if (myCol.IsDetect_Name("Boss3"))
     {
-        auto* const contacted = myCol.Extract_Collider("BossRect3");
+        auto* const contacted = myCol.Extract_Collider("Boss3");
 
         M_RectCollider* rect = static_cast<M_RectCollider*>(contacted);
 
