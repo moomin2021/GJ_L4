@@ -32,8 +32,8 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	// --当たり判定関連-- //
 	// 各コライダーの中心座標の設定
 	bossColCenter_[0] = { winSize.x / 2.0f, 70.0f };
-	bossColCenter_[1] = { winSize.x - 40.0f, winSize.y / 2.0f };
-	bossColCenter_[2] = { winSize.x / 2.0f, winSize.y - 70.0f };
+	bossColCenter_[1] = { winSize.x - 140.0f, winSize.y / 2.0f };
+	bossColCenter_[2] = { winSize.x / 2.0f, winSize.y - 160.0f };
 	bossColCenter_[3] = { 40.0f, winSize.y / 2.0f };
 	// 各コライダーのサイズの設定
 	bossColLength_[0] = { winSize.x, 140.0f };

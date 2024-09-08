@@ -23,6 +23,7 @@ Vector2 PlayerBehavior_Move::Move(void)
     velocity.y = (float)(key->PushKey(DIK_S) - key->PushKey(DIK_W));
     velocity.x = velocity.x * commonInfomation_->kMoveSpeed;
     velocity.y = velocity.y * commonInfomation_->kMoveSpeed;
+    if (key->PushKey(DIK_LSHIFT)) { velocity *= 2; }
 
     return velocity;
 }
