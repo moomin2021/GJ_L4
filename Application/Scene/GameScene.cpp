@@ -32,8 +32,10 @@ void GameScene::Update()
 	enemyMgr_->Update();
     colliderManager_.Update();
 
+#ifdef _DEBUG
 	// ImGuiの処理
 	enemyMgr_->ImGuiUpdate();
+#endif
 }
 
 void GameScene::MatUpdate()
