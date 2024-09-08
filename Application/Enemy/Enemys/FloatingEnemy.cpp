@@ -1,7 +1,6 @@
 #include "FloatingEnemy.h"
 #include "Key.h"
 #include "Util.h"
-#include "TimeManager.h"
 
 using namespace EnemyStatus;
 
@@ -14,11 +13,15 @@ void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_
 	// IDの設定
 	id_ = id;
 
+	// インスタンス取得
+	pTimeMgr_ = TimeManager::GetInstance();
+
 	// スプライトの生成、設定
 	sprite_ = std::make_unique<Sprite>();
 	sprite_->SetPosition(position_);
 	sprite_->SetSize(size_);
 	sprite_->SetAnchorPoint({ 0.5f, 0.5f });
+	sprite_->SetColor({ 0.0f, 0.0f, 0.0f, 0.0f });
 
 	// コライダーの設定
 	collider_.circle_.center = position_;
@@ -30,6 +33,12 @@ void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_
 
 void FloatingEnemy::Update()
 {
+	if (color_ < 1.0f) {
+		color_ += addColor_ * pTimeMgr_->GetGameDeltaTime();
+		color_ = Util::Clamp(color_, 1.0f, 0.0f);
+		sprite_->SetColor({ color_, color_ , color_ , color_ });
+	}
+
 	collider_.circle_.center = position_;
 
 	// 状態別更新処理
@@ -158,8 +167,7 @@ void FloatingEnemy::KnockBack()
 
 void FloatingEnemy::SecondBeaten()
 {
-	TimeManager* time = TimeManager::GetInstance();
-	nowTime_ += time->GetGameDeltaTime();
+	nowTime_ += pTimeMgr_->GetGameDeltaTime();
 
 	if (nowTime_ >= aliveTime_) {
 		isAlive_ = false;

@@ -2,11 +2,15 @@
 #include "BaseEnemy.h"
 #include "EnemyStatus.h"
 #include "M_CircleCollider.h"
+#include "TimeManager.h"
 
 class FloatingEnemy : public BaseEnemy
 {
 #pragma region メンバ変数
 private:
+	// インスタンス
+	TimeManager* pTimeMgr_ = nullptr;
+
 	// 敵関連
 	size_t id_ = 0;
 	EnemyStatus::State state_ = EnemyStatus::State::Normal;// 状態
@@ -17,6 +21,8 @@ private:
 	float moveSpd_ = 0.0f;// 移動速度
 	float rotaSpd_ = 0.0f;// 回転速度
 	M_CircleCollider collider_;
+	float color_ = 0.0f;
+	float addColor_ = 0.5f;
 
 	// 一回目殴られた時に使う変数
 	Vector2 firstBeatenVec_ = Vector2(0.0f, 1.0f);// 殴られた時の方向
