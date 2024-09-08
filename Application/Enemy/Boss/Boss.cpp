@@ -46,7 +46,7 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	for (size_t i = 0; i < 4; i++) {
 		bossCol_[i].square_.center = bossColCenter_[i];
 		bossCol_[i].square_.length = bossColLength_[i];
-		std::string name = "BossRect" + std::to_string(i);
+		std::string name = "Boss";
 		auto callback = std::bind(&Boss::CollisionCallBack, this);
 		bossCol_[i].Initialize(name, callback, pColMgr_);
 	}

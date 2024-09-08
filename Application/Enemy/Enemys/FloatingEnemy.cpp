@@ -28,6 +28,8 @@ void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_
 
 void FloatingEnemy::Update()
 {
+	collider_.circle_.center = position_;
+
 	// 状態別更新処理
 	(this->*stateTable[(size_t)state_])();
 
@@ -63,7 +65,16 @@ void FloatingEnemy::ImGuiUpdate(ImGuiManager* imGuiMgrPtr)
 void FloatingEnemy::CollisionCallBack()
 {
 	// あたった瞬間
-	if (collider_.IsTrigger_Col()) {
+	//if (collider_.IsTrigger_Col()) {
+	//	if (state_ == State::FirstBeaten) {
+	//		state_ = State::KnockBack;
+	//		moveVec_ = knockVec_;
+	//		moveSpd_ = knockFirstSpd_;
+	//		rotaSpd_ = knockFirstRotaSpd_;
+	//	}
+	//}
+
+	if (collider_.IsDetect_Name("Boss")) {
 		if (state_ == State::FirstBeaten) {
 			state_ = State::KnockBack;
 			moveVec_ = knockVec_;
