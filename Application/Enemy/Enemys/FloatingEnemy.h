@@ -22,7 +22,7 @@ private:
 	float rotaSpd_ = 0.0f;// 回転速度
 	M_CircleCollider collider_;
 	float color_ = 0.0f;
-	float addColor_ = 0.5f;
+	float addColor_ = 0.8f;
 
 	// 一回目殴られた時に使う変数
 	Vector2 firstBeatenVec_ = Vector2(0.0f, 1.0f);// 殴られた時の方向
