@@ -51,7 +51,7 @@ bool ICollider::IsSameCollider(const std::string& arg_name, std::list<ICollider*
     return false;
 }
 
-std::list<ICollider*>::iterator ICollider::GetCollider(const std::string& arg_name, std::list<ICollider*> arg_list)
+std::list<ICollider*>::iterator ICollider::GetCollider(const std::string& arg_name, std::list<ICollider*>& arg_list)
 {
     // ID�őS����
     for (auto it = arg_list.begin(); it != arg_list.end(); it++)

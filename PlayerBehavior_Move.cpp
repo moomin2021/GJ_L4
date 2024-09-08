@@ -20,7 +20,9 @@ Vector2 PlayerBehavior_Move::Move(void)
 
     Vector2 velocity{};
     velocity.x = (float)(key->PushKey(DIK_D) - key->PushKey(DIK_A));
+    velocity.y = (float)(key->PushKey(DIK_S) - key->PushKey(DIK_W));
     velocity.x = velocity.x * commonInfomation_->kMoveSpeed;
+    velocity.y = velocity.y * commonInfomation_->kMoveSpeed;
 
     return velocity;
 }

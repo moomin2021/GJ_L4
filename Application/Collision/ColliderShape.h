@@ -10,13 +10,13 @@ enum Shape
 
 struct Square
 {
-    Vector2 center;
-    Vector2 length;
-    float radian;
+    Vector2 center{};
+    Vector2 length{};
+    float radian{};
 };
 
 //�~
 struct Circle {
-    Vector2 center;
-    float radius;
+    Vector2 center{};
+    float radius{};
 };

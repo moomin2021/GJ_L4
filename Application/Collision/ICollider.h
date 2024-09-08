@@ -66,7 +66,7 @@ private:
     bool IsSameCollider(size_t arg_id, std::list<ICollider*> arg_list);                                 // id
     bool IsSameCollider(const std::string& arg_name, std::list<ICollider*> arg_list);                   // 名前
     // internal
-    std::list<ICollider*>::iterator GetCollider(const std::string& arg_name, std::list<ICollider*> arg_list);
+    std::list<ICollider*>::iterator GetCollider(const std::string& arg_name, std::list<ICollider*>& arg_list);
 
     // コライダーリスト内に一致するものがあるか検索を行う
     bool IsExist_Cur(size_t arg_id) { return IsSameCollider(arg_id, colliders_); }                             // 現F id検索

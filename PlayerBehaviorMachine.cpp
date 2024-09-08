@@ -51,7 +51,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     // IDLE
     if (behavior == PB_IDLE)
     {
-        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D);
+        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
         if (isMove) { Set_Behavior(PB_MOVE); return; }
 
         bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE);
@@ -62,7 +62,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     // JUMP
     else if (behavior == PB_JUMP)
     {
-        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D);
+        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
         if (isMove) { Set_Behavior(PB_MOVE); return; }
 
         // 何も入力が無ければIDLE
@@ -75,7 +75,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
         bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE);
         if (isJump) { Set_Behavior(PB_JUMP); return; }
 
-        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D);
+        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
         if (isMove) { return; }
 
         // 何も入力が無ければIDLE
