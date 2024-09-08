@@ -4,13 +4,9 @@
 #include "Camera.h"
 #include "Sprite.h"
 
-#include "M_ColliderManager.h"
-#include "EnemyManager.h"
-#include "Player.h"
-
 #include <memory>
 
-class GameScene : public BaseScene
+class TestScene : public BaseScene
 {
 #pragma region メンバ変数
 private:
@@ -20,19 +16,19 @@ private:
 	// カメラ
 	std::unique_ptr<Camera> camera_ = nullptr;
 
-	// 衝突判定マネージャー
-    M_ColliderManager colliderManager_;
+	// スプライト
+	std::unique_ptr<Sprite> sprite0_ = nullptr;
+	std::unique_ptr<Sprite> sprite1_ = nullptr;
 
-	// 敵マネージャー
-	std::unique_ptr<EnemyManager> enemyMgr_ = nullptr;
-    Player player_;
+	// テクスチャ
+	int32_t texture_ = 0;
 #pragma endregion
 
 #pragma region メンバ関数
 public:
 	// コンストラクタとデストラクタ
-	GameScene(IScene* sceneIf);
-	~GameScene() {}
+	TestScene(IScene* sceneIf);
+	~TestScene() {}
 
 	// 基本処理
 	void Initialize();
