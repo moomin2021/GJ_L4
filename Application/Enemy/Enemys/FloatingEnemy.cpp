@@ -1,4 +1,7 @@
 #include "FloatingEnemy.h"
+#include "Key.h"
+
+using namespace EnemyStatus;
 
 void FloatingEnemy::Initialize(const Vector2& inPos, uint16_t tex)
 {
@@ -16,6 +19,16 @@ void FloatingEnemy::Initialize(const Vector2& inPos, uint16_t tex)
 
 void FloatingEnemy::Update()
 {
+	// 状態別更新処理
+	(this->*stateTable[(size_t)state_])();
+
+	// 座標の更新
+	position_ += moveVec_ * moveSpd_;
+	rotation_ += rotaSpd_;
+
+	// スプライトの更新
+	sprite_->SetPosition(position_);
+	sprite_->SetRotation(rotation_);
 }
 
 void FloatingEnemy::MatUpdate()
@@ -36,4 +49,41 @@ void FloatingEnemy::ImGuiUpdate(ImGuiManager* imGuiMgrPtr)
 {
 	// 座標の表示
 	imGuiMgrPtr->Text("座標 = { %f, %f }", position_.x, position_.y);
+}
+
+void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {
+	&FloatingEnemy::Normal,
+	&FloatingEnemy::FirstBeaten,
+	&FloatingEnemy::KnockBack,
+	&FloatingEnemy::SecondBeaten,
+};
+
+void FloatingEnemy::Normal()
+{
+	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+		state_ = State::FirstBeaten;
+		moveVec_ = firstBeatenVec_;
+		moveSpd_ = firstBeatenMoveSpd_;
+		rotaSpd_ = firstBeatenRotaSpd_;
+	}
+}
+
+void FloatingEnemy::FirstBeaten()
+{
+	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+		state_ = State::KnockBack;
+		moveVec_ = knockVec_;
+		moveSpd_ = knockFirstSpd_;
+		rotaSpd_ = knockFirstRotaSpd_;
+	}
+}
+
+void FloatingEnemy::KnockBack()
+{
+	moveSpd_ -= knockAddSpd_;
+	rotaSpd_ -= knockAddRotaSpd_;
+}
+
+void FloatingEnemy::SecondBeaten()
+{
 }
