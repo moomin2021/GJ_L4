@@ -12,6 +12,9 @@ private:
 	// 敵管理クラスポインタ
 	EnemyManager* pEnemyMgr_ = nullptr;
 
+	// 敵のテクスチャ
+	std::vector<uint16_t> textures_;
+
 	// デバックで敵を生成する座標
 	Vector2 debugCreatePos_ = Vector2();
 #pragma endregion

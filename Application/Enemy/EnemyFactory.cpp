@@ -1,4 +1,5 @@
 #include "EnemyFactory.h"
+#include "Texture.h"
 #include "Enemys/FloatingEnemy.h"
 #include "EnemyManager.h"
 
@@ -6,6 +7,9 @@ void EnemyFactory::Initialize(EnemyManager* enemyMgrPtr)
 {
 	// 敵管理クラスの設定
 	pEnemyMgr_ = enemyMgrPtr;
+
+	// テクスチャの読み込み
+	textures_.emplace_back(LoadTexture("zakoEnemy01.png"));
 }
 
 void EnemyFactory::ImGuiUpdate(ImGuiManager* imGuiMgrPtr)
@@ -23,7 +27,7 @@ void EnemyFactory::CreateEnemy(const Vector2& inPos)
 {
 	// 敵の新規生成、初期化
 	std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<FloatingEnemy>();
-	newEnemy->Initialize(inPos);
+	newEnemy->Initialize(inPos, textures_[0]);
 
 	// 敵管理クラスに新しく作成したデータを追加
 	pEnemyMgr_->AddEnemy(std::move(newEnemy));

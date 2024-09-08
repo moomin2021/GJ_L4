@@ -1,9 +1,11 @@
 #include "FloatingEnemy.h"
 
-void FloatingEnemy::Initialize(const Vector2& inPos)
+void FloatingEnemy::Initialize(const Vector2& inPos, uint16_t tex)
 {
 	// 座標の設定
 	position_ = inPos;
+	// テクスチャの設定
+	texture_ = tex;
 
 	// スプライトの生成、設定
 	sprite_ = std::make_unique<Sprite>();
