@@ -2,14 +2,14 @@
 
 #include <string>
 
-void EnemyManager::Initialize()
+void EnemyManager::Initialize(M_ColliderManager* colMgrPtr)
 {
 	// インスタンス取得
 	pImGuiMgr_ = ImGuiManager::GetInstance();
 
 	// ボスの生成、初期化
 	boss_ = std::make_unique<Boss>();
-	boss_->Initialize();
+	boss_->Initialize(colMgrPtr);
 }
 
 void EnemyManager::Update()

@@ -5,8 +5,11 @@
 
 Boss::Boss() : bossColCenter_(4), bossColLength_(4), bossCol_(4), bossColS_(4) {}
 
-void Boss::Initialize()
+void Boss::Initialize(M_ColliderManager* colMgrPtr)
 {
+	// 当たり判定管理クラスのポインタを受け取る
+	pColMgr_ = colMgrPtr;
+
 	// テクスチャ読み込み
 	bossT_ = LoadTexture("wallKariOnly.png");
 	debugT_ = LoadTexture("white.png");
@@ -38,7 +41,13 @@ void Boss::Initialize()
 	bossColLength_[2] = { winSize.x, 140.0f };
 	bossColLength_[3] = { 80.0f, winSize.y };
 	// 各コライダーの設定
-
+	for (size_t i = 0; i < 4; i++) {
+		bossCol_[i].square_.center = bossColCenter_[i];
+		bossCol_[i].square_.length = bossColLength_[i];
+		std::string name = "BossRect" + std::to_string(i);
+		auto callback = std::bind(&Boss::CollisionCallBack, this);
+		bossCol_[i].Initialize(name, callback, pColMgr_);
+	}
 	// 各コライダーのスプライト
 	for (size_t i = 0; i < 4;i++) {
 		bossColS_[i] = std::make_unique<Sprite>();
@@ -78,4 +87,9 @@ void Boss::ImGuiUpdate(ImGuiManager* pImGuiMgr)
 {
 	// 当たり判定を表示するか
 	pImGuiMgr->CheckBox("当たり判定表示", isDisplayCol_);
+}
+
+void Boss::CollisionCallBack()
+{
+
 }

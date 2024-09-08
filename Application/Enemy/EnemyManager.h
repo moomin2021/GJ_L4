@@ -1,6 +1,7 @@
 #pragma once
 #include "ImGuiManager.h"
 #include "Boss/Boss.h"
+#include "Collision/M_ColliderManager.h"
 
 class EnemyManager
 {
@@ -20,7 +21,7 @@ public:
 	~EnemyManager() {}
 
 	// 基本処理
-	void Initialize();
+	void Initialize(M_ColliderManager* colMgrPtr);
 	void Update();
 	void MatUpdate();
 	void Draw();
