@@ -26,20 +26,20 @@ private:
 
 	// 一回目殴られた時に使う変数
 	Vector2 firstBeatenVec_ = Vector2(0.0f, 1.0f);// 殴られた時の方向
-	float firstBeatenMoveSpd_ = 20.0f;// 殴った時の移動速度
-	float firstBeatenRotaSpd_ = 30.0f;// 殴った時の回転速度
+	float firstBeatenMoveSpd_ = 800.0f;// 殴った時の移動速度
+	float firstBeatenRotaSpd_ = 800.0f;// 殴った時の回転速度
 
 	// ノックバックしている時に使う変数
 	Vector2 knockVec_ = Vector2(0.0f, -1.0f);
-	float knockFirstSpd_ = 20.0f;// ノックバックした時の最初の速度
-	float knockAddSpd_ = 0.5f;// 徐々に加算される速度
-	float knockFirstRotaSpd_ = 30.0f;// 最初の回転速度
-	float knockAddRotaSpd_ = 0.75f;// 徐々に加算される回転速度
+	float knockFirstSpd_ = 600.0f;// ノックバックした時の最初の速度
+	float knockAddSpd_ = 300.0f;// 徐々に加算される速度
+	float knockFirstRotaSpd_ = 600.0f;// 最初の回転速度
+	float knockAddRotaSpd_ = 300.0f;// 徐々に加算される回転速度
 
 	// 二回目殴られた時に使う変数
 	Vector2 secondBeatenVec_ = Vector2(0.0f, 0.0f);// 殴られた時の方向
-	float secondBeatenMoveSpd_ = 40.0f;// 殴った時の移動速度
-	float secondBeatenRotaSpd_ = 50.0f;// 殴った時の回転速度
+	float secondBeatenMoveSpd_ = 1000.0f;// 殴った時の移動速度
+	float secondBeatenRotaSpd_ = 1000.0f;// 殴った時の回転速度
 
 	// 時間
 	float nowTime_ = 0.0f;

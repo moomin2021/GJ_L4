@@ -1,6 +1,8 @@
 #include "FloatingEnemy.h"
 #include "Key.h"
 #include "Util.h"
+#include "M_RectCollider.h"
+#include "CollisionChecker.h"
 
 using namespace EnemyStatus;
 
@@ -39,14 +41,13 @@ void FloatingEnemy::Update()
 		sprite_->SetColor({ color_, color_ , color_ , color_ });
 	}
 
-	collider_.circle_.center = position_;
-
 	// 状態別更新処理
 	(this->*stateTable[(size_t)state_])();
 
 	// 座標の更新
-	position_ += moveVec_ * moveSpd_;
-	rotation_ += rotaSpd_;
+	position_ += moveVec_ * moveSpd_ * pTimeMgr_->GetGameDeltaTime();
+	rotation_ += rotaSpd_ * pTimeMgr_->GetGameDeltaTime();
+	collider_.circle_.center = position_;
 
 	// スプライトの更新
 	sprite_->SetPosition(position_);
@@ -76,6 +77,48 @@ void FloatingEnemy::ImGuiUpdate(ImGuiManager* imGuiMgrPtr)
 
 void FloatingEnemy::CollisionCallBack()
 {
+	// 壁と衝突しているか
+	bool isWallCol = false;
+	std::string wallName = "";
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		if (collider_.IsDetect_Name("Boss" + std::to_string(i)))
+		{
+			isWallCol = true;
+			wallName = "Boss" + std::to_string(i);
+		}
+	}
+
+	// 壁と衝突していたら
+	if (isWallCol)
+	{
+		if (state_ == State::FirstBeaten)
+		{
+			ICollider* hitCol = collider_.Extract_Collider(wallName);
+			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
+			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
+			position_ += pushBack;
+			state_ = State::KnockBack;
+			moveVec_ = knockVec_;
+			moveSpd_ = knockFirstSpd_;
+			rotaSpd_ = knockFirstRotaSpd_;
+		}
+
+		else if (state_ == State::SecondBeaten)
+		{
+			ICollider* hitCol = collider_.Extract_Collider(wallName);
+			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
+			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
+			position_ += pushBack;
+
+			if (wallName == "Boss0") moveVec_.y = -moveVec_.y;
+			if (wallName == "Boss1") moveVec_.x = -moveVec_.x;
+			if (wallName == "Boss2") moveVec_.y = -moveVec_.y;
+			if (wallName == "Boss3") moveVec_.x = -moveVec_.x;
+		}
+	}
+
 	// あたった瞬間
 	//if (collider_.IsTrigger_Col()) {
 	//	if (state_ == State::FirstBeaten) {
@@ -85,17 +128,17 @@ void FloatingEnemy::CollisionCallBack()
 	//		rotaSpd_ = knockFirstRotaSpd_;
 	//	}
 	//}
-	if (collider_.IsTrigger_Col()) {
-		for (size_t i = 0; i < 4; i++) {
-			if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
-				if (state_ == State::FirstBeaten) {
-					state_ = State::KnockBack;
-					moveVec_ = knockVec_;
-					moveSpd_ = knockFirstSpd_;
-					rotaSpd_ = knockFirstRotaSpd_;
-				}
-			}
-		}
+	//if (collider_.IsTrigger_Col()) {
+	//	for (size_t i = 0; i < 4; i++) {
+	//		if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
+	//			if (state_ == State::FirstBeaten) {
+	//				state_ = State::KnockBack;
+	//				moveVec_ = knockVec_;
+	//				moveSpd_ = knockFirstSpd_;
+	//				rotaSpd_ = knockFirstRotaSpd_;
+	//			}
+	//		}
+	//	}
 
 		//if (collider_.IsDetect_Name("Boss0")) {
 		//	if (state_ == State::SecondBeaten) {
@@ -120,7 +163,7 @@ void FloatingEnemy::CollisionCallBack()
 		//		moveVec_.x = -moveVec_.x;
 		//	}
 		//}
-	}
+	//}
 }
 
 void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {
@@ -152,8 +195,8 @@ void FloatingEnemy::FirstBeaten()
 
 void FloatingEnemy::KnockBack()
 {
-	moveSpd_ -= knockAddSpd_;
-	rotaSpd_ -= knockAddRotaSpd_;
+	moveSpd_ -= knockAddSpd_ * pTimeMgr_->GetGameDeltaTime();
+	rotaSpd_ -= knockAddRotaSpd_ * pTimeMgr_->GetGameDeltaTime();
 
 	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
 		state_ = State::SecondBeaten;
