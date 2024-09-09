@@ -4,9 +4,11 @@
 #include "M_RectCollider.h"
 #include "Sprite.h"
 #include <memory>
+#include "TimeManager.h"
 
 struct PlayerCommonInfomation
 {
+    //-Const-------------------------
     // Move
     const float kMoveSpeed = 5.f;
 
@@ -17,15 +19,22 @@ struct PlayerCommonInfomation
     // Jump
     const float kJumpPower = -5.f;
 
-    // Collider - k
+    // Collider
     const Vector2 kLength_collider = { 20,20 };
     const Vector2 kLength_attackCollider = { 20,20 };
     const Vector2 kOffset_attackCollider = { 0 ,30 };
 
+    // Time
+    const float kAttackInterval_max = 20.f; // sec
+    const float kInvincible_max = 20.f;     // sec
+
+    //-Variable-----------------------------
     Vector2 position{};
     Gravity gravity{};
+    float timer_attackInterval{};
+    float timer_invincible{};
 
-    // Collider - v
+    // Collider
     M_ColliderManager* ptr_colliderManager{};
     M_RectCollider collider{};
 
