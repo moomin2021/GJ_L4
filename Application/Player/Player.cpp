@@ -27,6 +27,8 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_frame_ = LoadTexture("frame.png");
 
     sprite0_ = std::make_unique<Sprite>();
+    sprite0_->SetSize({ 20.0f, 20.0f });
+    sprite0_->SetAnchorPoint({ 0.5f, 0.5f });
     sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
     commonInfomation_->sprite_collider = std::make_unique<Sprite>();
@@ -227,4 +229,7 @@ void Player::Callback(void)
     }
     imgui->Text("pushback : [%f][%f]", pushbackv.x, pushbackv.y);
     imgui->EndWindow();
+
+    // 押し出し後に座標を合わせる
+    sprite0_->SetPosition(commonInfomation_->position);
 }
