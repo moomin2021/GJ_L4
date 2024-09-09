@@ -9,7 +9,7 @@ void EnemyManager::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
 
 	// 敵生成器の生成
 	enemyFactory_ = std::make_unique<EnemyFactory>();
-	enemyFactory_->Initialize(this, colMgrPtr);
+	enemyFactory_->Initialize(this, colMgrPtr, playerPtr);
 
 	// ボスの生成、初期化
 	boss_ = std::make_unique<Boss>();
