@@ -1,4 +1,4 @@
-﻿#include "Vector2.h"
+#include "Vector2.h"
 #include "Vector2.h"
 #include <cmath>    // sqrt
 
@@ -63,6 +63,11 @@ Vector2& Vector2::operator-=(const Vector2& v)
     x -= v.x;
     y -= v.y;
     return *this;
+}
+
+Vector2 Vector2::operator*(const Vector2 other) const
+{
+    return Vector2(x * other.x, y * other.y);
 }
 
 // ベクトルをs倍にする
