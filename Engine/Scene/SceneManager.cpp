@@ -70,7 +70,9 @@ void SceneManager::Update()
 
 	timeMgr_->ImGuiUpdate();
 
+#ifdef _DEBUG
 	if (Key::GetInstance()->TriggerKey(DIK_T)) ChangeScene(Scene::TEST);
+#endif
 }
 
 void SceneManager::Draw()

@@ -3,6 +3,8 @@
 #include "Key.h"
 #include "Camera.h"
 #include "Sprite.h"
+#include "M_ColliderManager.h"
+#include "M_RectCollider.h"
 
 #include <memory>
 
@@ -13,15 +15,23 @@ private:
 	// インスタンス
 	Key* key_ = nullptr;
 
+	// 衝突判定マネージャー
+	M_ColliderManager colMgr_;
+
 	// カメラ
 	std::unique_ptr<Camera> camera_ = nullptr;
 
-	// スプライト
-	std::unique_ptr<Sprite> sprite0_ = nullptr;
-	std::unique_ptr<Sprite> sprite1_ = nullptr;
+	// プレイヤー
+	Vector2 playerPos_ = Vector2(500.0f, 500.0f);
+	Vector2 playerSize_ = Vector2(20.0f, 20.0f);
+	std::unique_ptr<Sprite> playerS_ = nullptr;
+	M_RectCollider playerC_;
 
-	// テクスチャ
-	int32_t texture_ = 0;
+	// 壁
+	Vector2 wallPos_ = Vector2(800.0f, 500.0f);
+	Vector2 wallSize_ = Vector2(200.0f, 100.0f);
+	std::unique_ptr<Sprite> wallS_ = nullptr;
+	M_RectCollider wallC_;
 #pragma endregion
 
 #pragma region メンバ関数
@@ -36,5 +46,9 @@ public:
 	void MatUpdate();
 	void Draw();
 	void Finalize();
+
+private:
+	void PlayerColCallBack();
+	void WallColCallBack();
 #pragma endregion
 };
