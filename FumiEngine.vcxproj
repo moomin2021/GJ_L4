@@ -58,7 +58,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;DIRECTINPUT_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Util;$(ProjectDir)Engine\Util\Math;$(ProjectDir)Application\Collision;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\Collision;$(ProjectDir)External;$(ProjectDir)Engine\Sound;$(ProjectDir)Application;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Player;$(ProjectDir)Application\Stage;$(ProjectDir)Application\NavMesh;$(ProjectDir)Application\Setting;$(ProjectDir)Application\Result;$(ProjectDir)Engine\Scene;$(ProjectDir)Application\Player\Weapon;$(ProjectDir);$(ProjectDir)Application\Setting\Layer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Util;$(ProjectDir)Engine\Util\Math;$(ProjectDir)Application\Collision;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\Collision;$(ProjectDir)External;$(ProjectDir)Engine\Sound;$(ProjectDir)Application;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Player;$(ProjectDir)Application\Stage;$(ProjectDir)Application\NavMesh;$(ProjectDir)Application\Setting;$(ProjectDir)Application\Result;$(ProjectDir)Engine\Scene;$(ProjectDir)Application\Player\Behavior;$(ProjectDir);$(ProjectDir)Application\Setting\Layer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -81,7 +81,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Util;$(ProjectDir)Engine\Util\Math;$(ProjectDir)Application\Collision;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\Collision;$(ProjectDir)External;$(ProjectDir)Engine\Sound;$(ProjectDir)Application;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Player;$(ProjectDir)Application\Stage;$(ProjectDir)Application\NavMesh;$(ProjectDir)Application\Setting;$(ProjectDir)Application\Result;$(ProjectDir)Engine\Scene;$(ProjectDir)Application\Player\Weapon;$(ProjectDir);$(ProjectDir)Application\Setting\Layer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Util;$(ProjectDir)Engine\Util\Math;$(ProjectDir)Application\Collision;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\Collision;$(ProjectDir)External;$(ProjectDir)Engine\Sound;$(ProjectDir)Application;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Player;$(ProjectDir)Application\Stage;$(ProjectDir)Application\NavMesh;$(ProjectDir)Application\Setting;$(ProjectDir)Application\Result;$(ProjectDir)Engine\Scene;$(ProjectDir)Application\Player\Behavior;$(ProjectDir);$(ProjectDir)Application\Setting\Layer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -139,9 +139,9 @@
     <ClCompile Include="Engine\Base\Instancing3D.cpp" />
     <ClCompile Include="Engine\Scene\IScene.cpp" />
     <ClCompile Include="Application\Collision\ICollider.cpp" />
-    <ClCompile Include="Gravity.cpp" />
+    <ClCompile Include="Application\Player\Gravity.cpp" />
     <ClCompile Include="Application\Enemy\Enemys\FloatingEnemy.cpp" />
-    <ClCompile Include="IPlayerBehavior.cpp" />
+    <ClCompile Include="Application\Player\Behavior\IPlayerBehavior.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Mesh.cpp" />
     <ClCompile Include="Engine\3d\Material.cpp" />
@@ -162,14 +162,14 @@
     <ClCompile Include="Application\Collision\M_CircleCollider.cpp" />
     <ClCompile Include="Application\Collision\M_ColliderManager.cpp" />
     <ClCompile Include="Application\Collision\M_RectCollider.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerBehaviorFactory.cpp" />
-    <ClCompile Include="PlayerBehaviorMachine.cpp" />
-    <ClCompile Include="PlayerBehavior_Attack.cpp" />
-    <ClCompile Include="PlayerBehavior_Idle.cpp" />
-    <ClCompile Include="PlayerBehavior_Jump.cpp" />
-    <ClCompile Include="PlayerBehavior_Move.cpp" />
-    <ClCompile Include="PlayerCommonInfomation.cpp" />
+    <ClCompile Include="Application\Player\Player.cpp" />
+    <ClCompile Include="Application\Player\Behavior\PlayerBehaviorFactory.cpp" />
+    <ClCompile Include="Application\Player\Behavior\PlayerBehaviorMachine.cpp" />
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Attack.cpp" />
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Idle.cpp" />
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Jump.cpp" />
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Move.cpp" />
+    <ClCompile Include="Application\Player\PlayerCommonInfomation.cpp" />
     <ClCompile Include="Application\Enemy\Boss\SubBoss.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -247,16 +247,16 @@
     <ClInclude Include="Application\Collision\M_ColliderManager.h" />
     <ClInclude Include="Application\Collision\M_RectCollider.h" />
     <ClInclude Include="Application\Enemy\Enemys\FloatingEnemy.h" />
-    <ClInclude Include="Gravity.h" />
-    <ClInclude Include="IPlayerBehavior.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerBehaviorFactory.h" />
-    <ClInclude Include="PlayerBehaviorMachine.h" />
-    <ClInclude Include="PlayerBehavior_Attack.h" />
-    <ClInclude Include="PlayerBehavior_Idle.h" />
-    <ClInclude Include="PlayerBehavior_Jump.h" />
-    <ClInclude Include="PlayerBehavior_Move.h" />
-    <ClInclude Include="PlayerCommonInfomation.h" />
+    <ClInclude Include="Application\Player\Gravity.h" />
+    <ClInclude Include="Application\Player\Behavior\IPlayerBehavior.h" />
+    <ClInclude Include="Application\Player\Player.h" />
+    <ClInclude Include="Application\Player\Behavior\PlayerBehaviorFactory.h" />
+    <ClInclude Include="Application\Player\Behavior\PlayerBehaviorMachine.h" />
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Attack.h" />
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Idle.h" />
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Jump.h" />
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Move.h" />
+    <ClInclude Include="Application\Player\PlayerCommonInfomation.h" />
     <ClInclude Include="Application\Enemy\Boss\SubBoss.h" />
   </ItemGroup>
   <ItemGroup>
