@@ -4,6 +4,7 @@
 #include "ImGuiManager.h"
 #include "Key.h"
 #include "imgui.h"
+#include <fstream>
 
 Player::~Player(void)
 {
@@ -115,7 +116,26 @@ void Player::DrawImGUi(void)
         auto& log = behaviorMachine_.Get_ImGui_BehaviorLog();
         for (const auto& str : log)
         {
-            imgui->Text(str.c_str());
+            ImVec4 darkRed = { 1,0,0,1 };
+            ImVec4 darkEmerald = { 0,1,0,1 };
+
+            std::vector<std::string> behaviors{};
+            std::istringstream iss(str);
+            std::string s{};
+            size_t num{};
+            while (std::getline(iss, s, '/'))
+            {
+                // 左
+                if (s == "PB_JUMP") { ImGui::TextColored(darkRed, s.c_str()); }
+                else if(s == "PB_ATTACK") { ImGui::TextColored(darkEmerald, s.c_str()); }
+                else { ImGui::Text(s.c_str()); }
+
+                if (num >= 1) { break; }
+                ImGui::SameLine();
+                ImGui::Text(" -> ");
+                ImGui::SameLine();
+                num++;
+            }
         }
         if (ImGui::Button("clear")) { log.clear(); }
         ImGui::End();
@@ -177,8 +197,17 @@ void Player::Callback(void)
         commonInfomation_->position += pushBack;
         commonInfomation_->collider.square_.center = commonInfomation_->position;
 
+        commonInfomation_->can_jump = true;
+        commonInfomation_->is_ground = true;
+
         pushbackv = pushBack;
     }
+    else
+    {
+        // 地面に触れていない。※現時点での"床"は"Boss2"のみ
+        commonInfomation_->is_ground = false;
+    }
+
     if (myCol.IsDetect_Name("Boss3"))
     {
         auto* const contacted = myCol.Extract_Collider("Boss3");

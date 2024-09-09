@@ -21,8 +21,9 @@ private:
     //>> 変数
     PlayerBehavior behavior_current_;
     PlayerBehavior behavior_next_;
-    std::unique_ptr<IPlayerBehavior> statePtr_;
     PlayerBehaviorFactory behaviorFactory_;
+    std::unique_ptr<IPlayerBehavior> statePtr_;
+    std::shared_ptr<PlayerCommonInfomation>* ptr_playerCommonInfomation_{};
 
     // imgui
     std::vector<std::string> behaviorLog_{}; // 一瞬しか表示されない状態を見やすくする

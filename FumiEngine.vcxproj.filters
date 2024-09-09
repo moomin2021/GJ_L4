@@ -127,6 +127,12 @@
     <Filter Include="Application\Collision">
       <UniqueIdentifier>{abedde82-11e0-4381-b27d-dea3f926d79e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\Player">
+      <UniqueIdentifier>{577e6901-b00f-4bb0-a687-a9d8d5725dfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\Player\Behavior">
+      <UniqueIdentifier>{421ef264-1a80-4f72-94e7-21482da62c8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Base\WinAPI.cpp">
@@ -291,31 +297,7 @@
     <ClCompile Include="Application\Collision\ICollider.cpp">
       <Filter>Application\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="IPlayerBehavior.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCommonInfomation.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBehaviorMachine.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBehaviorFactory.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Util\TimeManager.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBehavior_Move.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBehavior_Idle.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerBehavior_Jump.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\2d\ParticleManager2D.cpp">
@@ -345,11 +327,35 @@
     <ClCompile Include="Application\Enemy\EnemyFactory.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Gravity.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
+    <ClCompile Include="Application\Player\Gravity.cpp">
+      <Filter>Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBehavior_Attack.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
+    <ClCompile Include="Application\Player\PlayerCommonInfomation.cpp">
+      <Filter>Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Player.cpp">
+      <Filter>Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Behavior\IPlayerBehavior.cpp">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Attack.cpp">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Idle.cpp">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Jump.cpp">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Move.cpp">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Behavior\PlayerBehaviorFactory.cpp">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\Behavior\PlayerBehaviorMachine.cpp">
+      <Filter>Application\Player\Behavior</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,21 +548,6 @@
     <ClInclude Include="Application\Collision\ColliderTag.h">
       <Filter>Application\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="IPlayerBehavior.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerCommonInfomation.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBehaviorMachine.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBehaviorFactory.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Util\TimeManager.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
@@ -593,20 +584,35 @@
     <ClInclude Include="Application\Enemy\EnemyStatus.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBehavior_Move.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Player\Gravity.h">
+      <Filter>Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBehavior_Idle.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Player\PlayerCommonInfomation.h">
+      <Filter>Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBehavior_Jump.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Player\Player.h">
+      <Filter>Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Gravity.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Player\Behavior\IPlayerBehavior.h">
+      <Filter>Application\Player\Behavior</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBehavior_Attack.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Player\Behavior\PlayerBehaviorMachine.h">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Attack.h">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Idle.h">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Jump.h">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Move.h">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\Behavior\PlayerBehaviorFactory.h">
+      <Filter>Application\Player\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
