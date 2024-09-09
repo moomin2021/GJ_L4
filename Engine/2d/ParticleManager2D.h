@@ -7,6 +7,7 @@ class ParticleManager2D
 {
 #pragma region メンバ変数
 private:
+	std::unique_ptr<ParticleEmitter2D> e_ = nullptr;
 	std::vector<ParticleEmitter2D*> emitter_ = {};
 #pragma endregion
 
