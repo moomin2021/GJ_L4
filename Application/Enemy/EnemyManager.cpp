@@ -2,7 +2,7 @@
 
 #include <string>
 
-void EnemyManager::Initialize(M_ColliderManager* colMgrPtr)
+void EnemyManager::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
 {
 	// インスタンス取得
 	pImGuiMgr_ = ImGuiManager::GetInstance();

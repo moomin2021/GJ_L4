@@ -3,10 +3,11 @@
 #include "Util.h"
 #include "M_RectCollider.h"
 #include "CollisionChecker.h"
+#include "Player.h"
 
 using namespace EnemyStatus;
 
-void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr)
+void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr, Player* playerPtr)
 {
 	// 座標の設定
 	position_ = inPos;
@@ -17,6 +18,7 @@ void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_
 
 	// インスタンス取得
 	pTimeMgr_ = TimeManager::GetInstance();
+	pPlayer_ = playerPtr;
 
 	// スプライトの生成、設定
 	sprite_ = std::make_unique<Sprite>();

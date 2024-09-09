@@ -10,6 +10,7 @@ class FloatingEnemy : public BaseEnemy
 private:
 	// インスタンス
 	TimeManager* pTimeMgr_ = nullptr;
+	Player* pPlayer_ = nullptr;
 
 	// 敵関連
 	size_t id_ = 0;
@@ -49,7 +50,7 @@ private:
 #pragma region メンバ関数
 public:
 	// 各基本処理
-	void Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr) override;
+	void Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr, Player* playerPtr) override;
 	void Update() override;
 	void MatUpdate() override;
 	void Draw() override;
