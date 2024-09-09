@@ -95,10 +95,13 @@ void FloatingEnemy::CollisionCallBack()
 	{
 		if (state_ == State::FirstBeaten)
 		{
+			// 押し出し処理
 			ICollider* hitCol = collider_.Extract_Collider(wallName);
 			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
 			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
 			position_ += pushBack;
+
+			// 状態、移動方向、速度の設定
 			state_ = State::KnockBack;
 			moveVec_ = knockVec_;
 			moveSpd_ = knockFirstSpd_;
@@ -107,63 +110,19 @@ void FloatingEnemy::CollisionCallBack()
 
 		else if (state_ == State::SecondBeaten)
 		{
+			// 押し出し処理
 			ICollider* hitCol = collider_.Extract_Collider(wallName);
 			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
 			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
 			position_ += pushBack;
 
+			// 移動方向の反転
 			if (wallName == "Boss0") moveVec_.y = -moveVec_.y;
 			if (wallName == "Boss1") moveVec_.x = -moveVec_.x;
 			if (wallName == "Boss2") moveVec_.y = -moveVec_.y;
 			if (wallName == "Boss3") moveVec_.x = -moveVec_.x;
 		}
 	}
-
-	// あたった瞬間
-	//if (collider_.IsTrigger_Col()) {
-	//	if (state_ == State::FirstBeaten) {
-	//		state_ = State::KnockBack;
-	//		moveVec_ = knockVec_;
-	//		moveSpd_ = knockFirstSpd_;
-	//		rotaSpd_ = knockFirstRotaSpd_;
-	//	}
-	//}
-	//if (collider_.IsTrigger_Col()) {
-	//	for (size_t i = 0; i < 4; i++) {
-	//		if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
-	//			if (state_ == State::FirstBeaten) {
-	//				state_ = State::KnockBack;
-	//				moveVec_ = knockVec_;
-	//				moveSpd_ = knockFirstSpd_;
-	//				rotaSpd_ = knockFirstRotaSpd_;
-	//			}
-	//		}
-	//	}
-
-		//if (collider_.IsDetect_Name("Boss0")) {
-		//	if (state_ == State::SecondBeaten) {
-		//		moveVec_.y = -moveVec_.y;
-		//	}
-		//}
-
-		//else if (collider_.IsDetect_Name("Boss1")) {
-		//	if (state_ == State::SecondBeaten) {
-		//		moveVec_.x = -moveVec_.x;
-		//	}
-		//}
-
-		//else if (collider_.IsDetect_Name("Boss2")) {
-		//	if (state_ == State::SecondBeaten) {
-		//		moveVec_.y = -moveVec_.y;
-		//	}
-		//}
-
-		//else if (collider_.IsDetect_Name("Boss3")) {
-		//	if (state_ == State::SecondBeaten) {
-		//		moveVec_.x = -moveVec_.x;
-		//	}
-		//}
-	//}
 }
 
 void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {
