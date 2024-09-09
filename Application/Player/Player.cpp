@@ -27,7 +27,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_frame_ = LoadTexture("frame.png");
 
     sprite0_ = std::make_unique<Sprite>();
-    sprite0_->SetSize({ 20.0f, 20.0f });
+    sprite0_->SetSize(commonInfomation_->kLength_collider);
     sprite0_->SetAnchorPoint({ 0.5f, 0.5f });
     sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
