@@ -55,7 +55,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     // IDLE
     if (behavior == PB_IDLE)
     {
-        strBehavior = "PB_IDLE -> ";
+        strBehavior = "PB_IDLE/";
 
         bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
         if (isMove) { strBehavior += "PB_MOVE"; behaviorLog_.push_back(strBehavior); }
@@ -73,7 +73,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     // JUMP
     else if (behavior == PB_JUMP)
     {
-        strBehavior = "PB_JUMP -> ";
+        strBehavior = "PB_JUMP/";
 
         bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
         if (isMove) { strBehavior += "PB_MOVE"; behaviorLog_.push_back(strBehavior); }
@@ -92,7 +92,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     // MOVE
     else if (behavior == PB_MOVE)
     {
-        strBehavior = "PB_MOVE -> ";
+        strBehavior = "PB_MOVE/";
 
         bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE) && canJump && isGround;
         if (isJump) { strBehavior += "PB_JUMP";  behaviorLog_.push_back(strBehavior); }
@@ -114,7 +114,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     // ATTACK
     else if (behavior == PB_ATTACK)
     {
-        strBehavior = "PB_MOVE -> ";
+        strBehavior = "PB_MOVE/";
 
         // 攻撃アニメーション終了まで待機するならここにif文(!is_endAnimetion) {return;}
 
