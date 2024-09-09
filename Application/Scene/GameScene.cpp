@@ -21,7 +21,7 @@ void GameScene::Initialize()
     player_.Initialize(&colliderManager_);
 	// 敵管理クラスの生成、初期化
 	enemyMgr_ = std::make_unique<EnemyManager>();
-	enemyMgr_->Initialize(&colliderManager_);
+	enemyMgr_->Initialize(&colliderManager_, &player_);
 }
 
 void GameScene::Update()
