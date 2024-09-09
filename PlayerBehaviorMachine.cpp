@@ -11,6 +11,7 @@ void PlayerBehaviorMachine::Initialize(std::shared_ptr<PlayerCommonInfomation>* 
 {
     behaviorFactory_.Initialize(arg_commonInfomationPtr);
     statePtr_ = behaviorFactory_.Create(arg_firstBehavior);
+    ptr_playerCommonInfomation_ = arg_commonInfomationPtr;
 
     behavior_next_ = PlayerBehavior::PB_DEFAULT;
     behavior_current_ = PlayerBehavior::PB_IDLE;
@@ -48,6 +49,8 @@ void PlayerBehaviorMachine::BehaviorInput(void)
 {
     std::string strBehavior{};
     auto behavior = Get_Behavior();
+    bool canJump = ptr_playerCommonInfomation_->get()->can_jump;
+    bool isGround = ptr_playerCommonInfomation_->get()->is_ground;
 
     // IDLE
     if (behavior == PB_IDLE)
@@ -58,7 +61,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
         if (isMove) { strBehavior += "PB_MOVE"; behaviorLog_.push_back(strBehavior); }
         if (isMove) { Set_Behavior(PB_MOVE); return; }
 
-        bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE);
+        bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE) && canJump && isGround;
         if (isJump) { strBehavior += "PB_JUMP"; behaviorLog_.push_back(strBehavior); }
         if (isJump) { Set_Behavior(PB_JUMP); return; }
 
@@ -91,7 +94,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     {
         strBehavior = "PB_MOVE -> ";
 
-        bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE);
+        bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE) && canJump && isGround;
         if (isJump) { strBehavior += "PB_JUMP";  behaviorLog_.push_back(strBehavior); }
         if (isJump) { Set_Behavior(PB_JUMP); return; }
 
@@ -115,7 +118,7 @@ void PlayerBehaviorMachine::BehaviorInput(void)
 
         // 攻撃アニメーション終了まで待機するならここにif文(!is_endAnimetion) {return;}
 
-        bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE);
+        bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE) && canJump && isGround;
         if (isJump) { strBehavior += "PB_JUMP";  behaviorLog_.push_back(strBehavior); }
         if (isJump) { Set_Behavior(PB_JUMP); return; }
 

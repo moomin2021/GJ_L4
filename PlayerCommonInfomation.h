@@ -31,6 +31,10 @@ struct PlayerCommonInfomation
     //-Variable-----------------------------
     Vector2 position{};
     Gravity gravity{};
+    bool is_ground{};
+    bool can_jump{};
+
+    // Time
     float timer_attackInterval{};
     float timer_invincible{};
 

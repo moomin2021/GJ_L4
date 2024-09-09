@@ -177,8 +177,17 @@ void Player::Callback(void)
         commonInfomation_->position += pushBack;
         commonInfomation_->collider.square_.center = commonInfomation_->position;
 
+        commonInfomation_->can_jump = true;
+        commonInfomation_->is_ground = true;
+
         pushbackv = pushBack;
     }
+    else
+    {
+        // 地面に触れていない。※現時点での"床"は"Boss2"のみ
+        commonInfomation_->is_ground = false;
+    }
+
     if (myCol.IsDetect_Name("Boss3"))
     {
         auto* const contacted = myCol.Extract_Collider("Boss3");
