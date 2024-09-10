@@ -19,6 +19,6 @@ private:
     void Callback(void);
 
     M_RectCollider collider_attack_;
-    Direction direction_Entry_;
+    Direction direction_Entry_{};
 };
 
