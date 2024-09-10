@@ -83,6 +83,9 @@ void FloatingEnemy::CollisionCallBack()
 	bool isWallCol = false;
 	std::string wallName = "";
 
+	// プレイヤーに攻撃されたか
+	bool isAttackedByPlayer = false;
+
 	for (size_t i = 0; i < 4; i++)
 	{
 		if (collider_.IsDetect_Name("Boss" + std::to_string(i)))
@@ -90,11 +93,16 @@ void FloatingEnemy::CollisionCallBack()
 			isWallCol = true;
 			wallName = "Boss" + std::to_string(i);
 		}
+
+		if (collider_.IsDetect_Name("Player_Attack")) {
+			isAttackedByPlayer = true;
+		}
 	}
 
 	// 壁と衝突していたら
 	if (isWallCol)
 	{
+		// 一回目殴られた状態なら
 		if (state_ == State::FirstBeaten)
 		{
 			// 押し出し処理
@@ -110,6 +118,7 @@ void FloatingEnemy::CollisionCallBack()
 			rotaSpd_ = knockFirstRotaSpd_;
 		}
 
+		// 二回目殴られた状態なら
 		else if (state_ == State::SecondBeaten)
 		{
 			// 押し出し処理
@@ -125,6 +134,34 @@ void FloatingEnemy::CollisionCallBack()
 			if (wallName == "Boss3") moveVec_.x = -moveVec_.x;
 		}
 	}
+
+	// プレイヤーに攻撃されていたら
+	if (isAttackedByPlayer) {
+		// ノーマル状態なら
+		if (state_ == State::Normal) {
+			// 状態、移動方向、速度の設定
+			state_ = State::FirstBeaten;
+			moveVec_ = firstBeatenVec_;
+			moveSpd_ = firstBeatenMoveSpd_;
+			rotaSpd_ = firstBeatenRotaSpd_;
+		}
+
+		// ノックバック状態なら
+		else if (state_ == State::KnockBack) {
+			// 状態、移動方向、速度の設定
+			state_ = State::SecondBeaten;
+			moveSpd_ = secondBeatenMoveSpd_;
+			rotaSpd_ = secondBeatenRotaSpd_;
+			// 移動方向の決定
+			PlayerCommonInfomation* playerInfo = pPlayer_->Get_CommonInfomation();
+			if (playerInfo->move.velocity_current.y > 0.0f) secondBeatenVec_.y = 0.6f;
+			if (playerInfo->move.velocity_current.y <= 0.0f) secondBeatenVec_.y = -0.6f;
+			if (Direction::DIRECITON_LEFT == playerInfo->move.direction_current) secondBeatenVec_.x = -1.0f;
+			if (Direction::DIRECTION_RIGHT == playerInfo->move.direction_current) secondBeatenVec_.x = 1.0f;
+			secondBeatenVec_.normalize();
+			moveVec_ = secondBeatenVec_;
+		}
+	}
 }
 
 void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {
@@ -136,7 +173,7 @@ void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {
 
 void FloatingEnemy::Normal()
 {
-	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (Key::GetInstance()->TriggerKey(DIK_E)) {
 		state_ = State::FirstBeaten;
 		moveVec_ = firstBeatenVec_;
 		moveSpd_ = firstBeatenMoveSpd_;
@@ -146,7 +183,7 @@ void FloatingEnemy::Normal()
 
 void FloatingEnemy::FirstBeaten()
 {
-	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (Key::GetInstance()->TriggerKey(DIK_E)) {
 		state_ = State::KnockBack;
 		moveVec_ = knockVec_;
 		moveSpd_ = knockFirstSpd_;
@@ -159,7 +196,7 @@ void FloatingEnemy::KnockBack()
 	moveSpd_ -= knockAddSpd_ * pTimeMgr_->GetGameDeltaTime();
 	rotaSpd_ -= knockAddRotaSpd_ * pTimeMgr_->GetGameDeltaTime();
 
-	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (Key::GetInstance()->TriggerKey(DIK_E)) {
 		state_ = State::SecondBeaten;
 		secondBeatenVec_ = { Util::GetRandomFloat(-1.0f, 1.0f), Util::GetRandomFloat(-1.0f, 1.0f) };
 		secondBeatenVec_.normalize();

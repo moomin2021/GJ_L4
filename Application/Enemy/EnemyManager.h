@@ -3,6 +3,7 @@
 #include "Collision/M_ColliderManager.h"
 
 #include "Boss/Boss.h"
+#include "Boss/SubBoss.h"
 #include "Enemys/BaseEnemy.h"
 #include "EnemyFactory.h"
 
@@ -19,6 +20,9 @@ private:
 
 	// ボス
 	std::unique_ptr<Boss> boss_ = nullptr;
+
+	// サブボス
+	std::unique_ptr<SubBoss> subBoss_ = nullptr;
 
 	// 敵
 	std::vector<std::unique_ptr<BaseEnemy>> enemys_;
