@@ -6,6 +6,8 @@ class SubBoss
 {
 #pragma region メンバ変数
 private:
+	// プレイヤーのポインタ
+	Player* pPlayer_ = nullptr;
 #pragma endregion
 
 #pragma region メンバ関数

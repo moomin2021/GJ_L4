@@ -3,6 +3,10 @@
 
 void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
 {
+	// プレイヤーのポインタ受取
+	pPlayer_ = playerPtr;
+	colMgrPtr = colMgrPtr;
+
 }
 
 void SubBoss::Update()
