@@ -25,7 +25,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     // スプライト
     png_player_ = LoadTexture("playerKari.png");
     png_white_ = LoadTexture("white.png");
-    png_frame_ = LoadTexture("frame.png");
+    png_frame_attack_ = LoadTexture("frame.png");
     commonInfomation_->png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
 
     commonInfomation_->sprite_player = std::make_unique<Sprite>();
@@ -130,7 +130,7 @@ void Player::Draw(void)
         commonInfomation_->sprite_collider->Draw(png_white_);
         isBehaviorAttack ?
             commonInfomation_->sprite_attackCollider->Draw(png_white_) :
-            commonInfomation_->sprite_attackCollider->Draw(png_frame_);
+            commonInfomation_->sprite_attackCollider->Draw(png_frame_attack_);
     }
 }
 

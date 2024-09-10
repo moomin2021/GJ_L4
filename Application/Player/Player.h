@@ -27,7 +27,8 @@ private:
 
     int32_t png_player_{};
     int32_t png_white_{};
-    int32_t png_frame_{};
+    int32_t png_frame_attack_{};
+    int32_t png_frame_idle_{};
 
 public:
     PlayerCommonInfomation* Get_CommonInfomation(void) { return commonInfomation_.get(); }
