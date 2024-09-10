@@ -25,6 +25,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_hae_ = LoadTexture("hae.png");
     png_white_ = LoadTexture("white.png");
     png_frame_ = LoadTexture("frame.png");
+    png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
 
     sprite0_ = std::make_unique<Sprite>();
     sprite0_->SetSize(commonInfomation_->kLength_collider);
@@ -80,17 +81,23 @@ void Player::MatUpdate(void)
 void Player::Draw(void)
 {
     bool isBehaviorAttack = behaviorMachine_.Get_Behavior() == PB_ATTACK;
-    isBehaviorAttack ?
-        sprite0_->SetColor({ 1.0f, 0.0f, 0.0f, 1.f }) :
-        sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
-    sprite0_->Draw(png_hae_);
+
+    if (isBehaviorAttack)
+    {
+        sprite0_->Draw(png_playerAttack[commonInfomation_->num_attackSprite]);
+    }
+    else
+    {
+        sprite0_->Draw(png_hae_);
+    }
+
 
     // 当たり判定表示
     if (commonInfomation_->is_drawCollider)
     {
         commonInfomation_->sprite_collider->Draw(png_white_);
         isBehaviorAttack ?
-            commonInfomation_->sprite_attackCollider->Draw(png_white_):
+            commonInfomation_->sprite_attackCollider->Draw(png_white_) :
             commonInfomation_->sprite_attackCollider->Draw(png_frame_);
     }
 }
@@ -129,7 +136,7 @@ void Player::DrawImGUi(void)
             {
                 // 左
                 if (s == "PB_JUMP") { ImGui::TextColored(darkRed, s.c_str()); }
-                else if(s == "PB_ATTACK") { ImGui::TextColored(darkEmerald, s.c_str()); }
+                else if (s == "PB_ATTACK") { ImGui::TextColored(darkEmerald, s.c_str()); }
                 else { ImGui::Text(s.c_str()); }
 
                 if (num >= 1) { break; }

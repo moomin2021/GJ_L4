@@ -117,6 +117,9 @@ void PlayerBehaviorMachine::BehaviorInput(void)
         strBehavior = "PB_MOVE/";
 
         // 攻撃アニメーション終了まで待機するならここにif文(!is_endAnimetion) {return;}
+        auto max = ptr_playerCommonInfomation_->get()->kTime_AttackAnimation_max;
+        auto cur = ptr_playerCommonInfomation_->get()->timer_attackAnimation;
+        if (cur < max) { return; }
 
         bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE) && canJump && isGround;
         if (isJump) { strBehavior += "PB_JUMP";  behaviorLog_.push_back(strBehavior); }

@@ -1,4 +1,5 @@
 #include "PlayerBehavior_Attack.h"
+#include "TimeManager.h"
 
 void PlayerBehavior_Attack::Entry(void)
 {
@@ -12,10 +13,30 @@ void PlayerBehavior_Attack::Entry(void)
     auto callback = std::bind(&PlayerBehavior_Attack::Callback, this);
     // 初期化関数
     collider_attack_.Initialize(name, callback, commonInfomation_->ptr_colliderManager);
+
+    commonInfomation_->timer_attackAnimation = 0.f;
 }
 
 void PlayerBehavior_Attack::Execute(void)
 {
+    // 加算値
+    float delta = TimeManager::GetInstance()->GetGameDeltaTime();
+    // 最大値
+    float max = commonInfomation_->kTime_AttackAnimation_max;
+
+    // 現在地に加算
+    commonInfomation_->timer_attackAnimation += delta;
+    // 最大値を超えないように
+    commonInfomation_->timer_attackAnimation = (std::min)(commonInfomation_->timer_attackAnimation, max);
+
+    // 現在値
+    float cur = commonInfomation_->timer_attackAnimation;
+    // 分割数
+    int32_t divide = commonInfomation_->kNum_AttackSprite_max;
+    // 区間
+    float range = max / divide;
+    // 連番の何枚目を表示すべきか指定
+    commonInfomation_->num_attackSprite = (std::min)(static_cast<int>(cur / range), commonInfomation_->kNum_AttackSprite_max - 1); // 最大値4
 }
 
 void PlayerBehavior_Attack::Exit(void)

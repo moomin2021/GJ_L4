@@ -28,5 +28,9 @@ private:
     int32_t png_hae_{};
     int32_t png_white_{};
     int32_t png_frame_{};
+    std::vector<uint16_t> png_playerAttack{};
+
+public:
+    PlayerCommonInfomation* Get_CommonInfomation(void) { return commonInfomation_.get(); }
 };
 
