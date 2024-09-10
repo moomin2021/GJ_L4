@@ -17,6 +17,9 @@ private:
 	// インスタンス
 	Key* key_ = nullptr;
 
+	std::unique_ptr<Sprite> backGroundSprite_ = nullptr;
+	int32_t backGroundTex = 0;
+
 	// カメラ
 	std::unique_ptr<Camera> camera_ = nullptr;
 
