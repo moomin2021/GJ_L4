@@ -23,6 +23,9 @@ void PlayerBehavior_Attack::Entry(void)
 
 void PlayerBehavior_Attack::Execute(void)
 {
+    auto position = commonInfomation_->position + commonInfomation_->kCollision_positionOffset_playerCollider_attack;
+    collider_attack_.square_.center = position;
+
     // 加算値
     float delta = TimeManager::GetInstance()->GetGameDeltaTime();
     // 最大値
@@ -56,4 +59,8 @@ void PlayerBehavior_Attack::Exit(void)
 
 void PlayerBehavior_Attack::Callback(void)
 {
+    if (collider_attack_.IsDetect_Name("FloatingEnemy_"))
+    {
+
+    }
 }
