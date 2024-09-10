@@ -23,9 +23,10 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     behaviorMachine_.Initialize(&commonInfomation_);
 
     // スプライト
-    png_hae_ = LoadTexture("hae.png");
+    png_player_ = LoadTexture("playerKari.png");
     png_white_ = LoadTexture("white.png");
     png_frame_ = LoadTexture("frame.png");
+    commonInfomation_->png_playerIdle = LoadDivTexture("playerWait.png", static_cast<int16_t>(commonInfomation_->kNum_IdleSprite_max));
     commonInfomation_->png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
 
     commonInfomation_->sprite_player = std::make_unique<Sprite>();
@@ -112,16 +113,20 @@ void Player::MatUpdate(void)
 
 void Player::Draw(void)
 {
-    bool isBehaviorAttack = behaviorMachine_.Get_Behavior() == PB_ATTACK;
-
-    if (isBehaviorAttack)
+    switch (behaviorMachine_.Get_Behavior())
     {
+    case PB_IDLE:
+        commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerIdle[commonInfomation_->num_idleSprite]);
+        break;
+    case PB_ATTACK:
         commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerAttack[commonInfomation_->num_attackSprite]);
+        break;
+    default:
+        commonInfomation_->sprite_player->Draw(png_player_);
+        break;
     }
-    else
-    {
-        commonInfomation_->sprite_player->Draw(png_hae_);
-    }
+
+    bool isBehaviorAttack = behaviorMachine_.Get_Behavior() == PB_ATTACK;
 
 
     // 当たり判定表示
