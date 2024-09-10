@@ -32,14 +32,13 @@ public:
 class DescentDiveState : public SubBossAttackState {
 #pragma region メンバ変数
 private:
-	// 目標の座標
-	Vector2 targetPos_ = Vector2();
-
-	// 目標前の座標
-	Vector2 presetTargetPos_ = Vector2();
-
-	// ステージごとの時間
-	Util::TimeInfo stage0Time_ = { 1.0f, 0.0f };
+	// ステージ0で使う変数
+	Util::TimeInfo stage0Time_ = { 1.0f, 0.0f };	// 時間
+	Vector2 targetPos_ = Vector2();					// 目標の座標
+	Vector2 presetTargetPos_ = Vector2();			// 目標前の座標
+	// ステージ1で使う変数
+	Util::TimeInfo stage1Time_ = { 5.0f, 0.0f };	// 時間
+	Util::MovementInfo moveInfoS1_;	// 移動情報
 #pragma endregion
 
 #pragma region メンバ関数

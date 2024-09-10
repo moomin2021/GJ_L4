@@ -21,9 +21,6 @@ class SubBoss
 {
 #pragma region メンバ変数
 private:
-	// プレイヤーのポインタ
-	Player* pPlayer_ = nullptr;
-
 	// サブボスの情報
 	SubBossInfo subBossInfo_ = {};
 

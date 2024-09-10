@@ -9,7 +9,7 @@ SubBoss::SubBoss() : subBossTextures_(3) {}
 void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
 {
 	// プレイヤーのポインタ受取
-	pPlayer_ = playerPtr;
+	subBossInfo_.playerPtr = playerPtr;
 	colMgrPtr = colMgrPtr;
 
 	// サブボスの情報の初期化処理
