@@ -614,6 +614,9 @@
     <ClInclude Include="Application\Player\Behavior\PlayerBehaviorFactory.h">
       <Filter>Application\Player\Behavior</Filter>
     </ClInclude>
+    <ClInclude Include="Direction.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Object3D.hlsli">

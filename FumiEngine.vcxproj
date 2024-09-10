@@ -181,6 +181,7 @@
     <ClInclude Include="Application\Enemy\EnemyStatus.h" />
     <ClInclude Include="Application\Enemy\Enemys\BaseEnemy.h" />
     <ClInclude Include="Application\Enemy\EnemyFactory.h" />
+    <ClInclude Include="Direction.h" />
     <ClInclude Include="Engine\Collision\CollisionManager3D.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
     <ClInclude Include="Engine\Util\BasicTask.h" />
