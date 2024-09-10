@@ -149,10 +149,15 @@ void FloatingEnemy::CollisionCallBack()
 		// ノックバック状態なら
 		else if (state_ == State::KnockBack) {
 			// 状態、移動方向、速度の設定
-			state_ = State::KnockBack;
-			moveVec_ = knockVec_;
-			moveSpd_ = knockFirstSpd_;
-			rotaSpd_ = knockFirstRotaSpd_;
+			state_ = State::SecondBeaten;
+			moveSpd_ = secondBeatenMoveSpd_;
+			rotaSpd_ = secondBeatenRotaSpd_;
+			// 移動方向の決定
+			PlayerCommonInfomation* playerInfo = pPlayer_->Get_CommonInfomation();
+			if (Direction::DIRECITON_LEFT == playerInfo->direction) secondBeatenVec_.x = -1.0f;
+			if (Direction::DIRECTION_RIGHT == playerInfo->direction) secondBeatenVec_.x = 1.0f;
+			secondBeatenVec_.normalize();
+			moveVec_ = secondBeatenVec_;
 		}
 	}
 }
@@ -166,7 +171,7 @@ void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {
 
 void FloatingEnemy::Normal()
 {
-	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (Key::GetInstance()->TriggerKey(DIK_E)) {
 		state_ = State::FirstBeaten;
 		moveVec_ = firstBeatenVec_;
 		moveSpd_ = firstBeatenMoveSpd_;
@@ -176,7 +181,7 @@ void FloatingEnemy::Normal()
 
 void FloatingEnemy::FirstBeaten()
 {
-	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (Key::GetInstance()->TriggerKey(DIK_E)) {
 		state_ = State::KnockBack;
 		moveVec_ = knockVec_;
 		moveSpd_ = knockFirstSpd_;
@@ -189,7 +194,7 @@ void FloatingEnemy::KnockBack()
 	moveSpd_ -= knockAddSpd_ * pTimeMgr_->GetGameDeltaTime();
 	rotaSpd_ -= knockAddRotaSpd_ * pTimeMgr_->GetGameDeltaTime();
 
-	if (Key::GetInstance()->TriggerKey(DIK_SPACE)) {
+	if (Key::GetInstance()->TriggerKey(DIK_E)) {
 		state_ = State::SecondBeaten;
 		secondBeatenVec_ = { Util::GetRandomFloat(-1.0f, 1.0f), Util::GetRandomFloat(-1.0f, 1.0f) };
 		secondBeatenVec_.normalize();
