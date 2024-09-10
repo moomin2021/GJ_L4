@@ -6,6 +6,7 @@
 #include <memory>
 #include "TimeManager.h"
 #include "Direction.h"
+#include "Move.h"
 
 struct Keyboard_Bind
 {
@@ -62,11 +63,9 @@ struct PlayerCommonInfomation
 
     //-Variable-----------------------------
 
-    Direction direction{};
     Vector2 position{};
     Gravity gravity{};
-    bool is_ground{};
-    bool can_jump{};
+    Move move{};
 
     // Time
     int32_t num_attackSprite{};

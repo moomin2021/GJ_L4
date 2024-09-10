@@ -20,14 +20,14 @@ Vector2 PlayerBehavior_Move::Move(void)
     const auto& keyBind = commonInfomation_->keyBind;
 
     Vector2 input{};
-    input.x = (float)(key->PushKey(keyBind.move_left) - key->PushKey(keyBind.move_right));
+    input.x = (float)(key->PushKey(keyBind.move_right) - key->PushKey(keyBind.move_left));
 
     Vector2 velocity{};
     velocity.x = input.x * commonInfomation_->kMoveSpeed;
 
     // 入力があった時のみ変更
-    if (input.x > 0) { commonInfomation_->direction = DIRECTION_RIGHT; }
-    else if (input.x < 0) { commonInfomation_->direction = DIRECITON_LEFT; }
+    if (input.x > 0) { commonInfomation_->move.direction_current = DIRECTION_RIGHT; }
+    else if (input.x < 0) { commonInfomation_->move.direction_current = DIRECITON_LEFT; }
 
 #ifdef _DEBUG
     velocity.y = (float)(key->PushKey(keyBind.move_down) - key->PushKey(keyBind.move_up));
@@ -35,5 +35,7 @@ Vector2 PlayerBehavior_Move::Move(void)
     if (key->PushKey(DIK_LSHIFT)) { velocity *= 2; }
 #endif // _DEBUG
 
+    // どの程度移動したか記録する
+    commonInfomation_->move.velocity_current += velocity;
     return velocity;
 }

@@ -85,7 +85,7 @@ void Player::Update(void)
 
     // プレイヤーの向きが右の時は、オフセット値を反転
     Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
-    if (commonInfomation_->direction == DIRECTION_RIGHT) { offset.x *= -1; }
+    if (commonInfomation_->move.direction_current == DIRECTION_RIGHT) { offset.x *= -1; }
     // Sprite|プレイヤー攻撃コライダーの座標更新
     commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + offset);
 
@@ -93,7 +93,10 @@ void Player::Update(void)
     commonInfomation_->Update();
     
     // 重力の加算
-    commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
+    const Vector2& gravity = behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
+    commonInfomation_->position += gravity;
+    // どの程度移動したか記録する
+    commonInfomation_->move.velocity_current += gravity;
 
     DrawImGUi();
 }
@@ -233,15 +236,15 @@ void Player::Callback(void)
         commonInfomation_->position += pushBack;
         commonInfomation_->collider.square_.center = commonInfomation_->position;
 
-        commonInfomation_->can_jump = true;
-        commonInfomation_->is_ground = true;
+        commonInfomation_->move.can_jump = true;
+        commonInfomation_->move.is_ground = true;
 
         pushbackv = pushBack;
     }
     else
     {
         // 地面に触れていない。※現時点での"床"は"Boss2"のみ
-        commonInfomation_->is_ground = false;
+        commonInfomation_->move.is_ground = false;
     }
 
     if (myCol.IsDetect_Name("Boss3"))

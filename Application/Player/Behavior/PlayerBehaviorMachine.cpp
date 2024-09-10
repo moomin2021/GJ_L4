@@ -49,8 +49,8 @@ void PlayerBehaviorMachine::BehaviorInput(void)
 {
     std::string strBehavior{};
     auto behavior = Get_Behavior();
-    bool canJump = ptr_playerCommonInfomation_->get()->can_jump;
-    bool isGround = ptr_playerCommonInfomation_->get()->is_ground;
+    bool canJump = ptr_playerCommonInfomation_->get()->move.can_jump;
+    bool isGround = ptr_playerCommonInfomation_->get()->move.is_ground;
 
     const auto& keyBind = ptr_playerCommonInfomation_->get()->keyBind;
 
