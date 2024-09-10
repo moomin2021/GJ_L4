@@ -75,6 +75,8 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
 
 void Player::Update(void)
 {
+    // 移動記録の更新
+    commonInfomation_->move.Update();
     // 状態管理クラスの更新
     behaviorMachine_.Update();
 
@@ -266,6 +268,8 @@ void Player::Callback(void)
     }
     imgui->Text("pushback : [%f][%f]", pushbackv.x, pushbackv.y);
     imgui->EndWindow();
+
+    commonInfomation_->move.velocity_current += pushbackv;
 
     // 押し出し後に座標を合わせる
     commonInfomation_->sprite_player->SetPosition(commonInfomation_->position);

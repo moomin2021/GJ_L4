@@ -118,23 +118,23 @@ void TitleScene::Initialize()
 
 	wallFontAnimeCountMax = 2;
 	wallFontCurrentTexNumMax = 3;
-	wallFontAnimetionTimeLimit = 5;
+	wallFontAnimetionTimeLimit = 3;
 
 	easeDa_.SetPowNum(3);
-	easeDa_.SetEaseLimitTime(20);
+	easeDa_.SetEaseLimitTime(12);
 	easeDa_.Reset();
 	IsBigDa_ = false;
 
 	easeDaDa_.SetPowNum(3);
-	easeDaDa_.SetEaseLimitTime(30);
+	easeDaDa_.SetEaseLimitTime(15);
 	easeDaDa_.Reset();
 	IsBigDaDa_ = false;
 
 	easeDaDaDa_.SetPowNum(3);
-	easeDaDaDa_.SetEaseLimitTime(40);
+	easeDaDaDa_.SetEaseLimitTime(20);
 	easeDaDaDa_.Reset();
 	easeBo_.SetPowNum(3);
-	easeBo_.SetEaseLimitTime((int32_t)(40 * 1.5f));
+	easeBo_.SetEaseLimitTime((int32_t)(20 * 1.5f));
 	easeBo_.Reset();
 	boRotaDefult= -9;
 	IsBigDaDaDa_ = false;
@@ -144,7 +144,7 @@ void TitleScene::Initialize()
 	sinSwingValue = 10;
 
 	IsChangeScene_ = false;
-	alphaLossValue_ = 1.0f / 80;
+	alphaLossValue_ = 1.0f / 60;
 
 #pragma endregion
 
@@ -169,7 +169,7 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-	if (key_->TriggerKey(DIK_Q)) {
+	if (key_->TriggerKey(DIK_SPACE)) {
 		IsChangeScene_ = true;
 		
 	}

@@ -10,5 +10,4 @@ void Move::Update(void)
     // 初期化
     inputVel_current = {};
     velocity_current = {};
-    direction_current = {};
 }
