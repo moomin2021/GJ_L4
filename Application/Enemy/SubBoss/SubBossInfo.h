@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include "M_CircleCollider.h"
 
 class Player;
 struct SubBossInfo {
@@ -12,6 +13,12 @@ struct SubBossInfo {
 	Vector2 moveVec = Vector2();	// 移動方向
 	float moveSpd = 0.0f;			// 移動速度
 	float rotateSpd = 0.0f;			// 回転速度
+
+	// コライダー
+	M_CircleCollider collider;
+
+	// 震えの値
+	Vector2 shakeOffset = Vector2();
 
 	// プレイヤーのポインタ
 	Player* playerPtr = nullptr;

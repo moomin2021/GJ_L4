@@ -55,7 +55,7 @@ public:
 
 private:
 	// サブボスの情報の初期化処理
-	void InitializeSubBossInfo();
+	void InitializeSubBossInfo(M_ColliderManager* colMgrPtr);
 
 	// 状態別処理
 	static void (SubBoss::* stateTable[]) ();
@@ -65,5 +65,8 @@ private:
 
 	// 攻撃状態に変更
 	void ChangeAttack();
+
+	// 衝突判定コールバック関数
+	void CollisionCallBack();
 #pragma endregion
 };

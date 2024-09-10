@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "ImGuiManager.h"
 
+#include "CollisionChecker.h"
 #include "Player.h"
 
 SubBoss::SubBoss() : subBossTextures_(3) {}
@@ -10,10 +11,9 @@ void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
 {
 	// プレイヤーのポインタ受取
 	subBossInfo_.playerPtr = playerPtr;
-	colMgrPtr = colMgrPtr;
 
 	// サブボスの情報の初期化処理
-	InitializeSubBossInfo();
+	InitializeSubBossInfo(colMgrPtr);
 
 	// サブボス描画関連
 	// スプライトの生成、設定
@@ -30,9 +30,13 @@ void SubBoss::Update()
 	// 状態別更新処理
 	(this->*stateTable[(size_t)currentMoveType_])();
 
-	subBossSprite_->SetPosition(subBossInfo_.position);
+	// スプライトの更新
+	subBossSprite_->SetPosition(subBossInfo_.position + subBossInfo_.shakeOffset);
 	subBossSprite_->SetSize(subBossInfo_.size);
 	subBossSprite_->SetRotation(subBossInfo_.rotation);
+
+	// コライダーの更新
+	subBossInfo_.collider.circle_.center = subBossSprite_->GetPosition();
 }
 
 void SubBoss::MatUpdate()
@@ -61,12 +65,19 @@ void SubBoss::ImGuiUpdate()
 	if (imgui->Button("攻撃状態へ")) ChangeAttack();
 }
 
-void SubBoss::InitializeSubBossInfo()
+void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr)
 {
 	// 座標とサイズと回転度の設定
 	subBossInfo_.position = Vector2(500.0f, 400.0f);
 	subBossInfo_.size = Vector2(256.0f, 256.0f);
 	subBossInfo_.rotation = 0.0f;
+
+	// コライダーの設定
+	subBossInfo_.collider.circle_.center = subBossInfo_.position;
+	subBossInfo_.collider.circle_.radius = subBossInfo_.size.x / 2.0f;
+	std::string name = "SubBoss";
+	auto callBack = std::bind(&SubBoss::CollisionCallBack, this);
+	subBossInfo_.collider.Initialize(name, callBack, colMgrPtr);
 }
 
 void (SubBoss::*SubBoss::stateTable[]) () = {
@@ -99,4 +110,19 @@ void SubBoss::ChangeAttack()
 
 	// 状態の変更
 	currentMoveType_ = SubBossMoveType::Attack;
+}
+
+void SubBoss::CollisionCallBack()
+{
+	// 壁との衝突判定
+	for (size_t i = 0; i < 4; i++) {
+		// 壁と当たったら
+		if (subBossInfo_.collider.IsDetect_Name("Boss" + std::to_string(i))) {
+			// 押し出し処理
+			ICollider* hitCol = subBossInfo_.collider.Extract_Collider("Boss" + std::to_string(i));
+			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
+			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, subBossInfo_.collider.circle_);
+			subBossInfo_.position += pushBack;
+		}
+	}
 }

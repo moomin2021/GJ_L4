@@ -21,7 +21,7 @@ void DescentDiveState::Update(SubBossInfo* info)
 	TimeManager* timeMgr = TimeManager::GetInstance();
 
 	// 規定の場所へ移動
-	if (attackState_ == 0) {
+	if (attackStage_ == 0) {
 		// 時間の加算
 		stage0Time_.elapsedTime += timeMgr->GetGameDeltaTime();
 		// 座標移動
@@ -29,14 +29,15 @@ void DescentDiveState::Update(SubBossInfo* info)
 		info->position.x = Easing::Quint::easeOut(presetTargetPos_.x, targetPos_.x, rate);
 		info->position.y = Easing::Quint::easeOut(presetTargetPos_.y, targetPos_.y, rate);
 		// 時間を超えたら次の段階へ
-		if (stage0Time_.GetIsExceeded()) attackState_++;
+		if (stage0Time_.GetIsExceeded()) attackStage_++;
 	}
 
-	else if (attackState_ == 1) {
+	// プレイヤーを追いかける
+	else if (attackStage_ == 1) {
 		// 時間の加算
 		stage1Time_.elapsedTime += timeMgr->GetGameDeltaTime();
 		// 時間を超えたら次の段階へ
-		if (stage1Time_.GetIsExceeded()) attackState_++;
+		if (stage1Time_.GetIsExceeded()) attackStage_++;
 
 		// 移動方向の計算
 		Vector2 boss2PlayerVec = info->playerPtr->Get_CommonInfomation()->position - info->position;
@@ -49,6 +50,32 @@ void DescentDiveState::Update(SubBossInfo* info)
 		boss2PlayerVec.normalize();
 		// 座標の変更
 		info->position += boss2PlayerVec * moveInfoS1_.speed * timeMgr->GetGameDeltaTime();
+	}
+
+	// 震える
+	else if (attackStage_ == 2) {
+		// 時間の加算
+		stage2Time_.elapsedTime += timeMgr->GetGameDeltaTime();
+		// 時間を超えたら次の段階へ
+		if (stage2Time_.GetIsExceeded()) {
+			info->shakeOffset = Vector2();
+			attackStage_++;
+		}
+
+		// シェイク処理
+		shakeTime_.elapsedTime += timeMgr->GetGameDeltaTime();
+		// 時間を超えたらリセット
+		if (shakeTime_.GetIsExceeded()) {
+			shakeTime_.elapsedTime = 0.0f;
+			shakeDir_ *= -1.0f;
+			// 座標の設定
+			info->shakeOffset = shakeDir_;
+		}
+	}
+
+	// 突進
+	else if (attackStage_ == 3) {
+
 	}
 }
 
