@@ -100,6 +100,8 @@ void Player::Update(void)
     commonInfomation_->position += gravity;
     // どの程度移動したか記録する
     commonInfomation_->move.velocity_current += gravity;
+    // コライダーの更新
+    commonInfomation_->collider.square_.center = commonInfomation_->position;
 
     DrawImGUi();
 }
