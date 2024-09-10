@@ -7,6 +7,30 @@
 #include "TimeManager.h"
 #include "Direction.h"
 
+struct Keyboard_Bind
+{
+    // MOVE
+    uint8_t move_up;
+    uint8_t move_down;
+    uint8_t move_left;
+    uint8_t move_right;
+
+    // JUMP
+    uint8_t jump;
+
+    // ATTACK
+    uint8_t attack;
+};
+
+struct Controller_Bind
+{
+    // JUMP
+    uint16_t jump;
+
+    // ATTACK
+    uint16_t attack;
+};
+
 struct PlayerCommonInfomation
 {
     //-Const-------------------------
@@ -61,6 +85,9 @@ struct PlayerCommonInfomation
     bool is_drawCollider{};
     std::unique_ptr<Sprite> sprite_collider = nullptr;
     std::unique_ptr<Sprite> sprite_attackCollider = nullptr;
+
+    Keyboard_Bind keyBind;
+    Controller_Bind controllerBind;
 
     void Update(void);
 };

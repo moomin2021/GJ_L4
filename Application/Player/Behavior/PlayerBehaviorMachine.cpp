@@ -52,20 +52,22 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     bool canJump = ptr_playerCommonInfomation_->get()->can_jump;
     bool isGround = ptr_playerCommonInfomation_->get()->is_ground;
 
+    const auto& keyBind = ptr_playerCommonInfomation_->get()->keyBind;
+
     // IDLE
     if (behavior == PB_IDLE)
     {
         strBehavior = "PB_IDLE/";
 
-        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
+        bool isMove = Key::GetInstance()->PushKey(keyBind.move_left) || Key::GetInstance()->PushKey(keyBind.move_right) || Key::GetInstance()->PushKey(keyBind.move_up) || Key::GetInstance()->PushKey(keyBind.move_down);
         if (isMove) { strBehavior += "PB_MOVE"; behaviorLog_.push_back(strBehavior); }
         if (isMove) { Set_Behavior(PB_MOVE); return; }
 
-        bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE) && canJump && isGround;
+        bool isJump = Key::GetInstance()->TriggerKey(keyBind.jump) && canJump && isGround;
         if (isJump) { strBehavior += "PB_JUMP"; behaviorLog_.push_back(strBehavior); }
         if (isJump) { Set_Behavior(PB_JUMP); return; }
 
-        bool isAttack = Key::GetInstance()->TriggerKey(DIK_F);
+        bool isAttack = Key::GetInstance()->TriggerKey(keyBind.attack);
         if (isAttack) { strBehavior += "PB_ATTACK"; behaviorLog_.push_back(strBehavior); }
         if (isAttack) { Set_Behavior(PB_ATTACK); return; }
     }
@@ -75,11 +77,11 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     {
         strBehavior = "PB_JUMP/";
 
-        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
+        bool isMove = Key::GetInstance()->PushKey(keyBind.move_left) || Key::GetInstance()->PushKey(keyBind.move_right) || Key::GetInstance()->PushKey(keyBind.move_up) || Key::GetInstance()->PushKey(keyBind.move_down);
         if (isMove) { strBehavior += "PB_MOVE"; behaviorLog_.push_back(strBehavior); }
         if (isMove) { Set_Behavior(PB_MOVE); return; }
 
-        bool isAttack = Key::GetInstance()->TriggerKey(DIK_F);
+        bool isAttack = Key::GetInstance()->TriggerKey(keyBind.attack);
         if (isAttack) { strBehavior += "PB_ATTACK";  behaviorLog_.push_back(strBehavior); }
         if (isAttack) { Set_Behavior(PB_ATTACK); return; }
 
@@ -94,15 +96,15 @@ void PlayerBehaviorMachine::BehaviorInput(void)
     {
         strBehavior = "PB_MOVE/";
 
-        bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE) && canJump && isGround;
+        bool isJump = Key::GetInstance()->TriggerKey(keyBind.jump) && canJump && isGround;
         if (isJump) { strBehavior += "PB_JUMP";  behaviorLog_.push_back(strBehavior); }
         if (isJump) { Set_Behavior(PB_JUMP); return; }
 
-        bool isAttack = Key::GetInstance()->TriggerKey(DIK_F);
+        bool isAttack = Key::GetInstance()->TriggerKey(keyBind.attack);
         if (isAttack) { strBehavior += "PB_ATTACK"; behaviorLog_.push_back(strBehavior); }
         if (isAttack) { Set_Behavior(PB_ATTACK); return; }
 
-        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
+        bool isMove = Key::GetInstance()->PushKey(keyBind.move_left) || Key::GetInstance()->PushKey(keyBind.move_right) || Key::GetInstance()->PushKey(keyBind.move_up) || Key::GetInstance()->PushKey(keyBind.move_down);
         if (isMove) { return; }
 
         // 何も入力が無ければIDLE
@@ -121,11 +123,11 @@ void PlayerBehaviorMachine::BehaviorInput(void)
         auto cur = ptr_playerCommonInfomation_->get()->timer_attackAnimation;
         if (cur < max) { return; }
 
-        bool isJump = Key::GetInstance()->TriggerKey(DIK_SPACE) && canJump && isGround;
+        bool isJump = Key::GetInstance()->TriggerKey(keyBind.jump) && canJump && isGround;
         if (isJump) { strBehavior += "PB_JUMP";  behaviorLog_.push_back(strBehavior); }
         if (isJump) { Set_Behavior(PB_JUMP); return; }
 
-        bool isMove = Key::GetInstance()->PushKey(DIK_A) || Key::GetInstance()->PushKey(DIK_D) || Key::GetInstance()->PushKey(DIK_W) || Key::GetInstance()->PushKey(DIK_S);
+        bool isMove = Key::GetInstance()->PushKey(keyBind.move_left) || Key::GetInstance()->PushKey(keyBind.move_right) || Key::GetInstance()->PushKey(keyBind.move_up) || Key::GetInstance()->PushKey(keyBind.move_down);
         if (isMove) { strBehavior += "PB_MOVE"; behaviorLog_.push_back(strBehavior); }
         if (isMove) { Set_Behavior(PB_MOVE); return; }
 

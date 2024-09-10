@@ -3,6 +3,7 @@
 #include "CollisionChecker.h"
 #include "ImGuiManager.h"
 #include "Key.h"
+#include "Pad.h"
 #include "imgui.h"
 #include <fstream>
 
@@ -56,6 +57,20 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     auto callback = std::bind(&Player::Callback, this);
     // 初期化関数
     commonInfomation_->collider.Initialize(name, callback, arg_colliderManagerPtr);
+
+    // 操作ボタン
+    // key
+    commonInfomation_->keyBind.move_up = DIK_W;
+    commonInfomation_->keyBind.move_down = DIK_S;
+    commonInfomation_->keyBind.move_left = DIK_A;
+    commonInfomation_->keyBind.move_right = DIK_D;
+    commonInfomation_->keyBind.jump = DIK_SPACE;
+    commonInfomation_->keyBind.attack = DIK_F;
+
+    // controller
+    commonInfomation_->controllerBind.attack = BUTTON::PAD_B;
+    commonInfomation_->controllerBind.jump = BUTTON::PAD_A;
+
 }
 
 void Player::Update(void)
