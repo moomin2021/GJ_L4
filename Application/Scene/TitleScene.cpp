@@ -28,6 +28,7 @@ void TitleScene::Initialize()
 	wallOnlySprite_ = std::make_unique<Sprite>();
 	wallOnlySprite_->SetAnchorPoint({ 0.5f,0.5f });
 
+
 	// スプライトのユニーク初期化
 	titleSprites_.resize(TitleSpriteSize);
 	for (size_t i = 0; i < TitleSpriteSize; i++)
@@ -98,6 +99,7 @@ void TitleScene::Initialize()
 	titleSpriteRotation_[DaDaDaTex] = -10;
 	titleSpriteRotation_[BoTex] = -9;
 
+
 	for (size_t i = 0; i < TitleSpriteSize; i++)
 	{
 		titleSpriteCurrentScale_[i] = titleSpriteDefaultScale_[i];
@@ -111,6 +113,12 @@ void TitleScene::Initialize()
 
 	startKeySpriteSize_ = { 360,120 };
 	wallSpriteSize_ = {1920, 1080};
+
+	// 背景スプライトの初期化
+	backGroundSprite_ = std::make_unique<Sprite>();
+	backGroundSprite_->SetAnchorPoint({ 0.5f,0.5f });
+	backGroundSprite_->SetPosition(wallSpritePos_);
+	backGroundSprite_->SetSize(wallSpriteSize_);
 
 	wallFontAnimeCount = 0;
 	wallFontCurrentTexNum = 0;
@@ -164,6 +172,7 @@ void TitleScene::Initialize()
 
 	titleStartKeyTex_ = LoadTexture("startKey.png");
 	wallOnlyTex = LoadTexture("wallKariOnly.png");
+	backGroundTex = LoadTexture("backGround.png");
 #pragma endregion
 }
 
@@ -213,7 +222,7 @@ void TitleScene::MatUpdate()
 	// スプライト行列更新
 	titleStartKeySprite_->MatUpdate();
 	wallOnlySprite_->MatUpdate();
-
+	backGroundSprite_->MatUpdate();
 	for (size_t i = 0; i < TitleSpriteSize; i++)
 	{
 		titleSprites_[i]->MatUpdate();
@@ -223,6 +232,7 @@ void TitleScene::MatUpdate()
 void TitleScene::Draw()
 {
 	PipelineManager::PreDraw("Sprite");
+	backGroundSprite_->Draw(backGroundTex);
 	titleStartKeySprite_->Draw(titleStartKeyTex_);
 	wallOnlySprite_->Draw(wallOnlyTex);
 
