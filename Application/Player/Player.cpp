@@ -25,21 +25,22 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_hae_ = LoadTexture("hae.png");
     png_white_ = LoadTexture("white.png");
     png_frame_ = LoadTexture("frame.png");
+    commonInfomation_->png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
 
-    sprite0_ = std::make_unique<Sprite>();
-    sprite0_->SetSize({ 20.0f, 20.0f });
-    sprite0_->SetAnchorPoint({ 0.5f, 0.5f });
-    sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+    commonInfomation_->sprite_player = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player->SetSize(commonInfomation_->kSprite_Length_player);
+    commonInfomation_->sprite_player->SetAnchorPoint(commonInfomation_->kSprite_AnchorPoint_player_idle);
+    commonInfomation_->sprite_player->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
     commonInfomation_->sprite_collider = std::make_unique<Sprite>();
     commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
-    commonInfomation_->sprite_collider->SetSize(commonInfomation_->kLength_collider);
+    commonInfomation_->sprite_collider->SetSize(commonInfomation_->kCollision_Length_playerCollider);
     commonInfomation_->sprite_collider->SetAnchorPoint({ 0.5f, 0.5f });
     commonInfomation_->sprite_collider->SetColor({ 1.0f, 1.0f, 1.0f, 0.3f });
 
     commonInfomation_->sprite_attackCollider = std::make_unique<Sprite>();
-    commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + commonInfomation_->kOffset_attackCollider);
-    commonInfomation_->sprite_attackCollider->SetSize(commonInfomation_->kLength_attackCollider);
+    commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + commonInfomation_->kCollision_positionOffset_playerCollider_attack);
+    commonInfomation_->sprite_attackCollider->SetSize(commonInfomation_->kCollision_Length_playerCollider_attack);
     commonInfomation_->sprite_attackCollider->SetAnchorPoint({ 0.5f, 0.5f });
     commonInfomation_->sprite_attackCollider->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
@@ -49,7 +50,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     //** コライダー
     // メンバ変数の設定
     commonInfomation_->collider.square_.center = commonInfomation_->position;
-    commonInfomation_->collider.square_.length = commonInfomation_->kLength_collider;
+    commonInfomation_->collider.square_.length = commonInfomation_->kCollision_Length_playerCollider;
     // ローカル変数
     std::string name = "Player";
     auto callback = std::bind(&Player::Callback, this);
@@ -59,12 +60,24 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
 
 void Player::Update(void)
 {
+    // 状態管理クラスの更新
     behaviorMachine_.Update();
-    sprite0_->SetPosition(commonInfomation_->position);
-    commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
-    commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + commonInfomation_->kOffset_attackCollider);
 
+    // Sprite|プレイヤーの座標更新
+    commonInfomation_->sprite_player->SetPosition(commonInfomation_->position);
+    // Sprite|プレイヤーコライダーの座標更新
+    commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
+
+    // プレイヤーの向きが右の時は、オフセット値を反転
+    Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
+    if (commonInfomation_->direction == DIRECTION_RIGHT) { offset.x *= -1; }
+    // Sprite|プレイヤー攻撃コライダーの座標更新
+    commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + offset);
+
+    // プレイヤー共通情報の更新
     commonInfomation_->Update();
+    
+    // 重力の加算
     commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
 
     DrawImGUi();
@@ -72,7 +85,7 @@ void Player::Update(void)
 
 void Player::MatUpdate(void)
 {
-    sprite0_->MatUpdate();
+    commonInfomation_->sprite_player->MatUpdate();
     commonInfomation_->sprite_collider->MatUpdate();
     commonInfomation_->sprite_attackCollider->MatUpdate();
 }
@@ -80,17 +93,23 @@ void Player::MatUpdate(void)
 void Player::Draw(void)
 {
     bool isBehaviorAttack = behaviorMachine_.Get_Behavior() == PB_ATTACK;
-    isBehaviorAttack ?
-        sprite0_->SetColor({ 1.0f, 0.0f, 0.0f, 1.f }) :
-        sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
-    sprite0_->Draw(png_hae_);
+
+    if (isBehaviorAttack)
+    {
+        commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerAttack[commonInfomation_->num_attackSprite]);
+    }
+    else
+    {
+        commonInfomation_->sprite_player->Draw(png_hae_);
+    }
+
 
     // 当たり判定表示
     if (commonInfomation_->is_drawCollider)
     {
         commonInfomation_->sprite_collider->Draw(png_white_);
         isBehaviorAttack ?
-            commonInfomation_->sprite_attackCollider->Draw(png_white_):
+            commonInfomation_->sprite_attackCollider->Draw(png_white_) :
             commonInfomation_->sprite_attackCollider->Draw(png_frame_);
     }
 }
@@ -129,7 +148,7 @@ void Player::DrawImGUi(void)
             {
                 // 左
                 if (s == "PB_JUMP") { ImGui::TextColored(darkRed, s.c_str()); }
-                else if(s == "PB_ATTACK") { ImGui::TextColored(darkEmerald, s.c_str()); }
+                else if (s == "PB_ATTACK") { ImGui::TextColored(darkEmerald, s.c_str()); }
                 else { ImGui::Text(s.c_str()); }
 
                 if (num >= 1) { break; }
@@ -231,5 +250,5 @@ void Player::Callback(void)
     imgui->EndWindow();
 
     // 押し出し後に座標を合わせる
-    sprite0_->SetPosition(commonInfomation_->position);
+    commonInfomation_->sprite_player->SetPosition(commonInfomation_->position);
 }
