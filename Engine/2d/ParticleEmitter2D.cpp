@@ -25,10 +25,10 @@ void ParticleEmitter2D::Update()
 	// 寿命が尽きたパーティクルを全削除
 	for (auto it = particles_.begin(); it != particles_.end();) {
 		// 時間を進める
-		(*it).nowTime += timeMgr_->GetDeltaTime();
+		(*it).time_toCurrent += timeMgr_->GetDeltaTime();
 
 		// 現在の生存時間が設定されている生存時間以上なら削除する
-		if ((*it).nowTime >= (*it).aliveTime) {
+		if ((*it).time_toCurrent >= (*it).time_toDead) {
 			it = particles_.erase(it);
 		}
 		else ++it;
@@ -40,9 +40,9 @@ void ParticleEmitter2D::Update()
 		it.position = it.position;
 
 		// スケールの更新
-		float elapsed = it.nowTime / it.aliveTime;
+		float elapsed = it.time_toCurrent / it.time_toDead;
 		elapsed = Util::Clamp(elapsed, 1.0f, 0.0f);
-		it.nowScale = Easing::lerp(it.startScale, it.endScale, elapsed);
+		it.scale_current = Easing::lerp(it.scale_start, it.scale_end, elapsed);
 	}
 }
 
@@ -59,7 +59,7 @@ void ParticleEmitter2D::MatUpdate()
 		for (auto& it : particles_) {
 			// 座標
 			vertMap->pos = Vector3(it.position.x, it.position.y, 0.0f);
-			vertMap->scale = it.nowScale;
+			vertMap->scale = it.scale_current;
 
 			vertMap++;
 		}
@@ -89,8 +89,8 @@ void ParticleEmitter2D::ImGuiUpdate()
 
 	imgui->BeginWindow("Particle");
 
-	for (auto& it : particles_) imgui->Text("scale = %f", it.nowScale);
-	for (auto& it : particles_) imgui->Text("現在の時間 = %f", it.nowTime);
+	for (auto& it : particles_) imgui->Text("scale = %f", it.scale_current);
+	for (auto& it : particles_) imgui->Text("現在の時間 = %f", it.time_toCurrent);
 
 	imgui->EndWindow();
 }
@@ -136,9 +136,9 @@ void ParticleEmitter2D::AddParticle(const Vector2& inPos, float time, float star
 
 	// 設定
 	p.position = inPos;
-	p.aliveTime = time;
-	p.startScale = startScale;
-	p.endScale = endScale;
+	p.time_toDead = time;
+	p.scale_start = startScale;
+	p.scale_end = endScale;
 }
 
 void ParticleEmitter2D::CreateConstBuff()
