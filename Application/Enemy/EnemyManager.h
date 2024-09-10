@@ -6,6 +6,7 @@
 #include "Enemys/BaseEnemy.h"
 #include "EnemyFactory.h"
 
+class Player;
 class EnemyManager
 {
 #pragma region メンバ変数
@@ -30,7 +31,7 @@ public:
 	~EnemyManager() {}
 
 	// 基本処理
-	void Initialize(M_ColliderManager* colMgrPtr);
+	void Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr);
 	void Update();
 	void MatUpdate();
 	void Draw();

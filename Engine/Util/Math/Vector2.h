@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 struct Vector2
 {
@@ -22,6 +22,7 @@ struct Vector2
 	// 代入演算子オーバーロード
 	Vector2& operator+=(const Vector2& v);
 	Vector2& operator-=(const Vector2& v);
+	Vector2 operator*(const Vector2 other) const; // ベクトルの乗算
 	Vector2& operator*=(float s);
 	Vector2& operator/=(float s);
 };
