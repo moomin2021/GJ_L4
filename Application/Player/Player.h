@@ -25,7 +25,7 @@ private:
     PlayerBehaviorMachine behaviorMachine_;
     std::shared_ptr<PlayerCommonInfomation> commonInfomation_;
 
-    int32_t png_hae_{};
+    int32_t png_player_{};
     int32_t png_white_{};
     int32_t png_frame_{};
 

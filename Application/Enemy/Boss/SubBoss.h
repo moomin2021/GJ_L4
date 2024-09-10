@@ -1,7 +1,11 @@
 #pragma once
+#include "Sprite.h"
 #include "M_ColliderManager.h"
 #include "Sprite.h"
 
+#include "SubBossInfo.h"
+
+#include <vector>
 #include <memory>
 
 class Player;
@@ -12,9 +16,8 @@ private:
 	// プレイヤーのポインタ
 	Player* pPlayer_ = nullptr;
 
-	// サブボスのデータ
-	Vector2 subBossPos_ = Vector2(960.0f, 400.0f);
-	Vector2 subBossSize_ = Vector2(256.0f, 256.0f);
+	// サブボスの情報
+	SubBossInfo subBossInfo_ = {};
 
 	// サブボスの描画関連
 	std::unique_ptr<Sprite> subBossSprite_ = nullptr;
@@ -34,5 +37,9 @@ public:
 	void Draw();
 	void Finalize();
 	void ImGuiUpdate();
+
+private:
+	// サブボスの情報の初期化処理
+	void InitializeSubBossInfo();
 #pragma endregion
 };

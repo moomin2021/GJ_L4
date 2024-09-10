@@ -173,6 +173,7 @@
     <ClCompile Include="Application\Player\PlayerCommonInfomation.cpp" />
     <ClCompile Include="Application\Enemy\Boss\SubBoss.cpp" />
     <ClCompile Include="Move.cpp" />
+    <ClCompile Include="Application\Enemy\Boss\SubBossInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -263,6 +264,7 @@
     <ClInclude Include="Application\Player\PlayerCommonInfomation.h" />
     <ClInclude Include="Application\Enemy\Boss\SubBoss.h" />
     <ClInclude Include="Move.h" />
+    <ClInclude Include="Application\Enemy\Boss\SubBossInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

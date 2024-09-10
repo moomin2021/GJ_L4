@@ -87,9 +87,11 @@ private:
 
 	int32_t titleStartKeyTex_ = 0;
 	int32_t wallOnlyTex = 0;
+	int32_t backGroundTex = 0;
 
 	std::unique_ptr<Sprite> titleStartKeySprite_ = nullptr;
 	std::unique_ptr<Sprite> wallOnlySprite_ = nullptr;
+	std::unique_ptr<Sprite> backGroundSprite_ = nullptr;
 
 	Vector2 startKeySpritePos_;
 	Vector2 startKeySpriteDefultPos_;
