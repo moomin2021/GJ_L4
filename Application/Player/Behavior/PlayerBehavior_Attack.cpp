@@ -4,7 +4,8 @@
 void PlayerBehavior_Attack::Entry(void)
 {
     Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
-    if (commonInfomation_->move.direction_current == DIRECTION_RIGHT) { offset.x *= -1; }
+    if (commonInfomation_->move.direction_current == DIRECTION_RIGHT && offset.x < 0) { offset.x *= -1; }
+    else if (commonInfomation_->move.direction_current == DIRECITON_LEFT && offset.x > 0) { offset.x *= -1; }
 
     //** コライダー
     // メンバ変数の設定
