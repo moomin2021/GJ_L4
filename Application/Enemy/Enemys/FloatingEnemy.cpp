@@ -154,8 +154,10 @@ void FloatingEnemy::CollisionCallBack()
 			rotaSpd_ = secondBeatenRotaSpd_;
 			// 移動方向の決定
 			PlayerCommonInfomation* playerInfo = pPlayer_->Get_CommonInfomation();
-			if (Direction::DIRECITON_LEFT == playerInfo->direction) secondBeatenVec_.x = -1.0f;
-			if (Direction::DIRECTION_RIGHT == playerInfo->direction) secondBeatenVec_.x = 1.0f;
+			if (playerInfo->move.velocity_current.y > 0.0f) secondBeatenVec_.y = 0.6f;
+			if (playerInfo->move.velocity_current.y <= 0.0f) secondBeatenVec_.y = -0.6f;
+			if (Direction::DIRECITON_LEFT == playerInfo->move.direction_current) secondBeatenVec_.x = -1.0f;
+			if (Direction::DIRECTION_RIGHT == playerInfo->move.direction_current) secondBeatenVec_.x = 1.0f;
 			secondBeatenVec_.normalize();
 			moveVec_ = secondBeatenVec_;
 		}
