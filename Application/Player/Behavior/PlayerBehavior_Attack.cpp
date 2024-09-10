@@ -3,9 +3,12 @@
 
 void PlayerBehavior_Attack::Entry(void)
 {
+    Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
+    if (commonInfomation_->move.direction_current == DIRECTION_RIGHT) { offset.x *= -1; }
+
     //** コライダー
     // メンバ変数の設定
-    auto position = commonInfomation_->position + commonInfomation_->kCollision_positionOffset_playerCollider_attack;
+    auto position = commonInfomation_->position + offset;
     collider_attack_.square_.center = position;
     collider_attack_.square_.length = commonInfomation_->kCollision_Length_playerCollider_attack;
     // ローカル変数
@@ -59,8 +62,9 @@ void PlayerBehavior_Attack::Exit(void)
 
 void PlayerBehavior_Attack::Callback(void)
 {
-    if (collider_attack_.IsDetect_Name("FloatingEnemy_"))
+    if (collider_attack_.IsDetect_Name("FloatingEnemy_0"))
     {
-
+        int a = 0;
+        a;
     }
 }
