@@ -25,12 +25,12 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_hae_ = LoadTexture("hae.png");
     png_white_ = LoadTexture("white.png");
     png_frame_ = LoadTexture("frame.png");
-    png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
+    commonInfomation_->png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
 
-    sprite0_ = std::make_unique<Sprite>();
-    sprite0_->SetSize(commonInfomation_->kLength_collider);
-    sprite0_->SetAnchorPoint({ 0.5f, 0.5f });
-    sprite0_->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+    commonInfomation_->sprite_player = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player->SetSize(commonInfomation_->kLength_collider);
+    commonInfomation_->sprite_player->SetAnchorPoint({ 0.5f, 0.5f });
+    commonInfomation_->sprite_player->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
     commonInfomation_->sprite_collider = std::make_unique<Sprite>();
     commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
@@ -61,7 +61,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
 void Player::Update(void)
 {
     behaviorMachine_.Update();
-    sprite0_->SetPosition(commonInfomation_->position);
+    commonInfomation_->sprite_player->SetPosition(commonInfomation_->position);
     commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
     commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + commonInfomation_->kOffset_attackCollider);
 
@@ -73,7 +73,7 @@ void Player::Update(void)
 
 void Player::MatUpdate(void)
 {
-    sprite0_->MatUpdate();
+    commonInfomation_->sprite_player->MatUpdate();
     commonInfomation_->sprite_collider->MatUpdate();
     commonInfomation_->sprite_attackCollider->MatUpdate();
 }
@@ -84,11 +84,11 @@ void Player::Draw(void)
 
     if (isBehaviorAttack)
     {
-        sprite0_->Draw(png_playerAttack[commonInfomation_->num_attackSprite]);
+        commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerAttack[commonInfomation_->num_attackSprite]);
     }
     else
     {
-        sprite0_->Draw(png_hae_);
+        commonInfomation_->sprite_player->Draw(png_hae_);
     }
 
 
@@ -238,5 +238,5 @@ void Player::Callback(void)
     imgui->EndWindow();
 
     // 押し出し後に座標を合わせる
-    sprite0_->SetPosition(commonInfomation_->position);
+    commonInfomation_->sprite_player->SetPosition(commonInfomation_->position);
 }

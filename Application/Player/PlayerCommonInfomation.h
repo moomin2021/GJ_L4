@@ -50,6 +50,9 @@ struct PlayerCommonInfomation
     M_RectCollider collider{};
 
     // sprite
+    std::vector<uint16_t> png_playerAttack{};
+    std::unique_ptr<Sprite> sprite_player = nullptr;
+
     bool is_drawCollider{};
     std::unique_ptr<Sprite> sprite_collider = nullptr;
     std::unique_ptr<Sprite> sprite_attackCollider = nullptr;

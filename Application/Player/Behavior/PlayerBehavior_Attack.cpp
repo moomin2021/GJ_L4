@@ -37,6 +37,10 @@ void PlayerBehavior_Attack::Execute(void)
     float range = max / divide;
     // 連番の何枚目を表示すべきか指定
     commonInfomation_->num_attackSprite = (std::min)(static_cast<int>(cur / range), commonInfomation_->kNum_AttackSprite_max - 1); // 最大値4
+
+    commonInfomation_->direction == DIRECTION_RIGHT ?
+        commonInfomation_->sprite_player->SetFlipX(true) :
+        commonInfomation_->sprite_player->SetFlipX(false);
 }
 
 void PlayerBehavior_Attack::Exit(void)
