@@ -39,11 +39,11 @@ struct PlayerCommonInfomation
     const float kMoveSpeed = 5.f;
 
     // Gravity
-    const float kGravity_max = 4.5f;
-    const float kGravity_add = 0.1f;
+    const float kGravity_max = 20.0f;
+    const float kGravity_add = 0.8f;
 
     // Jump
-    const float kJumpPower = -5.f;
+    const float kJumpPower = -20.f;
 
     // Sprite
     const Vector2 kSprite_AnchorPoint_player_idle = { 0.5f,0.7f };
@@ -57,7 +57,7 @@ struct PlayerCommonInfomation
 
     // Time
     const int32_t kNum_AttackSprite_max = 5;
-    const float kTime_AttackAnimation_max = 1.f; // sec
+    const float kTime_AttackAnimation_max = 0.2f; // sec
     const float kTime_AttackInterval_max = 20.f; // sec
     const float kTime_Invincible_max = 20.f;     // sec
 
