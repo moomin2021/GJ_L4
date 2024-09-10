@@ -83,6 +83,9 @@ void FloatingEnemy::CollisionCallBack()
 	bool isWallCol = false;
 	std::string wallName = "";
 
+	// プレイヤーに攻撃されたか
+	bool isAttackedByPlayer = false;
+
 	for (size_t i = 0; i < 4; i++)
 	{
 		if (collider_.IsDetect_Name("Boss" + std::to_string(i)))
@@ -90,11 +93,16 @@ void FloatingEnemy::CollisionCallBack()
 			isWallCol = true;
 			wallName = "Boss" + std::to_string(i);
 		}
+
+		if (collider_.IsDetect_Name("Player_Attack")) {
+			isAttackedByPlayer = true;
+		}
 	}
 
 	// 壁と衝突していたら
 	if (isWallCol)
 	{
+		// 一回目殴られた状態なら
 		if (state_ == State::FirstBeaten)
 		{
 			// 押し出し処理
@@ -110,6 +118,7 @@ void FloatingEnemy::CollisionCallBack()
 			rotaSpd_ = knockFirstRotaSpd_;
 		}
 
+		// 二回目殴られた状態なら
 		else if (state_ == State::SecondBeaten)
 		{
 			// 押し出し処理
@@ -123,6 +132,27 @@ void FloatingEnemy::CollisionCallBack()
 			if (wallName == "Boss1") moveVec_.x = -moveVec_.x;
 			if (wallName == "Boss2") moveVec_.y = -moveVec_.y;
 			if (wallName == "Boss3") moveVec_.x = -moveVec_.x;
+		}
+	}
+
+	// プレイヤーに攻撃されていたら
+	if (isAttackedByPlayer) {
+		// ノーマル状態なら
+		if (state_ == State::Normal) {
+			// 状態、移動方向、速度の設定
+			state_ = State::FirstBeaten;
+			moveVec_ = firstBeatenVec_;
+			moveSpd_ = firstBeatenMoveSpd_;
+			rotaSpd_ = firstBeatenRotaSpd_;
+		}
+
+		// ノックバック状態なら
+		else if (state_ == State::KnockBack) {
+			// 状態、移動方向、速度の設定
+			state_ = State::KnockBack;
+			moveVec_ = knockVec_;
+			moveSpd_ = knockFirstSpd_;
+			rotaSpd_ = knockFirstRotaSpd_;
 		}
 	}
 }
