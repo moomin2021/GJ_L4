@@ -37,6 +37,11 @@ private:
 	// サブボスの攻撃関連
 	SubBossAttackType currentAttackType_ = SubBossAttackType::DescentDiveState;
 	std::unique_ptr<SubBossAttackState> currentAttackState_ = nullptr;
+
+	// デバック
+	bool isDebug_ = false;
+	std::unique_ptr<Sprite> colSprite_ = nullptr;
+	uint16_t debugTexture_ = 0;
 #pragma endregion
 
 #pragma region メンバ関数

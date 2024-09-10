@@ -54,14 +54,6 @@ void DescentDiveState::Update(SubBossInfo* info)
 
 	// 震える
 	else if (attackStage_ == 2) {
-		// 時間の加算
-		stage2Time_.elapsedTime += timeMgr->GetGameDeltaTime();
-		// 時間を超えたら次の段階へ
-		if (stage2Time_.GetIsExceeded()) {
-			info->shakeOffset = Vector2();
-			attackStage_++;
-		}
-
 		// シェイク処理
 		shakeTime_.elapsedTime += timeMgr->GetGameDeltaTime();
 		// 時間を超えたらリセット
@@ -70,6 +62,14 @@ void DescentDiveState::Update(SubBossInfo* info)
 			shakeDir_ *= -1.0f;
 			// 座標の設定
 			info->shakeOffset = shakeDir_;
+		}
+
+		// 時間の加算
+		stage2Time_.elapsedTime += timeMgr->GetGameDeltaTime();
+		// 時間を超えたら次の段階へ
+		if (stage2Time_.GetIsExceeded()) {
+			info->shakeOffset = Vector2();
+			attackStage_++;
 		}
 	}
 

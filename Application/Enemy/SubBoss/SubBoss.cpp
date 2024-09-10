@@ -23,6 +23,16 @@ void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
 	subBossSprite_->SetAnchorPoint({ 0.5f, 0.5f });
 	// テクスチャの読み込み
 	subBossTextures_ = LoadDivTexture("subBossSheet.png", 3);
+
+	// デバック関連
+	// スプライトの生成、設定
+	colSprite_ = std::make_unique<Sprite>();
+	colSprite_->SetPosition(subBossInfo_.position);
+	colSprite_->SetSize({ subBossInfo_.collider.circle_.radius * 2.0f, subBossInfo_.collider.circle_.radius * 2.0f });
+	colSprite_->SetAnchorPoint({0.5f, 0.5f});
+	colSprite_->SetColor({ 1.0f, 1.0f, 1.0f, 0.3f });
+	// テクスチャ読み込み
+	debugTexture_ = LoadTexture("circle.png");
 }
 
 void SubBoss::Update()
@@ -37,20 +47,24 @@ void SubBoss::Update()
 
 	// コライダーの更新
 	subBossInfo_.collider.circle_.center = subBossSprite_->GetPosition();
+	colSprite_->SetPosition(subBossInfo_.collider.circle_.center);
 }
 
 void SubBoss::MatUpdate()
 {
 	subBossSprite_->MatUpdate();
+	colSprite_->MatUpdate();
 }
 
 void SubBoss::Draw()
 {
 	subBossSprite_->Draw(subBossTextures_[0]);
+	if (isDebug_) colSprite_->Draw(debugTexture_);
 }
 
 void SubBoss::Finalize()
 {
+	subBossInfo_.collider.Finalize();
 }
 
 void SubBoss::ImGuiUpdate()
@@ -60,6 +74,9 @@ void SubBoss::ImGuiUpdate()
 
 	// ボスの状態を表示
 	imgui->Text("ボスの状態 = %s", subBossMoveTypeStr_[(size_t)currentMoveType_].c_str());
+
+	// 当たり判定を表示するか
+	imgui->CheckBox("当たり判定表示", isDebug_);
 
 	// 攻撃状態に切替
 	if (imgui->Button("攻撃状態へ")) ChangeAttack();
@@ -74,7 +91,7 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr)
 
 	// コライダーの設定
 	subBossInfo_.collider.circle_.center = subBossInfo_.position;
-	subBossInfo_.collider.circle_.radius = subBossInfo_.size.x / 2.0f;
+	subBossInfo_.collider.circle_.radius = 82.0f;
 	std::string name = "SubBoss";
 	auto callBack = std::bind(&SubBoss::CollisionCallBack, this);
 	subBossInfo_.collider.Initialize(name, callBack, colMgrPtr);
@@ -125,4 +142,13 @@ void SubBoss::CollisionCallBack()
 			subBossInfo_.position += pushBack;
 		}
 	}
+
+	// スプライトの更新
+	subBossSprite_->SetPosition(subBossInfo_.position + subBossInfo_.shakeOffset);
+	subBossSprite_->SetSize(subBossInfo_.size);
+	subBossSprite_->SetRotation(subBossInfo_.rotation);
+
+	// コライダーの更新
+	subBossInfo_.collider.circle_.center = subBossSprite_->GetPosition();
+	colSprite_->SetPosition(subBossInfo_.collider.circle_.center);
 }
