@@ -43,7 +43,7 @@ void PlayerBehavior_Attack::Execute(void)
     commonInfomation_->num_attackSprite = (std::min)(static_cast<int>(cur / range), commonInfomation_->kNum_AttackSprite_max - 1); // 最大値4
 
     // 方向に応じて絵を反転
-    commonInfomation_->direction == DIRECTION_RIGHT ?
+    commonInfomation_->move.direction_current == DIRECTION_RIGHT ?
         commonInfomation_->sprite_player->SetFlipX(true) :
         commonInfomation_->sprite_player->SetFlipX(false);
 }

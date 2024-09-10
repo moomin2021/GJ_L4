@@ -3,6 +3,7 @@
 #include "CollisionChecker.h"
 #include "ImGuiManager.h"
 #include "Key.h"
+#include "Pad.h"
 #include "imgui.h"
 #include <fstream>
 
@@ -56,6 +57,20 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     auto callback = std::bind(&Player::Callback, this);
     // 初期化関数
     commonInfomation_->collider.Initialize(name, callback, arg_colliderManagerPtr);
+
+    // 操作ボタン
+    // key
+    commonInfomation_->keyBind.move_up = DIK_W;
+    commonInfomation_->keyBind.move_down = DIK_S;
+    commonInfomation_->keyBind.move_left = DIK_A;
+    commonInfomation_->keyBind.move_right = DIK_D;
+    commonInfomation_->keyBind.jump = DIK_SPACE;
+    commonInfomation_->keyBind.attack = DIK_F;
+
+    // controller
+    commonInfomation_->controllerBind.attack = BUTTON::PAD_B;
+    commonInfomation_->controllerBind.jump = BUTTON::PAD_A;
+
 }
 
 void Player::Update(void)
@@ -70,7 +85,7 @@ void Player::Update(void)
 
     // プレイヤーの向きが右の時は、オフセット値を反転
     Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
-    if (commonInfomation_->direction == DIRECTION_RIGHT) { offset.x *= -1; }
+    if (commonInfomation_->move.direction_current == DIRECTION_RIGHT) { offset.x *= -1; }
     // Sprite|プレイヤー攻撃コライダーの座標更新
     commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + offset);
 
@@ -78,7 +93,10 @@ void Player::Update(void)
     commonInfomation_->Update();
     
     // 重力の加算
-    commonInfomation_->position += behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
+    const Vector2& gravity = behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
+    commonInfomation_->position += gravity;
+    // どの程度移動したか記録する
+    commonInfomation_->move.velocity_current += gravity;
 
     DrawImGUi();
 }
@@ -218,15 +236,15 @@ void Player::Callback(void)
         commonInfomation_->position += pushBack;
         commonInfomation_->collider.square_.center = commonInfomation_->position;
 
-        commonInfomation_->can_jump = true;
-        commonInfomation_->is_ground = true;
+        commonInfomation_->move.can_jump = true;
+        commonInfomation_->move.is_ground = true;
 
         pushbackv = pushBack;
     }
     else
     {
         // 地面に触れていない。※現時点での"床"は"Boss2"のみ
-        commonInfomation_->is_ground = false;
+        commonInfomation_->move.is_ground = false;
     }
 
     if (myCol.IsDetect_Name("Boss3"))

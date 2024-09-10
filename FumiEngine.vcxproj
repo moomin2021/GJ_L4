@@ -58,7 +58,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;DIRECTINPUT_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Util;$(ProjectDir)Engine\Util\Math;$(ProjectDir)Application\Collision;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\Collision;$(ProjectDir)External;$(ProjectDir)Engine\Sound;$(ProjectDir)Application;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Player;$(ProjectDir)Application\Stage;$(ProjectDir)Application\NavMesh;$(ProjectDir)Application\Setting;$(ProjectDir)Application\Result;$(ProjectDir)Engine\Scene;$(ProjectDir)Application\Player\Behavior;$(ProjectDir);$(ProjectDir)Application\Setting\Layer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Util;$(ProjectDir)Engine\Util\Math;$(ProjectDir)Application\Collision;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\Collision;$(ProjectDir)External;$(ProjectDir)Engine\Sound;$(ProjectDir)Application;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Player;$(ProjectDir)Application\Stage;$(ProjectDir)Application\NavMesh;$(ProjectDir)Application\Setting;$(ProjectDir)Application\Result;$(ProjectDir)Engine\Scene;$(ProjectDir)Application\Player\Behavior;$(ProjectDir);$(ProjectDir)Application\Setting\Layer;$(ProjectDir)Application\Easing;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -81,7 +81,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Util;$(ProjectDir)Engine\Util\Math;$(ProjectDir)Application\Collision;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\Collision;$(ProjectDir)External;$(ProjectDir)Engine\Sound;$(ProjectDir)Application;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Player;$(ProjectDir)Application\Stage;$(ProjectDir)Application\NavMesh;$(ProjectDir)Application\Setting;$(ProjectDir)Application\Result;$(ProjectDir)Engine\Scene;$(ProjectDir)Application\Player\Behavior;$(ProjectDir);$(ProjectDir)Application\Setting\Layer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Util;$(ProjectDir)Engine\Util\Math;$(ProjectDir)Application\Collision;$(ProjectDir)Application\Scene;$(ProjectDir)Engine\Collision;$(ProjectDir)External;$(ProjectDir)Engine\Sound;$(ProjectDir)Application;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Player;$(ProjectDir)Application\Stage;$(ProjectDir)Application\NavMesh;$(ProjectDir)Application\Setting;$(ProjectDir)Application\Result;$(ProjectDir)Engine\Scene;$(ProjectDir)Application\Player\Behavior;$(ProjectDir);$(ProjectDir)Application\Setting\Layer;$(ProjectDir)Application\Easing;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -99,6 +99,7 @@
   <ItemGroup>
     <ClCompile Include="Application\Collision\ColliderTag.cpp" />
     <ClCompile Include="Application\Collision\CollisionChecker.cpp" />
+    <ClCompile Include="Application\Easing\AppEasing.cpp" />
     <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Application\Enemy\Boss\Boss.cpp" />
     <ClCompile Include="Application\Enemy\Enemys\BaseEnemy.cpp" />
@@ -171,11 +172,13 @@
     <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Move.cpp" />
     <ClCompile Include="Application\Player\PlayerCommonInfomation.cpp" />
     <ClCompile Include="Application\Enemy\Boss\SubBoss.cpp" />
+    <ClCompile Include="Move.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
     <ClInclude Include="Application\Collision\ColliderTag.h" />
     <ClInclude Include="Application\Collision\CollisionChecker.h" />
+    <ClInclude Include="Application\Easing\AppEasing.h" />
     <ClInclude Include="Application\Enemy\EnemyManager.h" />
     <ClInclude Include="Application\Enemy\Boss\Boss.h" />
     <ClInclude Include="Application\Enemy\EnemyStatus.h" />
@@ -259,6 +262,7 @@
     <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Move.h" />
     <ClInclude Include="Application\Player\PlayerCommonInfomation.h" />
     <ClInclude Include="Application\Enemy\Boss\SubBoss.h" />
+    <ClInclude Include="Move.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

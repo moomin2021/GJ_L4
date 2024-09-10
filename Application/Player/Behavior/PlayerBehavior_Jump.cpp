@@ -16,5 +16,5 @@ void PlayerBehavior_Jump::Exit(void)
 void PlayerBehavior_Jump::Jump(void)
 {
     commonInfomation_->gravity.Set_Current(commonInfomation_->kJumpPower);
-    commonInfomation_->can_jump = false;
+    commonInfomation_->move.can_jump = false;
 }

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 // DirectInputバージョン指定
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
