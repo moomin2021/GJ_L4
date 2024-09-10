@@ -4,9 +4,16 @@
 #include "Sprite.h"
 
 #include "SubBossInfo.h"
+#include "SubBossAttackState.h"
 
 #include <vector>
 #include <memory>
+
+enum class SubBossMoveType {
+	Wait,
+	Attack,
+	Stun,
+};
 
 class Player;
 class SubBoss
@@ -22,6 +29,13 @@ private:
 	// サブボスの描画関連
 	std::unique_ptr<Sprite> subBossSprite_ = nullptr;
 	std::vector<uint16_t> subBossTextures_;
+
+	// サブボスの行動状態
+	SubBossMoveType currentMoveType_ = SubBossMoveType::Wait;
+
+	// サブボスの攻撃関連
+	SubBossAttackType currentAttackType_ = SubBossAttackType::DescentDiveState;
+	std::unique_ptr<SubBossAttackState> currentAttackState_ = nullptr;
 #pragma endregion
 
 #pragma region メンバ関数
@@ -41,5 +55,11 @@ public:
 private:
 	// サブボスの情報の初期化処理
 	void InitializeSubBossInfo();
+
+	// 状態別処理
+	static void (SubBoss::* stateTable[]) ();
+	void Wait();
+	void Attack();
+	void Stun();
 #pragma endregion
 };

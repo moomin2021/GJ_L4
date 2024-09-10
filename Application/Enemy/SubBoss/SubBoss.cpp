@@ -26,6 +26,8 @@ void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
 
 void SubBoss::Update()
 {
+	// 状態別更新処理
+	(this->*stateTable[(size_t)currentMoveType_])();
 }
 
 void SubBoss::MatUpdate()
@@ -52,4 +54,22 @@ void SubBoss::InitializeSubBossInfo()
 	subBossInfo_.position = Vector2(960.0f, 400.0f);
 	subBossInfo_.size = Vector2(256.0f, 256.0f);
 	subBossInfo_.rotation = 0;
+}
+
+void (SubBoss::*SubBoss::stateTable[]) () = {
+	&SubBoss::Wait,
+	&SubBoss::Attack,
+	&SubBoss::Stun,
+};
+
+void SubBoss::Wait()
+{
+}
+
+void SubBoss::Attack()
+{
+}
+
+void SubBoss::Stun()
+{
 }
