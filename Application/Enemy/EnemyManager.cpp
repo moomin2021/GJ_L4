@@ -14,11 +14,17 @@ void EnemyManager::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
 	// ボスの生成、初期化
 	boss_ = std::make_unique<Boss>();
 	boss_->Initialize(colMgrPtr);
+
+	// サブボスの生成、初期化
+	subBoss_ = std::make_unique<SubBoss>();
+	subBoss_->Initialize(colMgrPtr, playerPtr);
 }
 
 void EnemyManager::Update()
 {
 	boss_->Update();
+	subBoss_->Update();
+
 	// 敵の更新と死んだ時の処理
 	for (auto it = enemys_.begin(); it != enemys_.end();)
 	{
@@ -35,18 +41,21 @@ void EnemyManager::Update()
 void EnemyManager::MatUpdate()
 {
 	boss_->MatUpdate();
+	subBoss_->MatUpdate();
 	for (auto& it : enemys_) it->MatUpdate();
 }
 
 void EnemyManager::Draw()
 {
 	boss_->Draw();
+	subBoss_->Draw();
 	for (auto& it : enemys_) it->Draw();
 }
 
 void EnemyManager::Finalize()
 {
 	boss_->Finalize();
+	subBoss_->Finalize();
 	for (auto& it : enemys_) it->Finalize();
 	enemys_.clear();
 }
