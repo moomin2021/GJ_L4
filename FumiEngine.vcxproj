@@ -171,9 +171,10 @@
     <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Jump.cpp" />
     <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Move.cpp" />
     <ClCompile Include="Application\Player\PlayerCommonInfomation.cpp" />
-    <ClCompile Include="Application\Enemy\Boss\SubBoss.cpp" />
+    <ClCompile Include="Application\Enemy\SubBoss\SubBoss.cpp" />
     <ClCompile Include="Move.cpp" />
-    <ClCompile Include="Application\Enemy\Boss\SubBossInfo.cpp" />
+    <ClCompile Include="Application\Enemy\SubBoss\SubBossInfo.cpp" />
+    <ClCompile Include="Application\Enemy\SubBoss\SubBossAttackState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -262,9 +263,10 @@
     <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Jump.h" />
     <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Move.h" />
     <ClInclude Include="Application\Player\PlayerCommonInfomation.h" />
-    <ClInclude Include="Application\Enemy\Boss\SubBoss.h" />
+    <ClInclude Include="Application\Enemy\SubBoss\SubBoss.h" />
     <ClInclude Include="Move.h" />
-    <ClInclude Include="Application\Enemy\Boss\SubBossInfo.h" />
+    <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h" />
+    <ClInclude Include="Application\Enemy\SubBoss\SubBossAttackState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />
