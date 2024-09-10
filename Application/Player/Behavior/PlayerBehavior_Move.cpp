@@ -8,6 +8,11 @@ void PlayerBehavior_Move::Entry(void)
 void PlayerBehavior_Move::Execute(void)
 {
     commonInfomation_->position += Move();
+
+    // 方向に応じて絵を反転
+    commonInfomation_->move.direction_current == DIRECTION_RIGHT ?
+        commonInfomation_->sprite_player->SetFlipX(true) :
+        commonInfomation_->sprite_player->SetFlipX(false);
 }
 
 void PlayerBehavior_Move::Exit(void)

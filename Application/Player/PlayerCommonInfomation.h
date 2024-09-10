@@ -46,8 +46,8 @@ struct PlayerCommonInfomation
     const float kJumpPower = -20.f;
 
     // Sprite
-    const Vector2 kSprite_AnchorPoint_player_idle = { 0.6f,0.7f };
-    const Vector2 kSprite_AnchorPoint_player_attack = { 0.6f,0.7f };
+    const Vector2 kSprite_AnchorPoint_player_idle = { 0.6f,0.63f };
+    const Vector2 kSprite_AnchorPoint_player_attack = { 0.6f,0.63f };
     const Vector2 kSprite_Length_player = { 130,75 };
 
     const int32_t kNum_IdleSprite_max = 4;
