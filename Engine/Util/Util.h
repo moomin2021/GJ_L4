@@ -4,6 +4,18 @@
 
 namespace Util {
 
+	struct TimeInfo {
+		// 設定時間
+		float setTime = 0.0f;
+		// 経過時間
+		float elapsedTime = 0.0f;
+
+		// 経過した割合を返す
+		float GetElapsedRatio();
+		// 経過時間が設定時間を超えたか
+		bool GetIsExceeded();
+	};
+
 	const float PI = 3.141592654f;
 
 	// --ここから自作関数-- //

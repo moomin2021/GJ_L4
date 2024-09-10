@@ -7,6 +7,7 @@
 #include "SubBossAttackState.h"
 
 #include <vector>
+#include <string>
 #include <memory>
 
 enum class SubBossMoveType {
@@ -32,6 +33,9 @@ private:
 
 	// サブボスの行動状態
 	SubBossMoveType currentMoveType_ = SubBossMoveType::Wait;
+	std::vector<std::string> subBossMoveTypeStr_ = {
+		"待機", "攻撃", "行動不能"
+	};
 
 	// サブボスの攻撃関連
 	SubBossAttackType currentAttackType_ = SubBossAttackType::DescentDiveState;
@@ -61,5 +65,8 @@ private:
 	void Wait();
 	void Attack();
 	void Stun();
+
+	// 攻撃状態に変更
+	void ChangeAttack();
 #pragma endregion
 };
