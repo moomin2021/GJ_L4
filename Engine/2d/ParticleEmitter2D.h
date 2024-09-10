@@ -13,6 +13,18 @@ struct SettingParticleEmitter {
 
 };
 
+// パーティクル1粒
+struct Particle {
+    Vector2 position{}; //座標
+
+    float time_toCurrent{}; // 生成->現在までの時間
+    float time_toDead{};    // 生成->死ぬまでの時間（余命）
+
+    float scale_current{};  // スケール - 現在
+    float scale_start{};    // スケール - 最初
+    float scale_end{};      // スケール - 最後
+};
+
 class ParticleEmitter2D
 {
 private:
@@ -29,16 +41,6 @@ private:
 	struct ConstBufferData {
 		Matrix4 matWorld;
 		Matrix4 matProj;
-	};
-
-	// パーティクル1粒
-	struct Particle {
-		Vector2 position = {};	// 座標
-		float nowTime = 0.0f;	// 生成されてからの生存時間
-		float aliveTime = 0.0f;	// 生存時間
-		float nowScale = 0.0f;	// 現在スケール
-		float startScale = 1.0f;// 初期スケール
-		float endScale = 1.0f;	// 最終スケール
 	};
 #pragma endregion
 
