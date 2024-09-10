@@ -23,7 +23,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     behaviorMachine_.Initialize(&commonInfomation_);
 
     // スプライト
-    png_hae_ = LoadTexture("hae.png");
+    png_player_ = LoadTexture("playerKari.png");
     png_white_ = LoadTexture("white.png");
     png_frame_ = LoadTexture("frame.png");
     commonInfomation_->png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
@@ -120,7 +120,7 @@ void Player::Draw(void)
     }
     else
     {
-        commonInfomation_->sprite_player->Draw(png_hae_);
+        commonInfomation_->sprite_player->Draw(png_player_);
     }
 
 
