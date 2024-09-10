@@ -357,6 +357,9 @@
     <ClCompile Include="Application\Player\Behavior\PlayerBehaviorMachine.cpp">
       <Filter>Application\Player\Behavior</Filter>
     </ClCompile>
+    <ClCompile Include="Move.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Application\Easing\AppEasing.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
@@ -621,6 +624,9 @@
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Easing\AppEasing.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Move.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
