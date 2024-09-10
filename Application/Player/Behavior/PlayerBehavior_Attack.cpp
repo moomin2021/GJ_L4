@@ -3,9 +3,11 @@
 
 void PlayerBehavior_Attack::Entry(void)
 {
+    direction_Entry_ = commonInfomation_->move.direction_current;
+
     Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
-    if (commonInfomation_->move.direction_current == DIRECTION_RIGHT && offset.x < 0) { offset.x *= -1; }
-    else if (commonInfomation_->move.direction_current == DIRECITON_LEFT && offset.x > 0) { offset.x *= -1; }
+    if (direction_Entry_ == DIRECTION_RIGHT && offset.x < 0) { offset.x *= -1; }
+    else if (direction_Entry_ == DIRECITON_LEFT && offset.x > 0) { offset.x *= -1; }
 
     //** コライダー
     // メンバ変数の設定
@@ -27,7 +29,11 @@ void PlayerBehavior_Attack::Entry(void)
 
 void PlayerBehavior_Attack::Execute(void)
 {
-    auto position = commonInfomation_->position + commonInfomation_->kCollision_positionOffset_playerCollider_attack;
+    Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
+    if (direction_Entry_ == DIRECTION_RIGHT && offset.x < 0) { offset.x *= -1; }
+    else if (direction_Entry_ == DIRECITON_LEFT && offset.x > 0) { offset.x *= -1; }
+
+    auto position = commonInfomation_->position + offset;
     collider_attack_.square_.center = position;
 
     // 加算値
