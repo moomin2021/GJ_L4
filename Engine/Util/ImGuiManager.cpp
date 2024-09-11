@@ -177,6 +177,21 @@ bool ImGuiManager::Button(const std::string& label, const Vector2& size)
 	return ImGui::Button(label.c_str(), {size.x, size.y});
 }
 
+bool ImGuiManager::BeginCombo(const std::string& label, const std::string& previewValue)
+{
+	return ImGui::BeginCombo(label.c_str(), previewValue.c_str());
+}
+
+bool ImGuiManager::Selectable(const std::string& label, bool selected)
+{
+	return ImGui::Selectable(label.c_str(), selected);
+}
+
+void ImGuiManager::SetItemDefaultFocus()
+{
+	ImGui::SetItemDefaultFocus();
+}
+
 void ImGuiManager::Text(const char* fmt, ...)
 {
 	va_list args;
