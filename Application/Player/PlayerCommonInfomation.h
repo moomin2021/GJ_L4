@@ -30,6 +30,9 @@ struct Controller_Bind
 
     // ATTACK
     uint16_t attack;
+
+    // special
+    uint16_t special;
 };
 
 struct PlayerCommonInfomation

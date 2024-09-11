@@ -1,5 +1,6 @@
 #include "PlayerBehavior_Move.h"
 #include "Key.h"
+#include "Pad.h"
 
 void PlayerBehavior_Move::Entry(void)
 {
@@ -22,10 +23,12 @@ void PlayerBehavior_Move::Exit(void)
 Vector2 PlayerBehavior_Move::Move(void)
 {
     auto key = Key::GetInstance();
+    auto pad = Pad::GetInstance();
     const auto& keyBind = commonInfomation_->keyBind;
 
     Vector2 input{};
     input.x = (float)(key->PushKey(keyBind.move_right) - key->PushKey(keyBind.move_left));
+    input.x += pad->GetLStick().x;
 
     Vector2 velocity{};
     velocity.x = input.x * commonInfomation_->kMoveSpeed;

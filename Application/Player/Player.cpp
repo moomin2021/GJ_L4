@@ -69,9 +69,9 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     commonInfomation_->keyBind.attack = DIK_F;
 
     // controller
+    commonInfomation_->controllerBind.special = BUTTON::PAD_X;
     commonInfomation_->controllerBind.attack = BUTTON::PAD_B;
     commonInfomation_->controllerBind.jump = BUTTON::PAD_A;
-
 }
 
 void Player::Update(void)
