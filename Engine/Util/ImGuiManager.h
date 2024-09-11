@@ -188,6 +188,10 @@ public:
 	/// リスト内のアイテムやウィジェットにデフォルトのフォーカスを設定
 	/// </summary>
 	void SetItemDefaultFocus();
+	/// <summary>
+	/// コンボボックスの終了
+	/// </summary>
+	void EndCombo();
 #pragma endregion
 
 	/// <summary>
@@ -249,24 +253,22 @@ private:
 #pragma endregion
 
 #pragma region Combo
-//static std::string curretStr = { "選択", "可能", "状態" }
-//if (pImGuiMgr_->BeginCombo("ファイル", curretStr))
+//static std::string curretStr = "DescentDiveState";
+//if (imgui->BeginCombo("ファイル", curretStr))
 //{
-//
-//	// ファイルを選択
-//	for (size_t i = 0; i < fileNames_.size(); i++)
+//	// 攻撃タイプの選択
+//	for (size_t i = 0; i < subBossAttackTypeStr.size(); i++)
 //	{
-//		bool isSelectable = (curretStr == fileNames_[i]);
+//		bool isSelectable = (curretStr == subBossAttackTypeStr[i]);
 //
-//		if (pImGuiMgr_->Selectable(fileNames_[i], isSelectable))
+//		if (imgui->Selectable(subBossAttackTypeStr[i], isSelectable))
 //		{
-//			curretStr = fileNames_[i];
-//			nowSelectFileName_ = curretStr;
+//			curretStr = subBossAttackTypeStr[i];
 //		}
 //
-//		if (isSelectable) pImGuiMgr_->SetItemDefaultFocus();
+//		if (isSelectable) imgui->SetItemDefaultFocus();
 //	}
 //
-//	pImGuiMgr_->EndCombo();
+//	imgui->EndCombo();
 //}
 #pragma endregion

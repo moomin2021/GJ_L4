@@ -192,6 +192,11 @@ void ImGuiManager::SetItemDefaultFocus()
 	ImGui::SetItemDefaultFocus();
 }
 
+void ImGuiManager::EndCombo()
+{
+	ImGui::EndCombo();
+}
+
 void ImGuiManager::Text(const char* fmt, ...)
 {
 	va_list args;
