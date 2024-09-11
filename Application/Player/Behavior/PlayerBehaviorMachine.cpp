@@ -66,20 +66,35 @@ void PlayerBehaviorMachine::BehaviorInput(void)
         bool isMove{};
         isMove = ptr_key->PushKey(keyBind.move_left) || ptr_key->PushKey(keyBind.move_right) || ptr_key->PushKey(keyBind.move_up) || ptr_key->PushKey(keyBind.move_down);
         isMove = (std::max)(ptr_pad->GetLStick().x != 0 || ptr_pad->GetLStick().y != 0, isMove);
-        if (isMove) { strBehavior += "PB_MOVE"; behaviorLog_.push_back(strBehavior); }
-        if (isMove) { Set_Behavior(PB_MOVE); return; }
+        if (isMove) 
+        {
+            strBehavior += "PB_MOVE"; 
+            behaviorLog_.push_back(strBehavior);
+            Set_Behavior(PB_MOVE); 
+            return;
+        }
 
         bool isJump{};
         isJump = ptr_key->TriggerKey(keyBind.jump) && canJump && isGround;
         isJump = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.jump) && canJump && isGround, isJump);
-        if (isJump) { strBehavior += "PB_JUMP"; behaviorLog_.push_back(strBehavior); }
-        if (isJump) { Set_Behavior(PB_JUMP); return; }
+        if (isJump)
+        {
+            strBehavior += "PB_JUMP";
+            behaviorLog_.push_back(strBehavior);
+            Set_Behavior(PB_JUMP);
+            return;
+        }
 
         bool isAttack{};
         isAttack = ptr_key->TriggerKey(keyBind.attack);
         isAttack = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.attack), isAttack);
-        if (isAttack) { strBehavior += "PB_ATTACK"; behaviorLog_.push_back(strBehavior); }
-        if (isAttack) { Set_Behavior(PB_ATTACK); return; }
+        if (isAttack)
+        {
+            strBehavior += "PB_ATTACK"; 
+            behaviorLog_.push_back(strBehavior);
+            Set_Behavior(PB_ATTACK);
+            return;
+        }
     }
 
     // JUMP
@@ -90,19 +105,33 @@ void PlayerBehaviorMachine::BehaviorInput(void)
         bool isMove{};
         isMove = ptr_key->PushKey(keyBind.move_left) || ptr_key->PushKey(keyBind.move_right) || ptr_key->PushKey(keyBind.move_up) || ptr_key->PushKey(keyBind.move_down);
         isMove = (std::max)(ptr_pad->GetLStick().x != 0 || ptr_pad->GetLStick().y != 0, isMove);
-        if (isMove) { strBehavior += "PB_MOVE"; behaviorLog_.push_back(strBehavior); }
-        if (isMove) { Set_Behavior(PB_MOVE); return; }
+        if (isMove)
+        {
+            strBehavior += "PB_MOVE";
+            behaviorLog_.push_back(strBehavior); 
+            Set_Behavior(PB_MOVE);
+            return;
+        }
 
         bool isAttack{};
         isAttack = ptr_key->TriggerKey(keyBind.attack);
         isAttack = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.attack), isAttack);
-        if (isAttack) { strBehavior += "PB_ATTACK";  behaviorLog_.push_back(strBehavior); }
-        if (isAttack) { Set_Behavior(PB_ATTACK); return; }
+        if (isAttack)
+        {
+            strBehavior += "PB_ATTACK"; 
+            behaviorLog_.push_back(strBehavior); 
+            Set_Behavior(PB_ATTACK); 
+            return;
+        }
 
         // 何も入力が無ければIDLE
         bool noInput = !isMove && !isAttack;
-        if (noInput) { strBehavior += "PB_IDLE"; behaviorLog_.push_back(strBehavior); }
-        if (noInput) { Set_Behavior(PB_IDLE); }
+        if (noInput) 
+        {
+            strBehavior += "PB_IDLE"; 
+            behaviorLog_.push_back(strBehavior);
+            Set_Behavior(PB_IDLE);
+        }
     }
 
     // MOVE
@@ -113,14 +142,24 @@ void PlayerBehaviorMachine::BehaviorInput(void)
         bool isJump{};
         isJump = ptr_key->TriggerKey(keyBind.jump) && canJump && isGround;
         isJump = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.jump) && canJump && isGround, isJump);
-        if (isJump) { strBehavior += "PB_JUMP";  behaviorLog_.push_back(strBehavior); }
-        if (isJump) { Set_Behavior(PB_JUMP); return; }
+        if (isJump)
+        {
+            strBehavior += "PB_JUMP";
+            behaviorLog_.push_back(strBehavior); 
+            Set_Behavior(PB_JUMP); 
+            return;
+        }
 
         bool isAttack{};
         isAttack = ptr_key->TriggerKey(keyBind.attack);
         isAttack = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.attack), isAttack);
-        if (isAttack) { strBehavior += "PB_ATTACK"; behaviorLog_.push_back(strBehavior); }
-        if (isAttack) { Set_Behavior(PB_ATTACK); return; }
+        if (isAttack) 
+        {
+            strBehavior += "PB_ATTACK";
+            behaviorLog_.push_back(strBehavior);
+            Set_Behavior(PB_ATTACK); 
+            return;
+        }
 
         bool isMove{};
         isMove = ptr_key->PushKey(keyBind.move_left) || ptr_key->PushKey(keyBind.move_right) || ptr_key->PushKey(keyBind.move_up) || ptr_key->PushKey(keyBind.move_down);
@@ -129,8 +168,12 @@ void PlayerBehaviorMachine::BehaviorInput(void)
 
         // 何も入力が無ければIDLE
         bool noInput = !isJump &&!isMove && !isAttack;
-        if (noInput) { strBehavior += "PB_IDLE"; behaviorLog_.push_back(strBehavior); }
-        if (noInput) { Set_Behavior(PB_IDLE); }
+        if (noInput) 
+        {
+            strBehavior += "PB_IDLE";
+            behaviorLog_.push_back(strBehavior);
+            Set_Behavior(PB_IDLE);
+        }
     }
 
     // ATTACK
@@ -146,18 +189,32 @@ void PlayerBehaviorMachine::BehaviorInput(void)
         bool isJump{};
         isJump = ptr_key->TriggerKey(keyBind.jump) && canJump && isGround;
         isJump = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.jump) && canJump && isGround, isJump);
-        if (isJump) { strBehavior += "PB_JUMP";  behaviorLog_.push_back(strBehavior); }
-        if (isJump) { Set_Behavior(PB_JUMP); return; }
+        if (isJump) 
+        {
+            strBehavior += "PB_JUMP"; 
+            behaviorLog_.push_back(strBehavior);
+            Set_Behavior(PB_JUMP);
+            return;
+        }
 
         bool isMove{};
         isMove = ptr_key->PushKey(keyBind.move_left) || ptr_key->PushKey(keyBind.move_right) || ptr_key->PushKey(keyBind.move_up) || ptr_key->PushKey(keyBind.move_down);
         isMove = (std::max)(ptr_pad->GetLStick().x != 0 || ptr_pad->GetLStick().y != 0, isMove);
-        if (isMove) { strBehavior += "PB_MOVE"; behaviorLog_.push_back(strBehavior); }
-        if (isMove) { Set_Behavior(PB_MOVE); return; }
+        if (isMove) 
+        {
+            strBehavior += "PB_MOVE"; 
+            behaviorLog_.push_back(strBehavior);
+            Set_Behavior(PB_MOVE); 
+            return;
+        }
 
         // 何も入力が無ければIDLE
         bool noInput = !isJump && !isMove;
-        if (noInput) { strBehavior += "PB_IDLE"; behaviorLog_.push_back(strBehavior); }
-        if (noInput) { Set_Behavior(PB_IDLE); }
+        if (noInput)
+        {
+            strBehavior += "PB_IDLE";
+            behaviorLog_.push_back(strBehavior);
+            Set_Behavior(PB_IDLE);
+        }
     }
 }
