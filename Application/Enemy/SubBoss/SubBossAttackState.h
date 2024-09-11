@@ -44,7 +44,8 @@ private:
 	Util::TimeInfo shakeTime_ = { 0.025f, 0.0f };	// 震える間隔
 	Vector2 shakeDir_ = Vector2(-5.0f, 0.0f);		// 震える方向
 	// ステージ3で使う変数
-	Util::TimeInfo stage3Time_ = { 1.0f, 0.0f };// ステージ3の時間
+	Vector2 diveVec = Vector2(0.0f, 1.0f);	// 突進する方向
+	Util::MovementInfo diveInfo_;			// 突進する情報
 #pragma endregion
 
 #pragma region メンバ関数
