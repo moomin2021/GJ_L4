@@ -7,12 +7,15 @@
 
 using namespace EnemyStatus;
 
-void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr, Player* playerPtr)
+void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, std::vector<uint16_t> texs, M_ColliderManager* colMgrPtr, Player* playerPtr)
 {
 	// 座標の設定
 	position_ = inPos;
 	// テクスチャの設定
-	texture_ = tex;
+	outlineTexture_ = texs[0];
+	backTexture_ = texs[1];
+	frontTexture_ = texs[2];
+
 	// IDの設定
 	id_ = id;
 
@@ -21,11 +24,21 @@ void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_
 	pPlayer_ = playerPtr;
 
 	// スプライトの生成、設定
-	sprite_ = std::make_unique<Sprite>();
-	sprite_->SetPosition(position_);
-	sprite_->SetSize(size_);
-	sprite_->SetAnchorPoint({ 0.5f, 0.5f });
-	sprite_->SetColor({ 0.0f, 0.0f, 0.0f, 0.0f });
+	outlineSprite_ = std::make_unique<Sprite>();
+	outlineSprite_->SetPosition(position_);
+	outlineSprite_->SetSize(size_);
+	outlineSprite_->SetAnchorPoint({ 0.5f, 0.5f });
+	outlineSprite_->SetColor({ 0.0f, 0.0f, 0.0f, 0.0f });
+	backSprite_ = std::make_unique<Sprite>();
+	backSprite_->SetPosition(position_);
+	backSprite_->SetSize(size_);
+	backSprite_->SetAnchorPoint({ 0.5f, 0.5f });
+	backSprite_->SetColor({ 0.0f, 0.0f, 0.0f, 0.0f });
+	frontSprite_ = std::make_unique<Sprite>();
+	frontSprite_->SetPosition(position_);
+	frontSprite_->SetSize(size_);
+	frontSprite_->SetAnchorPoint({ 0.5f, 0.5f });
+	frontSprite_->SetColor({ 0.0f, 0.0f, 0.0f, 0.0f });
 
 	// コライダーの設定
 	collider_.circle_.center = position_;
@@ -40,7 +53,9 @@ void FloatingEnemy::Update()
 	if (color_ < 1.0f) {
 		color_ += addColor_ * pTimeMgr_->GetGameDeltaTime();
 		color_ = Util::Clamp(color_, 1.0f, 0.0f);
-		sprite_->SetColor({ color_, color_ , color_ , color_ });
+		outlineSprite_->SetColor({ color_, color_ , color_ , color_ });
+		backSprite_->SetColor({ color_, color_ , color_ , color_ });
+		frontSprite_->SetColor({ color_, color_ , color_ , color_ });
 	}
 
 	// 状態別更新処理
@@ -49,21 +64,30 @@ void FloatingEnemy::Update()
 	// 座標の更新
 	position_ += moveVec_ * moveSpd_ * pTimeMgr_->GetGameDeltaTime();
 	rotation_ += rotaSpd_ * pTimeMgr_->GetGameDeltaTime();
+	if (state_ != State::Normal) frontRotation_ = rotation_;
 	collider_.circle_.center = position_;
 
 	// スプライトの更新
-	sprite_->SetPosition(position_);
-	sprite_->SetRotation(rotation_);
+	outlineSprite_->SetPosition(position_);
+	outlineSprite_->SetRotation(rotation_);
+	backSprite_->SetPosition(position_);
+	backSprite_->SetRotation(rotation_);
+	frontSprite_->SetPosition(position_);
+	frontSprite_->SetRotation(frontRotation_);
 }
 
 void FloatingEnemy::MatUpdate()
 {
-	sprite_->MatUpdate();
+	outlineSprite_->MatUpdate();
+	backSprite_->MatUpdate();
+	frontSprite_->MatUpdate();
 }
 
 void FloatingEnemy::Draw()
 {
-	sprite_->Draw(texture_);
+	outlineSprite_->Draw(outlineTexture_);
+	backSprite_->Draw(backTexture_);
+	frontSprite_->Draw(frontTexture_);
 }
 
 void FloatingEnemy::Finalize()
@@ -173,37 +197,18 @@ void (FloatingEnemy::* FloatingEnemy::stateTable[]) () = {
 
 void FloatingEnemy::Normal()
 {
-	if (Key::GetInstance()->TriggerKey(DIK_E)) {
-		state_ = State::FirstBeaten;
-		moveVec_ = firstBeatenVec_;
-		moveSpd_ = firstBeatenMoveSpd_;
-		rotaSpd_ = firstBeatenRotaSpd_;
-	}
+	rotaSpd_ = normalRotaSpd_;
 }
 
 void FloatingEnemy::FirstBeaten()
 {
-	if (Key::GetInstance()->TriggerKey(DIK_E)) {
-		state_ = State::KnockBack;
-		moveVec_ = knockVec_;
-		moveSpd_ = knockFirstSpd_;
-		rotaSpd_ = knockFirstRotaSpd_;
-	}
+
 }
 
 void FloatingEnemy::KnockBack()
 {
 	moveSpd_ -= knockAddSpd_ * pTimeMgr_->GetGameDeltaTime();
 	rotaSpd_ -= knockAddRotaSpd_ * pTimeMgr_->GetGameDeltaTime();
-
-	if (Key::GetInstance()->TriggerKey(DIK_E)) {
-		state_ = State::SecondBeaten;
-		secondBeatenVec_ = { Util::GetRandomFloat(-1.0f, 1.0f), Util::GetRandomFloat(-1.0f, 1.0f) };
-		secondBeatenVec_.normalize();
-		moveVec_ = secondBeatenVec_;
-		moveSpd_ = secondBeatenMoveSpd_;
-		rotaSpd_ = secondBeatenRotaSpd_;
-	}
 }
 
 void FloatingEnemy::SecondBeaten()

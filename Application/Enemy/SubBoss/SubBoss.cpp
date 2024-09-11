@@ -7,13 +7,13 @@
 
 SubBoss::SubBoss() : subBossTextures_(3) {}
 
-void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
+void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr)
 {
 	// プレイヤーのポインタ受取
 	subBossInfo_.playerPtr = playerPtr;
 
 	// サブボスの情報の初期化処理
-	InitializeSubBossInfo(colMgrPtr);
+	InitializeSubBossInfo(colMgrPtr, cameraPtr);
 
 	// サブボス描画関連
 	// スプライトの生成、設定
@@ -108,7 +108,7 @@ void SubBoss::ImGuiUpdate()
 	if (imgui->Button("攻撃状態へ")) DebugStartAttack();
 }
 
-void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr)
+void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr)
 {
 	// 座標とサイズと回転度の設定
 	subBossInfo_.position = Vector2(500.0f, 400.0f);
@@ -122,6 +122,9 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr)
 	auto callBack = std::bind(&SubBoss::CollisionCallBack, this);
 	subBossInfo_.collider.Initialize(name, callBack, colMgrPtr);
 	subBossInfo_.collider.Data_Add("Damage", 5.0f);
+
+	// カメラの設定
+	subBossInfo_.cameraPtr = cameraPtr;
 }
 
 void (SubBoss::*SubBoss::stateTable[]) () = {

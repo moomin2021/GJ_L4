@@ -93,6 +93,8 @@ void DescentDiveState::Update(SubBossInfo* info)
 			// ダメージの変更
 			info->collider.Data_Remove("Damage");
 			info->collider.Data_Add("Damage", 5.0f);
+			// シェイク設定
+			info->cameraPtr->SetShake(Vector2(10.0f, 10.0f), 1.0f);
 			return;
 		}
 
