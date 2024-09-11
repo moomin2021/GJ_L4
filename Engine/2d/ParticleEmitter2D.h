@@ -7,10 +7,27 @@
 
 #include <d3d12.h>
 #include <wrl.h>
-#include <deque>
+#include "Sprite.h"
+#include <list>
 
 struct SettingParticleEmitter {
 
+};
+
+// パーティクル1粒
+struct Particle {
+    Vector2 position{}; //座標
+    bool isAlive{};
+    bool isDraw{};
+
+    float time_toCurrent{}; // 生成->現在までの時間
+    float time_toDead{};    // 生成->死ぬまでの時間（余命）
+
+    float scale_current{};  // スケール - 現在
+    float scale_start{};    // スケール - 最初
+    float scale_end{};      // スケール - 最後
+
+    float alpha{};
 };
 
 class ParticleEmitter2D
@@ -30,16 +47,6 @@ private:
 		Matrix4 matWorld;
 		Matrix4 matProj;
 	};
-
-	// パーティクル1粒
-	struct Particle {
-		Vector2 position = {};	// 座標
-		float nowTime = 0.0f;	// 生成されてからの生存時間
-		float aliveTime = 0.0f;	// 生存時間
-		float nowScale = 0.0f;	// 現在スケール
-		float startScale = 1.0f;// 初期スケール
-		float endScale = 1.0f;	// 最終スケール
-	};
 #pragma endregion
 
 #pragma region メンバ変数
@@ -48,19 +55,22 @@ private:
 	static Camera* sCamera_;
 
 	// インスタンス
-	TimeManager* timeMgr_ = nullptr;
+	TimeManager* ptr_timeManager_ = nullptr;
 
 	// 最大頂点数
 	const uint16_t MAX_VERTEX = 1024;
 
-	// 発生座標
-	Vector3 position_ = { 0.0f, 0.0f, 0.0f };
+    // 発生範囲の中心座標
+    Vector2 emit_center_{};
+    // 発生範囲の大きさ
+    Vector2 emit_length_{};
 
 	// パーティクルコンテナ
-	std::deque<Particle> particles_;
-
+	std::list<std::unique_ptr<Particle>> particles_;
 	// テクスチャハンドル
 	uint16_t textureHandle_ = 0;
+    // スプライト(パーティクル描画用)
+    std::unique_ptr<Sprite> sprite_{};
 
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff_ = nullptr;
@@ -78,11 +88,11 @@ private:
 #pragma region メンバ関数
 public:
 	// コンストラクタとデストラクタ
-	ParticleEmitter2D() {}
-	~ParticleEmitter2D() {}
+    ParticleEmitter2D(void) = default;
+    ~ParticleEmitter2D(void) = default;
 
 	// 基本処理
-	void Initialize();
+	void Initialize(const Vector2& arg_EmitCenter_, const Vector2& arg_EmitLength_, uint16_t arg_textureHandle);
 	void Update();
 	void MatUpdate();
 	void ImGuiUpdate();
@@ -90,7 +100,7 @@ public:
 	void Finalize();
 
 	// パーティクルの追加
-	void AddParticle(const Vector2& inPos, float time, float startScale, float endScale);
+	void AddParticle(std::unique_ptr<Particle> instance);
 
 private:
 	void CreateConstBuff();	// 定数バッファ生成
@@ -116,6 +126,6 @@ public:
 	/// パーティクル発生座標の設定
 	/// </summary>
 	/// <param name="inPos"> 座標 </param>
-	void SetPosition(const Vector2& inPos) { position_ = { inPos.x, inPos.y, 0.0f }; }
+    void SetPosition(const Vector2& inPos) { emit_center_ = inPos; }
 #pragma endregion
 };

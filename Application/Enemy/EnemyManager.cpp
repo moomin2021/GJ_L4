@@ -86,6 +86,14 @@ void EnemyManager::ImGuiUpdate()
 			pImGuiMgr_->EndTabItem();
 		}
 
+		// サブボスのタブ開始
+		if (pImGuiMgr_->BeginTabItem("サブボス")) {
+			// サブボスクラスのImGui更新処理
+			subBoss_->ImGuiUpdate();
+			// サブのタブ終了
+			pImGuiMgr_->EndTabItem();
+		}
+
 		// タブバーの終了
 		pImGuiMgr_->EndTabBar();
 	}

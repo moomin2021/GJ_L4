@@ -315,7 +315,7 @@
     <ClCompile Include="Application\Enemy\Boss\Boss.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Boss\SubBoss.cpp">
+    <ClCompile Include="Application\Enemy\SubBoss\SubBoss.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\Enemy\Enemys\BaseEnemy.cpp">
@@ -361,6 +361,12 @@
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Application\Easing\AppEasing.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\SubBoss\SubBossInfo.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\SubBoss\SubBossAttackState.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -575,7 +581,7 @@
     <ClInclude Include="Application\Enemy\Boss\Boss.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Boss\SubBoss.h">
+    <ClInclude Include="Application\Enemy\SubBoss\SubBoss.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\Enemys\BaseEnemy.h">
@@ -627,6 +633,12 @@
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Move.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\SubBoss\SubBossAttackState.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
