@@ -3,7 +3,7 @@
 #include "Collision/M_ColliderManager.h"
 
 #include "Boss/Boss.h"
-#include "Boss/SubBoss.h"
+#include "SubBoss/SubBoss.h"
 #include "Enemys/BaseEnemy.h"
 #include "EnemyFactory.h"
 

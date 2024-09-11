@@ -103,3 +103,13 @@ float Util::NormalizeAngle(float angle)
 
 	return result;
 }
+
+float Util::TimeInfo::GetElapsedRatio()
+{
+	return Clamp(elapsedTime / setTime, 1.0f, 0.0f);
+}
+
+bool Util::TimeInfo::GetIsExceeded()
+{
+	return elapsedTime >= setTime;
+}

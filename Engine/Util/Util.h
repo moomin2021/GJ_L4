@@ -1,8 +1,35 @@
 #pragma once
+#include "Vector2.h"
+
 #include <vector>
 #include <string>
 
 namespace Util {
+
+	struct TimeInfo {
+		// 設定時間
+		float setTime = 0.0f;
+		// 経過時間
+		float elapsedTime = 0.0f;
+
+		// 経過した割合を返す
+		float GetElapsedRatio();
+		// 経過時間が設定時間を超えたか
+		bool GetIsExceeded();
+	};
+
+	struct MovementInfo {
+		// 速度
+		float speed = 0.0f;
+		// 最大速度
+		float maxSpd_ = 0.0f;
+		// 速度に加算する値
+		float acceleration = 0.0f;
+		// 移動方向
+		Vector2 derection = Vector2();
+		// 移動方向と速度
+		Vector2 velocity = Vector2();
+	};
 
 	const float PI = 3.141592654f;
 
