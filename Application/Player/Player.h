@@ -26,8 +26,13 @@ private:
     std::shared_ptr<PlayerCommonInfomation> commonInfomation_;
 
     int32_t png_player_{};
-    int32_t png_white_{};
-    int32_t png_frame_{};
+    int32_t png_HPBar_frame_{};
+    int32_t png_HPBar_content_{};
+    int32_t png_SPBar_frame_{};
+    int32_t png_SPBar_content_{};
+
+    int32_t png_white_debug{};
+    int32_t png_frame_debug{};
 
 public:
     PlayerCommonInfomation* Get_CommonInfomation(void) { return commonInfomation_.get(); }

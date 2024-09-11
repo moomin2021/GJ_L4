@@ -24,8 +24,13 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
 
     // スプライト
     png_player_ = LoadTexture("playerKari.png");
-    png_white_ = LoadTexture("white.png");
-    png_frame_ = LoadTexture("frame.png");
+    png_HPBar_frame_ = LoadTexture("HpBarFrame.png");
+    png_HPBar_content_ = LoadTexture("HpBarContents.png");
+    png_SPBar_frame_ = LoadTexture("SpBarFrame.png");
+    png_SPBar_content_ = LoadTexture("SpBarContents.png");
+
+    png_white_debug = LoadTexture("white.png");
+    png_frame_debug = LoadTexture("frame.png");
     commonInfomation_->png_playerIdle = LoadDivTexture("playerWait.png", static_cast<int16_t>(commonInfomation_->kNum_IdleSprite_max));
     commonInfomation_->png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
 
@@ -34,6 +39,27 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     commonInfomation_->sprite_player->SetAnchorPoint(commonInfomation_->kSprite_AnchorPoint_player_idle);
     commonInfomation_->sprite_player->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
+    commonInfomation_->sprite_player_hpFrame = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_hpFrame->SetSize({ 419,82 });
+    commonInfomation_->sprite_player_hpFrame->SetPosition({ 90,12 });
+    commonInfomation_->sprite_player_hpFrame->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    commonInfomation_->sprite_player_hpContent = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_hpContent->SetSize({ 302,62 });
+    commonInfomation_->sprite_player_hpContent->SetPosition({ 193,21 });
+    commonInfomation_->sprite_player_hpContent->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    commonInfomation_->sprite_player_spFrame = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_spFrame->SetSize({ 512,42 });
+    commonInfomation_->sprite_player_spFrame->SetPosition({ 90,100 });
+    commonInfomation_->sprite_player_spFrame->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    commonInfomation_->sprite_player_spContent = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_spContent->SetSize({ 399,27 });
+    commonInfomation_->sprite_player_spContent->SetPosition({ 193,108 });
+    commonInfomation_->sprite_player_spContent->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    // DEBUG
     commonInfomation_->sprite_collider = std::make_unique<Sprite>();
     commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
     commonInfomation_->sprite_collider->SetSize(commonInfomation_->kCollision_Length_playerCollider);
@@ -116,6 +142,10 @@ void Player::Update(void)
 void Player::MatUpdate(void)
 {
     commonInfomation_->sprite_player->MatUpdate();
+    commonInfomation_->sprite_player_hpFrame->MatUpdate();
+    commonInfomation_->sprite_player_hpContent->MatUpdate();
+    commonInfomation_->sprite_player_spFrame->MatUpdate();
+    commonInfomation_->sprite_player_spContent->MatUpdate();
     commonInfomation_->sprite_collider->MatUpdate();
     commonInfomation_->sprite_attackCollider->MatUpdate();
 }
@@ -135,16 +165,19 @@ void Player::Draw(void)
         break;
     }
 
+    commonInfomation_->sprite_player_hpContent->Draw(png_HPBar_content_);
+    commonInfomation_->sprite_player_hpFrame->Draw(png_HPBar_frame_);
+    commonInfomation_->sprite_player_spContent->Draw(png_SPBar_content_);
+    commonInfomation_->sprite_player_spFrame->Draw(png_SPBar_frame_);
+
     bool isBehaviorAttack = behaviorMachine_.Get_Behavior() == PB_ATTACK;
-
-
     // 当たり判定表示
     if (commonInfomation_->is_drawCollider)
     {
-        commonInfomation_->sprite_collider->Draw(png_white_);
+        commonInfomation_->sprite_collider->Draw(png_white_debug);
         isBehaviorAttack ?
-            commonInfomation_->sprite_attackCollider->Draw(png_white_) :
-            commonInfomation_->sprite_attackCollider->Draw(png_frame_);
+            commonInfomation_->sprite_attackCollider->Draw(png_white_debug) :
+            commonInfomation_->sprite_attackCollider->Draw(png_frame_debug);
     }
 }
 

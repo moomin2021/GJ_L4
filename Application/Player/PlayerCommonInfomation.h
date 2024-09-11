@@ -98,6 +98,10 @@ struct PlayerCommonInfomation
     std::vector<uint16_t> png_playerIdle{};
     std::vector<uint16_t> png_playerAttack{};
     std::unique_ptr<Sprite> sprite_player = nullptr;
+    std::unique_ptr<Sprite> sprite_player_hpFrame = nullptr;
+    std::unique_ptr<Sprite> sprite_player_hpContent = nullptr;
+    std::unique_ptr<Sprite> sprite_player_spFrame = nullptr;
+    std::unique_ptr<Sprite> sprite_player_spContent = nullptr;
 
     bool is_drawCollider{};
     std::unique_ptr<Sprite> sprite_collider = nullptr;
