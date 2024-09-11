@@ -47,6 +47,11 @@ void GameScene::Update()
 	// ImGuiの処理
 	enemyMgr_->ImGuiUpdate();
 
+	static Vector2 cameraPos = Vector2();
+	cameraPos = camera_->GetShakePos();
+	cameraPos.x += (Key::GetInstance()->PushKey(DIK_D) - Key::GetInstance()->PushKey(DIK_A)) * 10.0f;
+	cameraPos.y += (Key::GetInstance()->PushKey(DIK_S) - Key::GetInstance()->PushKey(DIK_W)) * 10.0f;
+	camera_->SetShakePos(cameraPos);
 #endif
     colliderManager_.Update();
 }

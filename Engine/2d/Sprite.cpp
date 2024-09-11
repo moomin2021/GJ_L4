@@ -170,7 +170,7 @@ Sprite::Sprite()
 #pragma endregion
 }
 
-void Sprite::MatUpdate() {
+void Sprite::MatUpdate(bool isShake) {
 #pragma region ワールド行列計算
 	// 行列初期化
 	matWorld_ = Matrix4Identity();
@@ -184,7 +184,8 @@ void Sprite::MatUpdate() {
 
 #pragma region 定数バッファの転送
 	// 行列計算
-	constMap_->mat = matWorld_ * sCamera_->GetMatOrthoGraphicPro();
+	if (isShake) constMap_->mat = matWorld_ * sCamera_->GetMatShake() * sCamera_->GetMatOrthoGraphicPro();
+	else constMap_->mat = matWorld_ * sCamera_->GetMatOrthoGraphicPro();
 
 	// 色(RGBA)
 	constMap_->color = color_;

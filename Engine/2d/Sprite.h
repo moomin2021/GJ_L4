@@ -68,7 +68,7 @@ public:
 	Sprite();
 
 	// 行列更新処理
-	void MatUpdate();
+	void MatUpdate(bool isShake = true);
 
 	/// <summary>
 	/// 描画処理

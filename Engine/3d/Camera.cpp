@@ -41,6 +41,12 @@ Camera::Camera()
 void Camera::Update() {
 	// ビュー行列更新
 	UpdateMatView();
+
+	// 行列初期化
+	matShake_ = Matrix4Identity();
+
+	// 平行移動
+	matShake_ *= Matrix4Translate({ shakePos_.x, shakePos_.y, 0.0f });
 }
 
 void Camera::UpdateMatView()

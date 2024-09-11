@@ -1,5 +1,6 @@
 #pragma once
 #include "Matrix4.h"
+#include "Vector2.h"
 #include "Vector3.h"
 
 class Camera {
@@ -14,6 +15,10 @@ private:
 	Matrix4 matView_			= {};// ビュー変換行列
 	Matrix4 matPerspectivePro_	= {};// 透視投影行列
 	Matrix4 matOrthoGraphicPro_	= {};// 平行投影行列
+
+	// シェイク用
+	Vector2 shakePos_ = Vector2();
+	Matrix4 matShake_ = Matrix4();
 #pragma endregion
 
 #pragma region メンバ関数
@@ -58,6 +63,9 @@ public:
 	/// </summary>
 	/// <param name="fovAngleY"></param>
 	void SetFovAngleY(float fovAngleY);
+
+	// シェイク座標を設定
+	void SetShakePos(const Vector2& inPos) { shakePos_ = inPos; }
 #pragma endregion
 
 #pragma region ゲッター関数
@@ -94,5 +102,11 @@ public:
 
 	// 平行投影行列を取得
 	inline const Matrix4& GetMatOrthoGraphicPro() { return matOrthoGraphicPro_; }
+
+	// シェイク用の行列
+	inline const Matrix4& GetMatShake() { return matShake_; }
+
+	// シェイク座標の取得
+	const Vector2& GetShakePos() { return shakePos_; }
 #pragma endregion
 };
