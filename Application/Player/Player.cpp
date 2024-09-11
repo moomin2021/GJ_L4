@@ -76,6 +76,9 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
 
 void Player::Update(void)
 {
+    if (Key::GetInstance()->TriggerKey(DIK_R)) { commonInfomation_->Input(); }
+    if (Key::GetInstance()->TriggerKey(DIK_O)) { commonInfomation_->Output(); }
+
     // 移動記録の更新
     commonInfomation_->move.Update();
     // 状態管理クラスの更新
@@ -94,7 +97,7 @@ void Player::Update(void)
 
     // プレイヤー共通情報の更新
     commonInfomation_->Update();
-    
+
     // 重力の加算
     const Vector2& gravity = behaviorMachine_.Get_PlayerBehaviorPtr()->Gravity();
     commonInfomation_->position += gravity;
@@ -103,7 +106,9 @@ void Player::Update(void)
     // コライダーの更新
     commonInfomation_->collider.square_.center = commonInfomation_->position;
 
+#ifdef _DEBUG
     DrawImGUi();
+#endif // _DEBUG
 }
 
 void Player::MatUpdate(void)
@@ -201,8 +206,6 @@ void Player::DrawImGUi(void)
 void Player::Callback(void)
 {
     auto& myCol = commonInfomation_->collider;
-    auto imgui = ImGuiManager::GetInstance();
-    imgui->BeginWindow("player");
     Vector2 pushbackv{};
 
     if (myCol.IsDetect_Name("Boss0"))
@@ -267,14 +270,7 @@ void Player::Callback(void)
         commonInfomation_->collider.square_.center = commonInfomation_->position;
 
         pushbackv = pushBack;
-
-        imgui->Text("rect_pos : [%f][%f]", rect->square_.center.x, rect->square_.center.y);
-        imgui->Text("rect_size: [%f][%f]", rect->square_.length.x, rect->square_.length.y);
-        imgui->Text("rect_maxX: [%f][%f]", rect->square_.center.x + rect->square_.length.x / 2, rect->square_.center.y);
-        imgui->Text("fill: [%f][%f]", rect->square_.center.x + rect->square_.length.x / 2 - myCol.square_.center.x - myCol.square_.length.x / 2, myCol.square_.center.y);
     }
-    imgui->Text("pushback : [%f][%f]", pushbackv.x, pushbackv.y);
-    imgui->EndWindow();
 
     commonInfomation_->move.velocity_current += pushbackv;
 
