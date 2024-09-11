@@ -18,12 +18,16 @@ private:
 	Vector2 position_ = Vector2();// 座標
 	Vector2 size_ = Vector2(64.0f, 64.0f);// サイズ
 	float rotation_ = 0.0f;// 回転角度
+	float frontRotation_ = 0.0f;
 	Vector2 moveVec_ = Vector2();// 動く方向
 	float moveSpd_ = 0.0f;// 移動速度
 	float rotaSpd_ = 0.0f;// 回転速度
 	M_CircleCollider collider_;
 	float color_ = 0.0f;
 	float addColor_ = 0.8f;
+
+	// 通常時に使う変数
+	float normalRotaSpd_ = 50.0f;
 
 	// 一回目殴られた時に使う変数
 	Vector2 firstBeatenVec_ = Vector2(0.0f, 1.0f);// 殴られた時の方向
@@ -50,7 +54,7 @@ private:
 #pragma region メンバ関数
 public:
 	// 各基本処理
-	void Initialize(size_t id, const Vector2& inPos, uint16_t tex, M_ColliderManager* colMgrPtr, Player* playerPtr) override;
+	void Initialize(size_t id, const Vector2& inPos, std::vector<uint16_t> texs, M_ColliderManager* colMgrPtr, Player* playerPtr) override;
 	void Update() override;
 	void MatUpdate() override;
 	void Draw() override;

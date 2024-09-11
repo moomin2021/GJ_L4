@@ -12,7 +12,9 @@ void EnemyFactory::Initialize(EnemyManager* enemyMgrPtr, M_ColliderManager* colM
 	pPlayer_ = playerPtr;
 
 	// テクスチャの読み込み
-	textures_.emplace_back(LoadTexture("zakoEnemy01.png"));
+	textures_.emplace_back(LoadTexture("zakoEnemyOutLine01.png"));
+	textures_.emplace_back(LoadTexture("zakoEnemyBlade01.png"));
+	textures_.emplace_back(LoadTexture("zakoEnemyFace01.png"));
 }
 
 void EnemyFactory::ImGuiUpdate(ImGuiManager* imGuiMgrPtr)
@@ -30,7 +32,7 @@ void EnemyFactory::CreateEnemy(const Vector2& inPos)
 {
 	// 敵の新規生成、初期化
 	std::unique_ptr<BaseEnemy> newEnemy = std::make_unique<FloatingEnemy>();
-	newEnemy->Initialize(createCounter_, inPos, textures_[0], pColMgr_, pPlayer_);
+	newEnemy->Initialize(createCounter_, inPos, textures_, pColMgr_, pPlayer_);
 
 	// 敵管理クラスに新しく作成したデータを追加
 	pEnemyMgr_->AddEnemy(std::move(newEnemy));
