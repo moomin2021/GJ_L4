@@ -75,6 +75,9 @@ void DescentDiveState::Update(SubBossInfo* info)
 		if (stage2Time_.GetIsExceeded()) {
 			info->shakeOffset = Vector2();
 			attackStage_++;
+			// ダメージの変更
+			info->collider.Data_Remove("Damage");
+			info->collider.Data_Add("Damage", 30.0f);
 		}
 	}
 
@@ -87,6 +90,9 @@ void DescentDiveState::Update(SubBossInfo* info)
 			presetTargetPos_ = info->position;
 			targetPos_ = info->position;
 			targetPos_.y = 400.0f;
+			// ダメージの変更
+			info->collider.Data_Remove("Damage");
+			info->collider.Data_Add("Damage", 5.0f);
 			return;
 		}
 

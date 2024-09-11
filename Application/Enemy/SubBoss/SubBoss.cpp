@@ -121,6 +121,7 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr)
 	std::string name = "SubBoss";
 	auto callBack = std::bind(&SubBoss::CollisionCallBack, this);
 	subBossInfo_.collider.Initialize(name, callBack, colMgrPtr);
+	subBossInfo_.collider.Data_Add("Damage", 5.0f);
 }
 
 void (SubBoss::*SubBoss::stateTable[]) () = {
