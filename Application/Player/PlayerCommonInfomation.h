@@ -73,6 +73,8 @@ struct PlayerCommonInfomation
 
     //-Variable-----------------------------
 
+    float health{};
+    float attackPower{};
     Vector2 position{};
     Gravity gravity{};
     Move move{};
