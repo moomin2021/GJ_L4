@@ -37,36 +37,39 @@ struct Controller_Bind
 
 struct PlayerCommonInfomation
 {
+    void Input(void);
+    void Output(void);
+
     //-Const-------------------------
     // Move
-    const float kMoveSpeed = 5.f;
+    float kMoveSpeed = 5.f;
 
     // Gravity
-    const float kGravity_max = 20.0f;
-    const float kGravity_add = 0.8f;
+    float kGravity_max = 20.0f;
+    float kGravity_add = 0.8f;
 
     // Jump
-    const float kJumpPower = -20.f;
+    float kJumpPower = -20.f;
 
     // Sprite
-    const Vector2 kSprite_AnchorPoint_player_idle = { 0.6f,0.63f };
-    const Vector2 kSprite_AnchorPoint_player_attack = { 0.6f,0.63f };
-    const Vector2 kSprite_Length_player = { 130,75 };
+    Vector2 kSprite_AnchorPoint_player_idle = { 0.6f,0.63f };
+    Vector2 kSprite_AnchorPoint_player_attack = { 0.6f,0.63f };
+    Vector2 kSprite_Length_player = { 130,75 };
 
-    const int32_t kNum_IdleSprite_max = 4;
-    const int32_t kNum_AttackSprite_max = 5;
+    int32_t kNum_IdleSprite_max = 4;
+    int32_t kNum_AttackSprite_max = 5;
 
     // Collider
-    const Vector2 kCollision_Length_playerCollider = { 60,55 };
-    const Vector2 kCollision_Length_playerCollider_attack = { 100,100 };
-    const Vector2 kCollision_positionOffset_playerCollider_attack = { -70 , 0 };
+    Vector2 kCollision_Length_playerCollider = { 60,55 };
+    Vector2 kCollision_Length_playerCollider_attack = { 100,100 };
+    Vector2 kCollision_positionOffset_playerCollider_attack = { -70 , 0 };
 
     // Time
-    const float kTime_IdleInterval_max = 1.2f; // sec
-    const float kTime_IdleAnimation_max = 0.4f; // sec
-    const float kTime_AttackInterval_max = 20.f; // sec
-    const float kTime_AttackAnimation_max = 0.2f; // sec
-    const float kTime_Invincible_max = 20.f;     // sec
+    float kTime_IdleInterval_max = 1.2f; // sec
+    float kTime_IdleAnimation_max = 0.4f; // sec
+    float kTime_AttackInterval_max = 20.f; // sec
+    float kTime_AttackAnimation_max = 0.2f; // sec
+    float kTime_Invincible_max = 20.f;     // sec
 
     //-Variable-----------------------------
 

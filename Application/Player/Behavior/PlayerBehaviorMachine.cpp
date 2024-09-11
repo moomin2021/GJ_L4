@@ -27,6 +27,8 @@ void PlayerBehaviorMachine::Update(void)
 
     // 更新処理
     statePtr_->Execute();
+
+    if (behaviorLog_.size() >= 100) { behaviorLog_.clear(); }
 }
 
 void PlayerBehaviorMachine::NextStateCheck(void)
