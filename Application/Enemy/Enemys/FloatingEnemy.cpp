@@ -140,6 +140,9 @@ void FloatingEnemy::CollisionCallBack()
 			moveVec_ = knockVec_;
 			moveSpd_ = knockFirstSpd_;
 			rotaSpd_ = knockFirstRotaSpd_;
+			// コライダーの設定
+			collider_.Data_Remove("Damage");
+			collider_.Data_Add("Damage", 0.0f);
 		}
 
 		// 二回目殴られた状態なら
@@ -168,6 +171,8 @@ void FloatingEnemy::CollisionCallBack()
 			moveVec_ = firstBeatenVec_;
 			moveSpd_ = firstBeatenMoveSpd_;
 			rotaSpd_ = firstBeatenRotaSpd_;
+			// コライダーの設定
+			collider_.Data_Add("Damage", 20.0f);
 		}
 
 		// ノックバック状態なら
@@ -184,6 +189,9 @@ void FloatingEnemy::CollisionCallBack()
 			if (Direction::DIRECTION_RIGHT == playerInfo->move.direction_current) secondBeatenVec_.x = 1.0f;
 			secondBeatenVec_.normalize();
 			moveVec_ = secondBeatenVec_;
+			// コライダーの設定
+			collider_.Data_Remove("Damage");
+			collider_.Data_Add("Damage", 20.0f);
 		}
 	}
 }
