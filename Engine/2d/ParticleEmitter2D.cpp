@@ -10,40 +10,45 @@
 
 Camera* ParticleEmitter2D::sCamera_ = nullptr;
 
-void ParticleEmitter2D::Initialize()
+void ParticleEmitter2D::Initialize(const Vector2& arg_EmitCenter_, const Vector2& arg_EmitLength_, uint16_t arg_textureHandle)
 {
-	// インスタンス取得
-	timeMgr_ = TimeManager::GetInstance();
+    // インスタンス取得
+    ptr_timeManager_ = TimeManager::GetInstance();
 
-	CreateConstBuff();	// 定数バッファ生成
-	CreateVertexBuff();	// 頂点バッファ生成
-	CreateIndexBuff();	// インデックスバッファ生成
+    CreateConstBuff();	// 定数バッファ生成
+    CreateVertexBuff();	// 頂点バッファ生成
+    CreateIndexBuff();	// インデックスバッファ生成
+
+    // 
+    emit_center_ = arg_EmitCenter_;
+    emit_length_ = arg_EmitLength_;
+    textureHandle_ = arg_textureHandle;
+
+    sprite_ = std::make_unique<Sprite>();
 }
 
 void ParticleEmitter2D::Update()
 {
-	// 寿命が尽きたパーティクルを全削除
-	for (auto it = particles_.begin(); it != particles_.end();) {
-		// 時間を進める
-		(*it).time_toCurrent += timeMgr_->GetDeltaTime();
+    for (auto it = particles_.begin(); it!= particles_.end();)
+    {
+        // 生存確認
+        if ((*it)->isAlive == false)
+        {
+            // 消す
+            (*it).reset();
+            it = particles_.erase(it);
+            continue;
+        }
 
-		// 現在の生存時間が設定されている生存時間以上なら削除する
-		if ((*it).time_toCurrent >= (*it).time_toDead) {
-			it = particles_.erase(it);
-		}
-		else ++it;
-	}
+        // 時間更新
+        (*it)->time_toCurrent += ptr_timeManager_->GetDeltaTime();
+        if ((*it)->time_toCurrent >= (*it)->time_toDead) { (*it)->isAlive = false; } // 次フレームで削除
+    }
 
-	// 全パーティクル更新
-	for (auto& it : particles_) {
-		// 座標の更新
-		it.position = it.position;
-
-		// スケールの更新
-		float elapsed = it.time_toCurrent / it.time_toDead;
-		elapsed = Util::Clamp(elapsed, 1.0f, 0.0f);
-		it.scale_current = Easing::lerp(it.scale_start, it.scale_end, elapsed);
-	}
+		//// スケールの更新
+		//float elapsed = it.time_toCurrent / it.time_toDead;
+		//elapsed = Util::Clamp(elapsed, 1.0f, 0.0f);
+		//it.scale_current = Easing::lerp(it.scale_start, it.scale_end, elapsed);
 }
 
 void ParticleEmitter2D::MatUpdate()
@@ -58,8 +63,8 @@ void ParticleEmitter2D::MatUpdate()
 		// パーティクルの情報を1つずつ反映
 		for (auto& it : particles_) {
 			// 座標
-			vertMap->pos = Vector3(it.position.x, it.position.y, 0.0f);
-			vertMap->scale = it.scale_current;
+			vertMap->pos = Vector3(it->position.x, it->position.y, 0.0f);
+			vertMap->scale = it->scale_current;
 
 			vertMap++;
 		}
@@ -72,7 +77,8 @@ void ParticleEmitter2D::MatUpdate()
 	Matrix4 matWorld = Matrix4Identity();
 
 	// ワールド行列に平行移動を反映
-	matWorld *= Matrix4Translate(position_);
+    Vector3 pos = { emit_center_.x, emit_center_.y, 0.f };
+	matWorld *= Matrix4Translate(pos);
 
 #pragma endregion
 
@@ -89,8 +95,8 @@ void ParticleEmitter2D::ImGuiUpdate()
 
 	imgui->BeginWindow("Particle");
 
-	for (auto& it : particles_) imgui->Text("scale = %f", it.scale_current);
-	for (auto& it : particles_) imgui->Text("現在の時間 = %f", it.time_toCurrent);
+	for (auto& it : particles_) imgui->Text("scale = %f", it->scale_current);
+	for (auto& it : particles_) imgui->Text("現在の時間 = %f", it->time_toCurrent);
 
 	imgui->EndWindow();
 }
@@ -127,18 +133,9 @@ void ParticleEmitter2D::Finalize()
 	particles_.clear();
 }
 
-void ParticleEmitter2D::AddParticle(const Vector2& inPos, float time, float startScale, float endScale)
+void ParticleEmitter2D::AddParticle(std::unique_ptr<Particle> instance)
 {
-	// リストに要素を追加
-	particles_.emplace_front();
-	// 追加した要素の参照
-	Particle& p = particles_.front();
-
-	// 設定
-	p.position = inPos;
-	p.time_toDead = time;
-	p.scale_start = startScale;
-	p.scale_end = endScale;
+    particles_.push_back(std::move(instance));
 }
 
 void ParticleEmitter2D::CreateConstBuff()
