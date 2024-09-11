@@ -2,6 +2,14 @@
 #include "SubBossInfo.h"
 #include "Util.h"
 
+#include <vector>
+#include <string>
+
+// 攻撃タイプ文字列
+const std::vector<std::string> subBossAttackTypeStr = {
+	"DescentDiveState",
+};
+
 // 攻撃タイプ
 enum class SubBossAttackType {
 	DescentDiveState,

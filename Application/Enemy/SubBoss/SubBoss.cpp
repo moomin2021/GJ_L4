@@ -84,8 +84,28 @@ void SubBoss::ImGuiUpdate()
 	// 当たり判定を表示するか
 	imgui->CheckBox("当たり判定表示", isDebug_);
 
+	static std::string curretStr = "DescentDiveState";
+	if (imgui->BeginCombo("攻撃タイプ", curretStr))
+	{
+		// 攻撃タイプの選択
+		for (size_t i = 0; i < subBossAttackTypeStr.size(); i++)
+		{
+			bool isSelectable = (curretStr == subBossAttackTypeStr[i]);
+	
+			if (imgui->Selectable(subBossAttackTypeStr[i], isSelectable))
+			{
+				curretStr = subBossAttackTypeStr[i];
+				debugAttackTypeStr_ = curretStr;
+			}
+	
+			if (isSelectable) imgui->SetItemDefaultFocus();
+		}
+	
+		imgui->EndCombo();
+	}
+
 	// 攻撃状態に切替
-	if (imgui->Button("攻撃状態へ")) ChangeAttack();
+	if (imgui->Button("攻撃状態へ")) DebugStartAttack();
 }
 
 void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr)
@@ -136,6 +156,21 @@ void SubBoss::ChangeAttack()
 	// 攻撃状態の生成、初期化
 	currentAttackState_ = std::make_unique<DescentDiveState>();
 	currentAttackState_->Initialize(&subBossInfo_);
+
+	// 状態の変更
+	currentMoveType_ = SubBossMoveType::Attack;
+}
+
+void SubBoss::DebugStartAttack()
+{
+	// 攻撃状態が空ではなかったら終了処理をする
+	if (currentAttackState_ != nullptr) currentAttackState_->Finalize(&subBossInfo_);
+
+	if (debugAttackTypeStr_ == "DescentDiveState")
+	{
+		currentAttackState_ = std::make_unique<DescentDiveState>();
+		currentAttackState_->Initialize(&subBossInfo_);
+	}
 
 	// 状態の変更
 	currentMoveType_ = SubBossMoveType::Attack;
