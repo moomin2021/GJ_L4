@@ -42,6 +42,7 @@ private:
 	bool isDebug_ = false;
 	std::unique_ptr<Sprite> colSprite_ = nullptr;
 	uint16_t debugTexture_ = 0;
+	std::string debugAttackTypeStr_ = "DescentDiveState";
 #pragma endregion
 
 #pragma region メンバ関数
@@ -70,6 +71,9 @@ private:
 
 	// 攻撃状態に変更
 	void ChangeAttack();
+
+	// デバックで選択した攻撃を開始
+	void DebugStartAttack();
 
 	// 衝突判定コールバック関数
 	void CollisionCallBack();

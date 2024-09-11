@@ -13,6 +13,11 @@ void DescentDiveState::Initialize(SubBossInfo* info)
 	// ステージ1で使う変数
 	moveInfoS1_.maxSpd_ = 400.0f;
 	moveInfoS1_.acceleration = 50.0f;
+
+	// ステージ3で使う変数
+	diveInfo_.derection = Vector2(0.0f, 1.0f);
+	diveInfo_.acceleration = 400.0f;
+	diveInfo_.maxSpd_ = 400.0f;
 }
 
 void DescentDiveState::Update(SubBossInfo* info)
@@ -70,12 +75,61 @@ void DescentDiveState::Update(SubBossInfo* info)
 		if (stage2Time_.GetIsExceeded()) {
 			info->shakeOffset = Vector2();
 			attackStage_++;
+			// ダメージの変更
+			info->collider.Data_Remove("Damage");
+			info->collider.Data_Add("Damage", 30.0f);
 		}
 	}
 
 	// 突進
 	else if (attackStage_ == 3) {
+		// ボスが床と衝突していたら
+		if (info->isGroundCol)
+		{
+			attackStage_++;
+			presetTargetPos_ = info->position;
+			targetPos_ = info->position;
+			targetPos_.y = 400.0f;
+			// ダメージの変更
+			info->collider.Data_Remove("Damage");
+			info->collider.Data_Add("Damage", 5.0f);
+			return;
+		}
 
+		// 突進処理
+		diveInfo_.speed += diveInfo_.acceleration * timeMgr->GetGameDeltaTime();
+		diveInfo_.speed = Util::Clamp(diveInfo_.speed, diveInfo_.maxSpd_, 0.0f);
+		info->position += diveInfo_.derection * diveInfo_.speed;
+	}
+
+	// 待機
+	else if (attackStage_ == 4)
+	{
+		// 時間の加算
+		stage4Time_.elapsedTime += timeMgr->GetGameDeltaTime();
+		// 時間を超えたら次の段階へ
+		if (stage4Time_.GetIsExceeded())
+		{
+			info->shakeOffset = Vector2();
+			attackStage_++;
+		}
+	}
+
+	// 規定の位置までもどる
+	else if (attackStage_ == 5)
+	{
+		// 時間の加算
+		stage5Time_.elapsedTime += timeMgr->GetGameDeltaTime();
+		// 座標移動
+		float rate = stage5Time_.GetElapsedRatio();
+		info->position.x = Easing::Quint::easeOut(presetTargetPos_.x, targetPos_.x, rate);
+		info->position.y = Easing::Quint::easeOut(presetTargetPos_.y, targetPos_.y, rate);
+		// 時間を超えたら次の段階へ
+		if (stage5Time_.GetIsExceeded())
+		{
+			attackStage_++;
+			isAttackEnd_ = true;
+		}
 	}
 }
 
