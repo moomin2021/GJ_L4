@@ -66,6 +66,14 @@ public:
 	/// <returns> 読み込んだ画像のハンドル </returns>
 	uint16_t LoadTexture(const std::string fileName);
 
+	/// <summary>
+/// テクスチャを分割して読み込み、ハンドルを取得する
+/// </summary>
+/// <param name="fileName"> 画像ファイル名 </param>
+/// <param name="xNum"> 画像の横向きに対する分割数 </param>
+/// /// <returns> 読み込んだ画像のハンドル </returns>
+	std::vector<uint16_t> LoadDivTexture(const std::string& fileName, int16_t xNum);
+
 	void ReleaseIntermediateResources();
 
 	uint16_t GetIndex();
@@ -110,3 +118,11 @@ private:
 /// <param name="fileName"> 画像ファイル名 </param>
 /// <returns> 読み込んだ画像のハンドル </returns>
 uint16_t LoadTexture(const std::string fileName);
+
+/// <summary>
+/// テクスチャを分割して読み込み、ハンドルを取得する
+/// </summary>
+/// <param name="fileName"> 画像ファイル名 </param>
+/// <param name="xNum"> 画像の横向きに対する分割数 </param>
+/// /// <returns> 読み込んだ画像のハンドル </returns>
+std::vector<uint16_t> LoadDivTexture(const std::string& fileName, int16_t xNum);

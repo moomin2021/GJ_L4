@@ -2,25 +2,35 @@
 
 #include "TitleScene.h"
 #include "GameScene.h"
+#include "TestScene.h"
 
 SceneManager::SceneManager()
 {
-	// ImGuiの管理クラスのインスタンスを取得
+	// インスタンス取得
 	imGuiMgr_ = ImGuiManager::GetInstance();
-
-	// DirectXのインスタンスを取得
 	dx12Cmd_ = DX12Cmd::GetInstance();
+	timeMgr_ = TimeManager::GetInstance();
+	particleMgr2D = ParticleManager2D::GetInstance();
 }
 
 void SceneManager::Initialize()
 {
+	// 時間管理クラスの初期化
+	timeMgr_->Initialize();
+
+	// パーティクル2D初期化
+	particleMgr2D->Initialize();
+
 	// 最初のシーンの生成と初期化
-	nowScene_ = std::make_unique<TitleScene>(this);
+	nowScene_ = std::make_unique<GameScene>(this);
 	nowScene_->Initialize();
 }
 
 void SceneManager::Update()
 {
+	// 時間管理クラスの更新
+	timeMgr_->Update();
+
 	// 次のシーンが設定されたら
 	if (nextScene_ != Scene::NONE)
 	{
@@ -37,6 +47,9 @@ void SceneManager::Update()
 			case Scene::GAME:
 				nowScene_ = std::make_unique<GameScene>(this);
 				break;
+			case Scene::TEST:
+				nowScene_ = std::make_unique<TestScene>(this);
+				break;
 		}
 
 		// シーンの初期化
@@ -51,7 +64,15 @@ void SceneManager::Update()
 
 	// 現在のシーンを更新
 	nowScene_->Update();
+	particleMgr2D->Update();
 	nowScene_->MatUpdate();
+	particleMgr2D->MatUpdate();
+
+	timeMgr_->ImGuiUpdate();
+
+#ifdef _DEBUG
+	if (Key::GetInstance()->TriggerKey(DIK_T)) ChangeScene(Scene::TEST);
+#endif
 }
 
 void SceneManager::Draw()
@@ -59,8 +80,14 @@ void SceneManager::Draw()
 	// 描画前処理
 	dx12Cmd_->PreDraw();
 
+	// パーティクルを描画
+	particleMgr2D->DrawBack();
+
 	// 現在のシーンの描画
 	nowScene_->Draw();
+
+	// パーティクルを描画
+	particleMgr2D->DrawFront();
 
 	// ImGuiの終了処理と描画処理
 	imGuiMgr_->End();

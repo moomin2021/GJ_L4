@@ -4,6 +4,10 @@
 #include "Camera.h"
 #include "Sprite.h"
 
+#include "M_ColliderManager.h"
+#include "EnemyManager.h"
+#include "Player.h"
+
 #include <memory>
 
 class GameScene : public BaseScene
@@ -13,15 +17,18 @@ private:
 	// インスタンス
 	Key* key_ = nullptr;
 
+	std::unique_ptr<Sprite> backGroundSprite_ = nullptr;
+	int32_t backGroundTex = 0;
+
 	// カメラ
 	std::unique_ptr<Camera> camera_ = nullptr;
 
-	// スプライト
-	std::unique_ptr<Sprite> sprite0_ = nullptr;
-	std::unique_ptr<Sprite> sprite1_ = nullptr;
+	// 衝突判定マネージャー
+    M_ColliderManager colliderManager_;
 
-	// テクスチャ
-	int32_t texture_ = 0;
+	// 敵マネージャー
+	std::unique_ptr<EnemyManager> enemyMgr_ = nullptr;
+    Player player_;
 #pragma endregion
 
 #pragma region メンバ関数

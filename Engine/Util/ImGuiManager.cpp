@@ -147,6 +147,36 @@ bool ImGuiManager::CheckBox(const std::string& label, bool& flag)
 	return ImGui::Checkbox(label.c_str(), &flag);
 }
 
+bool ImGuiManager::BeginTabBar(const std::string& tab_id)
+{
+	return ImGui::BeginTabBar(tab_id.c_str());
+}
+
+void ImGuiManager::EndTabBar()
+{
+	ImGui::EndTabBar();
+}
+
+bool ImGuiManager::BeginTabItem(const std::string& label)
+{
+	return ImGui::BeginTabItem(label.c_str());
+}
+
+void ImGuiManager::EndTabItem()
+{
+	ImGui::EndTabItem();
+}
+
+bool ImGuiManager::Button(const std::string& label)
+{
+	return ImGui::Button(label.c_str());
+}
+
+bool ImGuiManager::Button(const std::string& label, const Vector2& size)
+{
+	return ImGui::Button(label.c_str(), {size.x, size.y});
+}
+
 void ImGuiManager::Text(const char* fmt, ...)
 {
 	va_list args;

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "fMath.h"
 #include <wrl.h>
 #include <d3d12.h>
@@ -130,6 +130,45 @@ public:
 	bool CheckBox(const std::string& label, bool& flag);
 #pragma endregion
 
+#pragma region Tab
+	/// <summary>
+	/// タブバーを開始
+	/// </summary>
+	/// <param name="tab_id"> タブの識別用 </param>
+	/// <returns> タブバーが表示されるかどうか </returns>
+	bool BeginTabBar(const std::string& tab_id);
+	/// <summary>
+	/// タブバーを終了
+	/// </summary>
+	void EndTabBar();
+	/// <summary>
+	/// タブの作成
+	/// </summary>
+	/// <param name="label"> タブに表示される名前 </param>
+	/// <returns> タブが選択されているか </returns>
+	bool BeginTabItem(const std::string& label);
+	/// <summary>
+	/// タブを閉じる
+	/// </summary>
+	void EndTabItem();
+#pragma endregion
+
+#pragma region Button
+	/// <summary>
+	/// ボタンの表示
+	/// </summary>
+	/// <param name="label"> 表示文字 </param>
+	/// <returns> 押されたらTRUEが返される </returns>
+	bool Button(const std::string& label);
+	/// <summary>
+	/// ボタンの表示
+	/// </summary>
+	/// <param name="label"> 表示文字 </param>
+	/// <param name="size"> ボタンのサイズ </param>
+	/// <returns> 押されたらTRUEが返される </returns>
+	bool Button(const std::string& label, const Vector2& size);
+#pragma endregion
+
 	/// <summary>
 	/// テキストの表示
 	/// </summary>
@@ -171,5 +210,19 @@ private:
 //			EndMenu();
 //		}
 //		EndMenuBar();
+//	}
+#pragma endregion
+
+#pragma region Tab
+//	if (BeginTabBar("MyTabBar")) {
+//		if (BeginTabItem("Tab 1")) {
+//			Text("This is Tab 1's content.");
+//			EndTabItem();
+//		}
+//		if (BeginTabItem("Tab 2")) {
+//			Text("This is Tab 2's content.");
+//			EndTabItem();
+//		}
+//		EndTabBar();
 //	}
 #pragma endregion
