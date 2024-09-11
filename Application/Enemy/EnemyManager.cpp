@@ -2,10 +2,11 @@
 
 #include <string>
 
-void EnemyManager::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
+void EnemyManager::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr)
 {
 	// インスタンス取得
 	pImGuiMgr_ = ImGuiManager::GetInstance();
+	pCamera_ = cameraPtr;
 
 	// 敵生成器の生成
 	enemyFactory_ = std::make_unique<EnemyFactory>();
@@ -17,7 +18,7 @@ void EnemyManager::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
 
 	// サブボスの生成、初期化
 	subBoss_ = std::make_unique<SubBoss>();
-	subBoss_->Initialize(colMgrPtr, playerPtr);
+	subBoss_->Initialize(colMgrPtr, playerPtr, cameraPtr);
 }
 
 void EnemyManager::Update()

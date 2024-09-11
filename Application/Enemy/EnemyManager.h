@@ -14,6 +14,7 @@ class EnemyManager
 private:
 	// インスタンス
 	ImGuiManager* pImGuiMgr_ = nullptr;
+	Camera* pCamera_ = nullptr;
 
 	// 敵生成器
 	std::unique_ptr<EnemyFactory> enemyFactory_ = nullptr;
@@ -35,7 +36,7 @@ public:
 	~EnemyManager() {}
 
 	// 基本処理
-	void Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr);
+	void Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr);
 	void Update();
 	void MatUpdate();
 	void Draw();

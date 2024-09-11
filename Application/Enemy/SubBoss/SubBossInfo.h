@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2.h"
 #include "M_CircleCollider.h"
+#include "Camera.h"
 
 class Player;
 struct SubBossInfo {
@@ -25,6 +26,9 @@ struct SubBossInfo {
 
 	// プレイヤーのポインタ
 	Player* playerPtr = nullptr;
+
+	// カメラのポインタ
+	Camera* cameraPtr = nullptr;
 
 	// 移動処理
 	void Move(float deltaTime);
