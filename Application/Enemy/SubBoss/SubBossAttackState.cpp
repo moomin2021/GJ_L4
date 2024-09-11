@@ -96,11 +96,34 @@ void DescentDiveState::Update(SubBossInfo* info)
 		info->position += diveInfo_.derection * diveInfo_.speed;
 	}
 
-	// 規定の位置までもどる
+	// 待機
 	else if (attackStage_ == 4)
 	{
-		int num = 0;
-		num = 0;
+		// 時間の加算
+		stage4Time_.elapsedTime += timeMgr->GetGameDeltaTime();
+		// 時間を超えたら次の段階へ
+		if (stage4Time_.GetIsExceeded())
+		{
+			info->shakeOffset = Vector2();
+			attackStage_++;
+		}
+	}
+
+	// 規定の位置までもどる
+	else if (attackStage_ == 5)
+	{
+		// 時間の加算
+		stage5Time_.elapsedTime += timeMgr->GetGameDeltaTime();
+		// 座標移動
+		float rate = stage5Time_.GetElapsedRatio();
+		info->position.x = Easing::Quint::easeOut(presetTargetPos_.x, targetPos_.x, rate);
+		info->position.y = Easing::Quint::easeOut(presetTargetPos_.y, targetPos_.y, rate);
+		// 時間を超えたら次の段階へ
+		if (stage5Time_.GetIsExceeded())
+		{
+			attackStage_++;
+			isAttackEnd_ = true;
+		}
 	}
 }
 

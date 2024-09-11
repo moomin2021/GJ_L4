@@ -116,6 +116,12 @@ void SubBoss::Wait()
 void SubBoss::Attack()
 {
 	currentAttackState_->Update(&subBossInfo_);
+	if (currentAttackState_->GetIsAttackEnd())
+	{
+		currentMoveType_ = SubBossMoveType::Wait;
+		currentAttackState_->Finalize(&subBossInfo_);
+		currentAttackState_ = nullptr;
+	}
 }
 
 void SubBoss::Stun()
