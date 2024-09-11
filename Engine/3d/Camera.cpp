@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "Util.h"
 #include "WinAPI.h"
+#include "TimeManager.h"
 
 #include <DirectXMath.h>
 
@@ -42,11 +43,20 @@ void Camera::Update() {
 	// ビュー行列更新
 	UpdateMatView();
 
+	// シェイクの更新処理
+	shake_.Update(TimeManager::GetInstance()->GetGameDeltaTime());
+
 	// 行列初期化
 	matShake_ = Matrix4Identity();
 
 	// 平行移動
-	matShake_ *= Matrix4Translate({ shakePos_.x, shakePos_.y, 0.0f });
+	Vector2 offset = shake_.GetOffset();
+	matShake_ *= Matrix4Translate({ offset.x, offset.y, 0.0f });
+}
+
+void Camera::SetShake(const Vector2& intensity, float duration)
+{
+	shake_.SetShake(intensity, duration);
 }
 
 void Camera::UpdateMatView()

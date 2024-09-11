@@ -2,6 +2,7 @@
 #include "Matrix4.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "Shake.h"
 
 class Camera {
 #pragma region メンバ変数
@@ -17,8 +18,8 @@ private:
 	Matrix4 matOrthoGraphicPro_	= {};// 平行投影行列
 
 	// シェイク用
-	Vector2 shakePos_ = Vector2();
 	Matrix4 matShake_ = Matrix4();
+	Shake shake_ = Shake();
 #pragma endregion
 
 #pragma region メンバ関数
@@ -32,6 +33,9 @@ public:
 	/// 更新処理
 	/// </summary>
 	void Update();
+
+	// シェイクの設定
+	void SetShake(const Vector2& intensity, float duration);
 
 private:
 	// ビュー行列更新処理
@@ -63,9 +67,6 @@ public:
 	/// </summary>
 	/// <param name="fovAngleY"></param>
 	void SetFovAngleY(float fovAngleY);
-
-	// シェイク座標を設定
-	void SetShakePos(const Vector2& inPos) { shakePos_ = inPos; }
 #pragma endregion
 
 #pragma region ゲッター関数
@@ -105,8 +106,5 @@ public:
 
 	// シェイク用の行列
 	inline const Matrix4& GetMatShake() { return matShake_; }
-
-	// シェイク座標の取得
-	const Vector2& GetShakePos() { return shakePos_; }
 #pragma endregion
 };
