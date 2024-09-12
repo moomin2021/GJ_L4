@@ -104,6 +104,9 @@
     <ClCompile Include="Application\Enemy\SubBoss\SubBossInfo.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\SubBossAttackState.cpp" />
     <ClCompile Include="Engine\Util\Shake.cpp" />
+    <ClCompile Include="Application\Enemy\Minion\BaseMinion.cpp" />
+    <ClCompile Include="Application\Enemy\Minion\MinionLeader.cpp" />
+    <ClCompile Include="Application\Enemy\Minion\MinionFollower.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -195,6 +198,9 @@
     <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h" />
     <ClInclude Include="Application\Enemy\SubBoss\SubBossAttackState.h" />
     <ClInclude Include="Engine\Util\Shake.h" />
+    <ClInclude Include="Application\Enemy\Minion\BaseMinion.h" />
+    <ClInclude Include="Application\Enemy\Minion\MinionLeader.h" />
+    <ClInclude Include="Application\Enemy\Minion\MinionFollower.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

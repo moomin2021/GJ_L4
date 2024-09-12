@@ -103,6 +103,7 @@
     <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Application\Enemy\Boss\Boss.cpp" />
     <ClCompile Include="Application\Enemy\Boss\BossCol.cpp" />
+    <ClCompile Include="Application\Enemy\Minion\BaseMinion.cpp" />
     <ClCompile Include="Engine\Collision\CollisionManager3D.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Util\Buffer.cpp" />
@@ -170,6 +171,8 @@
     <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Move.cpp" />
     <ClCompile Include="Application\Player\PlayerCommonInfomation.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\SubBoss.cpp" />
+    <ClCompile Include="Application\Enemy\Minion\MinionLeader.cpp" />
+    <ClCompile Include="Application\Enemy\Minion\MinionFollower.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\SubBossInfo.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\SubBossAttackState.cpp" />
@@ -184,6 +187,7 @@
     <ClInclude Include="Application\Enemy\Boss\Boss.h" />
     <ClInclude Include="Application\Enemy\EnemyStatus.h" />
     <ClInclude Include="Application\Enemy\Boss\BossCol.h" />
+    <ClInclude Include="Application\Enemy\Minion\BaseMinion.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Engine\Collision\CollisionManager3D.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
@@ -261,6 +265,8 @@
     <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Move.h" />
     <ClInclude Include="Application\Player\PlayerCommonInfomation.h" />
     <ClInclude Include="Application\Enemy\SubBoss\SubBoss.h" />
+    <ClInclude Include="Application\Enemy\Minion\MinionLeader.h" />
+    <ClInclude Include="Application\Enemy\Minion\MinionFollower.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h" />
     <ClInclude Include="Application\Enemy\SubBoss\SubBossAttackState.h" />
