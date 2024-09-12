@@ -19,6 +19,14 @@ namespace EnemyStatus {
 		Follower,
 	};
 
+	// 群衆AIに必要なパラメーター
+	struct CrowdStats {
+		float maxSpeed = 0.0f;
+		float maxForce = 0.0f;
+		float separationDistance = 0.0f;
+		float neighborRadius = 0.0f;
+	};
+
 	// 雑魚敵の基礎的なパラメーター
 	struct MinionStats {
 		MinionState state = MinionState::Normal;// 状態
@@ -28,6 +36,7 @@ namespace EnemyStatus {
 		float dampingFactor = 0.3f;				// 減衰率 (慣性による速度の減衰)
 		float attackPower = 20.0f;				// プレイヤーへのダメージ
 		bool isAlive = true;					// 生存フラグ
+		CrowdStats crowdStats;					// 群衆パラメーター
 	};
 
 	// 雑魚敵に必要な情報

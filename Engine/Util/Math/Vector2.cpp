@@ -37,6 +37,11 @@ float Vector2::cross(const Vector2& v) const
     return x * v.y - y * v.x;
 }
 
+float Vector2::Distance(const Vector2& v) const
+{
+    return sqrt((x - v.x) * (x - v.x) + (y - v.y) * (v.y - y));
+}
+
 // 単項演算子+を使えるようにする
 Vector2 Vector2::operator+() const
 {

@@ -45,6 +45,9 @@ public:
 	void Draw() override;
 	void Finalize() override;
 
+	// 群れの行動の更新
+	void UpdateFlockBehavior(std::vector<BaseMinion>& others, const std::vector<BaseMinion>& leaders) override;
+
 private:
 	// 衝突判定コールバック関数
 	void CollisionCallBack() override;

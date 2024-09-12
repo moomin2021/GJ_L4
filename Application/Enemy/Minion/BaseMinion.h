@@ -5,6 +5,7 @@
 #include "M_ColliderManager.h"
 #include "M_CircleCollider.h"
 #include "EnemyStatus.h"
+#include "Sprite.h"
 
 #include <memory>
 #include <vector>
@@ -44,6 +45,9 @@ public:
 	virtual void Draw();
 	virtual void Finalize();
 
+	// 群れの行動の更新
+	virtual void UpdateFlockBehavior(std::vector<BaseMinion>& others, const std::vector<BaseMinion>& leaders) = 0;
+
 private:
 	// 衝突判定コールバック関数
 	virtual void CollisionCallBack() = 0;
@@ -52,9 +56,21 @@ private:
 #pragma region ゲッター関数
 public:
 	/// <summary>
+	/// 座標の取得
+	/// </summary>
+	/// <returns> 座標 </returns>
+	const Vector2& GetPosition() const { return stats_.position; }
+	
+	/// <summary>
+	/// 速度の取得
+	/// </summary>
+	/// <returns> 速度 </returns>
+	const Vector2& GetVelocity() const { return stats_.velocity; }
+
+	/// <summary>
 	/// 生存フラグの取得
 	/// </summary>
 	/// <returns> 生存フラグ </returns>
-	bool GetIsAlive() { return stats_.isAlive; }
+	bool GetIsAlive() const { return stats_.isAlive; }
 #pragma endregion
 };

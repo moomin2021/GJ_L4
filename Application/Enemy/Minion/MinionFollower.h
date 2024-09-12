@@ -45,6 +45,9 @@ public:
 	void Draw() override;
 	void Finalize() override;
 
+	// 群れの行動の更新
+	void UpdateFlockBehavior(std::vector<BaseMinion>& others, const std::vector<BaseMinion>& leaders) override;
+
 private:
 	// 衝突判定コールバック関数
 	void CollisionCallBack() override;
@@ -58,5 +61,19 @@ private:
 	void FirstBeaten();
 	void KnockBack();
 	void SecondBeaten();
+
+	// 分離行動
+	Vector2 Separate(const std::vector<BaseMinion>& others);
+	// 整列行動
+	Vector2 Align(const std::vector<BaseMinion>& others);
+	// 結合行動
+	Vector2 Cohesion(const std::vector<BaseMinion>& others);
+	// 近いリーダーに追従する
+	Vector2 FollowNearestLeader(const std::vector<BaseMinion>& leaders);
+	// 特定のターゲットに向かう
+	Vector2 Seek(const Vector2& target);
+	// ベクトルの大きさを制限する
+	Vector2 Limit(const Vector2& vec, float max);
+	
 #pragma endregion
 };

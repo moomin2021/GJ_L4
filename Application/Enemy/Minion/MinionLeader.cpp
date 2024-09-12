@@ -51,6 +51,12 @@ void MinionLeader::Finalize()
 	BaseMinion::Finalize();
 }
 
+void MinionLeader::UpdateFlockBehavior(std::vector<BaseMinion>& others, const std::vector<BaseMinion>& leaders)
+{
+	others;
+	leaders;
+}
+
 void MinionLeader::CollisionCallBack()
 {
 	// 壁と衝突しているか
