@@ -221,7 +221,7 @@ void Player::Update(void)
 
     bool isJump{};
     isJump = ptr_key->TriggerKey(commonInfomation_->keyBind.jump) && isJumped && isGround;
-    isJump = (std::max)(ptr_pad->GetTriggerButton((BUTTON)commonInfomation_->controllerBind.jump) && canJump && isGround, isJump);
+    isJump = (std::max)(ptr_pad->GetTriggerButton((BUTTON)commonInfomation_->controllerBind.jump) && isJumped && isGround, isJump);
     if (isJump) { isJump = isJump; }
     if (operationButtons_[2] == false) { operationButtons_[2] = isJump; }
     else if (timer_lightUpButtons_[2] >= kTime_lightUpButton_max_)
