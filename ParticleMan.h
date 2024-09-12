@@ -39,7 +39,7 @@ struct Particle2D
     float4 color_start{};   // カラー - 最初
     float4 color_end{};     // カラー - 最後
 
-    uint16_t textureHandle_;
+    uint16_t textureHandle_{};
     std::unique_ptr<Sprite> sprite;
 };
 

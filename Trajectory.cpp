@@ -5,8 +5,6 @@
 
 void TrajectoryParticle::Initialize(void)
 {
-    Particle2D;
-
     // flags
     isAlive = true;
     isDraw = true;
