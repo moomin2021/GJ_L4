@@ -2,6 +2,7 @@
 #include "PipelineManager.h"
 #include "Texture.h"
 #include "SmokeParticle.h"
+#include "Trajectory.h"
 
 GameScene::GameScene(IScene* sceneIf) : BaseScene(sceneIf) {}
 
@@ -40,6 +41,10 @@ void GameScene::Update()
 	if (key_->TriggerKey(DIK_Q)) {
 		sceneIf_->ChangeScene(Scene::TITLE);
 	}
+
+    if (key_->TriggerKey(DIK_N)) {
+        particleManPtr_->AddParticle(std::make_unique<TrajectoryParticle>(), { 500,500 });
+    }
 
     particleManPtr_->Update();
 
