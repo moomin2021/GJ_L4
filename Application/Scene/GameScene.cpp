@@ -37,14 +37,11 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
-    if (Key::GetInstance()->TriggerKey(DIK_5))
-    {
-        emitter1_.AddParticle(std::make_unique<SmokeParticle>());
-    }
-
 	if (key_->TriggerKey(DIK_Q)) {
 		sceneIf_->ChangeScene(Scene::TITLE);
 	}
+
+    particleManPtr_->Update();
 
 	// 各クラス更新処理
 	enemyMgr_->Update();
@@ -70,6 +67,7 @@ void GameScene::MatUpdate()
     player_.MatUpdate();
 	// 各クラス行列更新処理
 	enemyMgr_->MatUpdate();
+    particleManPtr_->MatUpdate();
 }
 
 void GameScene::Draw()
@@ -81,6 +79,8 @@ void GameScene::Draw()
 	// 各クラス描画処理
 	enemyMgr_->Draw();
     player_.Draw();
+
+    particleManPtr_->Draw();
 }
 
 void GameScene::Finalize()

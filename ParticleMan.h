@@ -46,9 +46,6 @@ struct Particle2D
 class ParticleMan
 {
 public:
-    ParticleMan(void) = default;
-    ~ParticleMan(void) = default;
-
     static ParticleMan* GetInstance(void);
 
     void Update(void);
