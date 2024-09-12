@@ -1,4 +1,5 @@
 #include "SmokeParticle.h"
+#include "Texture.h"
 
 void SmokeParticle::Initialize(void)
 {

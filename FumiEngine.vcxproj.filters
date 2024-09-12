@@ -384,6 +384,9 @@
     <ClCompile Include="ParticleMan.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Trajectory.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Application\Effect\SmokeEffect.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
@@ -675,6 +678,9 @@
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Application\Effect\SmokeEffect.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Trajectory.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
