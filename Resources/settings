@@ -2,7 +2,7 @@
 #kHealth_max: 100.000000;
 
 // Move
-#kMoveSpeed: 130.000000;
+#kMoveSpeed: 400.631012;
 
 // Gravity
 #kGravity_max: 20.000000;

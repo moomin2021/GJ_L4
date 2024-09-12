@@ -193,7 +193,6 @@ void Player::Update(void)
 
     auto ptr_key = Key::GetInstance();
     auto ptr_pad = Pad::GetInstance();
-    bool canJump = commonInfomation_->move.can_jump;
     bool isGround = commonInfomation_->move.is_ground;
     bool isJumped = commonInfomation_->move.is_jumped;
 
