@@ -59,11 +59,13 @@ struct PlayerCommonInfomation
 
     // Sprite
     Vector2 kSprite_AnchorPoint_player_idle = { 0.6f,0.63f };
+    Vector2 kSprite_AnchorPoint_player_move = { 0.6f,0.63f };
     Vector2 kSprite_AnchorPoint_player_attack = { 0.6f,0.63f };
     Vector2 kSprite_AnchorPoint_player_special = { 0.6f,0.63f };
     Vector2 kSprite_Length_player = { 130,75 };
 
     int32_t kNum_IdleSprite_max = 4;
+    int32_t kNum_MoveSprite_max = 8; 
     int32_t kNum_AttackSprite_max = 5; 
     int32_t kNum_SpecialSprite_max = 5;
 
@@ -77,6 +79,8 @@ struct PlayerCommonInfomation
     // Time
     float kTime_IdleInterval_max = 1.2f;        // sec
     float kTime_IdleAnimation_max = 0.4f;       // sec
+    float kTime_MoveInterval_max = 0.f;         // sec
+    float kTime_MoveAnimation_max = 1.f;       // sec
     float kTime_AttackInterval_max = 20.f;      
     float kTime_AttackAnimation_max = 0.2f;     
     float kTime_SpecialInterval_max = 20.f;
@@ -99,6 +103,10 @@ struct PlayerCommonInfomation
     int32_t num_idleSprite{};
     float timer_idleInterval{};
     float timer_idleAnimation{}; // sec
+    //*MOVE
+    int32_t num_moveSprite{};
+    float timer_moveInterval{};
+    float timer_moveAnimation{}; // sec
     //*ATTACK
     int32_t num_attackSprite{};
     float timer_attackInterval{};
@@ -117,6 +125,7 @@ struct PlayerCommonInfomation
 
     // sprite
     std::vector<uint16_t> png_playerIdle{};
+    std::vector<uint16_t> png_playerMove{};
     std::vector<uint16_t> png_playerAttack{};
     std::vector<uint16_t> png_playerSpecial{};
     std::unique_ptr<Sprite> sprite_player = nullptr;

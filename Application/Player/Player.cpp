@@ -36,6 +36,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_white_debug = LoadTexture("white.png");
     png_frame_debug = LoadTexture("frame.png");
     commonInfomation_->png_playerIdle = LoadDivTexture("playerWait.png", static_cast<int16_t>(commonInfomation_->kNum_IdleSprite_max));
+    commonInfomation_->png_playerMove = LoadDivTexture("playerRun.png", static_cast<int16_t>(commonInfomation_->kNum_MoveSprite_max));
     commonInfomation_->png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
     commonInfomation_->png_playerSpecial = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_SpecialSprite_max));
 
@@ -196,6 +197,9 @@ void Player::Draw(void)
     {
     case PB_IDLE:
         commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerIdle[commonInfomation_->num_idleSprite]);
+        break;
+    case PB_MOVE:
+        commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerMove[commonInfomation_->num_moveSprite]);
         break;
     case PB_ATTACK:
         commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerAttack[commonInfomation_->num_attackSprite]);
