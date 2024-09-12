@@ -18,6 +18,10 @@ protected:
 	// データ
 	EnemyStatus::MinionData* data_ = nullptr;
 
+	// 回転度
+	float backRotation_ = 0.0f;
+	float frontRotation_ = 0.0f;
+
 	// スプライト
 	std::vector<std::unique_ptr<Sprite>> sprites_;
 	// コライダー

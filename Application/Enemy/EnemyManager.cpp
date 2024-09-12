@@ -26,7 +26,7 @@ void EnemyManager::Update()
 	boss_->Update();
 	subBoss_->Update();
 
-	// 敵の更新と死んだ時の処理
+	// 雑魚敵の更新と死んだ時の処理
 	for (auto it = leaders_.begin(); it != leaders_.end();)
 	{
 		(*it)->Update();
@@ -37,6 +37,18 @@ void EnemyManager::Update()
 		}
 		else ++it;
 	}
+
+	// 雑魚敵の更新と死んだ時の処理
+	for (auto it = followers_.begin(); it != followers_.end();)
+	{
+		(*it)->Update();
+		if ((*it)->GetIsAlive() == false)
+		{
+			(*it)->Finalize();
+			it = followers_.erase(it);
+		}
+		else ++it;
+	}
 }
 
 void EnemyManager::MatUpdate()
@@ -44,6 +56,7 @@ void EnemyManager::MatUpdate()
 	boss_->MatUpdate();
 	subBoss_->MatUpdate();
 	for (auto& it : leaders_) it->MatUpdate();
+	for (auto& it : followers_) it->MatUpdate();
 }
 
 void EnemyManager::Draw()
@@ -51,6 +64,7 @@ void EnemyManager::Draw()
 	boss_->Draw();
 	subBoss_->Draw();
 	for (auto& it : leaders_) it->Draw();
+	for (auto& it : followers_) it->Draw();
 }
 
 void EnemyManager::Finalize()
@@ -59,6 +73,8 @@ void EnemyManager::Finalize()
 	subBoss_->Finalize();
 	for (auto& it : leaders_) it->Finalize();
 	leaders_.clear();
+	for (auto& it : followers_) it->Finalize();
+	followers_.clear();
 }
 
 void EnemyManager::ImGuiUpdate()
