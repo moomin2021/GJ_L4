@@ -180,6 +180,7 @@
     <ClCompile Include="Engine\Util\Shake.cpp" />
     <ClCompile Include="ParticleMan.cpp" />
     <ClCompile Include="SmokeParticle.cpp" />
+    <ClCompile Include="Trajectory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -277,6 +278,7 @@
     <ClInclude Include="Engine\Util\Shake.h" />
     <ClInclude Include="ParticleMan.h" />
     <ClInclude Include="SmokeParticle.h" />
+    <ClInclude Include="Trajectory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

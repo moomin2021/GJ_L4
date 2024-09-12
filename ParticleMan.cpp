@@ -13,10 +13,10 @@ void Particle2D::Update(void)
 {
     if (isAlive == false) { return; }
 
-    // 時間加算
-    time_toCurrent += TimeManager::GetInstance()->GetGameDeltaTime();
     // 死亡時刻を上回っていたら、生存フラグOFF
     if (time_toCurrent >= time_toDead) { isAlive = false; }
+    // 時間加算
+    time_toCurrent += TimeManager::GetInstance()->GetGameDeltaTime();
 }
 
 void Particle2D::MatUpdate(void)

@@ -1,10 +1,11 @@
 #include "SmokeParticle.h"
+#include "Texture.h"
 
 void SmokeParticle::Initialize(void)
 {
     //Particle2D
 
-    //tex_ = LoadTexture("smoke.png");
+    tex_ = LoadTexture("smoke.png");
 
         // flags
     //isAlive = true;
