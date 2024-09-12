@@ -37,6 +37,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_frame_debug = LoadTexture("frame.png");
     commonInfomation_->png_playerIdle = LoadDivTexture("playerWait.png", static_cast<int16_t>(commonInfomation_->kNum_IdleSprite_max));
     commonInfomation_->png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
+    commonInfomation_->png_playerSpecial = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_SpecialSprite_max));
 
     commonInfomation_->sprite_player = std::make_unique<Sprite>();
     commonInfomation_->sprite_player->SetSize(commonInfomation_->kSprite_Length_player);
@@ -81,6 +82,12 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     commonInfomation_->sprite_attackCollider->SetAnchorPoint({ 0.5f, 0.5f });
     commonInfomation_->sprite_attackCollider->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
+    commonInfomation_->sprite_specialCollider = std::make_unique<Sprite>();
+    commonInfomation_->sprite_specialCollider->SetPosition(commonInfomation_->position + commonInfomation_->kCollision_positionOffset_playerCollider_special);
+    commonInfomation_->sprite_specialCollider->SetSize(commonInfomation_->kCollision_Length_playerCollider_special);
+    commonInfomation_->sprite_specialCollider->SetAnchorPoint({ 0.5f, 0.5f });
+    commonInfomation_->sprite_specialCollider->SetColor({ 1.0f, 0.0f, 0.0f, 1.f });
+
     // 重力
     commonInfomation_->gravity.Initialize(commonInfomation_->kGravity_max, commonInfomation_->kGravity_add);
 
@@ -102,6 +109,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     commonInfomation_->keyBind.move_right = DIK_D;
     commonInfomation_->keyBind.jump = DIK_SPACE;
     commonInfomation_->keyBind.attack = DIK_F;
+    commonInfomation_->keyBind.special = DIK_G;
 
     // controller
     commonInfomation_->controllerBind.special = BUTTON::PAD_X;
@@ -144,11 +152,14 @@ void Player::Update(void)
     }
     commonInfomation_->sprite_player_hpContent_shadow->SetSize(hpBarShadowSize);
 
-    // プレイヤーの向きが右の時は、オフセット値を反転
-    Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
-    if (commonInfomation_->move.direction_current == DIRECTION_RIGHT) { offset.x *= -1; }
+    // プレイヤーの向きが右の時は、オフセット値を反転 *ATTACK/SPECIAL
+    Vector2 offset_attack = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
+    if (commonInfomation_->move.direction_current == DIRECTION_RIGHT) { offset_attack.x *= -1; }
+    Vector2 offset_special = commonInfomation_->kCollision_positionOffset_playerCollider_special;
+    if (commonInfomation_->move.direction_current == DIRECTION_RIGHT) { offset_special.x *= -1; }
     // Sprite|プレイヤー攻撃コライダーの座標更新
-    commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + offset);
+    commonInfomation_->sprite_attackCollider->SetPosition(commonInfomation_->position + offset_attack);
+    commonInfomation_->sprite_specialCollider->SetPosition(commonInfomation_->position + offset_special);
 
     // プレイヤー共通情報の更新
     commonInfomation_->Update();
@@ -176,6 +187,7 @@ void Player::MatUpdate(void)
     commonInfomation_->sprite_player_spContent->MatUpdate();
     commonInfomation_->sprite_collider->MatUpdate();
     commonInfomation_->sprite_attackCollider->MatUpdate();
+    commonInfomation_->sprite_specialCollider->MatUpdate();
 }
 
 void Player::Draw(void)
@@ -187,6 +199,9 @@ void Player::Draw(void)
         break;
     case PB_ATTACK:
         commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerAttack[commonInfomation_->num_attackSprite]);
+        break;
+    case PB_SPECIAL:
+        commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerSpecial[commonInfomation_->num_specialSprite]);
         break;
     default:
         commonInfomation_->sprite_player->Draw(png_player_);
@@ -200,6 +215,7 @@ void Player::Draw(void)
     commonInfomation_->sprite_player_spFrame->Draw(png_SPBar_frame_);
 
     bool isBehaviorAttack = behaviorMachine_.Get_Behavior() == PB_ATTACK;
+    bool isBehaviorSpecial = behaviorMachine_.Get_Behavior() == PB_SPECIAL;
     // 当たり判定表示
     if (commonInfomation_->is_drawCollider)
     {
@@ -207,6 +223,9 @@ void Player::Draw(void)
         isBehaviorAttack ?
             commonInfomation_->sprite_attackCollider->Draw(png_white_debug) :
             commonInfomation_->sprite_attackCollider->Draw(png_frame_debug);
+        isBehaviorSpecial ?
+            commonInfomation_->sprite_specialCollider->Draw(png_white_debug) :
+            commonInfomation_->sprite_specialCollider->Draw(png_frame_debug);
     }
 }
 
@@ -223,6 +242,7 @@ void Player::DrawImGUi(void)
     else if (getBehavior == PlayerBehavior::PB_MOVE) { strBehavior += "PB_MOVE"; }
     else if (getBehavior == PlayerBehavior::PB_JUMP) { strBehavior += "PB_JUMP"; }
     else if (getBehavior == PlayerBehavior::PB_ATTACK) { strBehavior += "PB_ATTACK"; }
+    else if (getBehavior == PlayerBehavior::PB_SPECIAL) { strBehavior += "PB_SPECIAL"; }
     imgui->Text(strBehavior.c_str());
     static bool isShowLog{};
     imgui->CheckBox("Show Log", isShowLog);
@@ -233,8 +253,9 @@ void Player::DrawImGUi(void)
         auto& log = behaviorMachine_.Get_ImGui_BehaviorLog();
         for (const auto& str : log)
         {
-            ImVec4 darkRed = { 1,0,0,1 };
-            ImVec4 darkEmerald = { 0,1,0,1 };
+            ImVec4 Red = { 1,0,0,1 };
+            ImVec4 Green = { 0,1,0,1 };
+            ImVec4 Blue = { 0,1,0,1 };
 
             std::vector<std::string> behaviors{};
             std::istringstream iss(str);
@@ -243,8 +264,9 @@ void Player::DrawImGUi(void)
             while (std::getline(iss, s, '/'))
             {
                 // 左
-                if (s == "PB_JUMP") { ImGui::TextColored(darkRed, s.c_str()); }
-                else if (s == "PB_ATTACK") { ImGui::TextColored(darkEmerald, s.c_str()); }
+                if (s == "PB_JUMP") { ImGui::TextColored(Red, s.c_str()); }
+                else if (s == "PB_ATTACK") { ImGui::TextColored(Green, s.c_str()); }
+                else if (s == "PB_SPECIAL") { ImGui::TextColored(Blue, s.c_str()); }
                 else { ImGui::Text(s.c_str()); }
 
                 if (num >= 1) { break; }
@@ -278,6 +300,8 @@ void Player::DrawImGUi(void)
     ImGui::SliderFloat2("kSprite_AnchorPoint_player_idle", *sprite_AnchorPoint_player_idle, 0, 1);
     float* sprite_AnchorPoint_player_attack[2] = { &commonInfomation_->kSprite_AnchorPoint_player_attack.x, &commonInfomation_->kSprite_AnchorPoint_player_attack.y };
     ImGui::SliderFloat2("kSprite_AnchorPoint_player_attack", *sprite_AnchorPoint_player_attack, 0, 1);
+    float* sprite_AnchorPoint_player_special[2] = { &commonInfomation_->kSprite_AnchorPoint_player_special.x, &commonInfomation_->kSprite_AnchorPoint_player_special.y };
+    ImGui::SliderFloat2("kSprite_AnchorPoint_player_special", *sprite_AnchorPoint_player_special, 0, 1);
     float* sprite_Length_player[2] = { &commonInfomation_->kSprite_Length_player.x, &commonInfomation_->kSprite_Length_player.y };
     ImGui::SliderFloat2("kSprite_Length_player", *sprite_Length_player, 0, 300);
 
@@ -287,7 +311,10 @@ void Player::DrawImGUi(void)
     ImGui::SliderFloat2("kCollision_Length_playerCollider_attack", *collision_Length_playerCollider_attack, 0, 300);
     float* collision_positionOffset_playerCollider_attack[2] = { &commonInfomation_->kCollision_positionOffset_playerCollider_attack.x, &commonInfomation_->kCollision_positionOffset_playerCollider_attack.y };
     ImGui::SliderFloat2("kCollision_positionOffset_playerCollider_attack", *collision_positionOffset_playerCollider_attack, -100, 100);
-
+    float* collision_Length_playerCollider_special[2] = { &commonInfomation_->kCollision_Length_playerCollider_special.x, &commonInfomation_->kCollision_Length_playerCollider_special.y };
+    ImGui::SliderFloat2("kCollision_Length_playerCollider_special", *collision_Length_playerCollider_special, 0, 300);
+    float* collision_positionOffset_playerCollider_special[2] = { &commonInfomation_->kCollision_positionOffset_playerCollider_special.x, &commonInfomation_->kCollision_positionOffset_playerCollider_special.y };
+    ImGui::SliderFloat2("kCollision_positionOffset_playerCollider_special", *collision_positionOffset_playerCollider_special, -100, 100);
     ImGui::SliderFloat("kHealth_max", &commonInfomation_->kHealth_max, 1, 100);
     ImGui::SliderFloat("health_current", &commonInfomation_->health_current, 0, 100);
 

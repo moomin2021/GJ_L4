@@ -46,12 +46,15 @@ void PlayerCommonInfomation::Input(void)
             // Sprite
             else if (str == "#kNum_IdleSprite_max") { kNum_IdleSprite_max = static_cast<int32_t>(std::stof(value)); }
             else if (str == "#kNum_AttackSprite_max") { kNum_AttackSprite_max = static_cast<int32_t>(std::stof(value)); }
+            else if (str == "#kNum_SpecialSprite_max") { kNum_SpecialSprite_max = static_cast<int32_t>(std::stof(value)); }
 
             // Time
             else if (str == "#kTime_IdleInterval_max") { kTime_IdleInterval_max = std::stof(value); }
             else if (str == "#kTime_IdleAnimation_max") { kTime_IdleAnimation_max = std::stof(value); }
             else if (str == "#kTime_AttackInterval_max") { kTime_AttackInterval_max = std::stof(value); }
             else if (str == "#kTime_AttackAnimation_max") { kTime_AttackAnimation_max = std::stof(value); }
+            else if (str == "#kTime_SpecialInterval_max") { kTime_SpecialInterval_max = std::stof(value); }
+            else if (str == "#kTime_SpecialAnimation_max") { kTime_SpecialAnimation_max = std::stof(value); }
             else if (str == "#kTime_Invincible_max") { kTime_Invincible_max = std::stof(value); }
             else if (str == "#kTime_Easing_hp_content_shadow_max") { kTime_Easing_hp_content_shadow_max = std::stof(value); }
         }
@@ -60,14 +63,15 @@ void PlayerCommonInfomation::Input(void)
             // Sprite
             if (str == "#kSprite_AnchorPoint_player_idle") { kSprite_AnchorPoint_player_idle = { std::stof(value), std::stof(value2) }; }
             else if (str == "#kSprite_AnchorPoint_player_attack") { kSprite_AnchorPoint_player_attack = { std::stof(value), std::stof(value2) }; }
+            else if (str == "#kSprite_AnchorPoint_player_special") { kSprite_AnchorPoint_player_special = { std::stof(value), std::stof(value2) }; }
             else if (str == "#kSprite_Length_player") { kSprite_Length_player = { std::stof(value), std::stof(value2) };}
 
             // Collider
-            else if (str == "#kCollision_Length_playerCollider") 
-            {
-                kCollision_Length_playerCollider = { std::stof(value), std::stof(value2) };}
+            else if (str == "#kCollision_Length_playerCollider") { kCollision_Length_playerCollider = { std::stof(value), std::stof(value2) };}
             else if (str == "#kCollision_Length_playerCollider_attack") { kCollision_Length_playerCollider_attack = { std::stof(value), std::stof(value2) };}
             else if (str == "#kCollision_positionOffset_playerCollider_attack") { kCollision_positionOffset_playerCollider_attack = { std::stof(value), std::stof(value2) }; }
+            else if (str == "#kCollision_Length_playerCollider_special") { kCollision_Length_playerCollider_special = { std::stof(value), std::stof(value2) }; }
+            else if (str == "#kCollision_positionOffset_playerCollider_special") { kCollision_positionOffset_playerCollider_special = { std::stof(value), std::stof(value2) }; }
         }
     }
 }
@@ -100,6 +104,7 @@ void PlayerCommonInfomation::Output(void)
     ofs << "// Sprite" << std::endl;
     ofs << "#kSprite_AnchorPoint_player_idle: " + std::to_string(kSprite_AnchorPoint_player_idle.x) + "," + std::to_string(kSprite_AnchorPoint_player_idle.y) + ";" << std::endl;
     ofs << "#kSprite_AnchorPoint_player_attack: " + std::to_string(kSprite_AnchorPoint_player_attack.x) + "," + std::to_string(kSprite_AnchorPoint_player_attack.y) + ";" << std::endl;
+    ofs << "#kSprite_AnchorPoint_player_special: " + std::to_string(kSprite_AnchorPoint_player_special.x) + "," + std::to_string(kSprite_AnchorPoint_player_special.y) + ";" << std::endl;
     ofs << "#kSprite_Length_player: " + std::to_string(kSprite_Length_player.x) + "," + std::to_string(kSprite_Length_player.y) + ";" << std::endl;
     ofs << std::endl;
     ofs << "#kNum_IdleSprite_max: " + std::to_string(kNum_IdleSprite_max) + ";" << std::endl;

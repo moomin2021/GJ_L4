@@ -105,6 +105,7 @@
     <ClCompile Include="Application\Enemy\Enemys\BaseEnemy.cpp" />
     <ClCompile Include="Application\Enemy\EnemyFactory.cpp" />
     <ClCompile Include="Application\Enemy\Boss\BossCol.cpp" />
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Special.cpp" />
     <ClCompile Include="Engine\Collision\CollisionManager3D.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Util\Buffer.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Application\Enemy\Enemys\BaseEnemy.h" />
     <ClInclude Include="Application\Enemy\EnemyFactory.h" />
     <ClInclude Include="Application\Enemy\Boss\BossCol.h" />
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Special.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Engine\Collision\CollisionManager3D.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
