@@ -19,6 +19,7 @@ public:
 
 private:
     void DrawImGUi(void);
+    void Damage(float arg_damage);
     void Callback(void);
 
     ;
@@ -29,6 +30,9 @@ private:
     int32_t png_HPBar_frame_{};
     int32_t png_HPBar_content_{};
     int32_t png_HPBar_content_shadow_{};
+    bool is_easingShadow_{};
+    float ease_shadow_start_{};
+
     int32_t png_SPBar_frame_{};
     int32_t png_SPBar_content_{};
 

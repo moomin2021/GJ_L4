@@ -6,6 +6,9 @@
 #include "Pad.h"
 #include "imgui.h"
 #include <fstream>
+#include "Util.h"
+#include "Easing.h"
+#include "TimeManager.h"
 
 Player::~Player(void)
 {
@@ -26,6 +29,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_player_ = LoadTexture("playerKari.png");
     png_HPBar_frame_ = LoadTexture("HpBarFrame.png");
     png_HPBar_content_ = LoadTexture("HpBarContents.png");
+    png_HPBar_content_shadow_ = LoadTexture("HpBarContentsShadow.png");
     png_SPBar_frame_ = LoadTexture("SpBarFrame.png");
     png_SPBar_content_ = LoadTexture("SpBarContents.png");
 
@@ -111,6 +115,7 @@ void Player::Update(void)
 {
     if (Key::GetInstance()->TriggerKey(DIK_R)) { commonInfomation_->Input(); }
     if (Key::GetInstance()->TriggerKey(DIK_O)) { commonInfomation_->Output(); }
+    if (Key::GetInstance()->TriggerKey(DIK_H)) { Damage(20); }
 
     // 移動記録の更新
     commonInfomation_->move.Update();
@@ -124,6 +129,20 @@ void Player::Update(void)
     // Sprite|プレイヤーのHPバーのサイズ更新
     Vector2 hpBarSize = { 302 * commonInfomation_->health_rate_, 62 };
     commonInfomation_->sprite_player_hpContent->SetSize(hpBarSize);
+    // Sprite|プレイヤーのHPバー（影）のサイズ更新
+    Vector2 hpBarShadowSize{}; 
+    if (is_easingShadow_)
+    {
+        commonInfomation_->timer_easing_hp_content_shadow += TimeManager::GetInstance()->GetGameDeltaTime();
+        commonInfomation_->timer_easing_hp_content_shadow = (std::min)(commonInfomation_->timer_easing_hp_content_shadow, commonInfomation_->kTime_Easing_hp_content_shadow_max);
+        float elapsed = commonInfomation_->timer_easing_hp_content_shadow / commonInfomation_->kTime_Easing_hp_content_shadow_max;
+        elapsed = Util::Clamp(elapsed, 1.0f, 0.0f);
+        elapsed = Easing::Cubic::easeOut(ease_shadow_start_, commonInfomation_->sprite_player_hpContent->GetSize().x, elapsed);
+        hpBarShadowSize = { elapsed, 62 };
+
+        if (commonInfomation_->timer_easing_hp_content_shadow >= commonInfomation_->kTime_Easing_hp_content_shadow_max) { is_easingShadow_ = false; }
+    }
+    commonInfomation_->sprite_player_hpContent_shadow->SetSize(hpBarShadowSize);
 
     // プレイヤーの向きが右の時は、オフセット値を反転
     Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
@@ -174,7 +193,7 @@ void Player::Draw(void)
         break;
     }
 
-    //commonInfomation_->sprite_player_hpContent_shadow->Draw(png_HPBar_content_);
+    commonInfomation_->sprite_player_hpContent_shadow->Draw(png_HPBar_content_shadow_);
     commonInfomation_->sprite_player_hpContent->Draw(png_HPBar_content_);
     commonInfomation_->sprite_player_hpFrame->Draw(png_HPBar_frame_);
     commonInfomation_->sprite_player_spContent->Draw(png_SPBar_content_);
@@ -273,6 +292,29 @@ void Player::DrawImGUi(void)
     ImGui::SliderFloat("health_current", &commonInfomation_->health_current, 0, 100);
 
     imgui->EndWindow();
+}
+
+void Player::Damage(float arg_damage)
+{
+    // 既にイージングが開始されているか
+    if (is_easingShadow_ == false)
+    {
+        is_easingShadow_ = true;
+        // イージングの経過時間をリセット
+        commonInfomation_->timer_easing_hp_content_shadow = 0.f;
+        // イージングの初期地は、現在のHPバーの横幅とする
+        ease_shadow_start_ = commonInfomation_->sprite_player_hpContent->GetSize().x;
+    }
+    else
+    {
+        // イージングの経過時間をリセット
+        commonInfomation_->timer_easing_hp_content_shadow = 0.f;
+        // イージングの初期地は、HP影の横幅とする
+        ease_shadow_start_ = commonInfomation_->sprite_player_hpContent_shadow->GetSize().x;
+    }
+
+    // 現在HPから差し引く
+    commonInfomation_->health_current -= arg_damage;
 }
 
 void Player::Callback(void)

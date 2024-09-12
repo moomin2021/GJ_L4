@@ -73,6 +73,7 @@ struct PlayerCommonInfomation
     float kTime_AttackInterval_max = 20.f; // sec
     float kTime_AttackAnimation_max = 0.2f; // sec
     float kTime_Invincible_max = 20.f;     // sec
+    float kTime_Easing_hp_content_shadow_max = 2.2f;
 
     //-Variable-----------------------------
     // Player
@@ -93,6 +94,8 @@ struct PlayerCommonInfomation
     float timer_attackInterval{};
     float timer_attackAnimation{}; // sec
     float timer_invincible{};
+    // Player
+    float timer_easing_hp_content_shadow{};
 
     // Collider
     M_ColliderManager* ptr_colliderManager{};
