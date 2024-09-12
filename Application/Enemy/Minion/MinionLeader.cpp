@@ -2,6 +2,7 @@
 #include "M_RectCollider.h"
 #include "CollisionChecker.h"
 #include "Player.h"
+#include "Key.h"
 
 using namespace EnemyStatus;
 
@@ -19,6 +20,9 @@ void MinionLeader::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::M
 
 void MinionLeader::Update()
 {
+	stats_.position.x += (Key::GetInstance()->PushKey(DIK_D) - Key::GetInstance()->PushKey(DIK_A)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
+	stats_.position.y += (Key::GetInstance()->PushKey(DIK_S) - Key::GetInstance()->PushKey(DIK_W)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
+
 	// 状態別更新処理
 	(this->*stateTable[(size_t)stats_.state])();
 
@@ -51,7 +55,7 @@ void MinionLeader::Finalize()
 	BaseMinion::Finalize();
 }
 
-void MinionLeader::UpdateFlockBehavior(std::vector<BaseMinion>& others, const std::vector<BaseMinion>& leaders)
+void MinionLeader::UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>>& others, const std::vector<std::unique_ptr<BaseMinion>>& leaders)
 {
 	others;
 	leaders;

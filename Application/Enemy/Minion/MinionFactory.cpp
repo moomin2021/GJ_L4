@@ -15,9 +15,9 @@ void MinionFactory::Initialize(EnemyManager* enemyMgrPtr, M_ColliderManager* col
 
 	// パラメーター設定
 	setStats_.crowdStats.maxSpeed = 200.0f;
-	setStats_.crowdStats.maxForce = 0.1f;
-	setStats_.crowdStats.separationDistance = 50.0f;
-	setStats_.crowdStats.neighborRadius = 200.0f;
+	setStats_.crowdStats.maxForce = 1.0f;
+	setStats_.crowdStats.separationDistance = 300.0f;
+	setStats_.crowdStats.neighborRadius = 100.0f;
 
 	// データの設定
 	leaderData_.playerPtr = playerPtr;

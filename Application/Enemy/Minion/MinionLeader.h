@@ -46,7 +46,7 @@ public:
 	void Finalize() override;
 
 	// 群れの行動の更新
-	void UpdateFlockBehavior(std::vector<BaseMinion>& others, const std::vector<BaseMinion>& leaders) override;
+	void UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>>& others, const std::vector<std::unique_ptr<BaseMinion>>& leaders) override;
 
 private:
 	// 衝突判定コールバック関数

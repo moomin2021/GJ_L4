@@ -46,7 +46,7 @@ public:
 	virtual void Finalize();
 
 	// 群れの行動の更新
-	virtual void UpdateFlockBehavior(std::vector<BaseMinion>& others, const std::vector<BaseMinion>& leaders) = 0;
+	virtual void UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>>& others, const std::vector<std::unique_ptr<BaseMinion>>& leaders) = 0;
 
 private:
 	// 衝突判定コールバック関数

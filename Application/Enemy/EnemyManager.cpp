@@ -42,7 +42,7 @@ void EnemyManager::Update()
 	for (auto it = followers_.begin(); it != followers_.end();)
 	{
 		(*it)->Update();
-		(*it)->UpdateFlockBehavior();
+		(*it)->UpdateFlockBehavior(followers_, leaders_);
 		if ((*it)->GetIsAlive() == false)
 		{
 			(*it)->Finalize();

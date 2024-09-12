@@ -46,7 +46,7 @@ public:
 	void Finalize() override;
 
 	// 群れの行動の更新
-	void UpdateFlockBehavior(std::vector<BaseMinion>& others, const std::vector<BaseMinion>& leaders) override;
+	void UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>>& others, const std::vector<std::unique_ptr<BaseMinion>>& leaders) override;
 
 private:
 	// 衝突判定コールバック関数
@@ -63,13 +63,13 @@ private:
 	void SecondBeaten();
 
 	// 分離行動
-	Vector2 Separate(const std::vector<BaseMinion>& others);
+	Vector2 Separate(const std::vector<std::unique_ptr<BaseMinion>>& others);
 	// 整列行動
-	Vector2 Align(const std::vector<BaseMinion>& others);
+	Vector2 Align(const std::vector<std::unique_ptr<BaseMinion>>& others);
 	// 結合行動
-	Vector2 Cohesion(const std::vector<BaseMinion>& others);
+	Vector2 Cohesion(const std::vector<std::unique_ptr<BaseMinion>>& others);
 	// 近いリーダーに追従する
-	Vector2 FollowNearestLeader(const std::vector<BaseMinion>& leaders);
+	Vector2 FollowNearestLeader(const std::vector<std::unique_ptr<BaseMinion>>& leaders);
 	// 特定のターゲットに向かう
 	Vector2 Seek(const Vector2& target);
 	// ベクトルの大きさを制限する

@@ -51,7 +51,7 @@ void MinionFollower::Finalize()
 	BaseMinion::Finalize();
 }
 
-void MinionFollower::UpdateFlockBehavior(std::vector<BaseMinion>& others, const std::vector<BaseMinion>& leaders)
+void MinionFollower::UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>>& others, const std::vector<std::unique_ptr<BaseMinion>>& leaders)
 {
 	Vector2 sep = Separate(others);
 	Vector2 ali = Align(others);
@@ -59,10 +59,10 @@ void MinionFollower::UpdateFlockBehavior(std::vector<BaseMinion>& others, const 
 	Vector2 followLeader = FollowNearestLeader(leaders);  // 近いリーダーを追従
 
 	// 重み付けして加速度に加える
-	stats_.acceleration += sep * 1.5f;
+	stats_.acceleration += sep * 100.0f;
 	stats_.acceleration += ali;
 	stats_.acceleration += coh;
-	stats_.acceleration += followLeader * 2.0f;  // リーダー追従は強め
+	stats_.acceleration += followLeader * 1.0f;  // リーダー追従は強め
 
 	// 速度に加速度を加算して位置を更新
 	stats_.velocity += stats_.acceleration;
@@ -229,14 +229,14 @@ void MinionFollower::SecondBeaten()
 	collider_.circle_.center = stats_.position;
 }
 
-Vector2 MinionFollower::Separate(const std::vector<BaseMinion>& others)
+Vector2 MinionFollower::Separate(const std::vector<std::unique_ptr<BaseMinion>>& others)
 {
 	Vector2 steer = { 0, 0 };
 	int count = 0;
 	for (const auto& other : others) {
-		float d = stats_.position.Distance(other.GetPosition());
+		float d = stats_.position.Distance(other->GetPosition());
 		if (d > 0 && d < stats_.crowdStats.separationDistance) {
-			Vector2 diff = stats_.position - other.GetPosition();
+			Vector2 diff = stats_.position - other->GetPosition();
 			steer += diff.normalize() / d;
 			count++;
 		}
@@ -247,14 +247,14 @@ Vector2 MinionFollower::Separate(const std::vector<BaseMinion>& others)
 	return Limit(steer, stats_.crowdStats.maxForce);
 }
 
-Vector2 MinionFollower::Align(const std::vector<BaseMinion>& others)
+Vector2 MinionFollower::Align(const std::vector<std::unique_ptr<BaseMinion>>& others)
 {
 	Vector2 sum = { 0, 0 };
 	int count = 0;
 	for (const auto& other : others) {
-		float d = stats_.position.Distance(other.GetPosition());
+		float d = stats_.position.Distance(other->GetPosition());
 		if (d > 0 && d < stats_.crowdStats.neighborRadius) {
-			sum += other.GetVelocity();
+			sum += other->GetVelocity();
 			count++;
 		}
 	}
@@ -265,14 +265,14 @@ Vector2 MinionFollower::Align(const std::vector<BaseMinion>& others)
 	return { 0, 0 };
 }
 
-Vector2 MinionFollower::Cohesion(const std::vector<BaseMinion>& others)
+Vector2 MinionFollower::Cohesion(const std::vector<std::unique_ptr<BaseMinion>>& others)
 {
 	Vector2 sum = { 0, 0 };
 	int count = 0;
 	for (const auto& other : others) {
-		float d = stats_.position.Distance(other.GetPosition());
+		float d = stats_.position.Distance(other->GetPosition());
 		if (d > 0 && d < stats_.crowdStats.neighborRadius) {
-			sum += other.GetPosition();
+			sum += other->GetPosition();
 			count++;
 		}
 	}
@@ -283,16 +283,18 @@ Vector2 MinionFollower::Cohesion(const std::vector<BaseMinion>& others)
 	return { 0, 0 };
 }
 
-Vector2 MinionFollower::FollowNearestLeader(const std::vector<BaseMinion>& leaders)
+Vector2 MinionFollower::FollowNearestLeader(const std::vector<std::unique_ptr<BaseMinion>>& leaders)
 {
-	const BaseMinion* nearestLeader = &leaders[0];
-	float minDistance = stats_.position.Distance(leaders[0].GetPosition());
+	if (leaders.size() == 0) return Vector2();
+
+	const BaseMinion* nearestLeader = leaders[0].get();
+	float minDistance = stats_.position.Distance(leaders[0]->GetPosition());
 
 	// 最も近いリーダーを探す
 	for (const auto& leader : leaders) {
-		float distance = stats_.position.Distance(leader.GetPosition());
+		float distance = stats_.position.Distance(leader->GetPosition());
 		if (distance < minDistance) {
-			nearestLeader = &leader;
+			nearestLeader = leader.get();
 			minDistance = distance;
 		}
 	}
