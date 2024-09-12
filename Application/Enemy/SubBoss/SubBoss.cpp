@@ -131,7 +131,7 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* camera
 
 void (SubBoss::*SubBoss::stateTable[]) () = {
 	&SubBoss::Wait,
-	&SubBoss::Attack,
+	&SubBoss::Move,
 	&SubBoss::Stun,
 };
 
@@ -139,7 +139,7 @@ void SubBoss::Wait()
 {
 }
 
-void SubBoss::Attack()
+void SubBoss::Move()
 {
 	currentMoveState_->Update(&subBossInfo_);
 	if (currentMoveState_->GetIsAttackEnd())
@@ -164,7 +164,7 @@ void SubBoss::ChangeAttack()
 	currentMoveState_->Initialize(&subBossInfo_);
 
 	// 状態の変更
-	currentStateType_ = SubBossStateType::Attack;
+	currentStateType_ = SubBossStateType::Move;
 }
 
 void SubBoss::DebugStartAttack()
@@ -179,7 +179,7 @@ void SubBoss::DebugStartAttack()
 	}
 
 	// 状態の変更
-	currentStateType_ = SubBossStateType::Attack;
+	currentStateType_ = SubBossStateType::Move;
 }
 
 void SubBoss::CollisionCallBack()

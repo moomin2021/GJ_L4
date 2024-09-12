@@ -12,7 +12,7 @@
 
 enum class SubBossStateType {
 	Wait,
-	Attack,
+	Move,
 	Stun,
 };
 
@@ -66,7 +66,7 @@ private:
 	// 状態別処理
 	static void (SubBoss::* stateTable[]) ();
 	void Wait();
-	void Attack();
+	void Move();
 	void Stun();
 
 	// 攻撃状態に変更
