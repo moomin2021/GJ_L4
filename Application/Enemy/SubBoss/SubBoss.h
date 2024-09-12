@@ -4,13 +4,13 @@
 #include "Sprite.h"
 
 #include "SubBossInfo.h"
-#include "SubBossAttackState.h"
+#include "MoveTypes/SubBossMoveState.h"
 
 #include <vector>
 #include <string>
 #include <memory>
 
-enum class SubBossMoveType {
+enum class SubBossStateType {
 	Wait,
 	Attack,
 	Stun,
@@ -29,20 +29,20 @@ private:
 	std::vector<uint16_t> subBossTextures_;
 
 	// サブボスの行動状態
-	SubBossMoveType currentMoveType_ = SubBossMoveType::Wait;
+	SubBossStateType currentStateType_ = SubBossStateType::Wait;
 	std::vector<std::string> subBossMoveTypeStr_ = {
 		"待機", "攻撃", "行動不能"
 	};
 
 	// サブボスの攻撃関連
-	SubBossAttackType currentAttackType_ = SubBossAttackType::DescentDiveState;
-	std::unique_ptr<SubBossAttackState> currentAttackState_ = nullptr;
+	SubBossMoveType currentMoveType_ = SubBossMoveType::DescentDiveState;
+	std::unique_ptr<SubBossMoveState> currentMoveState_ = nullptr;
 
 	// デバック
 	bool isDebug_ = false;
 	std::unique_ptr<Sprite> colSprite_ = nullptr;
 	uint16_t debugTexture_ = 0;
-	std::string debugAttackTypeStr_ = "DescentDiveState";
+	std::string debugAttackTypeStr_ = "DescentDive";
 #pragma endregion
 
 #pragma region メンバ関数

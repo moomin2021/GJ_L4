@@ -1,43 +1,7 @@
 #pragma once
-#include "SubBossInfo.h"
-#include "Util.h"
+#include "SubBossMoveState.h"
 
-#include <vector>
-#include <string>
-
-// 攻撃タイプ文字列
-const std::vector<std::string> subBossAttackTypeStr = {
-	"DescentDiveState",
-};
-
-// 攻撃タイプ
-enum class SubBossAttackType {
-	DescentDiveState,
-};
-
-// ベースクラス
-class SubBossAttackState {
-protected:
-	// 現在の攻撃段階
-	size_t attackStage_ = 0;
-
-	// 攻撃終了したか
-	bool isAttackEnd_ = false;
-
-public:
-	// デストラクタ
-	virtual ~SubBossAttackState() = default;
-
-	// 基本処理
-	virtual void Initialize(SubBossInfo* info) = 0;
-	virtual void Update(SubBossInfo* info) = 0;
-	virtual void Finalize(SubBossInfo* info) = 0;
-
-	// 攻撃終了したかを取得
-	bool GetIsAttackEnd() { return isAttackEnd_; }
-};
-
-class DescentDiveState : public SubBossAttackState {
+class DescentDive : public SubBossMoveState {
 #pragma region メンバ変数
 private:
 	// ステージ0で使う変数
@@ -63,8 +27,8 @@ private:
 #pragma region メンバ関数
 public:
 	// コンストラクタとデストラクタ
-	DescentDiveState() {}
-	~DescentDiveState() {}
+	DescentDive() {}
+	~DescentDive() {}
 
 	// 基本処理
 	void Initialize(SubBossInfo* info) override;

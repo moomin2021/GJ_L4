@@ -1,11 +1,10 @@
-#include "SubBossAttackState.h"
+#include "DescentDive.h"
 #include "TimeManager.h"
 #include "Easing.h"
-#include "Util.h"
 
 #include "Player.h"
 
-void DescentDiveState::Initialize(SubBossInfo* info)
+void DescentDive::Initialize(SubBossInfo* info)
 {
 	presetTargetPos_ = info->position;
 	targetPos_ = Vector2(960.0f, 400.0f);
@@ -20,7 +19,7 @@ void DescentDiveState::Initialize(SubBossInfo* info)
 	diveInfo_.maxSpd_ = 400.0f;
 }
 
-void DescentDiveState::Update(SubBossInfo* info)
+void DescentDive::Update(SubBossInfo* info)
 {
 	// 時間管理クラスのインスタンスを取得
 	TimeManager* timeMgr = TimeManager::GetInstance();
@@ -135,7 +134,7 @@ void DescentDiveState::Update(SubBossInfo* info)
 	}
 }
 
-void DescentDiveState::Finalize(SubBossInfo* info)
+void DescentDive::Finalize(SubBossInfo* info)
 {
 	info = info;
 }

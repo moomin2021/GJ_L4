@@ -105,6 +105,7 @@
     <ClCompile Include="Application\Enemy\Boss\BossCol.cpp" />
     <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Special.cpp" />
     <ClCompile Include="Application\Enemy\Minion\BaseMinion.cpp" />
+    <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\DescentDive.cpp" />
     <ClCompile Include="Engine\Collision\CollisionManager3D.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Util\Buffer.cpp" />
@@ -177,8 +178,8 @@
     <ClCompile Include="Application\Enemy\Minion\MinionFactory.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\SubBossInfo.cpp" />
-    <ClCompile Include="Application\Enemy\SubBoss\SubBossAttackState.cpp" />
     <ClCompile Include="Engine\Util\Shake.cpp" />
+    <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="Application\Enemy\Boss\BossCol.h" />
     <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Special.h" />
     <ClInclude Include="Application\Enemy\Minion\BaseMinion.h" />
+    <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\DescentDive.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Engine\Collision\CollisionManager3D.h" />
     <ClInclude Include="Engine\Scene\BaseScene.h" />
@@ -273,8 +275,8 @@
     <ClInclude Include="Application\Enemy\Minion\MinionFactory.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h" />
-    <ClInclude Include="Application\Enemy\SubBoss\SubBossAttackState.h" />
     <ClInclude Include="Engine\Util\Shake.h" />
+    <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

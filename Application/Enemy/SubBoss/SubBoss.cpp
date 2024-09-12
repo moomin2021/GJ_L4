@@ -5,6 +5,8 @@
 #include "CollisionChecker.h"
 #include "Player.h"
 
+#include "MoveTypes/DescentDive.h"
+
 SubBoss::SubBoss() : subBossTextures_(3) {}
 
 void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr)
@@ -38,7 +40,7 @@ void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera
 void SubBoss::Update()
 {
 	// 状態別更新処理
-	(this->*stateTable[(size_t)currentMoveType_])();
+	(this->*stateTable[(size_t)currentStateType_])();
 
 	// スプライトの更新
 	subBossSprite_->SetPosition(subBossInfo_.position + subBossInfo_.shakeOffset);
@@ -84,17 +86,17 @@ void SubBoss::ImGuiUpdate()
 	// 当たり判定を表示するか
 	imgui->CheckBox("当たり判定表示", isDebug_);
 
-	static std::string curretStr = "DescentDiveState";
+	static std::string curretStr = "DescentDive";
 	if (imgui->BeginCombo("攻撃タイプ", curretStr))
 	{
 		// 攻撃タイプの選択
-		for (size_t i = 0; i < subBossAttackTypeStr.size(); i++)
+		for (size_t i = 0; i < subBossMoveTypeStr.size(); i++)
 		{
-			bool isSelectable = (curretStr == subBossAttackTypeStr[i]);
+			bool isSelectable = (curretStr == subBossMoveTypeStr[i]);
 	
-			if (imgui->Selectable(subBossAttackTypeStr[i], isSelectable))
+			if (imgui->Selectable(subBossMoveTypeStr[i], isSelectable))
 			{
-				curretStr = subBossAttackTypeStr[i];
+				curretStr = subBossMoveTypeStr[i];
 				debugAttackTypeStr_ = curretStr;
 			}
 	
@@ -139,12 +141,12 @@ void SubBoss::Wait()
 
 void SubBoss::Attack()
 {
-	currentAttackState_->Update(&subBossInfo_);
-	if (currentAttackState_->GetIsAttackEnd())
+	currentMoveState_->Update(&subBossInfo_);
+	if (currentMoveState_->GetIsAttackEnd())
 	{
-		currentMoveType_ = SubBossMoveType::Wait;
-		currentAttackState_->Finalize(&subBossInfo_);
-		currentAttackState_ = nullptr;
+		currentStateType_ = SubBossStateType::Wait;
+		currentMoveState_->Finalize(&subBossInfo_);
+		currentMoveState_ = nullptr;
 	}
 }
 
@@ -155,29 +157,29 @@ void SubBoss::Stun()
 void SubBoss::ChangeAttack()
 {
 	// 攻撃状態が空ではなかったら終了処理をする
-	if (currentAttackState_ != nullptr) currentAttackState_->Finalize(&subBossInfo_);
+	if (currentMoveState_ != nullptr) currentMoveState_->Finalize(&subBossInfo_);
 
 	// 攻撃状態の生成、初期化
-	currentAttackState_ = std::make_unique<DescentDiveState>();
-	currentAttackState_->Initialize(&subBossInfo_);
+	currentMoveState_ = std::make_unique<DescentDive>();
+	currentMoveState_->Initialize(&subBossInfo_);
 
 	// 状態の変更
-	currentMoveType_ = SubBossMoveType::Attack;
+	currentStateType_ = SubBossStateType::Attack;
 }
 
 void SubBoss::DebugStartAttack()
 {
 	// 攻撃状態が空ではなかったら終了処理をする
-	if (currentAttackState_ != nullptr) currentAttackState_->Finalize(&subBossInfo_);
+	if (currentMoveState_ != nullptr) currentMoveState_->Finalize(&subBossInfo_);
 
-	if (debugAttackTypeStr_ == "DescentDiveState")
+	if (debugAttackTypeStr_ == "DescentDive")
 	{
-		currentAttackState_ = std::make_unique<DescentDiveState>();
-		currentAttackState_->Initialize(&subBossInfo_);
+		currentMoveState_ = std::make_unique<DescentDive>();
+		currentMoveState_->Initialize(&subBossInfo_);
 	}
 
 	// 状態の変更
-	currentMoveType_ = SubBossMoveType::Attack;
+	currentStateType_ = SubBossStateType::Attack;
 }
 
 void SubBoss::CollisionCallBack()
