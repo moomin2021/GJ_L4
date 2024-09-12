@@ -7,6 +7,7 @@
 
 #include "MoveTypes/DescentDive.h"
 #include "MoveTypes/StartIntro.h"
+#include "MoveTypes/EndGameOutro.h"
 
 SubBoss::SubBoss() : subBossTextures_(3) {}
 
@@ -100,7 +101,6 @@ void SubBoss::ImGuiUpdate()
 
 	// ボスの状態を表示
 	imgui->Text("ボスの状態 = %s", subBossMoveTypeStr_[(size_t)currentMoveType_].c_str());
-	imgui->Text("目の色 = { %.1f, %.1f, %.1f, %.1f }", subBossInfo_.eyeColor.x, subBossInfo_.eyeColor.y, subBossInfo_.eyeColor.z, subBossInfo_.eyeColor.w);
 
 	// 座標の表示
 	imgui->Text("座標 = { %f, %f }", subBossInfo_.position.x, subBossInfo_.position.y);
@@ -196,7 +196,13 @@ void SubBoss::ChangeMove()
 		currentMoveState_->Initialize(&subBossInfo_);
 	}
 
-	if (currentMoveType_ == SubBossMoveType::DescentDiveState)
+	else if (currentMoveType_ == SubBossMoveType::EndGameOutro)
+	{
+		currentMoveState_ = std::make_unique<EndGameOutro>();
+		currentMoveState_->Initialize(&subBossInfo_);
+	}
+
+	else if (currentMoveType_ == SubBossMoveType::DescentDive)
 	{
 		currentMoveState_ = std::make_unique<DescentDive>();
 		currentMoveState_->Initialize(&subBossInfo_);
@@ -212,7 +218,7 @@ void SubBoss::MoveChance()
 	if (currentStateType_ != SubBossStateType::Wait) return;
 
 	// ランダムで行動を決める
-	size_t rnd = Util::GetRandomInt(1, 1);
+	size_t rnd = Util::GetRandomInt(2, 2);
 	currentMoveType_ = (SubBossMoveType)rnd;
 
 	// 行動の生成
@@ -227,7 +233,11 @@ void SubBoss::DebugStartAttack()
 
 	else if (debugMoveTypeStr_ == "DescentDive")
 	{
-		currentMoveType_ = SubBossMoveType::DescentDiveState;
+		currentMoveType_ = SubBossMoveType::DescentDive;
+	}
+
+	else if (debugMoveTypeStr_ == "EndGameOutro") {
+		currentMoveType_ = SubBossMoveType::EndGameOutro;
 	}
 
 	ChangeMove();

@@ -7,14 +7,16 @@
 
 // 攻撃タイプ文字列
 const std::vector<std::string> subBossMoveTypeStr = {
-	"DescentDive",
 	"StartIntro",
+	"EndGameOutro",
+	"DescentDive",
 };
 
 // 攻撃タイプ
 enum class SubBossMoveType {
 	StartIntro,
-	DescentDiveState,
+	EndGameOutro,
+	DescentDive,
 };
 
 // ベースクラス

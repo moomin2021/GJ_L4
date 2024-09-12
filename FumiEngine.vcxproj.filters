@@ -102,24 +102,11 @@
     <ClCompile Include="Application\Enemy\SubBoss\SubBoss.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\SubBossInfo.cpp" />
-    <ClCompile Include="Application\Enemy\SubBoss\SubBossAttackState.cpp" />
     <ClCompile Include="Engine\Util\Shake.cpp" />
     <ClCompile Include="Application\Enemy\Minion\BaseMinion.cpp" />
     <ClCompile Include="Application\Enemy\Minion\MinionLeader.cpp" />
     <ClCompile Include="Application\Enemy\Minion\MinionFollower.cpp" />
     <ClCompile Include="Application\Enemy\Minion\MinionFactory.cpp" />
-    <ClCompile Include="SmokeParticle.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleMan.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Trajectory.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Effect\SmokeEffect.cpp">
-      <Filter>Engine\ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Collision\ColliderTag.cpp" />
     <ClCompile Include="Application\Collision\CollisionChecker.cpp" />
     <ClCompile Include="Application\Easing\AppEasing.cpp" />
@@ -200,6 +187,11 @@
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\DescentDive.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\StartIntro.cpp" />
+    <ClCompile Include="ParticleMan.cpp" />
+    <ClCompile Include="Application\Effect\SmokeEffect.cpp" />
+    <ClCompile Include="SmokeParticle.cpp" />
+    <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\EndGameOutro.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -507,15 +499,6 @@
     <ClInclude Include="Application\Enemy\SubBoss\SubBoss.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Enemys\BaseEnemy.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\Enemys\FloatingEnemy.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyFactory.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Enemy\EnemyStatus.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
@@ -561,34 +544,22 @@
     <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\SubBoss\SubBossAttackState.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Enemy\Boss\BossCol.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Util\Shake.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Special.h">
-      <Filter>Application\Player\Behavior</Filter>
-    </ClInclude>
-    <ClInclude Include="SmokeParticle.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleMan.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Effect\SmokeEffect.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Trajectory.h">
-      <Filter>Engine\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Special.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\DescentDive.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\StartIntro.h" />
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Special.h" />
+    <ClInclude Include="ParticleMan.h" />
+    <ClInclude Include="Application\Effect\SmokeEffect.h" />
+    <ClInclude Include="SmokeParticle.h" />
+    <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\EndGameOutro.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

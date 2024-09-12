@@ -82,11 +82,15 @@ void MinionFollower::CollisionCallBack()
 	// プレイヤーに攻撃されたか
 	bool isAttackedByPlayer = false;
 
-	// ボスと衝突しているか
-	for (size_t i = 0; i < 4; i++)
-	{
-		if (collider_.IsDetect_Name("Boss" + std::to_string(i)))
-		{
+	// 壁と天井の衝突判定
+	for (size_t i = 0; i < 4; i++) {
+		// 壁か天井と当たったら
+		if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
+			// 押し出し処理
+			ICollider* hitCol = collider_.Extract_Collider("Boss" + std::to_string(i));
+			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
+			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
+			stats_.position += pushBack;
 			isWallCol = true;
 			wallName = "Boss" + std::to_string(i);
 		}
