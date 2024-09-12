@@ -72,7 +72,10 @@ private:
 	void Stun();
 
 	// 攻撃状態に変更
-	void ChangeAttack();
+	void ChangeMove();
+
+	// 行動の抽選
+	void MoveChance();
 
 	// デバックで選択した攻撃を開始
 	void DebugStartAttack();

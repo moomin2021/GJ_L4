@@ -49,6 +49,9 @@ void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera
 
 void SubBoss::Update()
 {
+	// 行動の抽選
+	MoveChance();
+
 	// 状態別更新処理
 	(this->*stateTable[(size_t)currentStateType_])();
 
@@ -145,6 +148,14 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* camera
 
 	// カメラの設定
 	subBossInfo_.cameraPtr = cameraPtr;
+
+	// 行動の設定
+	currentMoveState_ = std::make_unique<StartIntro>();
+	currentMoveState_->Initialize(&subBossInfo_);
+
+	// 状態の変更
+	currentMoveType_ = SubBossMoveType::StartIntro;
+	currentStateType_ = SubBossStateType::Move;
 }
 
 void (SubBoss::*SubBoss::stateTable[]) () = {
@@ -172,7 +183,7 @@ void SubBoss::Stun()
 {
 }
 
-void SubBoss::ChangeAttack()
+void SubBoss::ChangeMove()
 {
 	// 攻撃状態が空ではなかったら終了処理をする
 	if (currentMoveState_ != nullptr) currentMoveState_->Finalize(&subBossInfo_);
@@ -192,6 +203,19 @@ void SubBoss::ChangeAttack()
 	currentStateType_ = SubBossStateType::Move;
 }
 
+void SubBoss::MoveChance()
+{
+	// 状態が待機状態以外なら処理を飛ばす
+	if (currentStateType_ != SubBossStateType::Wait) return;
+
+	// ランダムで行動を決める
+	size_t rnd = Util::GetRandomInt(1, 1);
+	currentMoveType_ = (SubBossMoveType)rnd;
+
+	// 行動の生成
+	ChangeMove();
+}
+
 void SubBoss::DebugStartAttack()
 {
 	if (debugMoveTypeStr_ == "StartIntro") {
@@ -203,7 +227,7 @@ void SubBoss::DebugStartAttack()
 		currentMoveType_ = SubBossMoveType::DescentDiveState;
 	}
 
-	ChangeAttack();
+	ChangeMove();
 }
 
 void SubBoss::CollisionCallBack()
@@ -246,6 +270,7 @@ void SubBoss::CollisionCallBack()
 	subBossSprite_->SetPosition(subBossInfo_.position + subBossInfo_.shakeOffset);
 	subBossSprite_->SetSize(subBossInfo_.size);
 	subBossSprite_->SetRotation(subBossInfo_.rotation);
+	subBossEyeSprite_->SetPosition(subBossInfo_.position + subBossInfo_.shakeOffset);
 
 	// コライダーの更新
 	subBossInfo_.collider.circle_.center = subBossSprite_->GetPosition();
