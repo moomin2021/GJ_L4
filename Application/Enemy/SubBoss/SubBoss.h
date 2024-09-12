@@ -26,7 +26,9 @@ private:
 
 	// サブボスの描画関連
 	std::unique_ptr<Sprite> subBossSprite_ = nullptr;
+	std::unique_ptr<Sprite> subBossEyeSprite_ = nullptr;
 	std::vector<uint16_t> subBossTextures_;
+	uint16_t subBossEyeTexture_ = 0;
 
 	// サブボスの行動状態
 	SubBossStateType currentStateType_ = SubBossStateType::Wait;
@@ -42,7 +44,7 @@ private:
 	bool isDebug_ = false;
 	std::unique_ptr<Sprite> colSprite_ = nullptr;
 	uint16_t debugTexture_ = 0;
-	std::string debugAttackTypeStr_ = "DescentDive";
+	std::string debugMoveTypeStr_ = "DescentDive";
 #pragma endregion
 
 #pragma region メンバ関数

@@ -180,6 +180,7 @@
     <ClCompile Include="Application\Enemy\SubBoss\SubBossInfo.cpp" />
     <ClCompile Include="Engine\Util\Shake.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.cpp" />
+    <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\StartIntro.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -277,6 +278,7 @@
     <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h" />
     <ClInclude Include="Engine\Util\Shake.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.h" />
+    <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\StartIntro.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

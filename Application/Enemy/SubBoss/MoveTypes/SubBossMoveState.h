@@ -8,10 +8,12 @@
 // 攻撃タイプ文字列
 const std::vector<std::string> subBossMoveTypeStr = {
 	"DescentDive",
+	"StartIntro",
 };
 
 // 攻撃タイプ
 enum class SubBossMoveType {
+	StartIntro,
 	DescentDiveState,
 };
 
@@ -19,7 +21,7 @@ enum class SubBossMoveType {
 class SubBossMoveState {
 protected:
 	// 現在の攻撃段階
-	size_t attackStage_ = 0;
+	size_t moveStage_ = 0;
 
 	// 攻撃終了したか
 	bool isAttackEnd_ = false;

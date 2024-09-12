@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include "float4.h"
 #include "M_CircleCollider.h"
 #include "Camera.h"
 
@@ -9,6 +10,8 @@ struct SubBossInfo {
 	Vector2 position = Vector2();	// サブボスの座標
 	Vector2 size = Vector2();		// サブボスのサイズ
 	float rotation = 0.0f;			// サブボスの回転度
+	float4 mainColor = float4();	// 本体の色
+	float4 eyeColor = float4();		// 目の色
 
 	// 動作に関する情報
 	Vector2 moveVec = Vector2();	// 移動方向

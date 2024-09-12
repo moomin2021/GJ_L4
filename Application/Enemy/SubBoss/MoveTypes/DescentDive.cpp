@@ -25,7 +25,7 @@ void DescentDive::Update(SubBossInfo* info)
 	TimeManager* timeMgr = TimeManager::GetInstance();
 
 	// 規定の場所へ移動
-	if (attackStage_ == 0) {
+	if (moveStage_ == 0) {
 		// 時間の加算
 		stage0Time_.elapsedTime += timeMgr->GetGameDeltaTime();
 		// 座標移動
@@ -33,15 +33,15 @@ void DescentDive::Update(SubBossInfo* info)
 		info->position.x = Easing::Quint::easeOut(presetTargetPos_.x, targetPos_.x, rate);
 		info->position.y = Easing::Quint::easeOut(presetTargetPos_.y, targetPos_.y, rate);
 		// 時間を超えたら次の段階へ
-		if (stage0Time_.GetIsExceeded()) attackStage_++;
+		if (stage0Time_.GetIsExceeded()) moveStage_++;
 	}
 
 	// プレイヤーを追いかける
-	else if (attackStage_ == 1) {
+	else if (moveStage_ == 1) {
 		// 時間の加算
 		stage1Time_.elapsedTime += timeMgr->GetGameDeltaTime();
 		// 時間を超えたら次の段階へ
-		if (stage1Time_.GetIsExceeded()) attackStage_++;
+		if (stage1Time_.GetIsExceeded()) moveStage_++;
 
 		// 移動方向の計算
 		Vector2 boss2PlayerVec = info->playerPtr->Get_CommonInfomation()->position - info->position;
@@ -57,7 +57,7 @@ void DescentDive::Update(SubBossInfo* info)
 	}
 
 	// 震える
-	else if (attackStage_ == 2) {
+	else if (moveStage_ == 2) {
 		// シェイク処理
 		shakeTime_.elapsedTime += timeMgr->GetGameDeltaTime();
 		// 時間を超えたらリセット
@@ -73,7 +73,7 @@ void DescentDive::Update(SubBossInfo* info)
 		// 時間を超えたら次の段階へ
 		if (stage2Time_.GetIsExceeded()) {
 			info->shakeOffset = Vector2();
-			attackStage_++;
+			moveStage_++;
 			// ダメージの変更
 			info->collider.Data_Remove("Damage");
 			info->collider.Data_Add("Damage", 30.0f);
@@ -81,11 +81,11 @@ void DescentDive::Update(SubBossInfo* info)
 	}
 
 	// 突進
-	else if (attackStage_ == 3) {
+	else if (moveStage_ == 3) {
 		// ボスが床と衝突していたら
 		if (info->isGroundCol)
 		{
-			attackStage_++;
+			moveStage_++;
 			presetTargetPos_ = info->position;
 			targetPos_ = info->position;
 			targetPos_.y = 400.0f;
@@ -104,7 +104,7 @@ void DescentDive::Update(SubBossInfo* info)
 	}
 
 	// 待機
-	else if (attackStage_ == 4)
+	else if (moveStage_ == 4)
 	{
 		// 時間の加算
 		stage4Time_.elapsedTime += timeMgr->GetGameDeltaTime();
@@ -112,12 +112,12 @@ void DescentDive::Update(SubBossInfo* info)
 		if (stage4Time_.GetIsExceeded())
 		{
 			info->shakeOffset = Vector2();
-			attackStage_++;
+			moveStage_++;
 		}
 	}
 
 	// 規定の位置までもどる
-	else if (attackStage_ == 5)
+	else if (moveStage_ == 5)
 	{
 		// 時間の加算
 		stage5Time_.elapsedTime += timeMgr->GetGameDeltaTime();
@@ -128,7 +128,7 @@ void DescentDive::Update(SubBossInfo* info)
 		// 時間を超えたら次の段階へ
 		if (stage5Time_.GetIsExceeded())
 		{
-			attackStage_++;
+			moveStage_++;
 			isAttackEnd_ = true;
 		}
 	}
