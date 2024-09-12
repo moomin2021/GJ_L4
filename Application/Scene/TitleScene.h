@@ -129,10 +129,6 @@ private:
 	bool IsChangeScene_;
 	float alphaLossValue_;
 
-	// テストパーティクル用のタイマー
-	float testPTimer_;
-	float testPtimeMax_;
-
 #pragma endregion
 
 #pragma region メンバ関数
