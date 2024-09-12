@@ -1,4 +1,5 @@
 #pragma once
+#include "float4.h"
 #include "Sprite.h"
 #include "M_ColliderManager.h"
 #include "Sprite.h"
@@ -45,6 +46,11 @@ private:
 	std::unique_ptr<Sprite> colSprite_ = nullptr;
 	uint16_t debugTexture_ = 0;
 	std::string debugMoveTypeStr_ = "DescentDive";
+
+	// ダメージ関連
+	Util::TimeInfo damageTime_ = { 0.2f, 0.0f };
+	float4 damageColor_ = float4(0.7f, 0.2f, 0.2f, 1.0f);
+	bool isDamage_ = false;
 #pragma endregion
 
 #pragma region メンバ関数
@@ -79,6 +85,10 @@ private:
 
 	// デバックで選択した攻撃を開始
 	void DebugStartAttack();
+
+	// ダメージを受けた時の処理
+	void StartDamageProcess();
+	void DamageProcess();
 
 	// 衝突判定コールバック関数
 	void CollisionCallBack();

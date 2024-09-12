@@ -52,6 +52,9 @@ void SubBoss::Update()
 	// 行動の抽選
 	MoveChance();
 
+	// ダメージ処理
+	DamageProcess();
+
 	// 状態別更新処理
 	(this->*stateTable[(size_t)currentStateType_])();
 
@@ -230,8 +233,39 @@ void SubBoss::DebugStartAttack()
 	ChangeMove();
 }
 
+void SubBoss::StartDamageProcess()
+{
+	// 連続でダメージは受けない
+	if (isDamage_) return;
+	isDamage_ = true;
+	subBossInfo_.mainColor = damageColor_;
+	subBossInfo_.eyeColor = damageColor_;
+	damageTime_.elapsedTime = 0.0f;
+}
+
+void SubBoss::DamageProcess()
+{
+	// ダメージフラグが[OFF]なら処理を飛ばす
+	if (isDamage_ == false) return;
+
+	TimeManager* timeMgrPtr = TimeManager::GetInstance();
+	
+	damageTime_.elapsedTime += timeMgrPtr->GetGameDeltaTime();
+
+	if (damageTime_.GetIsExceeded()) {
+		isDamage_ = false;
+		subBossInfo_.mainColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+		subBossInfo_.eyeColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	}
+}
+
 void SubBoss::CollisionCallBack()
 {
+	// プレイヤーの攻撃判定に衝突したら
+	if (subBossInfo_.collider.IsDetect_Name("Player_Attack")) {
+		StartDamageProcess();
+	}
+
 	// 壁と天井の衝突判定
 	for (size_t i = 0; i < 4; i++) {
 		if (i == 2) continue;
