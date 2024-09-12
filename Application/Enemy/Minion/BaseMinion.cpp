@@ -6,6 +6,7 @@ BaseMinion::BaseMinion() : sprites_(3) {}
 
 void BaseMinion::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::MinionStats& inStats, EnemyStatus::MinionData* inData)
 {
+	colMgrPtr = colMgrPtr;
 	// パラメーターを設定
 	stats_ = inStats;
 	// データの設定
@@ -18,13 +19,6 @@ void BaseMinion::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::Min
 		it->SetSize(Vector2(64.0f, 64.0f));
 		it->SetAnchorPoint({ 0.5f, 0.5f });
 	}
-
-	// コライダーの設定
-	collider_.circle_.center = stats_.position;
-	collider_.circle_.radius = 32.0f;
-	std::string name = "Minion";
-	auto callback = std::bind(&BaseMinion::CollisionCallBack, this);
-	collider_.Initialize(name, callback, colMgrPtr);
 }
 
 void BaseMinion::MatUpdate()

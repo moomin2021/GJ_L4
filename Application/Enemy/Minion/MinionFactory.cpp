@@ -5,6 +5,8 @@
 #include "Minion/MinionLeader.h"
 #include "Minion/MinionFollower.h"
 
+using namespace EnemyStatus;
+
 void MinionFactory::Initialize(EnemyManager* enemyMgrPtr, M_ColliderManager* colMgrPtr, Player* playerPtr)
 {
 	// ポインタ受取り
@@ -24,7 +26,34 @@ void MinionFactory::Initialize(EnemyManager* enemyMgrPtr, M_ColliderManager* col
 
 void MinionFactory::ImGuiUpdate(ImGuiManager* imgui)
 {
-	imgui = imgui;
+	// 敵の生成場所の入力
+	imgui->InputVector2("生成座標", debugCreatePos_);
+
+	static std::string curretStr = "Leader";
+	if (imgui->BeginCombo("ファイル", curretStr))
+	{
+		// 攻撃タイプの選択
+		for (size_t i = 0; i < minionTypeStr_.size(); i++)
+		{
+			bool isSelectable = (curretStr == minionTypeStr_[i]);
+
+			if (imgui->Selectable(minionTypeStr_[i], isSelectable))
+			{
+				curretStr = minionTypeStr_[i];
+				if (curretStr == "Leader") debugType_ = MinionType::Leader;
+				if (curretStr == "Follower") debugType_ = MinionType::Follower;
+			}
+
+			if (isSelectable) imgui->SetItemDefaultFocus();
+		}
+
+		imgui->EndCombo();
+	}
+
+	// 敵を生成するボタン
+	if (imgui->Button("生成する")) {
+		CreateMinion(debugCreatePos_, debugType_);
+	}
 }
 
 void MinionFactory::CreateMinion(const Vector2& inPos, EnemyStatus::MinionType type)
@@ -39,11 +68,13 @@ void MinionFactory::CreateMinion(const Vector2& inPos, EnemyStatus::MinionType t
 	if (type == EnemyStatus::MinionType::Leader) {
 		newMinion = std::make_unique<MinionLeader>();
 		newMinion->Initialize(pColMgr_, setStats_, &leaderData_);
+		pEnemyMgr_->AddLeader(std::move(newMinion));
 	}
 
 	// フォロワー
 	else if (type == EnemyStatus::MinionType::Follower) {
 		newMinion = std::make_unique<MinionFollower>();
 		newMinion->Initialize(pColMgr_, setStats_, &followerData_);
+		pEnemyMgr_->AddFollower(std::move(newMinion));
 	}
 }

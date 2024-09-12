@@ -24,6 +24,11 @@ private:
 
 	// 設定パラメーター
 	EnemyStatus::MinionStats setStats_ = {};
+
+	// 生成場所
+	Vector2 debugCreatePos_ = Vector2();
+	EnemyStatus::MinionType debugType_ = EnemyStatus::MinionType::Leader;
+	std::vector<std::string> minionTypeStr_ = { "Leader, Follower" };
 #pragma endregion
 
 #pragma region メンバ関数
