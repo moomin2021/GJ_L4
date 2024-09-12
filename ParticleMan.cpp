@@ -103,6 +103,11 @@ void ParticleMan::Update(void)
     }
 }
 
+void ParticleMan::MatUpdate(void)
+{
+    for (auto it = particles_.begin(); it != particles_.end(); it++) { (*it)->MatUpdate(); }
+}
+
 void ParticleMan::Draw(void)
 {
     for (auto it = particles_.begin(); it != particles_.end(); it++) { (*it)->Draw(); }
