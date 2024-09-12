@@ -5,6 +5,8 @@
 #include "ImGuiManager.h"
 #include "Util.h"
 
+#include "Key.h"
+
 #include <cassert>
 #include <DirectXMath.h>
 
@@ -29,7 +31,7 @@ void ParticleEmitter2D::Initialize(const Vector2& arg_EmitCenter_, const Vector2
 
 void ParticleEmitter2D::Update()
 {
-    for (auto it = particles_.begin(); it!= particles_.end();)
+    for (auto it = particles_.begin(); it!= particles_.end(); it++)
     {
         // 生存確認
         if ((*it)->isAlive == false)
@@ -41,14 +43,16 @@ void ParticleEmitter2D::Update()
         }
 
         // 時間更新
-        (*it)->time_toCurrent += ptr_timeManager_->GetDeltaTime();
+        (*it)->time_toCurrent += ptr_timeManager_->GetGameDeltaTime();
         if ((*it)->time_toCurrent >= (*it)->time_toDead) { (*it)->isAlive = false; } // 次フレームで削除
+
+        (*it)->Update();
     }
 
 		//// スケールの更新
 		//float elapsed = it.time_toCurrent / it.time_toDead;
 		//elapsed = Util::Clamp(elapsed, 1.0f, 0.0f);
-		//it.scale_current = Easing::lerp(it.scale_start, it.scale_end, elapsed);
+		//it.size_current = Easing::lerp(it.size_start, it.size_end, elapsed);
 }
 
 void ParticleEmitter2D::MatUpdate()
@@ -64,7 +68,7 @@ void ParticleEmitter2D::MatUpdate()
 		for (auto& it : particles_) {
 			// 座標
 			vertMap->pos = Vector3(it->position.x, it->position.y, 0.0f);
-			vertMap->scale = it->scale_current;
+			vertMap->scale = it->size_current;
 
 			vertMap++;
 		}
@@ -95,7 +99,7 @@ void ParticleEmitter2D::ImGuiUpdate()
 
 	imgui->BeginWindow("Particle");
 
-	for (auto& it : particles_) imgui->Text("scale = %f", it->scale_current);
+	for (auto& it : particles_) imgui->Text("scale = %f", it->size_current);
 	for (auto& it : particles_) imgui->Text("現在の時間 = %f", it->time_toCurrent);
 
 	imgui->EndWindow();
@@ -133,7 +137,7 @@ void ParticleEmitter2D::Finalize()
 	particles_.clear();
 }
 
-void ParticleEmitter2D::AddParticle(std::unique_ptr<Particle> instance)
+void ParticleEmitter2D::AddParticle(std::unique_ptr<Particle222222> instance)
 {
     particles_.push_back(std::move(instance));
 }
