@@ -40,5 +40,5 @@
 #kTime_SpecialInterval_max: 20.000000;
 #kTime_SpecialAnimation_max: 0.200000;
 #kTime_Invincible_max: 20.000000;
-#kTime_Easing_hp_content_shadow_max: 20.000000;
+#kTime_Easing_hp_content_shadow_max: 2.000000;
 

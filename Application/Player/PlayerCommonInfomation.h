@@ -46,7 +46,7 @@ struct PlayerCommonInfomation
     //-Const-------------------------
     // Player
     float kHealth_max = 100;
-    float kSp_max = 100;
+    float kSp_max = 10;
     
     // Move
     float kMoveSpeed = 100.f;

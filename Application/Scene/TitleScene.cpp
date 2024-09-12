@@ -2,6 +2,9 @@
 #include "PipelineManager.h"
 #include "ParticleEmitter2D.h"
 #include "Texture.h"
+#include "ParticleMan.h"
+#include "SmokeEffect.h"
+#include <memory>
 
 TitleScene::TitleScene(IScene* sceneIf) : BaseScene(sceneIf) {}
 
@@ -154,6 +157,8 @@ void TitleScene::Initialize()
 	IsChangeScene_ = false;
 	alphaLossValue_ = 1.0f / 60;
 
+	testPtimeMax_ = 30;
+
 #pragma endregion
 
 #pragma region テクスチャ
@@ -205,7 +210,18 @@ void TitleScene::Update()
 		titleSprites_[i]->SetColor(titleSpriteColor_[i]);
 	}
 
+	testPTimer_++;
+	if (testPTimer_ >= testPtimeMax_)
+	{
+		testPTimer_ = 0;
 
+		for (size_t i = 0; i < 5; i++)
+		{
+			ParticleMan::GetInstance()->AddParticle(std::make_unique<SmokeEffect>(), { 500,800 }, { 500,900 });
+		}
+	}
+
+	ParticleMan::GetInstance()->Update();
 
 #ifdef _DEBUG
 	// ImGuiの処理
@@ -227,6 +243,8 @@ void TitleScene::MatUpdate()
 	{
 		titleSprites_[i]->MatUpdate();
 	}
+
+	ParticleMan::GetInstance()->MatUpdate();
 }
 
 void TitleScene::Draw()
@@ -240,6 +258,8 @@ void TitleScene::Draw()
 	{
 		titleSprites_[i]->Draw(titleTextures_[i]);
 	}
+
+	ParticleMan::GetInstance()->Draw();
 }
 
 void TitleScene::Finalize()

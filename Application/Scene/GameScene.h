@@ -7,6 +7,8 @@
 #include "M_ColliderManager.h"
 #include "EnemyManager.h"
 #include "Player.h"
+#include "ParticleManager2D.h"
+#include "ParticleMan.h"
 
 #include <memory>
 
@@ -29,6 +31,8 @@ private:
 	// 敵マネージャー
 	std::unique_ptr<EnemyManager> enemyMgr_ = nullptr;
     Player player_;
+
+    ParticleMan* particleManPtr_ = nullptr;
 #pragma endregion
 
 #pragma region メンバ関数
