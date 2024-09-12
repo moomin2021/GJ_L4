@@ -32,6 +32,22 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_HPBar_content_shadow_ = LoadTexture("HpBarContentsShadow.png");
     png_SPBar_frame_ = LoadTexture("SpBarFrame.png");
     png_SPBar_content_ = LoadTexture("SpBarContents.png");
+    png_operationSheet_ = LoadTexture("operationSheet_224x64.png");
+    png_operationSheet_divide_ = LoadDivTexture("operationSheet_224x64.png", 3);
+
+    sprite_operationSheet_ = std::make_unique<Sprite>();
+    sprite_operationSheet_->SetSize({ 672,64 });
+    sprite_operationSheet_->SetPosition({ 90,1000 });
+    sprite_operationSheet_->SetColor({ 1.0f, 1.0f, 1.0f, 0.4f });
+
+    for (size_t i{}; i < 3; i++)
+    {
+        sprite_operationSheet_divides_[i] = std::make_unique<Sprite>();
+        sprite_operationSheet_divides_[i]->SetSize({ 224,64 });
+        sprite_operationSheet_divides_[i]->SetPosition({ 90 + (float)i * 224,1000});
+        sprite_operationSheet_divides_[i]->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+    }
+
 
     png_white_debug = LoadTexture("white.png");
     png_frame_debug = LoadTexture("frame.png");
@@ -139,7 +155,7 @@ void Player::Update(void)
     Vector2 hpBarSize = { 302 * commonInfomation_->health_rate_, 62 };
     commonInfomation_->sprite_player_hpContent->SetSize(hpBarSize);
     // Sprite|プレイヤーのHPバー（影）のサイズ更新
-    Vector2 hpBarShadowSize{}; 
+    Vector2 hpBarShadowSize{};
     if (is_easingShadow_)
     {
         commonInfomation_->timer_easing_hp_content_shadow += TimeManager::GetInstance()->GetGameDeltaTime();
@@ -173,6 +189,51 @@ void Player::Update(void)
     // コライダーの更新
     commonInfomation_->collider.square_.center = commonInfomation_->position;
 
+    auto ptr_key = Key::GetInstance();
+    auto ptr_pad = Pad::GetInstance();
+    bool canJump = commonInfomation_->move.can_jump;
+    bool isGround = commonInfomation_->move.is_ground;
+    bool isJumped = commonInfomation_->move.is_jumped;
+
+    bool isSpecial{};
+    isSpecial = ptr_key->TriggerKey(commonInfomation_->keyBind.special);
+    isSpecial = (std::max)(ptr_pad->GetTriggerButton((BUTTON)commonInfomation_->controllerBind.special), isSpecial);
+    if (operationButtons_[0] == false) { operationButtons_[0] = isSpecial; }
+    else if (timer_lightUpButtons_[0] >= kTime_lightUpButton_max_)
+    {
+        timer_lightUpButtons_[0] = 0.f;
+        operationButtons_[0] = isSpecial;
+    }
+
+
+    bool isAttack{};
+    isAttack = ptr_key->TriggerKey(commonInfomation_->keyBind.attack);
+    isAttack = (std::max)(ptr_pad->GetTriggerButton((BUTTON)commonInfomation_->controllerBind.attack), isAttack);
+    if (operationButtons_[1] == false) { operationButtons_[1] = isAttack; }
+    else if (timer_lightUpButtons_[1] >= kTime_lightUpButton_max_)
+    {
+        timer_lightUpButtons_[1] = 0.f;
+        operationButtons_[1] = isAttack;
+    }
+
+
+    bool isJump{};
+    isJump = ptr_key->TriggerKey(commonInfomation_->keyBind.jump) && isJumped && isGround;
+    isJump = (std::max)(ptr_pad->GetTriggerButton((BUTTON)commonInfomation_->controllerBind.jump) && canJump && isGround, isJump);
+    if (isJump) { isJump = isJump; }
+    if (operationButtons_[2] == false) { operationButtons_[2] = isJump; }
+    else if (timer_lightUpButtons_[2] >= kTime_lightUpButton_max_)
+    {
+        timer_lightUpButtons_[2] = 0.f;
+        operationButtons_[2] = isJump;
+    }
+
+    for (size_t i = 0; i < operationButtons_.size(); i++)
+    {
+        if (operationButtons_[i] == false) { continue; }
+        timer_lightUpButtons_[i] += TimeManager::GetInstance()->GetGameDeltaTime();
+    }
+
 #ifdef _DEBUG
     DrawImGUi();
 #endif // _DEBUG
@@ -189,6 +250,11 @@ void Player::MatUpdate(void)
     commonInfomation_->sprite_collider->MatUpdate();
     commonInfomation_->sprite_attackCollider->MatUpdate();
     commonInfomation_->sprite_specialCollider->MatUpdate();
+    sprite_operationSheet_->MatUpdate();
+    for (size_t i{}; i < 3; i++)
+    {
+        sprite_operationSheet_divides_[i]->MatUpdate();
+    }
 }
 
 void Player::Draw(void)
@@ -217,6 +283,15 @@ void Player::Draw(void)
     commonInfomation_->sprite_player_hpFrame->Draw(png_HPBar_frame_);
     commonInfomation_->sprite_player_spContent->Draw(png_SPBar_content_);
     commonInfomation_->sprite_player_spFrame->Draw(png_SPBar_frame_);
+
+    sprite_operationSheet_->Draw(png_operationSheet_);
+
+    for (size_t i = 0; i < operationButtons_.size(); i++)
+    {
+        if (operationButtons_[i] == false) { continue; }
+
+        sprite_operationSheet_divides_[i]->Draw(png_operationSheet_divide_[i]);
+    }
 
     bool isBehaviorAttack = behaviorMachine_.Get_Behavior() == PB_ATTACK;
     bool isBehaviorSpecial = behaviorMachine_.Get_Behavior() == PB_SPECIAL;
@@ -395,6 +470,7 @@ void Player::Callback(void)
 
         commonInfomation_->move.can_jump = true;
         commonInfomation_->move.is_ground = true;
+        commonInfomation_->move.is_jumped = false;
 
         pushbackv = pushBack;
     }

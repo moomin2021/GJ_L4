@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "M_ColliderManager.h"
 #include <vector>
+#include <array>
 
 class Player
 {
@@ -32,6 +33,14 @@ private:
     int32_t png_HPBar_content_shadow_{};
     bool is_easingShadow_{};
     float ease_shadow_start_{};
+
+    float kTime_lightUpButton_max_ = 0.4f;
+    std::array<float,3> timer_lightUpButtons_{};
+    int32_t png_operationSheet_{};
+    std::vector<uint16_t> png_operationSheet_divide_{};
+    std::unique_ptr<Sprite> sprite_operationSheet_{};
+    std::array<std::unique_ptr<Sprite>, 3> sprite_operationSheet_divides_{};
+    std::array<bool,3> operationButtons_{};
 
     int32_t png_SPBar_frame_{};
     int32_t png_SPBar_content_{};
