@@ -2,6 +2,7 @@
 #include "ImGuiManager.h"
 #include "Sprite.h"
 #include "Vector2.h"
+#include "float4.h"
 
 #include "Collision/M_ColliderManager.h"
 #include "BossCol.h"
@@ -26,6 +27,10 @@ private:
 	Vector2 bossPos_ = Vector2();	// 座標
 	Vector2 bossSize_ = Vector2();	// サイズ
 	std::unique_ptr<Sprite> bossS_ = nullptr;	// スプライト
+	// ヒビ
+	std::unique_ptr<Sprite> crackS_ = nullptr;
+	std::vector<uint16_t> crackTextures_;
+	uint16_t crackT_ = 0;
 
 	// 当たり判定関連
 	std::vector<Vector2> bossColCenter_;	// 各コライダーの中心座標
@@ -52,7 +57,7 @@ public:
 	void AddDamage(float damage);
 
 private:
-	void CollisionCallBack();
+	
 #pragma endregion
 };
 

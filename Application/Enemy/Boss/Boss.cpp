@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "ImGuiManager.h"
 
-Boss::Boss() : bossColCenter_(4), bossColLength_(4), bossCol_(4) {}
+Boss::Boss() : bossColCenter_(4), bossColLength_(4), bossCol_(4), crackTextures_(3) {}
 
 void Boss::Initialize(M_ColliderManager* colMgrPtr)
 {
@@ -30,6 +30,15 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	bossS_->SetPosition(bossPos_);
 	bossS_->SetSize(bossSize_);
 	bossS_->SetAnchorPoint({ 0.5f, 0.5f });
+	// ヒビ
+	crackS_ = std::make_unique<Sprite>();
+	crackS_->SetPosition(bossPos_);
+	crackS_->SetSize(bossSize_);
+	crackS_->SetAnchorPoint({ 0.5f, 0.5f });
+	crackS_->SetColor({ 1.0f, 1.0f,1.0f, 0.0f });
+	crackTextures_[0] = LoadTexture("crack01.png");
+	crackTextures_[1] = LoadTexture("crack02.png");
+	crackTextures_[2] = LoadTexture("crack03.png");
 
 	// --当たり判定関連-- //
 	// 各コライダーの中心座標の設定
@@ -56,12 +65,14 @@ void Boss::Update()
 void Boss::MatUpdate()
 {
 	bossS_->MatUpdate();
+	crackS_->MatUpdate();
 	for (auto& it : bossCol_) it.MatUpdate();
 }
 
 void Boss::Draw()
 {
 	bossS_->Draw(bossT_);
+	crackS_->Draw(crackT_);
 
 	// デバック
 	for (auto& it : bossCol_) it.Draw(isDisplayCol_);
@@ -78,14 +89,28 @@ void Boss::ImGuiUpdate(ImGuiManager* pImGuiMgr)
 
 	// 当たり判定を表示するか
 	pImGuiMgr->CheckBox("当たり判定表示", isDisplayCol_);
+
+	// ダメージボタン
+	if (pImGuiMgr->Button("50ダメージ")) AddDamage(50.0f);
 }
 
 void Boss::AddDamage(float damage)
 {
 	nowHP_ -= damage;
-}
 
-void Boss::CollisionCallBack()
-{
+	if (nowHP_ <= 250.0f) {
+		crackT_ = crackTextures_[2];
+		bossS_->SetColor({ 0.7f, 0.3f, 0.3f, 1.0f });
+	}
 
+	else if (nowHP_ <= 500.0f) {
+		crackT_ = crackTextures_[1];
+		bossS_->SetColor({ 0.7f, 0.7f, 0.3f, 1.0f });
+	}
+
+	else if (nowHP_ <= 750.0f) {
+		crackT_ = crackTextures_[0];
+		bossS_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		crackS_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	}
 }
