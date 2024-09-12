@@ -28,6 +28,7 @@ private:
     int32_t png_player_{};
     int32_t png_HPBar_frame_{};
     int32_t png_HPBar_content_{};
+    int32_t png_HPBar_content_shadow_{};
     int32_t png_SPBar_frame_{};
     int32_t png_SPBar_content_{};
 

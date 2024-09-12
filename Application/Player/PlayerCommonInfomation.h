@@ -41,6 +41,9 @@ struct PlayerCommonInfomation
     void Output(void);
 
     //-Const-------------------------
+    // Player
+    float kHealth_max = 100;
+    
     // Move
     float kMoveSpeed = 5.f;
 
@@ -72,8 +75,9 @@ struct PlayerCommonInfomation
     float kTime_Invincible_max = 20.f;     // sec
 
     //-Variable-----------------------------
-
-    float health{};
+    // Player
+    float health_current{};
+    float health_rate_{};
     float attackPower{};
     Vector2 position{};
     Gravity gravity{};
@@ -100,6 +104,7 @@ struct PlayerCommonInfomation
     std::unique_ptr<Sprite> sprite_player = nullptr;
     std::unique_ptr<Sprite> sprite_player_hpFrame = nullptr;
     std::unique_ptr<Sprite> sprite_player_hpContent = nullptr;
+    std::unique_ptr<Sprite> sprite_player_hpContent_shadow = nullptr;
     std::unique_ptr<Sprite> sprite_player_spFrame = nullptr;
     std::unique_ptr<Sprite> sprite_player_spContent = nullptr;
 

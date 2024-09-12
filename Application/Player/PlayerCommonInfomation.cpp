@@ -79,6 +79,10 @@ void PlayerCommonInfomation::Output(void)
 
 
     std::ofstream ofs{ full };
+    ofs << "// Player" << std::endl;
+    ofs << "#kHealth_max: " + std::to_string(kHealth_max) + ";" << std::endl;
+    ofs << std::endl;
+
     ofs << "// Move" << std::endl;
     ofs << "#kMoveSpeed: " + std::to_string(kMoveSpeed) + ";" << std::endl;
     ofs << std::endl;
@@ -120,4 +124,5 @@ void PlayerCommonInfomation::Update(void)
 {
     collider.square_.center = position;
     gravity.Update();
+    health_rate_ = health_current / (std::max)(kHealth_max, 1.f); // 0除算ケア
 }

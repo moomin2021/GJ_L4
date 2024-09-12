@@ -49,6 +49,11 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     commonInfomation_->sprite_player_hpContent->SetPosition({ 193,21 });
     commonInfomation_->sprite_player_hpContent->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
+    commonInfomation_->sprite_player_hpContent_shadow = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_hpContent_shadow->SetSize({ 302,62 });
+    commonInfomation_->sprite_player_hpContent_shadow->SetPosition({ 193,21 });
+    commonInfomation_->sprite_player_hpContent_shadow->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
     commonInfomation_->sprite_player_spFrame = std::make_unique<Sprite>();
     commonInfomation_->sprite_player_spFrame->SetSize({ 512,42 });
     commonInfomation_->sprite_player_spFrame->SetPosition({ 90,100 });
@@ -116,6 +121,9 @@ void Player::Update(void)
     commonInfomation_->sprite_player->SetPosition(commonInfomation_->position);
     // Sprite|プレイヤーコライダーの座標更新
     commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
+    // Sprite|プレイヤーのHPバーのサイズ更新
+    Vector2 hpBarSize = { 302 * commonInfomation_->health_rate_, 62 };
+    commonInfomation_->sprite_player_hpContent->SetSize(hpBarSize);
 
     // プレイヤーの向きが右の時は、オフセット値を反転
     Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
@@ -144,6 +152,7 @@ void Player::MatUpdate(void)
     commonInfomation_->sprite_player->MatUpdate();
     commonInfomation_->sprite_player_hpFrame->MatUpdate();
     commonInfomation_->sprite_player_hpContent->MatUpdate();
+    commonInfomation_->sprite_player_hpContent_shadow->MatUpdate();
     commonInfomation_->sprite_player_spFrame->MatUpdate();
     commonInfomation_->sprite_player_spContent->MatUpdate();
     commonInfomation_->sprite_collider->MatUpdate();
@@ -165,6 +174,7 @@ void Player::Draw(void)
         break;
     }
 
+    //commonInfomation_->sprite_player_hpContent_shadow->Draw(png_HPBar_content_);
     commonInfomation_->sprite_player_hpContent->Draw(png_HPBar_content_);
     commonInfomation_->sprite_player_hpFrame->Draw(png_HPBar_frame_);
     commonInfomation_->sprite_player_spContent->Draw(png_SPBar_content_);
@@ -258,6 +268,9 @@ void Player::DrawImGUi(void)
     ImGui::SliderFloat2("kCollision_Length_playerCollider_attack", *collision_Length_playerCollider_attack, 0, 300);
     float* collision_positionOffset_playerCollider_attack[2] = { &commonInfomation_->kCollision_positionOffset_playerCollider_attack.x, &commonInfomation_->kCollision_positionOffset_playerCollider_attack.y };
     ImGui::SliderFloat2("kCollision_positionOffset_playerCollider_attack", *collision_positionOffset_playerCollider_attack, -100, 100);
+
+    ImGui::SliderFloat("kHealth_max", &commonInfomation_->kHealth_max, 1, 100);
+    ImGui::SliderFloat("health_current", &commonInfomation_->health_current, 0, 100);
 
     imgui->EndWindow();
 }
