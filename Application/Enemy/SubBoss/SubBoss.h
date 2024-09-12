@@ -1,18 +1,19 @@
 #pragma once
+#include "float4.h"
 #include "Sprite.h"
 #include "M_ColliderManager.h"
 #include "Sprite.h"
 
 #include "SubBossInfo.h"
-#include "SubBossAttackState.h"
+#include "MoveTypes/SubBossMoveState.h"
 
 #include <vector>
 #include <string>
 #include <memory>
 
-enum class SubBossMoveType {
+enum class SubBossStateType {
 	Wait,
-	Attack,
+	Move,
 	Stun,
 };
 
@@ -26,23 +27,30 @@ private:
 
 	// サブボスの描画関連
 	std::unique_ptr<Sprite> subBossSprite_ = nullptr;
+	std::unique_ptr<Sprite> subBossEyeSprite_ = nullptr;
 	std::vector<uint16_t> subBossTextures_;
+	uint16_t subBossEyeTexture_ = 0;
 
 	// サブボスの行動状態
-	SubBossMoveType currentMoveType_ = SubBossMoveType::Wait;
+	SubBossStateType currentStateType_ = SubBossStateType::Wait;
 	std::vector<std::string> subBossMoveTypeStr_ = {
 		"待機", "攻撃", "行動不能"
 	};
 
 	// サブボスの攻撃関連
-	SubBossAttackType currentAttackType_ = SubBossAttackType::DescentDiveState;
-	std::unique_ptr<SubBossAttackState> currentAttackState_ = nullptr;
+	SubBossMoveType currentMoveType_ = SubBossMoveType::DescentDive;
+	std::unique_ptr<SubBossMoveState> currentMoveState_ = nullptr;
 
 	// デバック
 	bool isDebug_ = false;
 	std::unique_ptr<Sprite> colSprite_ = nullptr;
 	uint16_t debugTexture_ = 0;
-	std::string debugAttackTypeStr_ = "DescentDiveState";
+	std::string debugMoveTypeStr_ = "DescentDive";
+
+	// ダメージ関連
+	Util::TimeInfo damageTime_ = { 0.2f, 0.0f };
+	float4 damageColor_ = float4(0.7f, 0.2f, 0.2f, 1.0f);
+	bool isDamage_ = false;
 #pragma endregion
 
 #pragma region メンバ関数
@@ -66,14 +74,21 @@ private:
 	// 状態別処理
 	static void (SubBoss::* stateTable[]) ();
 	void Wait();
-	void Attack();
+	void Move();
 	void Stun();
 
 	// 攻撃状態に変更
-	void ChangeAttack();
+	void ChangeMove();
+
+	// 行動の抽選
+	void MoveChance();
 
 	// デバックで選択した攻撃を開始
 	void DebugStartAttack();
+
+	// ダメージを受けた時の処理
+	void StartDamageProcess();
+	void DamageProcess();
 
 	// 衝突判定コールバック関数
 	void CollisionCallBack();

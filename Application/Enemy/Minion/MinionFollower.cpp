@@ -83,11 +83,10 @@ void MinionFollower::CollisionCallBack()
 	// プレイヤーに攻撃されたか
 	bool isAttackedByPlayer = false;
 
-	// ボスと衝突しているか
-	for (size_t i = 0; i < 4; i++)
-	{
-		if (collider_.IsDetect_Name("Boss" + std::to_string(i)))
-		{
+	// 壁と天井の衝突判定
+	for (size_t i = 0; i < 4; i++) {
+		// 壁か天井と当たったら
+		if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
 			isWallCol = true;
 			wallName = "Boss" + std::to_string(i);
 		}

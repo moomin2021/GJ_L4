@@ -5,6 +5,10 @@
 #include "CollisionChecker.h"
 #include "Player.h"
 
+#include "MoveTypes/DescentDive.h"
+#include "MoveTypes/StartIntro.h"
+#include "MoveTypes/EndGameOutro.h"
+
 SubBoss::SubBoss() : subBossTextures_(3) {}
 
 void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr)
@@ -21,8 +25,17 @@ void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera
 	subBossSprite_->SetPosition(subBossInfo_.position);
 	subBossSprite_->SetSize(subBossInfo_.size);
 	subBossSprite_->SetAnchorPoint({ 0.5f, 0.5f });
+	subBossSprite_->SetColor(subBossInfo_.mainColor);
 	// テクスチャの読み込み
 	subBossTextures_ = LoadDivTexture("subBossSheet.png", 3);
+	// スプライトの生成、設定
+	subBossEyeSprite_ = std::make_unique<Sprite>();
+	subBossEyeSprite_->SetPosition(subBossInfo_.position);
+	subBossEyeSprite_->SetSize(subBossInfo_.size);
+	subBossEyeSprite_->SetAnchorPoint({ 0.5f, 0.5f });
+	subBossEyeSprite_->SetColor(subBossInfo_.eyeColor);
+	// テクスチャの読み込み
+	subBossEyeTexture_ = LoadTexture("SubBossEye.png");
 
 	// デバック関連
 	// スプライトの生成、設定
@@ -37,13 +50,22 @@ void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera
 
 void SubBoss::Update()
 {
+	// 行動の抽選
+	MoveChance();
+
+	// ダメージ処理
+	DamageProcess();
+
 	// 状態別更新処理
-	(this->*stateTable[(size_t)currentMoveType_])();
+	(this->*stateTable[(size_t)currentStateType_])();
 
 	// スプライトの更新
 	subBossSprite_->SetPosition(subBossInfo_.position + subBossInfo_.shakeOffset);
 	subBossSprite_->SetSize(subBossInfo_.size);
 	subBossSprite_->SetRotation(subBossInfo_.rotation);
+	subBossSprite_->SetColor(subBossInfo_.mainColor);
+	subBossEyeSprite_->SetPosition(subBossInfo_.position + subBossInfo_.shakeOffset);
+	subBossEyeSprite_->SetColor(subBossInfo_.eyeColor);
 
 	// コライダーの更新
 	subBossInfo_.collider.circle_.center = subBossSprite_->GetPosition();
@@ -56,12 +78,14 @@ void SubBoss::Update()
 void SubBoss::MatUpdate()
 {
 	subBossSprite_->MatUpdate();
+	subBossEyeSprite_->MatUpdate();
 	colSprite_->MatUpdate();
 }
 
 void SubBoss::Draw()
 {
 	subBossSprite_->Draw(subBossTextures_[0]);
+	subBossEyeSprite_->Draw(subBossEyeTexture_);
 	if (isDebug_) colSprite_->Draw(debugTexture_);
 }
 
@@ -84,18 +108,18 @@ void SubBoss::ImGuiUpdate()
 	// 当たり判定を表示するか
 	imgui->CheckBox("当たり判定表示", isDebug_);
 
-	static std::string curretStr = "DescentDiveState";
+	static std::string curretStr = "StartIntro";
 	if (imgui->BeginCombo("攻撃タイプ", curretStr))
 	{
 		// 攻撃タイプの選択
-		for (size_t i = 0; i < subBossAttackTypeStr.size(); i++)
+		for (size_t i = 0; i < subBossMoveTypeStr.size(); i++)
 		{
-			bool isSelectable = (curretStr == subBossAttackTypeStr[i]);
+			bool isSelectable = (curretStr == subBossMoveTypeStr[i]);
 	
-			if (imgui->Selectable(subBossAttackTypeStr[i], isSelectable))
+			if (imgui->Selectable(subBossMoveTypeStr[i], isSelectable))
 			{
-				curretStr = subBossAttackTypeStr[i];
-				debugAttackTypeStr_ = curretStr;
+				curretStr = subBossMoveTypeStr[i];
+				debugMoveTypeStr_ = curretStr;
 			}
 	
 			if (isSelectable) imgui->SetItemDefaultFocus();
@@ -111,9 +135,11 @@ void SubBoss::ImGuiUpdate()
 void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr)
 {
 	// 座標とサイズと回転度の設定
-	subBossInfo_.position = Vector2(500.0f, 400.0f);
+	subBossInfo_.position = Vector2(960.0f, 400.0f);
 	subBossInfo_.size = Vector2(256.0f, 256.0f);
 	subBossInfo_.rotation = 0.0f;
+	subBossInfo_.mainColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	subBossInfo_.eyeColor = float4(1.0f, 1.0f, 1.0f, 0.0f);
 
 	// コライダーの設定
 	subBossInfo_.collider.circle_.center = subBossInfo_.position;
@@ -125,11 +151,19 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* camera
 
 	// カメラの設定
 	subBossInfo_.cameraPtr = cameraPtr;
+
+	// 行動の設定
+	currentMoveState_ = std::make_unique<StartIntro>();
+	currentMoveState_->Initialize(&subBossInfo_);
+
+	// 状態の変更
+	currentMoveType_ = SubBossMoveType::StartIntro;
+	currentStateType_ = SubBossStateType::Move;
 }
 
 void (SubBoss::*SubBoss::stateTable[]) () = {
 	&SubBoss::Wait,
-	&SubBoss::Attack,
+	&SubBoss::Move,
 	&SubBoss::Stun,
 };
 
@@ -137,14 +171,14 @@ void SubBoss::Wait()
 {
 }
 
-void SubBoss::Attack()
+void SubBoss::Move()
 {
-	currentAttackState_->Update(&subBossInfo_);
-	if (currentAttackState_->GetIsAttackEnd())
+	currentMoveState_->Update(&subBossInfo_);
+	if (currentMoveState_->GetIsAttackEnd())
 	{
-		currentMoveType_ = SubBossMoveType::Wait;
-		currentAttackState_->Finalize(&subBossInfo_);
-		currentAttackState_ = nullptr;
+		currentStateType_ = SubBossStateType::Wait;
+		currentMoveState_->Finalize(&subBossInfo_);
+		currentMoveState_ = nullptr;
 	}
 }
 
@@ -152,36 +186,96 @@ void SubBoss::Stun()
 {
 }
 
-void SubBoss::ChangeAttack()
+void SubBoss::ChangeMove()
 {
 	// 攻撃状態が空ではなかったら終了処理をする
-	if (currentAttackState_ != nullptr) currentAttackState_->Finalize(&subBossInfo_);
+	if (currentMoveState_ != nullptr) currentMoveState_->Finalize(&subBossInfo_);
 
-	// 攻撃状態の生成、初期化
-	currentAttackState_ = std::make_unique<DescentDiveState>();
-	currentAttackState_->Initialize(&subBossInfo_);
+	if (currentMoveType_ == SubBossMoveType::StartIntro) {
+		currentMoveState_ = std::make_unique<StartIntro>();
+		currentMoveState_->Initialize(&subBossInfo_);
+	}
+
+	else if (currentMoveType_ == SubBossMoveType::EndGameOutro)
+	{
+		currentMoveState_ = std::make_unique<EndGameOutro>();
+		currentMoveState_->Initialize(&subBossInfo_);
+	}
+
+	else if (currentMoveType_ == SubBossMoveType::DescentDive)
+	{
+		currentMoveState_ = std::make_unique<DescentDive>();
+		currentMoveState_->Initialize(&subBossInfo_);
+	}
 
 	// 状態の変更
-	currentMoveType_ = SubBossMoveType::Attack;
+	currentStateType_ = SubBossStateType::Move;
+}
+
+void SubBoss::MoveChance()
+{
+	// 状態が待機状態以外なら処理を飛ばす
+	if (currentStateType_ != SubBossStateType::Wait) return;
+
+	// ランダムで行動を決める
+	size_t rnd = Util::GetRandomInt(2, 2);
+	currentMoveType_ = (SubBossMoveType)rnd;
+
+	// 行動の生成
+	ChangeMove();
 }
 
 void SubBoss::DebugStartAttack()
 {
-	// 攻撃状態が空ではなかったら終了処理をする
-	if (currentAttackState_ != nullptr) currentAttackState_->Finalize(&subBossInfo_);
-
-	if (debugAttackTypeStr_ == "DescentDiveState")
-	{
-		currentAttackState_ = std::make_unique<DescentDiveState>();
-		currentAttackState_->Initialize(&subBossInfo_);
+	if (debugMoveTypeStr_ == "StartIntro") {
+		currentMoveType_ = SubBossMoveType::StartIntro;
 	}
 
-	// 状態の変更
-	currentMoveType_ = SubBossMoveType::Attack;
+	else if (debugMoveTypeStr_ == "DescentDive")
+	{
+		currentMoveType_ = SubBossMoveType::DescentDive;
+	}
+
+	else if (debugMoveTypeStr_ == "EndGameOutro") {
+		currentMoveType_ = SubBossMoveType::EndGameOutro;
+	}
+
+	ChangeMove();
+}
+
+void SubBoss::StartDamageProcess()
+{
+	// 連続でダメージは受けない
+	if (isDamage_) return;
+	isDamage_ = true;
+	subBossInfo_.mainColor = damageColor_;
+	subBossInfo_.eyeColor = damageColor_;
+	damageTime_.elapsedTime = 0.0f;
+}
+
+void SubBoss::DamageProcess()
+{
+	// ダメージフラグが[OFF]なら処理を飛ばす
+	if (isDamage_ == false) return;
+
+	TimeManager* timeMgrPtr = TimeManager::GetInstance();
+	
+	damageTime_.elapsedTime += timeMgrPtr->GetGameDeltaTime();
+
+	if (damageTime_.GetIsExceeded()) {
+		isDamage_ = false;
+		subBossInfo_.mainColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+		subBossInfo_.eyeColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	}
 }
 
 void SubBoss::CollisionCallBack()
 {
+	// プレイヤーの攻撃判定に衝突したら
+	if (subBossInfo_.collider.IsDetect_Name("Player_Attack")) {
+		StartDamageProcess();
+	}
+
 	// 壁と天井の衝突判定
 	for (size_t i = 0; i < 4; i++) {
 		if (i == 2) continue;
@@ -220,6 +314,7 @@ void SubBoss::CollisionCallBack()
 	subBossSprite_->SetPosition(subBossInfo_.position + subBossInfo_.shakeOffset);
 	subBossSprite_->SetSize(subBossInfo_.size);
 	subBossSprite_->SetRotation(subBossInfo_.rotation);
+	subBossEyeSprite_->SetPosition(subBossInfo_.position + subBossInfo_.shakeOffset);
 
 	// コライダーの更新
 	subBossInfo_.collider.circle_.center = subBossSprite_->GetPosition();
