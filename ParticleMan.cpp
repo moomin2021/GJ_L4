@@ -112,3 +112,15 @@ void ParticleMan::Draw(void)
 {
     for (auto it = particles_.begin(); it != particles_.end(); it++) { (*it)->Draw(); }
 }
+
+void ParticleMan::AddParticle(std::unique_ptr<Particle2D> arg_particle, const Vector2& arg_pos_start, const Vector2& arg_pos_end)
+{
+    bool isZero_start = arg_pos_start.x == 0 && arg_pos_start.y == 0;
+    bool isZero_end = arg_pos_end.x == 0 && arg_pos_end.y == 0;
+
+    if (!isZero_start) { arg_particle->position_start = arg_pos_start; }
+    if(!isZero_end) { arg_particle->position_end = arg_pos_end; }
+
+    arg_particle->Initialize();
+    particles_.push_back(std::move(arg_particle));
+}

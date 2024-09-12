@@ -11,7 +11,6 @@ struct Particle2D
     virtual ~Particle2D(void) = default;
 
     virtual void Initialize(void);
-    virtual void Initialize(const Vector2& arg_anchorPoint, const Vector2& arg_size, const Vector2& arg_position, const float4& arg_color, const Vector2& arg_scale, float arg_rotate, float arg_timeToDead);
     virtual void Update(void);
     virtual void MatUpdate(void);
     virtual void Draw(void);
@@ -55,7 +54,7 @@ public:
     void Update(void);
     void MatUpdate(void);
     void Draw(void);
-    void AddParticle(std::unique_ptr<Particle2D> arg_particle) { particles_.push_back(std::move(arg_particle)); }
+    void AddParticle(std::unique_ptr<Particle2D> arg_particle, const Vector2& arg_pos_start = {}, const Vector2& arg_pos_end = {});
 
     std::list<std::unique_ptr<Particle2D>> particles_;
 

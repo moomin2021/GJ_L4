@@ -8,6 +8,7 @@
 #include "EnemyManager.h"
 #include "Player.h"
 #include "ParticleManager2D.h"
+#include "ParticleMan.h"
 
 #include <memory>
 
@@ -31,9 +32,7 @@ private:
 	std::unique_ptr<EnemyManager> enemyMgr_ = nullptr;
     Player player_;
 
-    ParticleManager2D* particleManagerPtr_ = ParticleManager2D::GetInstance();
-    ParticleEmitter2D emitter1_{};
-    uint16_t tex_{};
+    ParticleMan* particleManPtr_ = nullptr;
 #pragma endregion
 
 #pragma region メンバ関数

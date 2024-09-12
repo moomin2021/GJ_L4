@@ -32,10 +32,7 @@ void GameScene::Initialize()
 	enemyMgr_ = std::make_unique<EnemyManager>();
 	enemyMgr_->Initialize(&colliderManager_, &player_, camera_.get());
 
-    tex_ = LoadTexture("smoke.png");
-    emitter1_.Initialize({ 500,500 }, { 10,10 }, tex_);
-    emitter1_.SetCamera(camera_.get());
-    particleManagerPtr_->AddParticleEmitter(&emitter1_);
+    particleManPtr_ = ParticleMan::GetInstance();
 }
 
 void GameScene::Update()
