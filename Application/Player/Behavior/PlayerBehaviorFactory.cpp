@@ -4,6 +4,7 @@
 #include "PlayerBehavior_Move.h"
 #include "PlayerBehavior_Jump.h"
 #include "PlayerBehavior_Attack.h"
+#include "PlayerBehavior_Special.h"
 
 PlayerBehaviorFactory::PlayerBehaviorFactory(std::shared_ptr<PlayerCommonInfomation>* arg_commonInfomationPtr)
 {
@@ -21,6 +22,7 @@ std::unique_ptr<IPlayerBehavior> PlayerBehaviorFactory::Create(PlayerBehavior ar
     else if (arg_state == PlayerBehavior::PB_MOVE) { return std::make_unique<PlayerBehavior_Move>(*ptr_playerCommonInfomation_); }
     else if (arg_state == PlayerBehavior::PB_JUMP) { return std::make_unique<PlayerBehavior_Jump>(*ptr_playerCommonInfomation_); }
     else if (arg_state == PlayerBehavior::PB_ATTACK) { return std::make_unique<PlayerBehavior_Attack>(*ptr_playerCommonInfomation_); }
+    else if (arg_state == PlayerBehavior::PB_SPECIAL) { return std::make_unique<PlayerBehavior_Special>(*ptr_playerCommonInfomation_); }
 
     return nullptr;
 }

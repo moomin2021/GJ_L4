@@ -10,6 +10,7 @@ enum PlayerBehavior
     PB_MOVE,
     PB_JUMP,
     PB_ATTACK,
+    PB_SPECIAL,
 };
 
 class IPlayerBehavior
@@ -28,6 +29,8 @@ public:
 
     Vector2 Gravity(void);
 protected:
+    Vector2 Move(void);
+
 
     std::shared_ptr<PlayerCommonInfomation> commonInfomation_;
 };

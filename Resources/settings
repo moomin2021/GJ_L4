@@ -1,5 +1,8 @@
+// Player
+#kHealth_max: 100.000000;
+
 // Move
-#kMoveSpeed: 5.000000;
+#kMoveSpeed: 400.631012;
 
 // Gravity
 #kGravity_max: 20.000000;
@@ -10,21 +13,32 @@
 
 // Sprite
 #kSprite_AnchorPoint_player_idle: 0.600000,0.630000;
+#kSprite_AnchorPoint_player_move: 0.600000,0.630000;
 #kSprite_AnchorPoint_player_attack: 0.600000,0.630000;
+#kSprite_AnchorPoint_player_special: 0.600000,0.630000;
 #kSprite_Length_player: 130.000000,75.000000;
 
 #kNum_IdleSprite_max: 4;
+#kNum_MoveSprite_max: 8;
 #kNum_AttackSprite_max: 5;
+#kNum_SpecialSprite_max: 5;
 
 // Collider
 #kCollision_Length_playerCollider: 60.000000,55.000000;
 #kCollision_Length_playerCollider_attack: 100.000000,100.000000;
 #kCollision_positionOffset_playerCollider_attack: -70.000000,0.000000;
+#kCollision_Length_playerCollider_special: 100.000000,100.000000;
+#kCollision_positionOffset_playerCollider_special: -70.000000,0.000000;
 
 // Time
 #kTime_IdleInterval_max: 1.200000;
 #kTime_IdleAnimation_max: 0.400000;
+#kTime_MoveInterval_max: 0.000000;
+#kTime_MoveAnimation_max: 0.800000;
 #kTime_AttackInterval_max: 20.000000;
 #kTime_AttackAnimation_max: 0.200000;
+#kTime_SpecialInterval_max: 20.000000;
+#kTime_SpecialAnimation_max: 0.200000;
 #kTime_Invincible_max: 20.000000;
+#kTime_Easing_hp_content_shadow_max: 20.000000;
 

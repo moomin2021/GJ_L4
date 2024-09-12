@@ -19,6 +19,7 @@ struct Move
 
     bool is_ground{};
     bool can_jump{};
+    bool is_jumped{};
     Direction direction_current{};
     Direction direction_old{};
 };
