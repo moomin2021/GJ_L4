@@ -109,13 +109,17 @@ void MinionFollower::CollisionCallBack()
 			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
 			stats_.position += pushBack;
 
+			for (size_t i = 0; i < 10; i++)
+			{
+				ParticleMan::GetInstance()->AddParticle(std::make_unique<SmokeEffect>(), stats_.position, moveVec_);
+			}
 
 			// 状態、移動方向、速度の設定
 			stats_.state = MinionState::KnockBack;
 			moveVec_ = knockVec_;
 			moveSpd_ = knockFirstSpd_;
 			backRotaSpd_ = knockFirstRotaSpd_;
-			ParticleMan::GetInstance()->AddParticle(std::make_unique<SmokeEffect>(), stats_.position, moveVec_);
+			
 			// ダメージの設定
 			collider_.Data_Remove("Damage");
 			collider_.Data_Add("Damage", 0.0f);
@@ -129,6 +133,11 @@ void MinionFollower::CollisionCallBack()
 			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
 			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
 			stats_.position += pushBack;
+
+			for (size_t i = 0; i < 10; i++)
+			{
+				ParticleMan::GetInstance()->AddParticle(std::make_unique<SmokeEffect>(), stats_.position, moveVec_);
+			}
 
 			// 移動方向の反転
 			if (wallName == "Boss0") moveVec_.y = -moveVec_.y;
