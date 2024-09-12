@@ -29,6 +29,8 @@ public:
 
     Vector2 Gravity(void);
 protected:
+    Vector2 Move(void);
+
 
     std::shared_ptr<PlayerCommonInfomation> commonInfomation_;
 };

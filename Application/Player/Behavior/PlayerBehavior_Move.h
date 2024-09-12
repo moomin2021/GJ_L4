@@ -13,8 +13,5 @@ public:
     virtual void Execute(void) override;
     // 状態遷移遷移前の終了処理
     virtual void Exit(void) override;
-
-private:
-    Vector2 Move(void);
 };
 

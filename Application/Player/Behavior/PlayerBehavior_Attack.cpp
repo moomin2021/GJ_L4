@@ -29,6 +29,8 @@ void PlayerBehavior_Attack::Entry(void)
 
 void PlayerBehavior_Attack::Execute(void)
 {
+    commonInfomation_->position += Move();
+
     Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
     if (direction_Entry_ == DIRECTION_RIGHT && offset.x < 0) { offset.x *= -1; }
     else if (direction_Entry_ == DIRECITON_LEFT && offset.x > 0) { offset.x *= -1; }
