@@ -15,10 +15,12 @@ void MinionFactory::Initialize(EnemyManager* enemyMgrPtr, M_ColliderManager* col
 
 	// データの設定
 	leaderData_.playerPtr = playerPtr;
+	leaderData_.timeMgrPtr = TimeManager::GetInstance();
 	leaderData_.textures.emplace_back(LoadTexture("zakoEnemyOutLine01.png"));
 	leaderData_.textures.emplace_back(LoadTexture("zakoEnemyBlade01.png"));
 	leaderData_.textures.emplace_back(LoadTexture("zakoEnemyFace01.png"));
 	followerData_.playerPtr = playerPtr;
+	followerData_.timeMgrPtr = TimeManager::GetInstance();
 	followerData_.textures.emplace_back(LoadTexture("zakoEnemyOutLine01.png"));
 	followerData_.textures.emplace_back(LoadTexture("zakoEnemyBlade01.png"));
 	followerData_.textures.emplace_back(LoadTexture("zakoEnemyFace01.png"));

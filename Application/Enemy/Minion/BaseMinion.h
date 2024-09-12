@@ -19,6 +19,7 @@ protected:
 	EnemyStatus::MinionData* data_ = nullptr;
 
 	// 回転度
+	float backRotaSpd_ = 0.0f;
 	float backRotation_ = 0.0f;
 	float frontRotation_ = 0.0f;
 
