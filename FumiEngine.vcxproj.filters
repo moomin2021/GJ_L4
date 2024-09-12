@@ -375,6 +375,9 @@
     <ClCompile Include="Engine\Util\Shake.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Special.cpp">
+      <Filter>Application\Player\Behavior</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Base\WinAPI.h">
@@ -652,6 +655,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Util\Shake.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Special.h">
+      <Filter>Application\Player\Behavior</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
