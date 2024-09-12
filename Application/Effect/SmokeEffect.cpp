@@ -4,7 +4,9 @@
 
 void SmokeEffect::Initialize(void)
 {
-	time_toDead = Util::GetRandomInt(20, 25);
+	time_toDead = Util::GetRandomInt(40, 45);
+
+	position_end = position_start + position_end;
 
 	uint16_t posRangeMin = 0;
 	uint16_t posRangeMax = 50;
@@ -14,11 +16,11 @@ void SmokeEffect::Initialize(void)
 	size = { 64,64 };
 
 	scale_start = { 0,0 };
-	float scale = Util::GetRandomFloat(0.5f, 2);
+	float scale = Util::GetRandomFloat(0.5f, 0.9f);
 	scale_end = { scale,scale };
 
 	rotate_start = Util::GetRandomFloat(-30, 30);
-	rotate_end = rotate_start;
+	rotate_end = rotate_start+ Util::GetRandomFloat(-10, 10);
 
 	color_current = { 1,1,1,1 };
 	color_start = { 1,1,1,1 };

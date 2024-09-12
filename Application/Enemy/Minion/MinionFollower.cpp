@@ -2,6 +2,7 @@
 #include "M_RectCollider.h"
 #include "CollisionChecker.h"
 #include "Player.h"
+#include "SmokeEffect.h"
 
 using namespace EnemyStatus;
 
@@ -109,11 +110,13 @@ void MinionFollower::CollisionCallBack()
 			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
 			stats_.position += pushBack;
 
+
 			// 状態、移動方向、速度の設定
 			stats_.state = MinionState::KnockBack;
 			moveVec_ = knockVec_;
 			moveSpd_ = knockFirstSpd_;
 			backRotaSpd_ = knockFirstRotaSpd_;
+			ParticleMan::GetInstance()->AddParticle(std::make_unique<SmokeEffect>(), stats_.position, moveVec_);
 			// ダメージの設定
 			collider_.Data_Remove("Damage");
 			collider_.Data_Add("Damage", 0.0f);

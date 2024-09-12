@@ -3,6 +3,7 @@
 #include "CollisionChecker.h"
 #include "Player.h"
 #include "Key.h"
+#include "SmokeEffect.h"
 
 using namespace EnemyStatus;
 
@@ -97,11 +98,20 @@ void MinionLeader::CollisionCallBack()
 			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
 			stats_.position += pushBack;
 
+			for (size_t i = 0; i < 10; i++)
+			{
+				ParticleMan::GetInstance()->AddParticle(std::make_unique<SmokeEffect>(), stats_.position,moveVec_);
+			}
+			
+
 			// 状態、移動方向、速度の設定
 			stats_.state = MinionState::KnockBack;
 			moveVec_ = knockVec_;
 			moveSpd_ = knockFirstSpd_;
 			backRotaSpd_ = knockFirstRotaSpd_;
+
+
+
 			// ダメージの設定
 			collider_.Data_Remove("Damage");
 			collider_.Data_Add("Damage", 0.0f);
@@ -116,11 +126,17 @@ void MinionLeader::CollisionCallBack()
 			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
 			stats_.position += pushBack;
 
+			for (size_t i = 0; i < 10; i++)
+			{
+				ParticleMan::GetInstance()->AddParticle(std::make_unique<SmokeEffect>(), stats_.position, moveVec_);
+			}
+
 			// 移動方向の反転
 			if (wallName == "Boss0") moveVec_.y = -moveVec_.y;
 			if (wallName == "Boss1") moveVec_.x = -moveVec_.x;
 			if (wallName == "Boss2") moveVec_.y = -moveVec_.y;
 			if (wallName == "Boss3") moveVec_.x = -moveVec_.x;
+
 		}
 	}
 
