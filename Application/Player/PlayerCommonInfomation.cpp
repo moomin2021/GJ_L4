@@ -53,6 +53,7 @@ void PlayerCommonInfomation::Input(void)
             else if (str == "#kTime_AttackInterval_max") { kTime_AttackInterval_max = std::stof(value); }
             else if (str == "#kTime_AttackAnimation_max") { kTime_AttackAnimation_max = std::stof(value); }
             else if (str == "#kTime_Invincible_max") { kTime_Invincible_max = std::stof(value); }
+            else if (str == "#kTime_Easing_hp_content_shadow_max") { kTime_Easing_hp_content_shadow_max = std::stof(value); }
         }
         else
         {
@@ -79,6 +80,10 @@ void PlayerCommonInfomation::Output(void)
 
 
     std::ofstream ofs{ full };
+    ofs << "// Player" << std::endl;
+    ofs << "#kHealth_max: " + std::to_string(kHealth_max) + ";" << std::endl;
+    ofs << std::endl;
+
     ofs << "// Move" << std::endl;
     ofs << "#kMoveSpeed: " + std::to_string(kMoveSpeed) + ";" << std::endl;
     ofs << std::endl;
@@ -113,6 +118,7 @@ void PlayerCommonInfomation::Output(void)
     ofs << "#kTime_AttackInterval_max: " + std::to_string(kTime_AttackInterval_max) + ";" << std::endl;
     ofs << "#kTime_AttackAnimation_max: " + std::to_string(kTime_AttackAnimation_max) + ";" << std::endl;
     ofs << "#kTime_Invincible_max: " + std::to_string(kTime_Invincible_max) + ";" << std::endl;
+    ofs << "#kTime_Easing_hp_content_shadow_max: " + std::to_string(kTime_Invincible_max) + ";" << std::endl;
     ofs << std::endl;
 }
 
@@ -120,4 +126,5 @@ void PlayerCommonInfomation::Update(void)
 {
     collider.square_.center = position;
     gravity.Update();
+    health_rate_ = health_current / (std::max)(kHealth_max, 1.f); // 0除算ケア
 }

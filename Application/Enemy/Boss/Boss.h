@@ -2,9 +2,10 @@
 #include "ImGuiManager.h"
 #include "Sprite.h"
 #include "Vector2.h"
+#include "float4.h"
 
-#include "Collision/M_RectCollider.h"
 #include "Collision/M_ColliderManager.h"
+#include "BossCol.h"
 
 #include <vector>
 #include <memory>
@@ -21,17 +22,20 @@ private:
 	uint16_t debugT_ = 0;	// デバック
 
 	// ボス関連
-	const uint16_t maxHP_ = 1000;
-	uint16_t nowHP_ = 0;
+	const float maxHP_ = 1000.0f;
+	float nowHP_ = 0;
 	Vector2 bossPos_ = Vector2();	// 座標
 	Vector2 bossSize_ = Vector2();	// サイズ
 	std::unique_ptr<Sprite> bossS_ = nullptr;	// スプライト
+	// ヒビ
+	std::unique_ptr<Sprite> crackS_ = nullptr;
+	std::vector<uint16_t> crackTextures_;
+	uint16_t crackT_ = 0;
 
 	// 当たり判定関連
 	std::vector<Vector2> bossColCenter_;	// 各コライダーの中心座標
 	std::vector<Vector2> bossColLength_;	// 各コライダーの直径
-	std::vector<M_RectCollider> bossCol_;	// コライダー
-	std::vector<std::unique_ptr<Sprite>> bossColS_;// コライダーのスプライト
+	std::vector<BossCol> bossCol_;
 	bool isDisplayCol_ = false;	// 当たり判定を表示するか
 #pragma endregion
 
@@ -49,8 +53,11 @@ public:
 	void Finalize();
 	void ImGuiUpdate(ImGuiManager* pImGuiMgr);
 
+	// ダメージの加算
+	void AddDamage(float damage);
+
 private:
-	void CollisionCallBack();
+	
 #pragma endregion
 };
 

@@ -6,6 +6,9 @@
 #include "Pad.h"
 #include "imgui.h"
 #include <fstream>
+#include "Util.h"
+#include "Easing.h"
+#include "TimeManager.h"
 
 Player::~Player(void)
 {
@@ -24,8 +27,14 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
 
     // スプライト
     png_player_ = LoadTexture("playerKari.png");
-    png_white_ = LoadTexture("white.png");
-    png_frame_ = LoadTexture("frame.png");
+    png_HPBar_frame_ = LoadTexture("HpBarFrame.png");
+    png_HPBar_content_ = LoadTexture("HpBarContents.png");
+    png_HPBar_content_shadow_ = LoadTexture("HpBarContentsShadow.png");
+    png_SPBar_frame_ = LoadTexture("SpBarFrame.png");
+    png_SPBar_content_ = LoadTexture("SpBarContents.png");
+
+    png_white_debug = LoadTexture("white.png");
+    png_frame_debug = LoadTexture("frame.png");
     commonInfomation_->png_playerIdle = LoadDivTexture("playerWait.png", static_cast<int16_t>(commonInfomation_->kNum_IdleSprite_max));
     commonInfomation_->png_playerAttack = LoadDivTexture("playerKariSwing.png", static_cast<int16_t>(commonInfomation_->kNum_AttackSprite_max));
 
@@ -34,6 +43,32 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     commonInfomation_->sprite_player->SetAnchorPoint(commonInfomation_->kSprite_AnchorPoint_player_idle);
     commonInfomation_->sprite_player->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
 
+    commonInfomation_->sprite_player_hpFrame = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_hpFrame->SetSize({ 419,82 });
+    commonInfomation_->sprite_player_hpFrame->SetPosition({ 90,12 });
+    commonInfomation_->sprite_player_hpFrame->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    commonInfomation_->sprite_player_hpContent = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_hpContent->SetSize({ 302,62 });
+    commonInfomation_->sprite_player_hpContent->SetPosition({ 193,21 });
+    commonInfomation_->sprite_player_hpContent->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    commonInfomation_->sprite_player_hpContent_shadow = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_hpContent_shadow->SetSize({ 302,62 });
+    commonInfomation_->sprite_player_hpContent_shadow->SetPosition({ 193,21 });
+    commonInfomation_->sprite_player_hpContent_shadow->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    commonInfomation_->sprite_player_spFrame = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_spFrame->SetSize({ 512,42 });
+    commonInfomation_->sprite_player_spFrame->SetPosition({ 90,100 });
+    commonInfomation_->sprite_player_spFrame->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    commonInfomation_->sprite_player_spContent = std::make_unique<Sprite>();
+    commonInfomation_->sprite_player_spContent->SetSize({ 399,27 });
+    commonInfomation_->sprite_player_spContent->SetPosition({ 193,108 });
+    commonInfomation_->sprite_player_spContent->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
+
+    // DEBUG
     commonInfomation_->sprite_collider = std::make_unique<Sprite>();
     commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
     commonInfomation_->sprite_collider->SetSize(commonInfomation_->kCollision_Length_playerCollider);
@@ -80,6 +115,7 @@ void Player::Update(void)
 {
     if (Key::GetInstance()->TriggerKey(DIK_R)) { commonInfomation_->Input(); }
     if (Key::GetInstance()->TriggerKey(DIK_O)) { commonInfomation_->Output(); }
+    if (Key::GetInstance()->TriggerKey(DIK_H)) { Damage(20); }
 
     // 移動記録の更新
     commonInfomation_->move.Update();
@@ -90,6 +126,23 @@ void Player::Update(void)
     commonInfomation_->sprite_player->SetPosition(commonInfomation_->position);
     // Sprite|プレイヤーコライダーの座標更新
     commonInfomation_->sprite_collider->SetPosition(commonInfomation_->position);
+    // Sprite|プレイヤーのHPバーのサイズ更新
+    Vector2 hpBarSize = { 302 * commonInfomation_->health_rate_, 62 };
+    commonInfomation_->sprite_player_hpContent->SetSize(hpBarSize);
+    // Sprite|プレイヤーのHPバー（影）のサイズ更新
+    Vector2 hpBarShadowSize{}; 
+    if (is_easingShadow_)
+    {
+        commonInfomation_->timer_easing_hp_content_shadow += TimeManager::GetInstance()->GetGameDeltaTime();
+        commonInfomation_->timer_easing_hp_content_shadow = (std::min)(commonInfomation_->timer_easing_hp_content_shadow, commonInfomation_->kTime_Easing_hp_content_shadow_max);
+        float elapsed = commonInfomation_->timer_easing_hp_content_shadow / commonInfomation_->kTime_Easing_hp_content_shadow_max;
+        elapsed = Util::Clamp(elapsed, 1.0f, 0.0f);
+        elapsed = Easing::Cubic::easeOut(ease_shadow_start_, commonInfomation_->sprite_player_hpContent->GetSize().x, elapsed);
+        hpBarShadowSize = { elapsed, 62 };
+
+        if (commonInfomation_->timer_easing_hp_content_shadow >= commonInfomation_->kTime_Easing_hp_content_shadow_max) { is_easingShadow_ = false; }
+    }
+    commonInfomation_->sprite_player_hpContent_shadow->SetSize(hpBarShadowSize);
 
     // プレイヤーの向きが右の時は、オフセット値を反転
     Vector2 offset = commonInfomation_->kCollision_positionOffset_playerCollider_attack;
@@ -116,6 +169,11 @@ void Player::Update(void)
 void Player::MatUpdate(void)
 {
     commonInfomation_->sprite_player->MatUpdate();
+    commonInfomation_->sprite_player_hpFrame->MatUpdate();
+    commonInfomation_->sprite_player_hpContent->MatUpdate();
+    commonInfomation_->sprite_player_hpContent_shadow->MatUpdate();
+    commonInfomation_->sprite_player_spFrame->MatUpdate();
+    commonInfomation_->sprite_player_spContent->MatUpdate();
     commonInfomation_->sprite_collider->MatUpdate();
     commonInfomation_->sprite_attackCollider->MatUpdate();
 }
@@ -135,16 +193,20 @@ void Player::Draw(void)
         break;
     }
 
+    commonInfomation_->sprite_player_hpContent_shadow->Draw(png_HPBar_content_shadow_);
+    commonInfomation_->sprite_player_hpContent->Draw(png_HPBar_content_);
+    commonInfomation_->sprite_player_hpFrame->Draw(png_HPBar_frame_);
+    commonInfomation_->sprite_player_spContent->Draw(png_SPBar_content_);
+    commonInfomation_->sprite_player_spFrame->Draw(png_SPBar_frame_);
+
     bool isBehaviorAttack = behaviorMachine_.Get_Behavior() == PB_ATTACK;
-
-
     // 当たり判定表示
     if (commonInfomation_->is_drawCollider)
     {
-        commonInfomation_->sprite_collider->Draw(png_white_);
+        commonInfomation_->sprite_collider->Draw(png_white_debug);
         isBehaviorAttack ?
-            commonInfomation_->sprite_attackCollider->Draw(png_white_) :
-            commonInfomation_->sprite_attackCollider->Draw(png_frame_);
+            commonInfomation_->sprite_attackCollider->Draw(png_white_debug) :
+            commonInfomation_->sprite_attackCollider->Draw(png_frame_debug);
     }
 }
 
@@ -226,7 +288,33 @@ void Player::DrawImGUi(void)
     float* collision_positionOffset_playerCollider_attack[2] = { &commonInfomation_->kCollision_positionOffset_playerCollider_attack.x, &commonInfomation_->kCollision_positionOffset_playerCollider_attack.y };
     ImGui::SliderFloat2("kCollision_positionOffset_playerCollider_attack", *collision_positionOffset_playerCollider_attack, -100, 100);
 
+    ImGui::SliderFloat("kHealth_max", &commonInfomation_->kHealth_max, 1, 100);
+    ImGui::SliderFloat("health_current", &commonInfomation_->health_current, 0, 100);
+
     imgui->EndWindow();
+}
+
+void Player::Damage(float arg_damage)
+{
+    // 既にイージングが開始されているか
+    if (is_easingShadow_ == false)
+    {
+        is_easingShadow_ = true;
+        // イージングの経過時間をリセット
+        commonInfomation_->timer_easing_hp_content_shadow = 0.f;
+        // イージングの初期地は、現在のHPバーの横幅とする
+        ease_shadow_start_ = commonInfomation_->sprite_player_hpContent->GetSize().x;
+    }
+    else
+    {
+        // イージングの経過時間をリセット
+        commonInfomation_->timer_easing_hp_content_shadow = 0.f;
+        // イージングの初期地は、HP影の横幅とする
+        ease_shadow_start_ = commonInfomation_->sprite_player_hpContent_shadow->GetSize().x;
+    }
+
+    // 現在HPから差し引く
+    commonInfomation_->health_current -= arg_damage;
 }
 
 void Player::Callback(void)

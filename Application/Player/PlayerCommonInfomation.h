@@ -41,6 +41,9 @@ struct PlayerCommonInfomation
     void Output(void);
 
     //-Const-------------------------
+    // Player
+    float kHealth_max = 100;
+    
     // Move
     float kMoveSpeed = 5.f;
 
@@ -70,9 +73,13 @@ struct PlayerCommonInfomation
     float kTime_AttackInterval_max = 20.f; // sec
     float kTime_AttackAnimation_max = 0.2f; // sec
     float kTime_Invincible_max = 20.f;     // sec
+    float kTime_Easing_hp_content_shadow_max = 2.2f;
 
     //-Variable-----------------------------
-
+    // Player
+    float health_current{};
+    float health_rate_{};
+    float attackPower{};
     Vector2 position{};
     Gravity gravity{};
     Move move{};
@@ -87,6 +94,8 @@ struct PlayerCommonInfomation
     float timer_attackInterval{};
     float timer_attackAnimation{}; // sec
     float timer_invincible{};
+    // Player
+    float timer_easing_hp_content_shadow{};
 
     // Collider
     M_ColliderManager* ptr_colliderManager{};
@@ -96,6 +105,11 @@ struct PlayerCommonInfomation
     std::vector<uint16_t> png_playerIdle{};
     std::vector<uint16_t> png_playerAttack{};
     std::unique_ptr<Sprite> sprite_player = nullptr;
+    std::unique_ptr<Sprite> sprite_player_hpFrame = nullptr;
+    std::unique_ptr<Sprite> sprite_player_hpContent = nullptr;
+    std::unique_ptr<Sprite> sprite_player_hpContent_shadow = nullptr;
+    std::unique_ptr<Sprite> sprite_player_spFrame = nullptr;
+    std::unique_ptr<Sprite> sprite_player_spContent = nullptr;
 
     bool is_drawCollider{};
     std::unique_ptr<Sprite> sprite_collider = nullptr;

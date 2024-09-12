@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "ImGuiManager.h"
 
-Boss::Boss() : bossColCenter_(4), bossColLength_(4), bossCol_(4), bossColS_(4) {}
+Boss::Boss() : bossColCenter_(4), bossColLength_(4), bossCol_(4), crackTextures_(3) {}
 
 void Boss::Initialize(M_ColliderManager* colMgrPtr)
 {
@@ -30,6 +30,15 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	bossS_->SetPosition(bossPos_);
 	bossS_->SetSize(bossSize_);
 	bossS_->SetAnchorPoint({ 0.5f, 0.5f });
+	// ヒビ
+	crackS_ = std::make_unique<Sprite>();
+	crackS_->SetPosition(bossPos_);
+	crackS_->SetSize(bossSize_);
+	crackS_->SetAnchorPoint({ 0.5f, 0.5f });
+	crackS_->SetColor({ 1.0f, 1.0f,1.0f, 0.0f });
+	crackTextures_[0] = LoadTexture("crack01.png");
+	crackTextures_[1] = LoadTexture("crack02.png");
+	crackTextures_[2] = LoadTexture("crack03.png");
 
 	// --当たり判定関連-- //
 	// 各コライダーの中心座標の設定
@@ -44,41 +53,29 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	bossColLength_[3] = { 90.0f, winSize.y };
 	// 各コライダーの設定
 	for (size_t i = 0; i < 4; i++) {
-		bossCol_[i].square_.center = bossColCenter_[i];
-		bossCol_[i].square_.length = bossColLength_[i];
-		std::string name = "Boss" + std::to_string(i);
-		auto callback = std::bind(&Boss::CollisionCallBack, this);
-		bossCol_[i].Initialize(name, callback, pColMgr_);
-	}
-	// 各コライダーのスプライト
-	for (size_t i = 0; i < 4;i++) {
-		bossColS_[i] = std::make_unique<Sprite>();
-		bossColS_[i]->SetPosition(bossColCenter_[i]);
-		bossColS_[i]->SetSize(bossColLength_[i]);
-		bossColS_[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		bossColS_[i]->SetColor({ 1.0f, 1.0f, 1.0f, 0.3f });
+		bossCol_[i].Initialize(this, colMgrPtr, bossColCenter_[i], bossColLength_[i], i);
 	}
 }
 
 void Boss::Update()
 {
-
+	for (auto& it : bossCol_) it.Update();
 }
 
 void Boss::MatUpdate()
 {
 	bossS_->MatUpdate();
-	for (auto& it : bossColS_) it->MatUpdate();
+	crackS_->MatUpdate();
+	for (auto& it : bossCol_) it.MatUpdate();
 }
 
 void Boss::Draw()
 {
 	bossS_->Draw(bossT_);
+	crackS_->Draw(crackT_);
 
 	// デバック
-	if (isDisplayCol_) {
-		for (auto& it : bossColS_) it->Draw(debugT_);
-	}
+	for (auto& it : bossCol_) it.Draw(isDisplayCol_);
 }
 
 void Boss::Finalize()
@@ -87,15 +84,33 @@ void Boss::Finalize()
 
 void Boss::ImGuiUpdate(ImGuiManager* pImGuiMgr)
 {
+	// HPの表示
+	pImGuiMgr->Text("体力 = %.1f", nowHP_);
+
 	// 当たり判定を表示するか
 	pImGuiMgr->CheckBox("当たり判定表示", isDisplayCol_);
+
+	// ダメージボタン
+	if (pImGuiMgr->Button("50ダメージ")) AddDamage(50.0f);
 }
 
-void Boss::CollisionCallBack()
+void Boss::AddDamage(float damage)
 {
-	if (bossCol_[1].IsDetect_Name("Player"))
-	{
-		int num = 0;
-		num = 0;
+	nowHP_ -= damage;
+
+	if (nowHP_ <= 250.0f) {
+		crackT_ = crackTextures_[2];
+		bossS_->SetColor({ 0.7f, 0.3f, 0.3f, 1.0f });
+	}
+
+	else if (nowHP_ <= 500.0f) {
+		crackT_ = crackTextures_[1];
+		bossS_->SetColor({ 0.7f, 0.7f, 0.3f, 1.0f });
+	}
+
+	else if (nowHP_ <= 750.0f) {
+		crackT_ = crackTextures_[0];
+		bossS_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		crackS_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	}
 }
