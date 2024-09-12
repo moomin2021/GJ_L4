@@ -50,14 +50,60 @@ void Particle2D::Initialize(const Vector2& arg_anchorPoint, const Vector2& arg_s
 
 void Particle2D::Update(void)
 {
+    if (isAlive == false) { return; }
+
     // 時間加算
     time_toCurrent += TimeManager::GetInstance()->GetGameDeltaTime();
     // 死亡時刻を上回っていたら、生存フラグOFF
     if (time_toCurrent >= time_toDead) { isAlive = false; }
 }
 
+void Particle2D::MatUpdate(void)
+{
+    if (isAlive == false) { return; }
+
+    sprite->MatUpdate();
+}
+
 void Particle2D::Draw(void)
 {
+    if (isDraw == false) { return; }
+
     // 描画
     sprite->Draw(textureHandle_);
+}
+
+ParticleMan* ParticleMan::GetInstance(void)
+{
+    static ParticleMan ins;
+    return &ins;
+}
+
+void ParticleMan::Update(void)
+{
+    for (auto it = particles_.begin(); it != particles_.end();)
+    {
+        // 生存フラグfalse
+        if ((*it)->isAlive == false)
+        {
+            // インスタンス初期化
+            it->reset();
+            // 配列から削除
+            it = particles_.erase(it);
+            // 次のitへ
+            continue;
+        }
+
+        // 更新処理
+        (*it)->Update();
+        // it加算
+        it++;
+        // 次のitへ
+        continue;
+    }
+}
+
+void ParticleMan::Draw(void)
+{
+    for (auto it = particles_.begin(); it != particles_.end(); it++) { (*it)->Draw(); }
 }

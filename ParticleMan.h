@@ -13,6 +13,7 @@ struct Particle2D
     virtual void Initialize(void);
     virtual void Initialize(const Vector2& arg_anchorPoint, const Vector2& arg_size, const Vector2& arg_position, const float4& arg_color, const Vector2& arg_scale, float arg_rotate, float arg_timeToDead);
     virtual void Update(void);
+    virtual void MatUpdate(void);
     virtual void Draw(void);
 
     bool isAlive{};
@@ -49,10 +50,19 @@ public:
     ParticleMan(void) = default;
     ~ParticleMan(void) = default;
 
+    static ParticleMan* GetInstance(void);
+
     void Update(void);
+    void MatUpdate(void);
     void Draw(void);
     void AddParticle(std::unique_ptr<Particle2D> arg_particle) { particles_.push_back(std::move(arg_particle)); }
 
     std::list<std::unique_ptr<Particle2D>> particles_;
+
+private:
+    ParticleMan() {}
+    ~ParticleMan() {}
+    ParticleMan(const ParticleMan&) = delete;
+    ParticleMan& operator = (const ParticleMan&) = delete;
 };
 

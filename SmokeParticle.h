@@ -1,5 +1,6 @@
 #pragma once
 #include "ParticleEmitter2D.h"
+
 class SmokeParticle : public Particle222222
 {
 public:
