@@ -107,6 +107,7 @@
     <ClCompile Include="Application\Enemy\Minion\BaseMinion.cpp" />
     <ClCompile Include="Application\Enemy\Minion\MinionLeader.cpp" />
     <ClCompile Include="Application\Enemy\Minion\MinionFollower.cpp" />
+    <ClCompile Include="Application\Enemy\Minion\MinionFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Application\Enemy\Minion\BaseMinion.h" />
     <ClInclude Include="Application\Enemy\Minion\MinionLeader.h" />
     <ClInclude Include="Application\Enemy\Minion\MinionFollower.h" />
+    <ClInclude Include="Application\Enemy\Minion\MinionFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

@@ -9,12 +9,20 @@ private:
 
 #pragma region メンバ関数
 public:
+	// コンストラクタとデストラクタ
+	MinionLeader() {}
+	~MinionLeader() {}
+
 	// 各初期化処理
-	void Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::MinionStats& inStats, const std::vector<uint16_t>& inTextures) override;
+	void Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::MinionStats& inStats, EnemyStatus::MinionData* inData) override;
 	void Update() override;
-	void MatUpadte() override;
-	void ImGuiUpdate() override;
+	void MatUpdate() override;
+	void ImGuiUpdate(ImGuiManager* imgui) override;
 	void Draw() override;
 	void Finalize() override;
+
+private:
+	// 衝突判定コールバック関数
+	void CollisionCallBack() override;
 #pragma endregion
 };

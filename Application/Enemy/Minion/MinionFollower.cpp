@@ -1,21 +1,22 @@
 #include "MinionFollower.h"
 
-void MinionFollower::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::MinionStats& inStats, const std::vector<uint16_t>& inTextures)
+void MinionFollower::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::MinionStats& inStats, EnemyStatus::MinionData* inData)
 {
-	BaseMinion::Initialize(colMgrPtr, inStats, inTextures);
+	BaseMinion::Initialize(colMgrPtr, inStats, inData);
 }
 
 void MinionFollower::Update()
 {
 }
 
-void MinionFollower::MatUpadte()
+void MinionFollower::MatUpdate()
 {
-	BaseMinion::MatUpadte();
+	BaseMinion::MatUpdate();
 }
 
-void MinionFollower::ImGuiUpdate()
+void MinionFollower::ImGuiUpdate(ImGuiManager* imgui)
 {
+	imgui = imgui;
 }
 
 void MinionFollower::Draw()
@@ -26,4 +27,8 @@ void MinionFollower::Draw()
 void MinionFollower::Finalize()
 {
 	BaseMinion::Finalize();
+}
+
+void MinionFollower::CollisionCallBack()
+{
 }

@@ -9,8 +9,8 @@ void EnemyManager::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, C
 	pCamera_ = cameraPtr;
 
 	// 敵生成器の生成
-	enemyFactory_ = std::make_unique<EnemyFactory>();
-	enemyFactory_->Initialize(this, colMgrPtr, playerPtr);
+	minionFactory_ = std::make_unique<MinionFactory>();
+	minionFactory_->Initialize(this, colMgrPtr, playerPtr);
 
 	// ボスの生成、初期化
 	boss_ = std::make_unique<Boss>();
@@ -27,13 +27,13 @@ void EnemyManager::Update()
 	subBoss_->Update();
 
 	// 敵の更新と死んだ時の処理
-	for (auto it = enemys_.begin(); it != enemys_.end();)
+	for (auto it = leaders_.begin(); it != leaders_.end();)
 	{
 		(*it)->Update();
 		if ((*it)->GetIsAlive() == false)
 		{
 			(*it)->Finalize();
-			it = enemys_.erase(it);
+			it = leaders_.erase(it);
 		}
 		else ++it;
 	}
@@ -43,22 +43,22 @@ void EnemyManager::MatUpdate()
 {
 	boss_->MatUpdate();
 	subBoss_->MatUpdate();
-	for (auto& it : enemys_) it->MatUpdate();
+	for (auto& it : leaders_) it->MatUpdate();
 }
 
 void EnemyManager::Draw()
 {
 	boss_->Draw();
 	subBoss_->Draw();
-	for (auto& it : enemys_) it->Draw();
+	for (auto& it : leaders_) it->Draw();
 }
 
 void EnemyManager::Finalize()
 {
 	boss_->Finalize();
 	subBoss_->Finalize();
-	for (auto& it : enemys_) it->Finalize();
-	enemys_.clear();
+	for (auto& it : leaders_) it->Finalize();
+	leaders_.clear();
 }
 
 void EnemyManager::ImGuiUpdate()
@@ -79,10 +79,10 @@ void EnemyManager::ImGuiUpdate()
 		// 敵のタブ開始
 		if (pImGuiMgr_->BeginTabItem("敵")) {
 			// 敵生成器クラスのImGui更新処理
-			enemyFactory_->ImGuiUpdate(pImGuiMgr_);
+			minionFactory_->ImGuiUpdate(pImGuiMgr_);
 			// 敵一覧
-			pImGuiMgr_->Text("敵一覧");
-			for (auto& it : enemys_) it->ImGuiUpdate(pImGuiMgr_);
+			pImGuiMgr_->Text("雑魚敵リーダー一覧");
+			for (auto& it : leaders_) it->ImGuiUpdate(pImGuiMgr_);
 			// 敵のタブ終了
 			pImGuiMgr_->EndTabItem();
 		}

@@ -1,21 +1,22 @@
 #include "MinionLeader.h"
 
-void MinionLeader::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::MinionStats& inStats, const std::vector<uint16_t>& inTextures)
+void MinionLeader::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::MinionStats& inStats, EnemyStatus::MinionData* inData)
 {
-	BaseMinion::Initialize(colMgrPtr, inStats, inTextures);
+	BaseMinion::Initialize(colMgrPtr, inStats, inData);
 }
 
 void MinionLeader::Update()
 {
 }
 
-void MinionLeader::MatUpadte()
+void MinionLeader::MatUpdate()
 {
-	BaseMinion::MatUpadte();
+	BaseMinion::MatUpdate();
 }
 
-void MinionLeader::ImGuiUpdate()
+void MinionLeader::ImGuiUpdate(ImGuiManager* imgui)
 {
+	imgui = imgui;
 }
 
 void MinionLeader::Draw()
@@ -26,4 +27,9 @@ void MinionLeader::Draw()
 void MinionLeader::Finalize()
 {
 	BaseMinion::Finalize();
+}
+
+void MinionLeader::CollisionCallBack()
+{
+
 }

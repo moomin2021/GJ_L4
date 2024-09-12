@@ -1,13 +1,15 @@
 #include "BaseMinion.h"
 
-BaseMinion::BaseMinion() : sprites_(3), textures_(3) {}
+using namespace EnemyStatus;
 
-void BaseMinion::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::MinionStats& inStats, const std::vector<uint16_t>& inTextures)
+BaseMinion::BaseMinion() : sprites_(3) {}
+
+void BaseMinion::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::MinionStats& inStats, EnemyStatus::MinionData* inData)
 {
 	// パラメーターを設定
 	stats_ = inStats;
-	// テクスチャの設定
-	textures_ = inTextures;
+	// データの設定
+	data_ = inData;
 
 	// スプライトの生成と設定
 	for (auto& it : sprites_) {
@@ -25,14 +27,14 @@ void BaseMinion::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::Min
 	collider_.Initialize(name, callback, colMgrPtr);
 }
 
-void BaseMinion::MatUpadte()
+void BaseMinion::MatUpdate()
 {
 	for (auto& it : sprites_) it->MatUpdate();
 }
 
 void BaseMinion::Draw()
 {
-	for (size_t i = 0; i < sprites_.size(); i++) sprites_[i]->Draw(textures_[i]);
+	for (size_t i = 0; i < sprites_.size(); i++) sprites_[i]->Draw(data_->textures[i]);
 }
 
 void BaseMinion::Finalize()

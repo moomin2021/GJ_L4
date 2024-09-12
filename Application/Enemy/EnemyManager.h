@@ -4,8 +4,8 @@
 
 #include "Boss/Boss.h"
 #include "SubBoss/SubBoss.h"
-#include "Enemys/BaseEnemy.h"
-#include "EnemyFactory.h"
+#include "Minion/BaseMinion.h"
+#include "Minion/MinionFactory.h"
 
 class Player;
 class EnemyManager
@@ -17,7 +17,7 @@ private:
 	Camera* pCamera_ = nullptr;
 
 	// 敵生成器
-	std::unique_ptr<EnemyFactory> enemyFactory_ = nullptr;
+	std::unique_ptr<MinionFactory> minionFactory_ = nullptr;
 
 	// ボス
 	std::unique_ptr<Boss> boss_ = nullptr;
@@ -25,8 +25,9 @@ private:
 	// サブボス
 	std::unique_ptr<SubBoss> subBoss_ = nullptr;
 
-	// 敵
-	std::vector<std::unique_ptr<BaseEnemy>> enemys_;
+	// 雑魚敵
+	std::vector<std::unique_ptr<BaseMinion>> leaders_;
+	std::vector<std::unique_ptr<BaseMinion>> followers_;
 #pragma endregion
 
 #pragma region メンバ関数
@@ -43,7 +44,8 @@ public:
 	void Finalize();
 	void ImGuiUpdate();
 
-	// 敵の追加
-	void AddEnemy(std::unique_ptr<BaseEnemy> newEnemy) { enemys_.emplace_back(std::move(newEnemy)); }
+	// 雑魚敵の追加
+	void AddLeader(std::unique_ptr<BaseMinion> newLeader) { leaders_.emplace_back(std::move(newLeader)); }
+	void AddFollower(std::unique_ptr<BaseMinion> newFollower) { followers_.emplace_back(std::move(newFollower)); }
 #pragma endregion
 };

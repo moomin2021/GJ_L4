@@ -1,6 +1,9 @@
 #pragma once
 #include "Vector2.h"
 
+#include <vector>
+
+class Player;
 namespace EnemyStatus {
 	enum class State {
 		Normal,
@@ -23,5 +26,13 @@ namespace EnemyStatus {
 		float dampingFactor = 0.0f;			// 減衰率 (慣性による速度の減衰)
 		float attackPower = 20.0f;			// プレイヤーへのダメージ
 		bool isAlive = true;				// 生存フラグ
+	};
+
+	// 雑魚敵に必要な情報
+	struct MinionData {
+		// プレイヤーのポインタ
+		Player* playerPtr = nullptr;
+		// テクスチャのポインタ
+		std::vector<uint16_t> textures;
 	};
 }

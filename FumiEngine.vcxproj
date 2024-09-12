@@ -173,6 +173,7 @@
     <ClCompile Include="Application\Enemy\SubBoss\SubBoss.cpp" />
     <ClCompile Include="Application\Enemy\Minion\MinionLeader.cpp" />
     <ClCompile Include="Application\Enemy\Minion\MinionFollower.cpp" />
+    <ClCompile Include="Application\Enemy\Minion\MinionFactory.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\SubBossInfo.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\SubBossAttackState.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="Application\Enemy\SubBoss\SubBoss.h" />
     <ClInclude Include="Application\Enemy\Minion\MinionLeader.h" />
     <ClInclude Include="Application\Enemy\Minion\MinionFollower.h" />
+    <ClInclude Include="Application\Enemy\Minion\MinionFactory.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h" />
     <ClInclude Include="Application\Enemy\SubBoss\SubBossAttackState.h" />
