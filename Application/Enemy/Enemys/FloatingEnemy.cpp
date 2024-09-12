@@ -43,7 +43,7 @@ void FloatingEnemy::Initialize(size_t id, const Vector2& inPos, std::vector<uint
 	// コライダーの設定
 	collider_.circle_.center = position_;
 	collider_.circle_.radius = 32.0f;
-	std::string name = "FloatingEnemy_" + std::to_string(id);
+	std::string name = "FloatingEnemy";
 	auto callback = std::bind(&FloatingEnemy::CollisionCallBack, this);
 	collider_.Initialize(name, callback, colMgrPtr);
 }
@@ -140,7 +140,7 @@ void FloatingEnemy::CollisionCallBack()
 			moveVec_ = knockVec_;
 			moveSpd_ = knockFirstSpd_;
 			rotaSpd_ = knockFirstRotaSpd_;
-			// コライダーの設定
+			// ダメージの設定
 			collider_.Data_Remove("Damage");
 			collider_.Data_Add("Damage", 0.0f);
 		}
@@ -171,7 +171,7 @@ void FloatingEnemy::CollisionCallBack()
 			moveVec_ = firstBeatenVec_;
 			moveSpd_ = firstBeatenMoveSpd_;
 			rotaSpd_ = firstBeatenRotaSpd_;
-			// コライダーの設定
+			// ダメージの設定
 			collider_.Data_Add("Damage", 20.0f);
 		}
 
@@ -189,7 +189,7 @@ void FloatingEnemy::CollisionCallBack()
 			if (Direction::DIRECTION_RIGHT == playerInfo->move.direction_current) secondBeatenVec_.x = 1.0f;
 			secondBeatenVec_.normalize();
 			moveVec_ = secondBeatenVec_;
-			// コライダーの設定
+			// ダメージの設定
 			collider_.Data_Remove("Damage");
 			collider_.Data_Add("Damage", 20.0f);
 		}
