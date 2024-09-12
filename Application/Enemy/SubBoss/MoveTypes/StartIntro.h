@@ -7,7 +7,7 @@ class StartIntro : public SubBossMoveState
 private:
 	// ステージ0で使う変数
 	Util::TimeInfo stage0Time_ = { 2.0f, 0.0f };	// ステージ0の時間
-	float4 startMainColor_ = { 0.0f, 0.0f, 0.0f, 1.0f };// 本体の色の開始数値
+	float4 startMainColor_ = { 0.0f, 0.0f, 0.0f, 0.0f };// 本体の色の開始数値
 	float4 endMainColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };	// 本体の色の終了数値
 	// ステージ1で使う変数
 	Util::TimeInfo stage1Time_ = { 1.0f, 0.0f };	// ステージ1の時間

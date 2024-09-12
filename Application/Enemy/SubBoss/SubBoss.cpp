@@ -129,10 +129,10 @@ void SubBoss::ImGuiUpdate()
 void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr)
 {
 	// 座標とサイズと回転度の設定
-	subBossInfo_.position = Vector2(500.0f, 400.0f);
+	subBossInfo_.position = Vector2(960.0f, 400.0f);
 	subBossInfo_.size = Vector2(256.0f, 256.0f);
 	subBossInfo_.rotation = 0.0f;
-	subBossInfo_.mainColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	subBossInfo_.mainColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	subBossInfo_.eyeColor = float4(1.0f, 1.0f, 1.0f, 0.0f);
 
 	// コライダーの設定

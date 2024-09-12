@@ -21,6 +21,7 @@ void StartIntro::Update(SubBossInfo* info)
 		info->mainColor.x = Easing::lerp(startMainColor_.x, endMainColor_.x, rate);
 		info->mainColor.y = Easing::lerp(startMainColor_.y, endMainColor_.y, rate);
 		info->mainColor.z = Easing::lerp(startMainColor_.z, endMainColor_.z, rate);
+		info->mainColor.w = Easing::lerp(startMainColor_.w, endMainColor_.w, rate);
 		// 時間を超えたら次の段階へ
 		if (stage0Time_.GetIsExceeded()) moveStage_++;
 	}
