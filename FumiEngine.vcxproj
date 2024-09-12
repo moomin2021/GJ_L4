@@ -102,8 +102,6 @@
     <ClCompile Include="Application\Easing\AppEasing.cpp" />
     <ClCompile Include="Application\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Application\Enemy\Boss\Boss.cpp" />
-    <ClCompile Include="Application\Enemy\Enemys\BaseEnemy.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyFactory.cpp" />
     <ClCompile Include="Application\Enemy\Boss\BossCol.cpp" />
     <ClCompile Include="Engine\Collision\CollisionManager3D.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
@@ -142,7 +140,6 @@
     <ClCompile Include="Engine\Scene\IScene.cpp" />
     <ClCompile Include="Application\Collision\ICollider.cpp" />
     <ClCompile Include="Application\Player\Gravity.cpp" />
-    <ClCompile Include="Application\Enemy\Enemys\FloatingEnemy.cpp" />
     <ClCompile Include="Application\Player\Behavior\IPlayerBehavior.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Mesh.cpp" />
@@ -186,8 +183,6 @@
     <ClInclude Include="Application\Enemy\EnemyManager.h" />
     <ClInclude Include="Application\Enemy\Boss\Boss.h" />
     <ClInclude Include="Application\Enemy\EnemyStatus.h" />
-    <ClInclude Include="Application\Enemy\Enemys\BaseEnemy.h" />
-    <ClInclude Include="Application\Enemy\EnemyFactory.h" />
     <ClInclude Include="Application\Enemy\Boss\BossCol.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Engine\Collision\CollisionManager3D.h" />
@@ -255,7 +250,6 @@
     <ClInclude Include="Application\Collision\M_CircleCollider.h" />
     <ClInclude Include="Application\Collision\M_ColliderManager.h" />
     <ClInclude Include="Application\Collision\M_RectCollider.h" />
-    <ClInclude Include="Application\Enemy\Enemys\FloatingEnemy.h" />
     <ClInclude Include="Application\Player\Gravity.h" />
     <ClInclude Include="Application\Player\Behavior\IPlayerBehavior.h" />
     <ClInclude Include="Application\Player\Player.h" />
