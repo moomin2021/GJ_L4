@@ -46,6 +46,7 @@ struct PlayerCommonInfomation
     //-Const-------------------------
     // Player
     float kHealth_max = 100;
+    float kSp_max = 100;
     
     // Move
     float kMoveSpeed = 100.f;
@@ -92,6 +93,8 @@ struct PlayerCommonInfomation
     // Player
     float health_current{};
     float health_rate_{};
+    float sp_current{};
+    float sp_rate_{};
     float attackPower{};
     float specialPower{};
     Vector2 position{};

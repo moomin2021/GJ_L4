@@ -134,6 +134,8 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     commonInfomation_->controllerBind.jump = BUTTON::PAD_A;
 
     commonInfomation_->Input();
+    commonInfomation_->health_current = commonInfomation_->kHealth_max;
+    commonInfomation_->sp_current = commonInfomation_->kSp_max;
 }
 
 void Player::Update(void)
