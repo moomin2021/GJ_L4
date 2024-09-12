@@ -48,7 +48,7 @@ struct PlayerCommonInfomation
     float kHealth_max = 100;
     
     // Move
-    float kMoveSpeed = 5.f;
+    float kMoveSpeed = 100.f;
 
     // Gravity
     float kGravity_max = 20.0f;

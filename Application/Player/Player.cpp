@@ -293,7 +293,7 @@ void Player::DrawImGUi(void)
     imgui->EndWindow();
 
     imgui->BeginWindow("player_status");
-    ImGui::SliderFloat("kMoveSpeed", &commonInfomation_->kMoveSpeed, 0, 100);
+    ImGui::SliderFloat("kMoveSpeed", &commonInfomation_->kMoveSpeed, 0, 500);
 
     ImGui::SliderFloat("kGravity_max", &commonInfomation_->kGravity_max, 0, 100);
     ImGui::SliderFloat("kGravity_add", &commonInfomation_->kGravity_add, 0, 100);

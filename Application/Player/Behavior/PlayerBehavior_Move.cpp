@@ -63,7 +63,7 @@ Vector2 PlayerBehavior_Move::Move(void)
     input.x += pad->GetLStick().x;
 
     Vector2 velocity{};
-    velocity.x = input.x * commonInfomation_->kMoveSpeed;
+    velocity.x = input.x * commonInfomation_->kMoveSpeed * TimeManager::GetInstance()->GetDeltaTime();
 
     // 入力があった時のみ変更
     if (input.x > 0) { commonInfomation_->move.direction_current = DIRECTION_RIGHT; }
