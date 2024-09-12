@@ -1,8 +1,13 @@
 #include "BossCol.h"
 #include "Texture.h"
 
-void BossCol::Initialize(M_ColliderManager* colMgrPtr, const Vector2& inCenter, const Vector2& inLength, size_t id)
+#include "Boss.h"
+
+void BossCol::Initialize(Boss* bossPtr, M_ColliderManager* colMgrPtr, const Vector2& inCenter, const Vector2& inLength, size_t id)
 {
+	// ボスポインタを取得
+	pBoss_ = bossPtr;
+
 	// コライダーの設定
 	collider_.square_.center = inCenter;
 	collider_.square_.length = inLength;
@@ -39,5 +44,11 @@ void BossCol::Draw(bool isDebug)
 
 void BossCol::CollisionCallBack()
 {
-
+	// 敵と衝突したらダメージを受ける
+	if (collider_.IsDetect_Name("FloatingEnemy")) {
+		// 敵のコライダーを取得
+		ICollider* hitCol = collider_.Extract_Collider("FloatingEnemy");
+		float damage = hitCol->Data_Get<float>("Damage");
+		pBoss_->AddDamage(damage);
+	}
 }

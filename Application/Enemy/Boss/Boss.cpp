@@ -44,7 +44,7 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	bossColLength_[3] = { 90.0f, winSize.y };
 	// 各コライダーの設定
 	for (size_t i = 0; i < 4; i++) {
-		bossCol_[i].Initialize(colMgrPtr, bossColCenter_[i], bossColLength_[i], i);
+		bossCol_[i].Initialize(this, colMgrPtr, bossColCenter_[i], bossColLength_[i], i);
 	}
 }
 
@@ -73,8 +73,16 @@ void Boss::Finalize()
 
 void Boss::ImGuiUpdate(ImGuiManager* pImGuiMgr)
 {
+	// HPの表示
+	pImGuiMgr->Text("体力 = %.1f", nowHP_);
+
 	// 当たり判定を表示するか
 	pImGuiMgr->CheckBox("当たり判定表示", isDisplayCol_);
+}
+
+void Boss::AddDamage(float damage)
+{
+	nowHP_ -= damage;
 }
 
 void Boss::CollisionCallBack()

@@ -369,10 +369,10 @@
     <ClCompile Include="Application\Enemy\SubBoss\SubBossAttackState.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Util\Shake.cpp">
+    <ClCompile Include="Application\Enemy\Boss\BossCol.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\Boss\BossCol.cpp">
+    <ClCompile Include="Engine\Util\Shake.cpp">
       <Filter>Engine\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -647,10 +647,10 @@
     <ClInclude Include="Application\Enemy\SubBoss\SubBossAttackState.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Util\Shake.h">
+    <ClInclude Include="Application\Enemy\Boss\BossCol.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\Boss\BossCol.h">
+    <ClInclude Include="Engine\Util\Shake.h">
       <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
