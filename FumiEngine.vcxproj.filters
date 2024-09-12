@@ -378,6 +378,12 @@
     <ClCompile Include="Application\Player\Behavior\PlayerBehavior_Special.cpp">
       <Filter>Application\Player\Behavior</Filter>
     </ClCompile>
+    <ClCompile Include="SmokeParticle.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleMan.cpp">
+      <Filter>Engine\ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Base\WinAPI.h">
@@ -658,6 +664,12 @@
     </ClInclude>
     <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Special.h">
       <Filter>Application\Player\Behavior</Filter>
+    </ClInclude>
+    <ClInclude Include="SmokeParticle.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleMan.h">
+      <Filter>Engine\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

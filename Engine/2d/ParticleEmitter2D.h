@@ -15,19 +15,24 @@ struct SettingParticleEmitter {
 };
 
 // パーティクル1粒
-struct Particle {
+struct Particle222222 {
+public:
+    Particle222222(void) = default;
+    virtual ~Particle222222(void) = default;
+    virtual void Update(void) {};
+
     Vector2 position{}; //座標
-    bool isAlive{};
+    bool isAlive{1};
     bool isDraw{};
 
     float time_toCurrent{}; // 生成->現在までの時間
-    float time_toDead{};    // 生成->死ぬまでの時間（余命）
+    float time_toDead{20000000};    // 生成->死ぬまでの時間（余命）
 
-    float scale_current{};  // スケール - 現在
-    float scale_start{};    // スケール - 最初
-    float scale_end{};      // スケール - 最後
+    float size_current{100};  // スケール - 現在
+    float size_start{100};    // スケール - 最初
+    float size_end{100};      // スケール - 最後
 
-    float alpha{};
+    float alpha{1};
 };
 
 class ParticleEmitter2D
@@ -66,7 +71,7 @@ private:
     Vector2 emit_length_{};
 
 	// パーティクルコンテナ
-	std::list<std::unique_ptr<Particle>> particles_;
+	std::list<std::unique_ptr<Particle222222>> particles_;
 	// テクスチャハンドル
 	uint16_t textureHandle_ = 0;
     // スプライト(パーティクル描画用)
@@ -100,7 +105,7 @@ public:
 	void Finalize();
 
 	// パーティクルの追加
-	void AddParticle(std::unique_ptr<Particle> instance);
+	void AddParticle(std::unique_ptr<Particle222222> instance);
 
 private:
 	void CreateConstBuff();	// 定数バッファ生成

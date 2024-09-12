@@ -178,6 +178,8 @@
     <ClCompile Include="Application\Enemy\SubBoss\SubBossInfo.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\SubBossAttackState.cpp" />
     <ClCompile Include="Engine\Util\Shake.cpp" />
+    <ClCompile Include="ParticleMan.cpp" />
+    <ClCompile Include="SmokeParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -273,6 +275,8 @@
     <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h" />
     <ClInclude Include="Application\Enemy\SubBoss\SubBossAttackState.h" />
     <ClInclude Include="Engine\Util\Shake.h" />
+    <ClInclude Include="ParticleMan.h" />
+    <ClInclude Include="SmokeParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

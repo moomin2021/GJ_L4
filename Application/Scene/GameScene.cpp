@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "PipelineManager.h"
 #include "Texture.h"
+#include "SmokeParticle.h"
 
 GameScene::GameScene(IScene* sceneIf) : BaseScene(sceneIf) {}
 
@@ -30,10 +31,20 @@ void GameScene::Initialize()
 	// 敵管理クラスの生成、初期化
 	enemyMgr_ = std::make_unique<EnemyManager>();
 	enemyMgr_->Initialize(&colliderManager_, &player_, camera_.get());
+
+    tex_ = LoadTexture("smoke.png");
+    emitter1_.Initialize({ 500,500 }, { 10,10 }, tex_);
+    emitter1_.SetCamera(camera_.get());
+    particleManagerPtr_->AddParticleEmitter(&emitter1_);
 }
 
 void GameScene::Update()
 {
+    if (Key::GetInstance()->TriggerKey(DIK_5))
+    {
+        emitter1_.AddParticle(std::make_unique<SmokeParticle>());
+    }
+
 	if (key_->TriggerKey(DIK_Q)) {
 		sceneIf_->ChangeScene(Scene::TITLE);
 	}
