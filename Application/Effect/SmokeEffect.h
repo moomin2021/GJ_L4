@@ -15,5 +15,7 @@ public:
 
 private:// メンバー変数
 	AppEasing mEaseRota;
+
+	Vector2 endPos_;
 };
 

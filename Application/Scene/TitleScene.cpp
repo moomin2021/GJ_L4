@@ -215,7 +215,7 @@ void TitleScene::Update()
 	{
 		testPTimer_ = 0;
 
-		for (size_t i = 0; i < 20; i++)
+		for (size_t i = 0; i < 5; i++)
 		{
 			ParticleMan::GetInstance()->AddParticle(std::make_unique<SmokeEffect>(), { 500,800 }, { 500,900 });
 		}
