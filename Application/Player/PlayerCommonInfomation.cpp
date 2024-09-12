@@ -45,12 +45,15 @@ void PlayerCommonInfomation::Input(void)
 
             // Sprite
             else if (str == "#kNum_IdleSprite_max") { kNum_IdleSprite_max = static_cast<int32_t>(std::stof(value)); }
+            else if (str == "#kNum_MoveSprite_max") { kNum_MoveSprite_max = static_cast<int32_t>(std::stof(value)); }
             else if (str == "#kNum_AttackSprite_max") { kNum_AttackSprite_max = static_cast<int32_t>(std::stof(value)); }
             else if (str == "#kNum_SpecialSprite_max") { kNum_SpecialSprite_max = static_cast<int32_t>(std::stof(value)); }
 
             // Time
             else if (str == "#kTime_IdleInterval_max") { kTime_IdleInterval_max = std::stof(value); }
             else if (str == "#kTime_IdleAnimation_max") { kTime_IdleAnimation_max = std::stof(value); }
+            else if (str == "#kTime_MoveInterval_max") { kTime_MoveInterval_max = std::stof(value); }
+            else if (str == "#kTime_MoveAnimation_max") { kTime_MoveAnimation_max = std::stof(value); }
             else if (str == "#kTime_AttackInterval_max") { kTime_AttackInterval_max = std::stof(value); }
             else if (str == "#kTime_AttackAnimation_max") { kTime_AttackAnimation_max = std::stof(value); }
             else if (str == "#kTime_SpecialInterval_max") { kTime_SpecialInterval_max = std::stof(value); }
@@ -62,6 +65,7 @@ void PlayerCommonInfomation::Input(void)
         {
             // Sprite
             if (str == "#kSprite_AnchorPoint_player_idle") { kSprite_AnchorPoint_player_idle = { std::stof(value), std::stof(value2) }; }
+            else if (str == "#kSprite_AnchorPoint_player_move") { kSprite_AnchorPoint_player_move = { std::stof(value), std::stof(value2) }; }
             else if (str == "#kSprite_AnchorPoint_player_attack") { kSprite_AnchorPoint_player_attack = { std::stof(value), std::stof(value2) }; }
             else if (str == "#kSprite_AnchorPoint_player_special") { kSprite_AnchorPoint_player_special = { std::stof(value), std::stof(value2) }; }
             else if (str == "#kSprite_Length_player") { kSprite_Length_player = { std::stof(value), std::stof(value2) };}
@@ -103,25 +107,34 @@ void PlayerCommonInfomation::Output(void)
 
     ofs << "// Sprite" << std::endl;
     ofs << "#kSprite_AnchorPoint_player_idle: " + std::to_string(kSprite_AnchorPoint_player_idle.x) + "," + std::to_string(kSprite_AnchorPoint_player_idle.y) + ";" << std::endl;
+    ofs << "#kSprite_AnchorPoint_player_move: " + std::to_string(kSprite_AnchorPoint_player_move.x) + "," + std::to_string(kSprite_AnchorPoint_player_move.y) + ";" << std::endl;
     ofs << "#kSprite_AnchorPoint_player_attack: " + std::to_string(kSprite_AnchorPoint_player_attack.x) + "," + std::to_string(kSprite_AnchorPoint_player_attack.y) + ";" << std::endl;
     ofs << "#kSprite_AnchorPoint_player_special: " + std::to_string(kSprite_AnchorPoint_player_special.x) + "," + std::to_string(kSprite_AnchorPoint_player_special.y) + ";" << std::endl;
     ofs << "#kSprite_Length_player: " + std::to_string(kSprite_Length_player.x) + "," + std::to_string(kSprite_Length_player.y) + ";" << std::endl;
     ofs << std::endl;
     ofs << "#kNum_IdleSprite_max: " + std::to_string(kNum_IdleSprite_max) + ";" << std::endl;
+    ofs << "#kNum_MoveSprite_max: " + std::to_string(kNum_MoveSprite_max) + ";" << std::endl;
     ofs << "#kNum_AttackSprite_max: " + std::to_string(kNum_AttackSprite_max) + ";" << std::endl;
+    ofs << "#kNum_SpecialSprite_max: " + std::to_string(kNum_SpecialSprite_max) + ";" << std::endl;
     ofs << std::endl;
 
     ofs << "// Collider" << std::endl;
     ofs << "#kCollision_Length_playerCollider: " + std::to_string(kCollision_Length_playerCollider.x) + "," + std::to_string(kCollision_Length_playerCollider.y) + ";" << std::endl;
     ofs << "#kCollision_Length_playerCollider_attack: " + std::to_string(kCollision_Length_playerCollider_attack.x) + "," + std::to_string(kCollision_Length_playerCollider_attack.y) + ";" << std::endl;
     ofs << "#kCollision_positionOffset_playerCollider_attack: " + std::to_string(kCollision_positionOffset_playerCollider_attack.x) + "," + std::to_string(kCollision_positionOffset_playerCollider_attack.y) + ";" << std::endl;
+    ofs << "#kCollision_Length_playerCollider_special: " + std::to_string(kCollision_Length_playerCollider_special.x) + "," + std::to_string(kCollision_Length_playerCollider_special.y) + ";" << std::endl;
+    ofs << "#kCollision_positionOffset_playerCollider_special: " + std::to_string(kCollision_positionOffset_playerCollider_special.x) + "," + std::to_string(kCollision_positionOffset_playerCollider_special.y) + ";" << std::endl;
     ofs << std::endl;
 
     ofs << "// Time" << std::endl;
     ofs << "#kTime_IdleInterval_max: " + std::to_string(kTime_IdleInterval_max) + ";" << std::endl;
     ofs << "#kTime_IdleAnimation_max: " + std::to_string(kTime_IdleAnimation_max) + ";" << std::endl;
+    ofs << "#kTime_MoveInterval_max: " + std::to_string(kTime_MoveInterval_max) + ";" << std::endl;
+    ofs << "#kTime_MoveAnimation_max: " + std::to_string(kTime_MoveAnimation_max) + ";" << std::endl;
     ofs << "#kTime_AttackInterval_max: " + std::to_string(kTime_AttackInterval_max) + ";" << std::endl;
     ofs << "#kTime_AttackAnimation_max: " + std::to_string(kTime_AttackAnimation_max) + ";" << std::endl;
+    ofs << "#kTime_SpecialInterval_max: " + std::to_string(kTime_SpecialInterval_max) + ";" << std::endl;
+    ofs << "#kTime_SpecialAnimation_max: " + std::to_string(kTime_SpecialAnimation_max) + ";" << std::endl;
     ofs << "#kTime_Invincible_max: " + std::to_string(kTime_Invincible_max) + ";" << std::endl;
     ofs << "#kTime_Easing_hp_content_shadow_max: " + std::to_string(kTime_Invincible_max) + ";" << std::endl;
     ofs << std::endl;
