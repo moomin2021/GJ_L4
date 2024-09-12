@@ -42,6 +42,7 @@ private:
 	bool isDebug_ = false;
 	std::unique_ptr<Sprite> colSprite_ = nullptr;
 	uint16_t debugTexture_ = 0;
+	std::string debugAttackTypeStr_ = "DescentDiveState";
 #pragma endregion
 
 #pragma region メンバ関数
@@ -51,7 +52,7 @@ public:
 	~SubBoss() {}
 
 	// 基本処理
-	void Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr);
+	void Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr);
 	void Update();
 	void MatUpdate();
 	void Draw();
@@ -60,7 +61,7 @@ public:
 
 private:
 	// サブボスの情報の初期化処理
-	void InitializeSubBossInfo(M_ColliderManager* colMgrPtr);
+	void InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr);
 
 	// 状態別処理
 	static void (SubBoss::* stateTable[]) ();
@@ -70,6 +71,9 @@ private:
 
 	// 攻撃状態に変更
 	void ChangeAttack();
+
+	// デバックで選択した攻撃を開始
+	void DebugStartAttack();
 
 	// 衝突判定コールバック関数
 	void CollisionCallBack();

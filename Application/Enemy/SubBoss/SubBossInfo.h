@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2.h"
 #include "M_CircleCollider.h"
+#include "Camera.h"
 
 class Player;
 struct SubBossInfo {
@@ -20,8 +21,14 @@ struct SubBossInfo {
 	// 震えの値
 	Vector2 shakeOffset = Vector2();
 
+	// 床と衝突しているか
+	bool isGroundCol = false;
+
 	// プレイヤーのポインタ
 	Player* playerPtr = nullptr;
+
+	// カメラのポインタ
+	Camera* cameraPtr = nullptr;
 
 	// 移動処理
 	void Move(float deltaTime);

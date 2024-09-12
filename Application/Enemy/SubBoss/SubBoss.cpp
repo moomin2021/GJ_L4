@@ -7,13 +7,13 @@
 
 SubBoss::SubBoss() : subBossTextures_(3) {}
 
-void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr)
+void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr)
 {
 	// プレイヤーのポインタ受取
 	subBossInfo_.playerPtr = playerPtr;
 
 	// サブボスの情報の初期化処理
-	InitializeSubBossInfo(colMgrPtr);
+	InitializeSubBossInfo(colMgrPtr, cameraPtr);
 
 	// サブボス描画関連
 	// スプライトの生成、設定
@@ -48,6 +48,9 @@ void SubBoss::Update()
 	// コライダーの更新
 	subBossInfo_.collider.circle_.center = subBossSprite_->GetPosition();
 	colSprite_->SetPosition(subBossInfo_.collider.circle_.center);
+
+	// フラグのリセット
+	subBossInfo_.isGroundCol = false;
 }
 
 void SubBoss::MatUpdate()
@@ -75,14 +78,37 @@ void SubBoss::ImGuiUpdate()
 	// ボスの状態を表示
 	imgui->Text("ボスの状態 = %s", subBossMoveTypeStr_[(size_t)currentMoveType_].c_str());
 
+	// 座標の表示
+	imgui->Text("座標 = { %f, %f }", subBossInfo_.position.x, subBossInfo_.position.y);
+
 	// 当たり判定を表示するか
 	imgui->CheckBox("当たり判定表示", isDebug_);
 
+	static std::string curretStr = "DescentDiveState";
+	if (imgui->BeginCombo("攻撃タイプ", curretStr))
+	{
+		// 攻撃タイプの選択
+		for (size_t i = 0; i < subBossAttackTypeStr.size(); i++)
+		{
+			bool isSelectable = (curretStr == subBossAttackTypeStr[i]);
+	
+			if (imgui->Selectable(subBossAttackTypeStr[i], isSelectable))
+			{
+				curretStr = subBossAttackTypeStr[i];
+				debugAttackTypeStr_ = curretStr;
+			}
+	
+			if (isSelectable) imgui->SetItemDefaultFocus();
+		}
+	
+		imgui->EndCombo();
+	}
+
 	// 攻撃状態に切替
-	if (imgui->Button("攻撃状態へ")) ChangeAttack();
+	if (imgui->Button("攻撃状態へ")) DebugStartAttack();
 }
 
-void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr)
+void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr)
 {
 	// 座標とサイズと回転度の設定
 	subBossInfo_.position = Vector2(500.0f, 400.0f);
@@ -95,6 +121,10 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr)
 	std::string name = "SubBoss";
 	auto callBack = std::bind(&SubBoss::CollisionCallBack, this);
 	subBossInfo_.collider.Initialize(name, callBack, colMgrPtr);
+	subBossInfo_.collider.Data_Add("Damage", 5.0f);
+
+	// カメラの設定
+	subBossInfo_.cameraPtr = cameraPtr;
 }
 
 void (SubBoss::*SubBoss::stateTable[]) () = {
@@ -110,6 +140,12 @@ void SubBoss::Wait()
 void SubBoss::Attack()
 {
 	currentAttackState_->Update(&subBossInfo_);
+	if (currentAttackState_->GetIsAttackEnd())
+	{
+		currentMoveType_ = SubBossMoveType::Wait;
+		currentAttackState_->Finalize(&subBossInfo_);
+		currentAttackState_ = nullptr;
+	}
 }
 
 void SubBoss::Stun()
@@ -129,11 +165,27 @@ void SubBoss::ChangeAttack()
 	currentMoveType_ = SubBossMoveType::Attack;
 }
 
+void SubBoss::DebugStartAttack()
+{
+	// 攻撃状態が空ではなかったら終了処理をする
+	if (currentAttackState_ != nullptr) currentAttackState_->Finalize(&subBossInfo_);
+
+	if (debugAttackTypeStr_ == "DescentDiveState")
+	{
+		currentAttackState_ = std::make_unique<DescentDiveState>();
+		currentAttackState_->Initialize(&subBossInfo_);
+	}
+
+	// 状態の変更
+	currentMoveType_ = SubBossMoveType::Attack;
+}
+
 void SubBoss::CollisionCallBack()
 {
-	// 壁との衝突判定
+	// 壁と天井の衝突判定
 	for (size_t i = 0; i < 4; i++) {
-		// 壁と当たったら
+		if (i == 2) continue;
+		// 壁か天井と当たったら
 		if (subBossInfo_.collider.IsDetect_Name("Boss" + std::to_string(i))) {
 			// 押し出し処理
 			ICollider* hitCol = subBossInfo_.collider.Extract_Collider("Boss" + std::to_string(i));
@@ -141,6 +193,27 @@ void SubBoss::CollisionCallBack()
 			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, subBossInfo_.collider.circle_);
 			subBossInfo_.position += pushBack;
 		}
+	}
+
+	// 床と当たったら
+	if (subBossInfo_.collider.IsDetect_Name("Boss2"))
+	{
+		// 押し出し処理
+		ICollider* hitCol = subBossInfo_.collider.Extract_Collider("Boss2");
+		M_RectCollider* rectCol = static_cast<M_RectCollider*>(hitCol);
+		Circle circle = subBossInfo_.collider.circle_;
+		Square rect = rectCol->square_;
+		// 矩形の最近接点
+		float rectY = rect.center.y - rect.length.y / 2.0f;
+		float circleY = circle.center.y + circle.radius;
+		float pushBack = rectY - circleY;
+		subBossInfo_.position.y += pushBack;
+	}
+
+	// 壁と衝突しているかを判定
+	if (subBossInfo_.collider.IsDetect_Name("Boss2"))
+	{
+		subBossInfo_.isGroundCol = true;
 	}
 
 	// スプライトの更新

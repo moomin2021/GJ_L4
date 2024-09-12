@@ -169,6 +169,31 @@ public:
 	bool Button(const std::string& label, const Vector2& size);
 #pragma endregion
 
+#pragma region Combo
+	/// <summary>
+	/// コンボボックスの開始
+	/// </summary>
+	/// <param name="label"> 識別ラベル </param>
+	/// <param name="previewValue"> コンボボックスが閉じている状態で表示されるアイテム </param>
+	/// <returns></returns>
+	bool BeginCombo(const std::string& label, const std::string& previewValue);
+	/// <summary>
+	/// 選択可能なアイテムを作成
+	/// </summary>
+	/// <param name="label"> 表示する文字 </param>
+	/// <param name="selected"> アイテムが選択されているかどうか </param>
+	/// <returns></returns>
+	bool Selectable(const std::string& label, bool selected);
+	/// <summary>
+	/// リスト内のアイテムやウィジェットにデフォルトのフォーカスを設定
+	/// </summary>
+	void SetItemDefaultFocus();
+	/// <summary>
+	/// コンボボックスの終了
+	/// </summary>
+	void EndCombo();
+#pragma endregion
+
 	/// <summary>
 	/// テキストの表示
 	/// </summary>
@@ -225,4 +250,25 @@ private:
 //		}
 //		EndTabBar();
 //	}
+#pragma endregion
+
+#pragma region Combo
+//static std::string curretStr = "DescentDiveState";
+//if (imgui->BeginCombo("ファイル", curretStr))
+//{
+//	// 攻撃タイプの選択
+//	for (size_t i = 0; i < subBossAttackTypeStr.size(); i++)
+//	{
+//		bool isSelectable = (curretStr == subBossAttackTypeStr[i]);
+//
+//		if (imgui->Selectable(subBossAttackTypeStr[i], isSelectable))
+//		{
+//			curretStr = subBossAttackTypeStr[i];
+//		}
+//
+//		if (isSelectable) imgui->SetItemDefaultFocus();
+//	}
+//
+//	imgui->EndCombo();
+//}
 #pragma endregion
