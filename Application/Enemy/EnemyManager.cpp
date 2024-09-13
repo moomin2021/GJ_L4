@@ -63,9 +63,9 @@ void EnemyManager::MatUpdate()
 void EnemyManager::Draw()
 {
 	boss_->Draw();
-	subBoss_->Draw();
-	for (auto& it : leaders_) it->Draw();
 	for (auto& it : followers_) it->Draw();
+	for (auto& it : leaders_) it->Draw();
+	subBoss_->Draw();
 }
 
 void EnemyManager::Finalize()
