@@ -4,6 +4,7 @@
 
 #include "CollisionChecker.h"
 #include "Player.h"
+#include "EnemyManager.h"
 
 #include "MoveTypes/DescentDive.h"
 #include "MoveTypes/StartIntro.h"
@@ -56,6 +57,16 @@ void SubBoss::Update()
 
 	// ダメージ処理
 	DamageProcess();
+
+	// ボスが死んだら
+	if (subBossInfo_.enemyMgrPtr->GetIsBossAlive() == false && isGameClear_ == false) {
+		// クリアフラグをONにする
+		isGameClear_ = true;
+		// 終了演出
+		currentMoveType_ = SubBossMoveType::EndGameOutro;
+		// 行動の生成
+		ChangeMove();
+	}
 
 	// 状態別更新処理
 	(this->*stateTable[(size_t)currentStateType_])();

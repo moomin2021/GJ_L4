@@ -53,6 +53,7 @@ private:
 	Util::TimeInfo damageTime_ = { 0.2f, 0.0f };
 	float4 damageColor_ = float4(0.7f, 0.2f, 0.2f, 1.0f);
 	bool isDamage_ = false;
+	bool isGameClear_ = false;
 #pragma endregion
 
 #pragma region メンバ関数
