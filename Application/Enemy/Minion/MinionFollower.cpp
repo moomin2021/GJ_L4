@@ -46,7 +46,7 @@ void MinionFollower::Update()
     if (moveVec_.x != 0 || moveVec_.y != 0)
     {
         particleFrame_++;
-        if (particleFrame_ >= 2)
+        if (particleFrame_ >= 5)
         {
             Vector2 pos = { stats_.position.x + Util::GetRandomFloat(-18,18), +stats_.position.y + Util::GetRandomFloat(-18,18) };
             particleFrame_ = 0;
