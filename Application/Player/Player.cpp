@@ -10,6 +10,9 @@
 #include "Easing.h"
 #include "TimeManager.h"
 #include "Mouse.h"
+#include "ParticleMan.h"
+#include "DeadParticle.h"
+#include "CollisionChecker.h"
 
 Player::~Player(void)
 {
@@ -549,14 +552,59 @@ void Player::DeadBounceUpdate(void)
 {
     if (Get_IsDead() == false) { return; }
 
+    timer_deadAfter += TimeManager::GetInstance()->GetGameDeltaTime();
+
     static bool isJump{};
 
+        const float k = 935.f;
     if (isJump == false)
     {
         isJump = true;
         commonInfomation_->gravity.Set_Current(-28);
         commonInfomation_->collider.Set_IsActive(false);
     }
+
+    static bool isFirst{};
+
+    if (commonInfomation_->position.y >= k && isFirst == false)
+    {
+        isFirst = true;
+
+        for (size_t i = 0; i < 21; i++)
+        {
+            static int32_t rot{};
+
+            Vector2 mv = CollisionChecker::RotateVec2({ -1,0 }, Util::Degree2Radian((float)rot));
+            Vector2 pPos = { commonInfomation_->position.x, k + 8.f};
+            Vector2 posA = pPos + mv * 2000;
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posA);
+            rot += 9;
+        }
+    }
+
+    //const float k = 940.f;
+    //if (commonInfomation_->position.y >= k)
+    //{
+    //    static int32_t frame{};
+    //    frame++;
+
+    //    if (frame == 0 || frame % 10 == 0)
+    //    {
+    //        Vector2 pPos = { commonInfomation_->position.x, k };
+    //        Vector2 mv = { Util::GetRandomFloat(-1,1), -1 };
+
+    //        Vector2 posA = pPos + mv * 1000;
+    //        Vector2 posB = pPos + mv * 1000;
+    //        Vector2 posC = pPos + mv * 1000;
+    //        Vector2 posD = pPos + mv * 1000;
+    //        Vector2 posE = pPos + mv * 1000;
+    //        ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posA);
+    //        ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posB);
+    //        ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posC);
+    //        ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posD);
+    //        ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posE);
+    //    }
+    //}
 
     commonInfomation_->sprite_player->SetRotation(commonInfomation_->rotate);
 

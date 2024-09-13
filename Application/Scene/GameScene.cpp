@@ -47,7 +47,7 @@ void GameScene::Initialize()
 
 	sound_ = Sound::GetInstance();
 
-	bgm_ = sound_->LoadWave("Resources/Sound/Beast-From-Hell_loop.wav", 0.5f);
+	bgm_ = sound_->LoadWave("Resources/Sound/Beast-From-Hell_loop.wav", 0.15f);
 
 	IsPlayBgm_ = false;
 
@@ -71,7 +71,7 @@ void GameScene::Update()
         particleManPtr_->AddParticle(std::make_unique<TrajectoryParticle>(), { 500,500 });
     }
 
-	if (player_.Get_IsDead())
+	if (player_.Get_IsAllDead())
 	{
 		// 徐々に暗くなる
 		float4 color;
