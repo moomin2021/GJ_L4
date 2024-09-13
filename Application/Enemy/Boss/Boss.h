@@ -5,6 +5,7 @@
 #include "float4.h"
 #include "TimeManager.h"
 #include "Util.h"
+#include "Sound.h"
 
 #include "Collision/M_ColliderManager.h"
 #include "BossCol.h"
@@ -18,6 +19,10 @@ class Boss
 private:
 	// 時間管理クラス
 	TimeManager* timeMgrPtr_ = nullptr;
+
+	// サウンド
+	Sound* soundPtr_ = nullptr;
+	uint16_t wallHitSE_ = 0;
 
 	// 当たり判定管理クラス
 	M_ColliderManager* pColMgr_ = nullptr;

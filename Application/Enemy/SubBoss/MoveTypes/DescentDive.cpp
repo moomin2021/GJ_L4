@@ -19,6 +19,8 @@ void DescentDive::Initialize(SubBossInfo* info)
 	diveInfo_.maxSpd_ = 400.0f;
 
 	moveStage_ = 1;
+
+	rashSound_ = info->soundPtr->LoadWave("Resources/Sound/SubBossDash.wav", 0.6f);
 }
 
 void DescentDive::Update(SubBossInfo* info)
@@ -96,6 +98,8 @@ void DescentDive::Update(SubBossInfo* info)
 			info->collider.Data_Add("Damage", 5.0f);
 			// シェイク設定
 			info->cameraPtr->SetShake(Vector2(10.0f, 10.0f), 1.0f);
+			// サウンド再生
+			info->soundPtr->Play(rashSound_);
 			return;
 		}
 
