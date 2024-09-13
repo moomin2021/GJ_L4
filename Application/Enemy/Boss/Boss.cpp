@@ -9,6 +9,9 @@ Boss::Boss() : bossColCenter_(4), bossColLength_(4), bossCol_(4), crackTextures_
 
 void Boss::Initialize(M_ColliderManager* colMgrPtr)
 {
+	// 時間管理クラスインスタンスを取得
+	timeMgrPtr_ = TimeManager::GetInstance();
+
 	// 当たり判定管理クラスのポインタを受け取る
 	pColMgr_ = colMgrPtr;
 
@@ -57,12 +60,24 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	for (size_t i = 0; i < 4; i++) {
 		bossCol_[i].Initialize(this, colMgrPtr, bossColCenter_[i], bossColLength_[i], i);
 	}
+
+	// ボスの顔関連
+	bossFaceSprite_ = std::make_unique<Sprite>();
+	bossFaceSprite_->SetPosition({ 960.0f, 1020.0f });
+	bossFaceSprite_->SetSize({ 200.0f, 38.0f });
+	bossFaceSprite_->SetAnchorPoint({ 0.5f, 0.5f });
+	// テクスチャ読み込み
+	bossFaceTextures_.resize(2);
+	bossFaceTextures_ = LoadDivTexture("bossFace.png", 2);
+	bossFaceTextures_.emplace_back(LoadTexture("bossCryFace.png"));
+	bossFaceTextures_.emplace_back(LoadTexture("bossDeadCryFace.png"));
 }
 
 void Boss::Update()
 {
 	for (auto& it : bossCol_) it.Update();
 	ColorUpdate();
+	UpdateFaceAnimation();
 }
 
 void Boss::MatUpdate()
@@ -70,12 +85,14 @@ void Boss::MatUpdate()
 	bossS_->MatUpdate();
 	crackS_->MatUpdate();
 	for (auto& it : bossCol_) it.MatUpdate();
+	bossFaceSprite_->MatUpdate();
 }
 
 void Boss::Draw()
 {
 	bossS_->Draw(bossT_);
 	crackS_->Draw(crackT_);
+	bossFaceSprite_->Draw(bossFaceTextures_[nowBossFaceTexture_]);
 
 	// デバック
 	for (auto& it : bossCol_) it.Draw(isDisplayCol_);
@@ -113,6 +130,15 @@ void Boss::AddDamage(float damage)
 		crackT_ = crackTextures_[0];
 		crackS_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	}
+
+	isCry_ = true;
+	faceCryTime_.elapsedTime = 0.0f;
+	nowBossFaceTexture_ = 2;
+
+	if (nowHP_ <= 0.0f) {
+		isDeadCry_ = true;
+		nowBossFaceTexture_ = 3;
+	}
 }
 
 void Boss::ColorUpdate()
@@ -128,4 +154,27 @@ void Boss::ColorUpdate()
 	nowColor.w = 1.0f;
 	// 色の設定
 	bossS_->SetColor(nowColor);
+}
+
+void Boss::UpdateFaceAnimation()
+{
+	if (isDeadCry_) return;
+
+	if (isCry_) {
+		faceCryTime_.elapsedTime += timeMgrPtr_->GetGameDeltaTime();
+		if (faceCryTime_.GetIsExceeded()) {
+			isCry_ = false;
+			nowBossFaceTexture_ = 0;
+		}
+	}
+
+	else {
+		// 時間加算
+		faceAnimationTime_.elapsedTime += timeMgrPtr_->GetGameDeltaTime();
+		if (faceAnimationTime_.GetIsExceeded()) {
+			faceAnimationTime_.elapsedTime = 0.0f;
+			if (nowBossFaceTexture_ == 0) nowBossFaceTexture_ = 1;
+			else if (nowBossFaceTexture_ == 1) nowBossFaceTexture_ = 0;
+		}
+	}
 }

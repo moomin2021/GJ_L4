@@ -3,6 +3,8 @@
 #include "Sprite.h"
 #include "Vector2.h"
 #include "float4.h"
+#include "TimeManager.h"
+#include "Util.h"
 
 #include "Collision/M_ColliderManager.h"
 #include "BossCol.h"
@@ -14,6 +16,9 @@ class Boss
 {
 #pragma region メンバ変数
 private:
+	// 時間管理クラス
+	TimeManager* timeMgrPtr_ = nullptr;
+
 	// 当たり判定管理クラス
 	M_ColliderManager* pColMgr_ = nullptr;
 
@@ -41,6 +46,15 @@ private:
 	// 色関連
 	float4 startColor_ = float4(1.0f, 1.0f, 1.0f, 1.0f);
 	float4 endColor_ = float4(0.7f, 0.3f, 0.3f, 1.0f);
+
+	// ボスの顔関連
+	std::unique_ptr<Sprite> bossFaceSprite_ = nullptr;
+	uint16_t nowBossFaceTexture_ = 0;
+	std::vector<uint16_t> bossFaceTextures_ = {};
+	Util::TimeInfo faceAnimationTime_ = { 1.0f, 0.0f };
+	bool isCry_ = false;
+	Util::TimeInfo faceCryTime_ = { 0.5f, 0.6f };
+	bool isDeadCry_ = false;
 #pragma endregion
 
 #pragma region メンバ関数
@@ -62,6 +76,9 @@ public:
 
 	// 色の更新
 	void ColorUpdate();
+
+	// 顔のアニメーション更新処理
+	void UpdateFaceAnimation();
 
 private:
 	

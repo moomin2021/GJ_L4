@@ -50,6 +50,8 @@ void PlayerBehaviorMachine::NextStateCheck(void)
 
 void PlayerBehaviorMachine::BehaviorInput(void)
 {
+    if (ptr_playerCommonInfomation_->get()->health_current <= 0) { return; }
+
     std::string strBehavior{};
     auto behavior = Get_Behavior();
     bool canJump = ptr_playerCommonInfomation_->get()->move.can_jump;

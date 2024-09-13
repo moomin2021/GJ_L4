@@ -47,6 +47,8 @@ struct PlayerCommonInfomation
     // Player
     float kHealth_max = 100;
     float kSp_max = 10;
+    Vector2 kDeadParticleMoveVec1 = { 0,-1 };
+    Vector2 kDeadParticleMoveVec2 = { -1,-1 };
     
     // Move
     float kMoveSpeed = 100.f;
