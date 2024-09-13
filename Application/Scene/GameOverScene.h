@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Sprite.h"
 #include <memory>
+#include "Sound.h"
 
 class GameOverScene : public BaseScene
 {
@@ -27,6 +28,10 @@ private:
 
 	bool IsChageScene_ = false;
 	bool IsStartScene_ = false;
+
+	Sound* sound_ = nullptr;
+
+	uint16_t buttonSE_;
 
 public:
 	// コンストラクタとデストラクタ
