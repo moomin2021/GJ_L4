@@ -74,4 +74,11 @@ void PlayerBehavior_Attack::Exit(void)
 
 void PlayerBehavior_Attack::Callback(void)
 {
+    if (collider_attack_.IsTrigger_Name("Minion"))
+    {
+        std::vector<ICollider*> minionColliders = collider_attack_.Extract_Colliders<std::vector>("Minion");
+        size_t sp = minionColliders.size() + minionColliders.size() / 2;
+        commonInfomation_->sp_current += (float)sp;
+        commonInfomation_->sp_current = (std::min)(commonInfomation_->sp_current, commonInfomation_->kSp_max);
+    }
 }

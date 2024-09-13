@@ -158,7 +158,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
 
     commonInfomation_->Input();
     commonInfomation_->health_current = commonInfomation_->kHealth_max;
-    commonInfomation_->sp_current = commonInfomation_->kSp_max;
+    commonInfomation_->sp_current = 0;
 }
 
 void Player::Update(void)
@@ -275,6 +275,8 @@ void Player::Update(void)
         if (operationButtons_[i] == false) { continue; }
         timer_lightUpButtons_[i] += TimeManager::GetInstance()->GetGameDeltaTime();
     }
+
+    commonInfomation_->sp_current = (std::min)(commonInfomation_->sp_current, commonInfomation_->kSp_max);
 
     FlashingUpdate();
     InvincibleUpdate();

@@ -89,9 +89,10 @@ void PlayerBehaviorMachine::BehaviorInput(void)
             return;
         }
 
+        bool isChargeSP = ptr_playerCommonInfomation_->get()->sp_current >= ptr_playerCommonInfomation_->get()->kSp_max;
         bool isSpecial{};
-        isSpecial = ptr_key->TriggerKey(keyBind.special);
-        isSpecial = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.special), isSpecial);
+        isSpecial = ptr_key->TriggerKey(keyBind.special) && isChargeSP;
+        isSpecial = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.special) && isChargeSP, isSpecial);
         if (isSpecial)
         {
             strBehavior += "PB_SPECIAL";
@@ -128,9 +129,10 @@ void PlayerBehaviorMachine::BehaviorInput(void)
             return;
         }
 
+        bool isChargeSP = ptr_playerCommonInfomation_->get()->sp_current >= ptr_playerCommonInfomation_->get()->kSp_max;
         bool isSpecial{};
-        isSpecial = ptr_key->TriggerKey(keyBind.special);
-        isSpecial = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.special), isSpecial);
+        isSpecial = ptr_key->TriggerKey(keyBind.special) && isChargeSP;
+        isSpecial = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.special) && isChargeSP, isSpecial);
         if (isSpecial)
         {
             strBehavior += "PB_SPECIAL";
@@ -176,9 +178,10 @@ void PlayerBehaviorMachine::BehaviorInput(void)
             return;
         }
 
+        bool isChargeSP = ptr_playerCommonInfomation_->get()->sp_current >= ptr_playerCommonInfomation_->get()->kSp_max;
         bool isSpecial{};
-        isSpecial = ptr_key->TriggerKey(keyBind.special);
-        isSpecial = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.special), isSpecial);
+        isSpecial = ptr_key->TriggerKey(keyBind.special) && isChargeSP;
+        isSpecial = (std::max)(ptr_pad->GetTriggerButton((BUTTON)controllerBind.special) && isChargeSP, isSpecial);
         if (isSpecial)
         {
             strBehavior += "PB_SPECIAL";
