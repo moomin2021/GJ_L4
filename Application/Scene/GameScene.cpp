@@ -47,7 +47,7 @@ void GameScene::Initialize()
 
 	sound_ = Sound::GetInstance();
 
-	bgm_ = sound_->LoadWave("Resources/Sound/Beast-From-Hell_loop.wav", 0.5f);
+	bgm_ = sound_->LoadWave("Resources/Sound/Beast-From-Hell_loop.wav", 0.15f);
 
 	IsPlayBgm_ = false;
 
