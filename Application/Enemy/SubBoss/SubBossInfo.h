@@ -6,6 +6,7 @@
 
 class Player;
 class MinionFactory;
+class EnemyManager;
 struct SubBossInfo {
 	// 座標とサイズと回転度
 	Vector2 position = Vector2();	// サブボスの座標
@@ -30,6 +31,9 @@ struct SubBossInfo {
 
 	// プレイヤーのポインタ
 	Player* playerPtr = nullptr;
+
+	// 敵管理クラスポインタ
+	EnemyManager* enemyMgrPtr = nullptr;
 
 	// カメラのポインタ
 	Camera* cameraPtr = nullptr;

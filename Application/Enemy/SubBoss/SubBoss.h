@@ -19,6 +19,7 @@ enum class SubBossStateType {
 
 class Player;
 class MinionFactory;
+class EnemyManager;
 class SubBoss
 {
 #pragma region メンバ変数
@@ -61,7 +62,7 @@ public:
 	~SubBoss() {}
 
 	// 基本処理
-	void Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr);
+	void Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr, EnemyManager* enemyMgrPtr);
 	void Update();
 	void MatUpdate();
 	void Draw();
@@ -70,7 +71,7 @@ public:
 
 private:
 	// サブボスの情報の初期化処理
-	void InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr);
+	void InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr, EnemyManager* enemyMgrPtr);
 
 	// 状態別処理
 	static void (SubBoss::* stateTable[]) ();

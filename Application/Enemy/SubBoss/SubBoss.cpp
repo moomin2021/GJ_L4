@@ -12,13 +12,13 @@
 
 SubBoss::SubBoss() : subBossTextures_(3) {}
 
-void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr)
+void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr, EnemyManager* enemyMgrPtr)
 {
 	// プレイヤーのポインタ受取
 	subBossInfo_.playerPtr = playerPtr;
 
 	// サブボスの情報の初期化処理
-	InitializeSubBossInfo(colMgrPtr, cameraPtr, minionFactoryPtr);
+	InitializeSubBossInfo(colMgrPtr, cameraPtr, minionFactoryPtr, enemyMgrPtr);
 
 	// サブボス描画関連
 	// スプライトの生成、設定
@@ -133,7 +133,7 @@ void SubBoss::ImGuiUpdate()
 	if (imgui->Button("攻撃状態へ")) DebugStartAttack();
 }
 
-void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr)
+void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr, EnemyManager* enemyMgrPtr)
 {
 	// 座標とサイズと回転度の設定
 	subBossInfo_.position = Vector2(960.0f, 400.0f);
@@ -152,6 +152,9 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* camera
 
 	// カメラの設定
 	subBossInfo_.cameraPtr = cameraPtr;
+
+	// 敵管理クラスポインタ受取
+	subBossInfo_.enemyMgrPtr = enemyMgrPtr;
 
 	// 生成器のポインタ受取
 	subBossInfo_.minionFactoryPtr = minionFactoryPtr;

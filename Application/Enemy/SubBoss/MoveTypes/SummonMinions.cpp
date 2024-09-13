@@ -2,6 +2,7 @@
 #include "TimeManager.h"
 #include "Easing.h"
 #include "Minion/MinionFactory.h"
+#include "EnemyManager.h"
 
 using namespace EnemyStatus;
 
@@ -55,6 +56,14 @@ void SummonMinions::Update(SubBossInfo* info)
 			stage2Time_.elapsedTime = 0.0f;
 			float rndX = Util::GetRandomFloat(-50.0f, 50.0f);
 			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Follower, MinionState::Spawn, Vector2(rndX, 400.0f));
+		}
+	}
+
+	// 待機
+	else if (moveStage_ == 3) {
+		if (info->enemyMgrPtr->GetMinionAmount() <= 0) {
+			moveStage_++;
+			isAttackEnd_ = true;
 		}
 	}
 }
