@@ -31,6 +31,7 @@ public:
     void Set_Behavior(PlayerBehavior arg_nextBehavior) { behavior_next_ = arg_nextBehavior; }
 
     PlayerBehavior Get_Behavior(void) { return behavior_current_; }
+    PlayerBehavior Get_NextBehavior(void) { return behavior_next_; }
     IPlayerBehavior* Get_PlayerBehaviorPtr(void) { return statePtr_.get(); }
     std::vector<std::string>& Get_ImGui_BehaviorLog(void) { return behaviorLog_; }
 };

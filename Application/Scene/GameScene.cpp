@@ -63,6 +63,7 @@ void GameScene::Update()
 		IsPlayBgm_ = true;
 	}
 
+#ifdef _DEBUG
 	if (key_->TriggerKey(DIK_Q)) {
 		sceneIf_->ChangeScene(Scene::TITLE);
 	}
@@ -70,6 +71,7 @@ void GameScene::Update()
     if (key_->TriggerKey(DIK_N)) {
         particleManPtr_->AddParticle(std::make_unique<TrajectoryParticle>(), { 500,500 });
     }
+#endif // _DEBUG
 
 	if (player_.Get_IsAllDead())
 	{

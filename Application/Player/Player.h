@@ -7,6 +7,8 @@
 #include <vector>
 #include <array>
 
+class PlayerBehavior_Special;
+
 class Player
 {
 public:
@@ -26,6 +28,8 @@ private:
     void InvincibleUpdate(void);
     void DeadBounceUpdate(void);
     void Callback(void);
+
+    friend PlayerBehavior_Special;
 
     PlayerBehaviorMachine behaviorMachine_;
     std::shared_ptr<PlayerCommonInfomation> commonInfomation_;

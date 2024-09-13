@@ -163,15 +163,18 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
 
 void Player::Update(void)
 {
+#ifdef _DEBUG
     if (Key::GetInstance()->TriggerKey(DIK_R)) { commonInfomation_->Input(); }
     if (Key::GetInstance()->TriggerKey(DIK_O)) { commonInfomation_->Output(); }
     if (Key::GetInstance()->TriggerKey(DIK_H)) { Damage(20); }
     if (Key::GetInstance()->TriggerKey(DIK_J)) { UseSP(5); }
+#endif // _DEBUG
 
     // 移動記録の更新
     commonInfomation_->move.Update();
     // 状態管理クラスの更新
     behaviorMachine_.Update();
+    if (behaviorMachine_.Get_NextBehavior() == PB_SPECIAL) { UseSP(10); }
 
     // Sprite|プレイヤーの座標更新
     commonInfomation_->sprite_player->SetPosition(commonInfomation_->position);
@@ -500,6 +503,7 @@ void Player::UseSP(float arg_sp)
 
     // 現在HPから差し引く
     commonInfomation_->sp_current -= arg_sp;
+    commonInfomation_->sp_current = (std::max)(commonInfomation_->sp_current, 0.f);
 }
 
 void Player::FlashingUpdate(void)
@@ -561,7 +565,7 @@ void Player::DeadBounceUpdate(void)
 
     static bool isJump{};
 
-        const float k = 935.f;
+    const float k = 935.f;
     if (isJump == false)
     {
         isJump = true;
@@ -580,7 +584,7 @@ void Player::DeadBounceUpdate(void)
             static int32_t rot{};
 
             Vector2 mv = CollisionChecker::RotateVec2({ -1,0 }, Util::Degree2Radian((float)rot));
-            Vector2 pPos = { commonInfomation_->position.x, k + 8.f};
+            Vector2 pPos = { commonInfomation_->position.x, k + 8.f };
             Vector2 posA = pPos + mv * 2000;
             ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posA);
             rot += 9;
