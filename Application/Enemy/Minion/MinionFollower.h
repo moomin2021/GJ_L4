@@ -29,6 +29,8 @@ private:
 	// 死ぬまでの時間
 	float nowTime_ = 0.0f;
 	float aliveTime_ = 4.0f;
+
+    int32_t particleFrame_{};
 #pragma endregion
 
 #pragma region メンバ関数

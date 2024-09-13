@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "Key.h"
 #include "SmokeEffect.h"
+#include "Util.h"
+#include "Trajectory.h"
 
 using namespace EnemyStatus;
 
@@ -34,6 +36,22 @@ void MinionLeader::Update()
 	sprites_[0]->SetRotation(backRotation_);
 	sprites_[1]->SetRotation(backRotation_);
 	sprites_[2]->SetRotation(frontRotation_);
+
+    // パーティクル出す
+    if (moveVec_.x != 0 || moveVec_.y != 0)
+    {
+        particleFrame_++;
+        if (particleFrame_ >= 2)
+        {
+            Vector2 pos = { stats_.position.x + Util::GetRandomFloat(-18,18), + stats_.position.y + Util::GetRandomFloat(-18,18) };
+            particleFrame_ = 0;
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), pos);
+            Vector2 pos2 = { stats_.position.x + Util::GetRandomFloat(-18,18), + stats_.position.y + Util::GetRandomFloat(-18,18) };
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), pos2);
+            //Vector2 pos3 = { position_.x + Util::GetRandomFloat(-18,18), +position_.y + Util::GetRandomFloat(-18,18) };
+            //ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), pos3);
+        }
+    }
 }
 
 void MinionLeader::MatUpdate()
