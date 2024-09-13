@@ -2,6 +2,7 @@
 #include "M_RectCollider.h"
 #include "CollisionChecker.h"
 #include "Player.h"
+#include "Easing.h"
 #include "SmokeEffect.h"
 #include "Util.h"
 #include "Trajectory.h"
@@ -18,6 +19,13 @@ void MinionFollower::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus:
 	std::string name = "Minion";
 	auto callback = std::bind(&MinionFollower::CollisionCallBack, this);
 	collider_.Initialize(name, callback, colMgrPtr);
+
+	// ターゲット
+	float rndX = Util::GetRandomFloat(-50.0f, 50.0f);
+	float rndY = Util::GetRandomFloat(-50.0f, 50.0f);
+	lastTargetPos_ = stats_.position;
+	targetPos_.x = stats_.position.x + rndX;
+	targetPos_.y = 700.0f + rndY;
 }
 
 void MinionFollower::Update()
@@ -72,16 +80,21 @@ void MinionFollower::Finalize()
 
 void MinionFollower::UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>>& others, const std::vector<std::unique_ptr<BaseMinion>>& leaders)
 {
+	// 通常状態以外なら処理を飛ばす
+	if (stats_.state != MinionState::Normal) return;
+
 	Vector2 sep = Separate(others);
 	Vector2 ali = Align(others);
 	Vector2 coh = Cohesion(others);
-	Vector2 followLeader = FollowNearestLeader(leaders);  // 近いリーダーを追従
+	Vector2 followLeader = Vector2();  // 近いリーダーを追従
+	if (leaders.size() == 0) followLeader = TargetPlayer(data_->playerPtr->Get_CommonInfomation()->position);
+	else followLeader = FollowNearestLeader(leaders);
 
 	// 重み付けして加速度に加える
-	stats_.acceleration += sep * 100.0f;
+	stats_.acceleration += sep * 70.0f;
 	stats_.acceleration += ali;
 	stats_.acceleration += coh;
-	stats_.acceleration += followLeader * 1.0f;  // リーダー追従は強め
+	stats_.acceleration += followLeader * 2.0f;  // リーダー追従は強め
 
 	// 速度に加速度を加算して位置を更新
 	stats_.velocity += stats_.acceleration;
@@ -103,8 +116,15 @@ void MinionFollower::CollisionCallBack()
 
 	// 壁と天井の衝突判定
 	for (size_t i = 0; i < 4; i++) {
+		if (stats_.state == MinionState::KnockBack) break;
+
 		// 壁か天井と当たったら
 		if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
+			// 押し出し処理
+			ICollider* hitCol = collider_.Extract_Collider("Boss" + std::to_string(i));
+			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
+			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
+			stats_.position += pushBack;
 			isWallCol = true;
 			wallName = "Boss" + std::to_string(i);
 		}
@@ -197,6 +217,16 @@ void MinionFollower::CollisionCallBack()
 			collider_.Data_Add("Damage", 20.0f);
 		}
 	}
+
+	// スプライトの更新
+	for (auto& it : sprites_) {
+		it->SetPosition(stats_.position);
+	}
+
+	if (stats_.position.y >= 2100.0f) stats_.isAlive = false;
+
+	// コライダーの更新
+	collider_.circle_.center = sprites_[0]->GetPosition();
 }
 
 void MinionFollower::MoveUpdate()
@@ -217,6 +247,8 @@ void (MinionFollower::* MinionFollower::stateTable[]) () = {
 	&MinionFollower::FirstBeaten,
 	&MinionFollower::KnockBack,
 	&MinionFollower::SecondBeaten,
+	&MinionFollower::MoveX,
+	&MinionFollower::Spawn,
 };
 
 void MinionFollower::Normal()
@@ -256,6 +288,26 @@ void MinionFollower::SecondBeaten()
 	stats_.position += moveVec_ * moveSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
 	backRotation_ += backRotaSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
 	collider_.circle_.center = stats_.position;
+}
+
+void MinionFollower::MoveX()
+{
+}
+
+void MinionFollower::Spawn()
+{
+	spawnTime_.elapsedTime += data_->timeMgrPtr->GetGameDeltaTime();
+
+	float rate = spawnTime_.GetElapsedRatio();
+	stats_.position.x = Easing::Quint::easeOut(lastTargetPos_.x, targetPos_.x, rate);
+	stats_.position.y = Easing::Quint::easeOut(lastTargetPos_.y, targetPos_.y, rate);
+
+	if (spawnTime_.GetIsExceeded()) {
+		stats_.state = MinionState::Normal;
+		if (stats_.position.x >= 960.0f) stateMoveXAcc_.x = -100.0f;
+		else stateMoveXAcc_.x = 100.0f;
+		stats_.acceleration = Vector2();
+	}
 }
 
 Vector2 MinionFollower::Separate(const std::vector<std::unique_ptr<BaseMinion>>& others)
@@ -329,6 +381,11 @@ Vector2 MinionFollower::FollowNearestLeader(const std::vector<std::unique_ptr<Ba
 	}
 
 	return Seek(nearestLeader->GetPosition());  // 近いリーダーに追従
+}
+
+Vector2 MinionFollower::TargetPlayer(const Vector2& playerPos)
+{
+	return Seek(playerPos);
 }
 
 Vector2 MinionFollower::Seek(const Vector2& target)

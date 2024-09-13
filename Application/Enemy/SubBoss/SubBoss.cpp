@@ -8,16 +8,17 @@
 #include "MoveTypes/DescentDive.h"
 #include "MoveTypes/StartIntro.h"
 #include "MoveTypes/EndGameOutro.h"
+#include "MoveTypes/SummonMinions.h"
 
 SubBoss::SubBoss() : subBossTextures_(3) {}
 
-void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr)
+void SubBoss::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr, EnemyManager* enemyMgrPtr)
 {
 	// プレイヤーのポインタ受取
 	subBossInfo_.playerPtr = playerPtr;
 
 	// サブボスの情報の初期化処理
-	InitializeSubBossInfo(colMgrPtr, cameraPtr);
+	InitializeSubBossInfo(colMgrPtr, cameraPtr, minionFactoryPtr, enemyMgrPtr);
 
 	// サブボス描画関連
 	// スプライトの生成、設定
@@ -132,7 +133,7 @@ void SubBoss::ImGuiUpdate()
 	if (imgui->Button("攻撃状態へ")) DebugStartAttack();
 }
 
-void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr)
+void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr, EnemyManager* enemyMgrPtr)
 {
 	// 座標とサイズと回転度の設定
 	subBossInfo_.position = Vector2(960.0f, 400.0f);
@@ -151,6 +152,12 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* camera
 
 	// カメラの設定
 	subBossInfo_.cameraPtr = cameraPtr;
+
+	// 敵管理クラスポインタ受取
+	subBossInfo_.enemyMgrPtr = enemyMgrPtr;
+
+	// 生成器のポインタ受取
+	subBossInfo_.minionFactoryPtr = minionFactoryPtr;
 
 	// 行動の設定
 	currentMoveState_ = std::make_unique<StartIntro>();
@@ -208,6 +215,11 @@ void SubBoss::ChangeMove()
 		currentMoveState_->Initialize(&subBossInfo_);
 	}
 
+	else if (currentMoveType_ == SubBossMoveType::SummonMinions) {
+		currentMoveState_ = std::make_unique<SummonMinions>();
+		currentMoveState_->Initialize(&subBossInfo_);
+	}
+
 	// 状態の変更
 	currentStateType_ = SubBossStateType::Move;
 }
@@ -218,7 +230,7 @@ void SubBoss::MoveChance()
 	if (currentStateType_ != SubBossStateType::Wait) return;
 
 	// ランダムで行動を決める
-	size_t rnd = Util::GetRandomInt(2, 2);
+	size_t rnd = Util::GetRandomInt(2, 3);
 	currentMoveType_ = (SubBossMoveType)rnd;
 
 	// 行動の生成
@@ -238,6 +250,10 @@ void SubBoss::DebugStartAttack()
 
 	else if (debugMoveTypeStr_ == "EndGameOutro") {
 		currentMoveType_ = SubBossMoveType::EndGameOutro;
+	}
+
+	else if (debugMoveTypeStr_ == "SummonMinions") {
+		currentMoveType_ = SubBossMoveType::SummonMinions;
 	}
 
 	ChangeMove();
