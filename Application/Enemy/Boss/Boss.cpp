@@ -12,6 +12,10 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 	// 時間管理クラスインスタンスを取得
 	timeMgrPtr_ = TimeManager::GetInstance();
 
+	// サウンドインスタンス取得
+	soundPtr_ = Sound::GetInstance();
+	wallHitSE_ = soundPtr_->LoadWave("Resources/Sound/WallHit.wav", 0.6f);
+
 	// 当たり判定管理クラスのポインタを受け取る
 	pColMgr_ = colMgrPtr;
 
@@ -139,6 +143,8 @@ void Boss::AddDamage(float damage)
 		isDeadCry_ = true;
 		nowBossFaceTexture_ = 3;
 	}
+
+	soundPtr_->Play(wallHitSE_);
 }
 
 void Boss::ColorUpdate()
