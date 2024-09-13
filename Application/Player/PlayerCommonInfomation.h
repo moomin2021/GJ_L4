@@ -7,6 +7,7 @@
 #include "TimeManager.h"
 #include "Direction.h"
 #include "Move.h"
+#include "Sound.h"
 
 struct Keyboard_Bind
 {
@@ -157,6 +158,10 @@ struct PlayerCommonInfomation
 
     Keyboard_Bind keyBind;
     Controller_Bind controllerBind;
+
+    // sound
+    uint16_t sound_jump{};
+    Sound* soundManagerPtr{};
 
     void Update(void);
 };

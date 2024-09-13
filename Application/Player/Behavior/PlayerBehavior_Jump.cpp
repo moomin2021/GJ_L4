@@ -3,6 +3,7 @@
 void PlayerBehavior_Jump::Entry(void)
 {
     Jump();
+    commonInfomation_->soundManagerPtr->Play(commonInfomation_->sound_jump,false);
 }
 
 void PlayerBehavior_Jump::Execute(void)
@@ -11,6 +12,7 @@ void PlayerBehavior_Jump::Execute(void)
 
 void PlayerBehavior_Jump::Exit(void)
 {
+    commonInfomation_->soundManagerPtr->Stop(commonInfomation_->sound_jump);
 }
 
 void PlayerBehavior_Jump::Jump(void)
