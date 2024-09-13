@@ -64,11 +64,6 @@ void MinionFollower::UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>
 	// 通常状態以外なら処理を飛ばす
 	if (stats_.state != MinionState::Normal) return;
 
-	// リーダーがいないならプレイヤーに追従
-	if (leaders.size() == 0) {
-
-	}
-
 	Vector2 sep = Separate(others);
 	Vector2 ali = Align(others);
 	Vector2 coh = Cohesion(others);
