@@ -9,6 +9,7 @@
 #include "Util.h"
 #include "Easing.h"
 #include "TimeManager.h"
+#include "Mouse.h"
 
 Player::~Player(void)
 {
@@ -369,6 +370,8 @@ void Player::DrawImGUi(void)
     imgui->EndWindow();
 
     imgui->BeginWindow("player_status");
+    ImGui::Text("mouse: [%f][%f]", Mouse::GetInstance()->MousePos().x, Mouse::GetInstance()->MousePos().y);
+
     ImGui::SliderFloat("kMoveSpeed", &commonInfomation_->kMoveSpeed, 0, 500);
 
     ImGui::SliderFloat("kGravity_max", &commonInfomation_->kGravity_max, 0, 100);

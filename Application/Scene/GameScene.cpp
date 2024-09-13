@@ -2,6 +2,7 @@
 #include "PipelineManager.h"
 #include "Texture.h"
 #include "SmokeParticle.h"
+#include "Trajectory.h"
 
 GameScene::GameScene(IScene* sceneIf) : BaseScene(sceneIf) {}
 
@@ -53,6 +54,10 @@ void GameScene::Update()
 		sceneIf_->ChangeScene(Scene::TITLE);
 	}
 
+    if (key_->TriggerKey(DIK_N)) {
+        particleManPtr_->AddParticle(std::make_unique<TrajectoryParticle>(), { 500,500 });
+    }
+
     particleManPtr_->Update();
 
 	// 各クラス更新処理
@@ -88,11 +93,11 @@ void GameScene::Draw()
 	// 背景の描画
 	backGroundSprite_->Draw(backGroundTex);
 
+    particleManPtr_->Draw();
 	// 各クラス描画処理
 	enemyMgr_->Draw();
     player_.Draw();
 
-    particleManPtr_->Draw();
 }
 
 void GameScene::Finalize()
