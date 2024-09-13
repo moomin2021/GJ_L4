@@ -45,9 +45,9 @@ void BossCol::Draw(bool isDebug)
 void BossCol::CollisionCallBack()
 {
 	// 敵と衝突したらダメージを受ける
-	if (collider_.IsDetect_Name("FloatingEnemy")) {
+	if (collider_.IsDetect_Name("Minion")) {
 		// 敵のコライダーを取得
-		ICollider* hitCol = collider_.Extract_Collider("FloatingEnemy");
+		ICollider* hitCol = collider_.Extract_Collider("Minion");
 		float damage = hitCol->Data_Get<float>("Damage");
 		pBoss_->AddDamage(damage);
 	}
