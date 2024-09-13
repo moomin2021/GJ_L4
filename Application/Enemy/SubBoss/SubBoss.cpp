@@ -8,6 +8,7 @@
 #include "MoveTypes/DescentDive.h"
 #include "MoveTypes/StartIntro.h"
 #include "MoveTypes/EndGameOutro.h"
+#include "MoveTypes/SummonMinions.h"
 
 SubBoss::SubBoss() : subBossTextures_(3) {}
 
@@ -211,6 +212,11 @@ void SubBoss::ChangeMove()
 		currentMoveState_->Initialize(&subBossInfo_);
 	}
 
+	else if (currentMoveType_ == SubBossMoveType::SummonMinions) {
+		currentMoveState_ = std::make_unique<SummonMinions>();
+		currentMoveState_->Initialize(&subBossInfo_);
+	}
+
 	// 状態の変更
 	currentStateType_ = SubBossStateType::Move;
 }
@@ -221,7 +227,7 @@ void SubBoss::MoveChance()
 	if (currentStateType_ != SubBossStateType::Wait) return;
 
 	// ランダムで行動を決める
-	size_t rnd = Util::GetRandomInt(2, 2);
+	size_t rnd = Util::GetRandomInt(2, 3);
 	currentMoveType_ = (SubBossMoveType)rnd;
 
 	// 行動の生成
@@ -241,6 +247,10 @@ void SubBoss::DebugStartAttack()
 
 	else if (debugMoveTypeStr_ == "EndGameOutro") {
 		currentMoveType_ = SubBossMoveType::EndGameOutro;
+	}
+
+	else if (debugMoveTypeStr_ == "SummonMinions") {
+		currentMoveType_ = SubBossMoveType::SummonMinions;
 	}
 
 	ChangeMove();

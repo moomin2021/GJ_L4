@@ -46,7 +46,7 @@ private:
 	bool isDebug_ = false;
 	std::unique_ptr<Sprite> colSprite_ = nullptr;
 	uint16_t debugTexture_ = 0;
-	std::string debugMoveTypeStr_ = "DescentDive";
+	std::string debugMoveTypeStr_ = "StartIntro";
 
 	// ダメージ関連
 	Util::TimeInfo damageTime_ = { 0.2f, 0.0f };

@@ -10,6 +10,7 @@ const std::vector<std::string> subBossMoveTypeStr = {
 	"StartIntro",
 	"EndGameOutro",
 	"DescentDive",
+	"SummonMinions",
 };
 
 // 攻撃タイプ
@@ -17,6 +18,7 @@ enum class SubBossMoveType {
 	StartIntro,
 	EndGameOutro,
 	DescentDive,
+	SummonMinions,
 };
 
 // ベースクラス
