@@ -50,6 +50,7 @@ void SummonMinions::Update(SubBossInfo* info)
 		if (stage2Time_.GetIsExceeded()) {
 			if (stage2Counter_ >= stage2MaxCount_) {
 				moveStage_++;
+				isAttackEnd_ = true;
 				return;
 			}
 			stage2Counter_++;

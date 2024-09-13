@@ -9,7 +9,7 @@ private:
 	Vector2 targetPos_ = Vector2();					// 目標の座標
 	Vector2 presetTargetPos_ = Vector2();			// 目標前の座標
 	// ステージ1で使う変数
-	Util::TimeInfo stage1Time_ = { 4.0f, 0.0f };	// ステージ1の時間
+	Util::TimeInfo stage1Time_ = { 2.0f, 0.0f };	// ステージ1の時間
 	Util::MovementInfo moveInfoS1_;					// 移動情報
 	// ステージ2で使う変数
 	Util::TimeInfo stage2Time_ = { 1.0f, 0.0f };	// ステージ2の時間
