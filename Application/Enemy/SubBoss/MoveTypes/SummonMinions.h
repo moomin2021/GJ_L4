@@ -11,8 +11,6 @@ private:
 	Vector2 lastTargetPos0_ = Vector2();			// 目標前座標
 	// ステージ1で使う変数
 	Util::TimeInfo stage1Time_ = { 1.0f, 0.0f };	// ステージ1の時間
-	float4 startEyeColor_ = { 0.0f, 0.0f, 0.0f, 0.0f };// 目の色の開始数値
-	float4 endEyeColor_ = { 1.0f, 1.0f, 1.0f, 1.0f };	// 目の色の終了数値
 #pragma endregion
 
 #pragma region メンバ関数

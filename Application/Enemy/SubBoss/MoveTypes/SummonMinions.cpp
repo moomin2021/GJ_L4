@@ -1,6 +1,9 @@
 #include "SummonMinions.h"
 #include "TimeManager.h"
 #include "Easing.h"
+#include "Minion/MinionFactory.h"
+
+using namespace EnemyStatus;
 
 void SummonMinions::Initialize(SubBossInfo* info)
 {
@@ -25,6 +28,17 @@ void SummonMinions::Update(SubBossInfo* info)
 		info->position.y = Easing::Quint::easeOut(lastTargetPos0_.y, targetPos0_.y, rate);
 		// 時間を超えたら次の段階へ
 		if (stage0Time_.GetIsExceeded()) moveStage_++;
+	}
+
+	// リーダーの召喚
+	else if (moveStage_ == 1) {
+		// 時間の加算
+		stage0Time_.elapsedTime += timeMgr->GetGameDeltaTime();
+		// 時間を超えたら次の段階へ
+		if (stage0Time_.GetIsExceeded()) {
+			moveStage_++;
+			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Leader);
+		}
 	}
 }
 
