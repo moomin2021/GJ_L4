@@ -55,12 +55,16 @@ private:
 	// 移動の更新処理
 	void MoveUpdate();
 
+	// 
+
 	// 状態別処理
 	static void (MinionFollower::* stateTable[]) ();
 	void Normal();
 	void FirstBeaten();
 	void KnockBack();
 	void SecondBeaten();
+	void MoveX();
+	void Spawn();
 
 	// 分離行動
 	Vector2 Separate(const std::vector<std::unique_ptr<BaseMinion>>& others);

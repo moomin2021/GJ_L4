@@ -37,7 +37,7 @@ void SummonMinions::Update(SubBossInfo* info)
 		// 時間を超えたら次の段階へ
 		if (stage0Time_.GetIsExceeded()) {
 			moveStage_++;
-			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Leader);
+			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Leader, MinionState::Spawn, Vector2(0.0f, 400.0f));
 		}
 	}
 }

@@ -3,6 +3,7 @@
 #include "CollisionChecker.h"
 #include "Player.h"
 #include "Key.h"
+#include "Easing.h"
 
 using namespace EnemyStatus;
 
@@ -16,6 +17,10 @@ void MinionLeader::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::M
 	std::string name = "Minion";
 	auto callback = std::bind(&MinionLeader::CollisionCallBack, this);
 	collider_.Initialize(name, callback, colMgrPtr);
+
+	// ターゲット
+	lastTargetPos_ = stats_.position;
+	targetPos_.x = stats_.position.x;
 }
 
 void MinionLeader::Update()
@@ -169,6 +174,8 @@ void MinionLeader::MoveUpdate()
 	// 指数減衰を適用して減速させる
 	stats_.velocity.x *= exp(-stats_.dampingFactor * data_->timeMgrPtr->GetGameDeltaTime());
 	stats_.velocity.y *= exp(-stats_.dampingFactor * data_->timeMgrPtr->GetGameDeltaTime());
+
+	stats_.acceleration *= exp(-0.98f * data_->timeMgrPtr->GetGameDeltaTime());
 }
 
 void (MinionLeader::* MinionLeader::stateTable[]) () = {
@@ -176,12 +183,14 @@ void (MinionLeader::* MinionLeader::stateTable[]) () = {
 	& MinionLeader::FirstBeaten,
 	& MinionLeader::KnockBack,
 	& MinionLeader::SecondBeaten,
+	& MinionLeader::MoveX,
+	& MinionLeader::Spawn,
 };
 
 void MinionLeader::Normal()
 {
 	// 移動更新
-	MoveUpdate();
+	//MoveUpdate();
 }
 
 void MinionLeader::FirstBeaten()
@@ -215,4 +224,21 @@ void MinionLeader::SecondBeaten()
 	stats_.position += moveVec_ * moveSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
 	backRotation_ += backRotaSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
 	collider_.circle_.center = stats_.position;
+}
+
+void MinionLeader::MoveX()
+{
+}
+
+void MinionLeader::Spawn()
+{
+	spawnTime_.elapsedTime += data_->timeMgrPtr->GetGameDeltaTime();
+
+	float rate = spawnTime_.GetElapsedRatio();
+	stats_.position.x = Easing::Quint::easeOut(lastTargetPos_.x, targetPos_.x, rate);
+	stats_.position.y = Easing::Quint::easeOut(lastTargetPos_.y, targetPos_.y, rate);
+
+	if (spawnTime_.GetIsExceeded()) {
+		stats_.state = MinionState::MoveX;
+	}
 }

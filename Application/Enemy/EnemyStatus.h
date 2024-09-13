@@ -10,7 +10,9 @@ namespace EnemyStatus {
 		Normal,
 		FirstBeaten,
 		KnockBack,
-		SecondBeaten
+		SecondBeaten,
+		MoveX,
+		Spawn,
 	};
 
 	// 雑魚敵のタイプ

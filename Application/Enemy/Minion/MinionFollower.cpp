@@ -53,6 +53,9 @@ void MinionFollower::Finalize()
 
 void MinionFollower::UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>>& others, const std::vector<std::unique_ptr<BaseMinion>>& leaders)
 {
+	// 通常状態以外なら処理を飛ばす
+	if (stats_.state != MinionState::Normal) return;
+
 	Vector2 sep = Separate(others);
 	Vector2 ali = Align(others);
 	Vector2 coh = Cohesion(others);
@@ -187,6 +190,8 @@ void (MinionFollower::* MinionFollower::stateTable[]) () = {
 	&MinionFollower::FirstBeaten,
 	&MinionFollower::KnockBack,
 	&MinionFollower::SecondBeaten,
+	&MinionFollower::MoveX,
+	&MinionFollower::Spawn,
 };
 
 void MinionFollower::Normal()
@@ -226,6 +231,16 @@ void MinionFollower::SecondBeaten()
 	stats_.position += moveVec_ * moveSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
 	backRotation_ += backRotaSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
 	collider_.circle_.center = stats_.position;
+}
+
+void MinionFollower::MoveX()
+{
+}
+
+void MinionFollower::Spawn()
+{
+	// 移動更新
+	MoveUpdate();
 }
 
 Vector2 MinionFollower::Separate(const std::vector<std::unique_ptr<BaseMinion>>& others)
