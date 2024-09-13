@@ -28,7 +28,9 @@ void BaseMinion::MatUpdate()
 
 void BaseMinion::Draw()
 {
-	for (size_t i = 0; i < sprites_.size(); i++) sprites_[i]->Draw(data_->textures[i]);
+	if (isOutlineDraw_) sprites_[0]->Draw(data_->textures[0]);
+	sprites_[1]->Draw(data_->textures[1]);
+	sprites_[2]->Draw(data_->textures[2]);
 }
 
 void BaseMinion::Finalize()

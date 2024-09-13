@@ -24,6 +24,8 @@ protected:
 	float backRotation_ = 0.0f;
 	float frontRotation_ = 0.0f;
 
+	bool isOutlineDraw_ = true;
+
 	// スプライト
 	std::vector<std::unique_ptr<Sprite>> sprites_;
 	// コライダー

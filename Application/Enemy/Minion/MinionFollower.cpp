@@ -191,6 +191,8 @@ void MinionFollower::CollisionCallBack()
             moveSpd_ = knockFirstSpd_;
             backRotaSpd_ = knockFirstRotaSpd_;
 
+            isOutlineDraw_ = true;
+
             // ダメージの設定
             collider_.Data_Remove("Wall_Damage");
             collider_.Data_Add("Wall_Damage", 0.0f);
@@ -232,6 +234,7 @@ void MinionFollower::CollisionCallBack()
             collider_.Data_Add("Wall_Damage", 20.0f);
             collider_.Data_Remove("Player_Damage");
             collider_.Data_Add("Player_Damage", 0.0f);
+            isOutlineDraw_ = false;
         }
 
         // ノックバック状態なら
@@ -251,6 +254,7 @@ void MinionFollower::CollisionCallBack()
             // ダメージの設定
             collider_.Data_Remove("Wall_Damage");
             collider_.Data_Add("Wall_Damage", 20.0f);
+            isOutlineDraw_ = false;
         }
     }
 
@@ -292,6 +296,8 @@ void MinionFollower::Normal()
 {
     // 移動更新
     MoveUpdate();
+
+    backRotation_ += 300.0f * data_->timeMgrPtr->GetGameDeltaTime();
 }
 
 void MinionFollower::FirstBeaten()
