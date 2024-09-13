@@ -25,6 +25,8 @@ void PlayerBehavior_Attack::Entry(void)
 
     // 絵のずれをアンカーポイントで無理矢理補正
     commonInfomation_->sprite_player->SetAnchorPoint(commonInfomation_->kSprite_AnchorPoint_player_attack);
+
+    commonInfomation_->soundManagerPtr->Play(commonInfomation_->sound_swingStick);
 }
 
 void PlayerBehavior_Attack::Execute(void)
@@ -67,13 +69,9 @@ void PlayerBehavior_Attack::Exit(void)
 {
     // コライダー終了処理
     collider_attack_.Finalize();
+    commonInfomation_->soundManagerPtr->Stop(commonInfomation_->sound_swingStick);
 }
 
 void PlayerBehavior_Attack::Callback(void)
 {
-    if (collider_attack_.IsDetect_Name("FloatingEnemy_0"))
-    {
-        int a = 0;
-        a;
-    }
 }

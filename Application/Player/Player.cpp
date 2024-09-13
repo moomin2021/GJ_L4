@@ -13,6 +13,7 @@
 #include "ParticleMan.h"
 #include "DeadParticle.h"
 #include "CollisionChecker.h"
+#include "Sound.h"
 
 Player::~Player(void)
 {
@@ -41,7 +42,9 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_operationSheet_divide_ = LoadDivTexture("operationSheet_224x64.png", 3);
 
 
-
+    commonInfomation_->soundManagerPtr = Sound::GetInstance();
+    commonInfomation_->sound_jump = commonInfomation_->soundManagerPtr->LoadWave("Resources/Sound/se_powerup_004.wav", 0.5f);
+    commonInfomation_->sound_swingStick = commonInfomation_->soundManagerPtr->LoadWave("Resources/Sound/swingStick.wav", 0.5f);
 
     for (size_t i{}; i < 3; i++)
     {
@@ -714,10 +717,12 @@ void Player::Callback(void)
 
     if (myCol.IsTrigger_Name("Minion"))
     {
-        //ICollider* minionCol = myCol.Extract_Collider("Minion");
+        ICollider* minionCol = myCol.Extract_Collider("Minion");
+        float damage = minionCol->Data_Get<float>("Player_Damage");
 
         if (commonInfomation_->isInvincible == false)
         {
+            Damage(damage);
             commonInfomation_->isDamaged_ = true;
         }
     }
