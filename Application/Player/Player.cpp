@@ -726,10 +726,12 @@ void Player::Callback(void)
         ICollider* minionCol = myCol.Extract_Collider("Minion");
         float damage = minionCol->Data_Get<float>("Player_Damage");
 
-        if (commonInfomation_->isInvincible == false)
-        {
-            Damage(damage);
-            commonInfomation_->isDamaged_ = true;
+        if (damage > 0) {
+            if (commonInfomation_->isInvincible == false)
+            {
+                Damage(damage);
+                commonInfomation_->isDamaged_ = true;
+            }
         }
     }
 }
