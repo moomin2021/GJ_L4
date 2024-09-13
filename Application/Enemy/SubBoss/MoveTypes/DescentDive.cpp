@@ -21,6 +21,7 @@ void DescentDive::Initialize(SubBossInfo* info)
 	moveStage_ = 1;
 
 	rashSound_ = info->soundPtr->LoadWave("Resources/Sound/SubBossDash.wav", 0.6f);
+	trembleSound_ = info->soundPtr->LoadWave("Resources/Sound/Tremble.wav", 0.6f);
 }
 
 void DescentDive::Update(SubBossInfo* info)
@@ -45,7 +46,10 @@ void DescentDive::Update(SubBossInfo* info)
 		// 時間の加算
 		stage1Time_.elapsedTime += timeMgr->GetGameDeltaTime();
 		// 時間を超えたら次の段階へ
-		if (stage1Time_.GetIsExceeded()) moveStage_++;
+		if (stage1Time_.GetIsExceeded()) {
+			moveStage_++;
+			info->soundPtr->Play(trembleSound_);
+		}
 
 		// 移動方向の計算
 		Vector2 boss2PlayerVec = info->playerPtr->Get_CommonInfomation()->position - info->position;
@@ -77,6 +81,7 @@ void DescentDive::Update(SubBossInfo* info)
 		// 時間を超えたら次の段階へ
 		if (stage2Time_.GetIsExceeded()) {
 			info->shakeOffset = Vector2();
+			info->soundPtr->Stop(trembleSound_);
 			moveStage_++;
 			// ダメージの変更
 			info->collider.Data_Remove("Damage");

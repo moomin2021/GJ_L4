@@ -15,6 +15,10 @@ private:
 	Util::TimeInfo stage2Time_ = { 0.2f, 0.0f };
 	uint16_t stage2MaxCount_ = 10;
 	uint16_t stage2Counter_ = 0;
+
+	// サウンド
+	uint16_t leaderSpawnSound_ = 0;
+	uint16_t followerSpawnSound_ = 0;
 #pragma endregion
 
 #pragma region メンバ関数
