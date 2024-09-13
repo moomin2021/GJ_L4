@@ -36,9 +36,9 @@ private:
 
     float kTime_lightUpButton_max_ = 0.4f;
     std::array<float,3> timer_lightUpButtons_{};
-    int32_t png_operationSheet_{};
+    std::vector<uint16_t> png_operationSheet_{};
     std::vector<uint16_t> png_operationSheet_divide_{};
-    std::unique_ptr<Sprite> sprite_operationSheet_{};
+    std::array<std::unique_ptr<Sprite>, 3> sprite_operationSheet_{};
     std::array<std::unique_ptr<Sprite>, 3> sprite_operationSheet_divides_{};
     std::array<bool,3> operationButtons_{};
 
