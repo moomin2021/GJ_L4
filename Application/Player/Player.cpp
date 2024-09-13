@@ -33,22 +33,31 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_HPBar_content_shadow_ = LoadTexture("HpBarContentsShadow.png");
     png_SPBar_frame_ = LoadTexture("SpBarFrame.png");
     png_SPBar_content_ = LoadTexture("SpBarContents.png");
-    png_SPBar_content_shadow_ = LoadTexture("SpBarContentsShadow.png");
-    png_operationSheet_ = LoadTexture("operationSheet_224x64.png");
+    png_operationSheet_ = LoadDivTexture("operationSheet_224x64.png",3);
     png_operationSheet_divide_ = LoadDivTexture("operationSheet_224x64.png", 3);
 
-    sprite_operationSheet_ = std::make_unique<Sprite>();
-    sprite_operationSheet_->SetSize({ 672,64 });
-    sprite_operationSheet_->SetPosition({ 90,1000 });
-    sprite_operationSheet_->SetColor({ 1.0f, 1.0f, 1.0f, 0.4f });
+    
+
 
     for (size_t i{}; i < 3; i++)
     {
+        sprite_operationSheet_[i] = std::make_unique<Sprite>();
+        sprite_operationSheet_[i]->SetSize({ 224,64 });
+        sprite_operationSheet_[i]->SetColor({ 1.0f, 1.0f, 1.0f, 0.4f });
+
         sprite_operationSheet_divides_[i] = std::make_unique<Sprite>();
         sprite_operationSheet_divides_[i]->SetSize({ 224,64 });
-        sprite_operationSheet_divides_[i]->SetPosition({ 90 + (float)i * 224,1000 });
         sprite_operationSheet_divides_[i]->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
     }
+
+    float basePos = 224 - 100;
+
+    sprite_operationSheet_[0]->SetPosition({ basePos,1000 });
+    sprite_operationSheet_[1]->SetPosition({ basePos +224*1,1000 });
+    sprite_operationSheet_[2]->SetPosition({ basePos + 224 * 1 + 140,1000 });
+    sprite_operationSheet_divides_[0]->SetPosition({ basePos,1000 });
+    sprite_operationSheet_divides_[1]->SetPosition({ basePos + 224 * 1,1000 });
+    sprite_operationSheet_divides_[2]->SetPosition({ basePos + 224 * 1 + 140,1000 });
 
 
     png_white_debug = LoadTexture("white.png");
@@ -280,9 +289,10 @@ void Player::MatUpdate(void)
     commonInfomation_->sprite_collider->MatUpdate();
     commonInfomation_->sprite_attackCollider->MatUpdate();
     commonInfomation_->sprite_specialCollider->MatUpdate();
-    sprite_operationSheet_->MatUpdate();
+
     for (size_t i{}; i < 3; i++)
     {
+        sprite_operationSheet_[i]->MatUpdate();
         sprite_operationSheet_divides_[i]->MatUpdate();
     }
 }
@@ -318,12 +328,12 @@ void Player::Draw(void)
     commonInfomation_->sprite_player_spContent->Draw(png_SPBar_content_);
     commonInfomation_->sprite_player_spFrame->Draw(png_SPBar_frame_);
 
-    sprite_operationSheet_->Draw(png_operationSheet_);
+
 
     for (size_t i = 0; i < operationButtons_.size(); i++)
     {
+        sprite_operationSheet_[i]->Draw(png_operationSheet_[i]);
         if (operationButtons_[i] == false) { continue; }
-
         sprite_operationSheet_divides_[i]->Draw(png_operationSheet_divide_[i]);
     }
 
