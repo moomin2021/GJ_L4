@@ -24,6 +24,7 @@ private:
 	Util::TimeInfo stage5Time_ = { 2.0f, 0.0f };	// ステージ5の時間
 
 	uint16_t rashSound_ = 0;
+	uint16_t trembleSound_ = 0;
 #pragma endregion
 
 #pragma region メンバ関数

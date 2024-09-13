@@ -13,6 +13,10 @@ void SummonMinions::Initialize(SubBossInfo* info)
 	else targetPos0_.x = 300.0f;
 	targetPos0_.y = 400.0f;
 	lastTargetPos0_ = info->position;
+
+	// サウンド読み込み
+	leaderSpawnSound_ = info->soundPtr->LoadWave("Resources/Sound/LeaderSpawn.wav", 0.5f);
+	followerSpawnSound_ = info->soundPtr->LoadWave("Resources/Sound/FollowerSpawn.wav", 0.5f);
 }
 
 void SummonMinions::Update(SubBossInfo* info)
@@ -39,6 +43,7 @@ void SummonMinions::Update(SubBossInfo* info)
 		if (stage0Time_.GetIsExceeded()) {
 			moveStage_++;
 			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Leader, MinionState::Spawn, Vector2(0.0f, 400.0f));
+			info->soundPtr->Play(leaderSpawnSound_);
 		}
 	}
 
@@ -57,6 +62,7 @@ void SummonMinions::Update(SubBossInfo* info)
 			stage2Time_.elapsedTime = 0.0f;
 			float rndX = Util::GetRandomFloat(-50.0f, 50.0f);
 			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Follower, MinionState::Spawn, Vector2(rndX, 400.0f));
+			info->soundPtr->Play(followerSpawnSound_);
 		}
 	}
 
