@@ -34,7 +34,7 @@ void DeadParticle::Initialize(void)
     color_end = { 1,1,1,1 };
 
     // texture
-    textureHandle_ = LoadTexture("star5.png");
+    textureHandle_ = LoadTexture("starPP.png");
     // sprite settings
     sprite = std::make_unique<Sprite>();
     sprite->SetAnchorPoint({ 0.5f,0.5f });
@@ -51,6 +51,9 @@ void DeadParticle::Update(void)
     float elapsed = time_toCurrent / time_toDead;
     elapsed = Util::Clamp(elapsed, 1.0f, 0.0f);
 
+    g += 0.3f;
+    g = (std::min)(g, max);
+
     rotate_current += 2.5f;
     sprite->SetRotation(rotate_current);
 
@@ -58,6 +61,8 @@ void DeadParticle::Update(void)
     scale_current.y = Easing::lerp(scale_start.y, scale_end.y, elapsed);
     size = { 60.f * scale_start.x, 60.f * scale_start.y };
     sprite->SetSize(size);
+
+    position_end.y += g;
 
     position_current.x = Easing::Cubic::easeOut(position_start.x, position_end.x, elapsed);
     position_current.y = Easing::Cubic::easeOut(position_start.y, position_end.y, elapsed);

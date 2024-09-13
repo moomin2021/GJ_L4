@@ -8,5 +8,8 @@ public:
 
     void Initialize(void) override;
     void Update(void) override;
+
+    float g{};
+    float max = 18.f;
 };
 
