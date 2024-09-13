@@ -96,6 +96,9 @@ void MinionLeader::CollisionCallBack()
 	// プレイヤーに攻撃されたか
 	bool isAttackedByPlayer = false;
 
+	// プレイヤーにスペシャル攻撃されたら
+	bool isSpecial_ = false;
+
 	// 壁と天井の衝突判定
 	for (size_t i = 0; i < 4; i++) {
 		if (stats_.state == MinionState::KnockBack) break;
@@ -111,9 +114,35 @@ void MinionLeader::CollisionCallBack()
 		}
 	}
 
+	// スペシャル攻撃されたら
+	if (collider_.IsDetect_Name("Player_Special")) {
+		isSpecial_ = true;
+	}
+
 	// プレイヤーの攻撃判定と衝突してるか
 	if (collider_.IsDetect_Name("Player_Attack")) {
 		isAttackedByPlayer = true;
+	}
+
+	// スペシャル攻撃されたら
+	if (isSpecial_) {
+		if (stats_.state == MinionState::Normal || stats_.state == MinionState::KnockBack || stats_.state == MinionState::Spawn) {
+			// 状態、移動方向、速度の設定
+			stats_.state = MinionState::Special;
+			moveSpd_ = specialMoveSpd_;
+			backRotaSpd_ = specialRotaSpd_;
+			// 移動方向の決定
+			PlayerCommonInfomation* playerInfo = data_->playerPtr->Get_CommonInfomation();
+			if (playerInfo->move.velocity_current.y > 0.0f) specialVec_.y = 0.6f;
+			if (playerInfo->move.velocity_current.y <= 0.0f) specialVec_.y = -0.6f;
+			if (Direction::DIRECITON_LEFT == playerInfo->move.direction_current) specialVec_.x = -1.0f;
+			if (Direction::DIRECTION_RIGHT == playerInfo->move.direction_current) specialVec_.x = 1.0f;
+			specialVec_.normalize();
+			moveVec_ = specialVec_;
+			// ダメージの設定
+			collider_.Data_Remove("Wall_Damage");
+			collider_.Data_Add("Wall_Damage", 25.0f);
+		}
 	}
 
 	// 壁と衝突していたら
@@ -173,7 +202,7 @@ void MinionLeader::CollisionCallBack()
 	// プレイヤーに攻撃されていたら
 	if (isAttackedByPlayer) {
 		// ノーマル状態なら
-		if (stats_.state == MinionState::Normal || stats_.state == MinionState::MoveX) {
+		if (stats_.state == MinionState::Normal || stats_.state == MinionState::MoveX || stats_.state == MinionState::Spawn) {
 			// 状態、移動方向、速度の設定
 			stats_.state = MinionState::FirstBeaten;
 			moveVec_ = firstBeatenVec_;
@@ -239,6 +268,7 @@ void (MinionLeader::* MinionLeader::stateTable[]) () = {
 	& MinionLeader::SecondBeaten,
 	& MinionLeader::MoveX,
 	& MinionLeader::Spawn,
+	& MinionLeader::Special,
 };
 
 void MinionLeader::Normal()
@@ -309,4 +339,18 @@ void MinionLeader::Spawn()
 		if (stats_.position.x >= 960.0f) stateMoveXAcc_.x = -100.0f;
 		else stateMoveXAcc_.x = 100.0f;
 	}
+}
+
+void MinionLeader::Special()
+{
+	nowTime_ += data_->timeMgrPtr->GetGameDeltaTime();
+
+	if (nowTime_ >= aliveTime_) {
+		stats_.isAlive = false;
+	}
+
+	// 座標の更新
+	stats_.position += moveVec_ * moveSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
+	backRotation_ += backRotaSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
+	collider_.circle_.center = stats_.position;
 }

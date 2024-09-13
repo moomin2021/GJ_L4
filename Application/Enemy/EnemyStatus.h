@@ -13,6 +13,7 @@ namespace EnemyStatus {
 		SecondBeaten,
 		MoveX,
 		Spawn,
+		Special,
 	};
 
 	// 雑魚敵のタイプ

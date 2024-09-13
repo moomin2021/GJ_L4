@@ -27,6 +27,11 @@ private:
 	float secondBeatenMoveSpd_ = 1000.0f;// 殴った時の移動速度
 	float secondBeatenRotaSpd_ = 1000.0f;// 殴った時の回転速度
 
+	// スペシャル
+	Vector2 specialVec_ = Vector2(0.0f, 0.0f);// 殴られた時の方向
+	float specialMoveSpd_ = 1000.0f;// 殴った時の移動速度
+	float specialRotaSpd_ = 1000.0f;// 殴った時の回転速度
+
 	// 死ぬまでの時間
 	float nowTime_ = 0.0f;
 	float aliveTime_ = 4.0f;
@@ -75,6 +80,7 @@ private:
 	void SecondBeaten();
 	void MoveX();
 	void Spawn();
+	void Special();
 
 	// 分離行動
 	Vector2 Separate(const std::vector<std::unique_ptr<BaseMinion>>& others);
