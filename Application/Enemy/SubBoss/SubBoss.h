@@ -41,6 +41,7 @@ private:
 
 	// サブボスの攻撃関連
 	SubBossMoveType currentMoveType_ = SubBossMoveType::DescentDive;
+	SubBossMoveType oldMoveType_ = SubBossMoveType::DescentDive;
 	std::unique_ptr<SubBossMoveState> currentMoveState_ = nullptr;
 
 	// デバック

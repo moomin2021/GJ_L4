@@ -177,7 +177,7 @@ void MinionLeader::CollisionCallBack()
 		}
 
 		// 二回目殴られた状態なら
-		else if (stats_.state == MinionState::SecondBeaten)
+		else if (stats_.state == MinionState::SecondBeaten || stats_.state == MinionState::Special)
 		{
 			// 押し出し処理
 			ICollider* hitCol = collider_.Extract_Collider(wallName);

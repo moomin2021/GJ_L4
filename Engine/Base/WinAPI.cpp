@@ -43,7 +43,7 @@ void WinAPI::Initialize(uint16_t winWidth, uint16_t winHeight)
 	// ウィンドウクラスの設定
 	winClass_.cbSize = sizeof(WNDCLASSEX);// -> WNDCLASSEX構造体のサイズ
 	winClass_.lpfnWndProc = (WNDPROC)WindowProc; // ウィンドウプロシージャを設定(アドレスを代入)
-	winClass_.lpszClassName = L"DirectXGame"; // ウィンドウクラス名
+	winClass_.lpszClassName = L"4009_壁 DA・ダ・打"; // ウィンドウクラス名
 	winClass_.hInstance = GetModuleHandle(nullptr); // ウィンドウハンドル
 	winClass_.hCursor = LoadCursor(NULL, IDC_ARROW); // マウスカーソル指定
 
@@ -131,7 +131,7 @@ void WinAPI::CreateWindowObj()
 	// ウィンドウオブジェクトの生成
 	hwnd_ = CreateWindow(
 		winClass_.lpszClassName,// ------> クラス名
-		L"DirectXGame",// -------> タイトルバーの文字
+		L"4009_壁 DA・ダ・打",// -------> タイトルバーの文字
 		WS_OVERLAPPEDWINDOW,// --> 標準的なウィンドウスタイル
 		0,// --------> 表示X座標(OSに任せる)
 		0,// --------> 表示Y座標(OSに任せる)

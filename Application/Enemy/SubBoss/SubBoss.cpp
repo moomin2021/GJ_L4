@@ -255,7 +255,13 @@ void SubBoss::MoveChance()
 	}
 
 	if (subBossInfo_.enemyMgrPtr->GetMinionAmount() <= 0) {
-		currentMoveType_ = (SubBossMoveType)rnd;
+		if (oldMoveType_ == SubBossMoveType::DescentDive) {
+			currentMoveType_ = SubBossMoveType::SummonMinions;
+		}
+		else {
+			currentMoveType_ = (SubBossMoveType)rnd;
+		}
+		oldMoveType_ = currentMoveType_;
 		// 行動の生成
 		ChangeMove();
 	}
