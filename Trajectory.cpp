@@ -45,6 +45,8 @@ void TrajectoryParticle::Initialize(void)
     sprite->SetRotation(rotate_start);
     sprite->SetSize(size);
 
+    SbaseSize = Util::GetRandomFloat(1, 2);
+    baseSize = SbaseSize;
     frequency = 1.8f;       // 周波数
     amplitude = 0.10849f;   // 振幅
     phaseOffset = 2.3253f;  // 位相オフセット
@@ -57,6 +59,7 @@ void TrajectoryParticle::Initialize(void)
         rotate_start = -37.f;
         rotate_end = 560.f;
     }
+
 
     //const Vector2& start = position_start;
     //moveVec_ = position_end;
@@ -92,7 +95,17 @@ void TrajectoryParticle::Update(void)
 {
     Particle2D::Update();
 
+    float elapsed1 = time_toCurrent / time_toDead;
+    elapsed1 = Util::Clamp(elapsed1, 1.0f, 0.0f);
+    baseSize = Easing::lerp(SbaseSize, 0.0f, elapsed1);
+
+    float elapsed2 = time_toCurrent / time_toDead;
+    elapsed2 = Util::Clamp(elapsed2, 1.0f, 0.0f);
+    float mSize = Easing::Cubic::easeIn(0.0f, 1.f, elapsed2);
+
     Vector2 scale{M_Scale(),M_Scale()};
+    scale.x -= mSize;
+    scale.y -= mSize;
     Vector2 s = { size.x * scale.x, size.y * scale.y };
     sprite->SetSize(s);
 

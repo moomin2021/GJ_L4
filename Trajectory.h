@@ -19,6 +19,7 @@ private:
     float amplitude;
     float phaseOffset;
     float baseSize = 1.f;
+    float SbaseSize = 1.f;
 
     bool isRotateOver{};
 };

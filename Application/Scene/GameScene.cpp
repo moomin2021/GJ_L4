@@ -81,11 +81,11 @@ void GameScene::Draw()
 	// 背景の描画
 	backGroundSprite_->Draw(backGroundTex);
 
+    particleManPtr_->Draw();
 	// 各クラス描画処理
 	enemyMgr_->Draw();
     player_.Draw();
 
-    particleManPtr_->Draw();
 }
 
 void GameScene::Finalize()

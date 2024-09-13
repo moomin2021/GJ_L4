@@ -75,8 +75,13 @@ void FloatingEnemy::Update()
         particleFrame_++;
         if (particleFrame_ >= 2)
         {
+            Vector2 pos = { position_.x + Util::GetRandomFloat(-18,18), +position_.y + Util::GetRandomFloat(-18,18) };
             particleFrame_ = 0;
-            ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), position_);
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), pos);
+            Vector2 pos2 = { position_.x + Util::GetRandomFloat(-18,18), +position_.y + Util::GetRandomFloat(-18,18) };
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), pos2);
+            //Vector2 pos3 = { position_.x + Util::GetRandomFloat(-18,18), +position_.y + Util::GetRandomFloat(-18,18) };
+            //ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), pos3);
         }
     }
 
