@@ -81,6 +81,8 @@ private:
 	Vector2 Cohesion(const std::vector<std::unique_ptr<BaseMinion>>& others);
 	// 近いリーダーに追従する
 	Vector2 FollowNearestLeader(const std::vector<std::unique_ptr<BaseMinion>>& leaders);
+	// プレイヤーに追従
+	Vector2 TargetPlayer(const Vector2& playerPos);
 	// 特定のターゲットに向かう
 	Vector2 Seek(const Vector2& target);
 	// ベクトルの大きさを制限する

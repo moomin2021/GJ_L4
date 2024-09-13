@@ -64,10 +64,17 @@ void MinionFollower::UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>
 	// 通常状態以外なら処理を飛ばす
 	if (stats_.state != MinionState::Normal) return;
 
+	// リーダーがいないならプレイヤーに追従
+	if (leaders.size() == 0) {
+
+	}
+
 	Vector2 sep = Separate(others);
 	Vector2 ali = Align(others);
 	Vector2 coh = Cohesion(others);
-	Vector2 followLeader = FollowNearestLeader(leaders);  // 近いリーダーを追従
+	Vector2 followLeader = Vector2();  // 近いリーダーを追従
+	if (leaders.size() == 0) followLeader = TargetPlayer(data_->playerPtr->Get_CommonInfomation()->position);
+	else followLeader = FollowNearestLeader(leaders);
 
 	// 重み付けして加速度に加える
 	stats_.acceleration += sep * 100.0f;
@@ -349,6 +356,11 @@ Vector2 MinionFollower::FollowNearestLeader(const std::vector<std::unique_ptr<Ba
 	}
 
 	return Seek(nearestLeader->GetPosition());  // 近いリーダーに追従
+}
+
+Vector2 MinionFollower::TargetPlayer(const Vector2& playerPos)
+{
+	return Seek(playerPos);
 }
 
 Vector2 MinionFollower::Seek(const Vector2& target)
