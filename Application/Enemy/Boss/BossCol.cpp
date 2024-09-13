@@ -49,6 +49,6 @@ void BossCol::CollisionCallBack()
 		// 敵のコライダーを取得
 		ICollider* hitCol = collider_.Extract_Collider("Minion");
 		float damage = hitCol->Data_Get<float>("Wall_Damage");
-		pBoss_->AddDamage(damage);
+		if (damage > 0) pBoss_->AddDamage(damage);
 	}
 }
