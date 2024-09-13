@@ -31,6 +31,11 @@ void GameClearScene::Initialize()
 	blackOutSprite_->SetColor({ 0,0,0,0 });
 	blackOutTex_ = LoadTexture("white.png");
 #pragma endregion
+
+
+	sound_ = Sound::GetInstance();
+
+	buttonSE_ = sound_->LoadWave("Resources/Sound/decision-8.wav", 0.4f);
 }
 
 void GameClearScene::Update()
@@ -53,6 +58,7 @@ void GameClearScene::Update()
 		if (Pad::GetInstance()->GetTriggerButton(BUTTON::PAD_A))
 		{
 			IsChageScene_ = true;
+			sound_->Play(buttonSE_, false);
 		}
 	}
 

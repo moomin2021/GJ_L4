@@ -183,8 +183,11 @@ void TitleScene::Initialize()
 #pragma region 音
 	soundM_ = Sound::GetInstance();
 
-	bgm_ = soundM_->LoadWave("Resources/Sound/Lilac_loop.wav", 0.6f);
+	bgm_ = soundM_->LoadWave("Resources/Sound/Lilac_loop.wav", 0.4f);
 	IsPlayBgm_ = false;
+
+	buttonSE_ = soundM_->LoadWave("Resources/Sound/decision-8.wav", 0.4f);
+
 #pragma endregion
 
 }
@@ -199,6 +202,7 @@ void TitleScene::Update()
 
 	if (Pad::GetInstance()->GetTriggerButton(BUTTON::PAD_A) || key_->TriggerKey(DIK_SPACE)) {
 		IsChangeScene_ = true;
+		soundM_->Play(buttonSE_, false);
 	}
 
 	// タイトルのフォントの挙動更新処理
