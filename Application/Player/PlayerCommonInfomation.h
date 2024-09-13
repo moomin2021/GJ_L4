@@ -88,6 +88,7 @@ struct PlayerCommonInfomation
     float kTime_SpecialAnimation_max = 0.2f;
     float kTime_Invincible_max = 20.f;          // sec
     float kTime_Easing_hp_content_shadow_max = 2.2f;
+    float kTime_Easing_sp_content_shadow_max = 2.2f;
 
     //-Variable-----------------------------
     // Player
@@ -121,6 +122,7 @@ struct PlayerCommonInfomation
     float timer_invincible{};
     // Player
     float timer_easing_hp_content_shadow{};
+    float timer_easing_sp_content_shadow{};
 
     // Collider
     M_ColliderManager* ptr_colliderManager{};
@@ -137,6 +139,7 @@ struct PlayerCommonInfomation
     std::unique_ptr<Sprite> sprite_player_hpContent_shadow = nullptr;
     std::unique_ptr<Sprite> sprite_player_spFrame = nullptr;
     std::unique_ptr<Sprite> sprite_player_spContent = nullptr;
+    std::unique_ptr<Sprite> sprite_player_spContent_shadow = nullptr;
 
     bool is_drawCollider{};
     std::unique_ptr<Sprite> sprite_collider = nullptr;
