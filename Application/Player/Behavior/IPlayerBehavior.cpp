@@ -23,7 +23,7 @@ Vector2 IPlayerBehavior::Move(void)
     input.x += pad->GetLStick().x;
 
     Vector2 velocity{};
-    velocity.x = input.x * commonInfomation_->kMoveSpeed * TimeManager::GetInstance()->GetDeltaTime();
+    velocity.x = input.x * commonInfomation_->kMoveSpeed * TimeManager::GetInstance()->GetGameDeltaTime();
 
     // 入力があった時のみ変更
     if (input.x > 0) { commonInfomation_->move.direction_current = DIRECTION_RIGHT; }
