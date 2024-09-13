@@ -33,10 +33,22 @@ void GameScene::Initialize()
 	enemyMgr_->Initialize(&colliderManager_, &player_, camera_.get());
 
     particleManPtr_ = ParticleMan::GetInstance();
+
+	sound_ = Sound::GetInstance();
+
+	bgm_ = sound_->LoadWave("Resources/Sound/Beast-From-Hell_loop.wav", 1.0f);
+
+	IsPlayBgm_ = false;
 }
 
 void GameScene::Update()
 {
+	if (IsPlayBgm_ == false)
+	{
+		sound_->Play(bgm_, true);
+		IsPlayBgm_ = true;
+	}
+
 	if (key_->TriggerKey(DIK_Q)) {
 		sceneIf_->ChangeScene(Scene::TITLE);
 	}
@@ -85,6 +97,7 @@ void GameScene::Draw()
 
 void GameScene::Finalize()
 {
+	sound_->Stop(bgm_);
 	Texture::GetInstance()->ReleaseIntermediateResources();
 	enemyMgr_->Finalize();
 }
