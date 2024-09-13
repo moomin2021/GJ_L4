@@ -17,6 +17,8 @@ void DescentDive::Initialize(SubBossInfo* info)
 	diveInfo_.derection = Vector2(0.0f, 1.0f);
 	diveInfo_.acceleration = 400.0f;
 	diveInfo_.maxSpd_ = 400.0f;
+
+	moveStage_ = 1;
 }
 
 void DescentDive::Update(SubBossInfo* info)
@@ -50,7 +52,7 @@ void DescentDive::Update(SubBossInfo* info)
 		// 速度の加算
 		moveInfoS1_.speed = Util::Clamp(moveInfoS1_.speed + moveInfoS1_.acceleration, moveInfoS1_.maxSpd_, 0.0f);
 		// X軸のボスとプレイヤーの距離が速度より近いなら速度を変更
-		if (fabsf(boss2PlayerVec.x) <= moveInfoS1_.speed) moveInfoS1_.speed = fabsf(boss2PlayerVec.x);
+		if (fabsf(boss2PlayerVec.x) <= moveInfoS1_.speed * timeMgr->GetGameDeltaTime() * 2.0f) moveInfoS1_.speed = fabsf(boss2PlayerVec.x);
 		boss2PlayerVec.normalize();
 		// 座標の変更
 		info->position += boss2PlayerVec * moveInfoS1_.speed * timeMgr->GetGameDeltaTime();

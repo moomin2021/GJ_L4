@@ -73,7 +73,7 @@ public:
 	/// ボスが生きているかどうか
 	/// </summary>
 	/// <returns></returns>
-	bool GetIsAlive() { return nowHP_ >= 0.0f; }
+	bool GetIsAlive() { return nowHP_ > 0.0f; }
 #pragma endregion
 };
 
