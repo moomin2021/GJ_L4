@@ -19,6 +19,11 @@ private:
 
 	// 1フレ前の時間
 	std::chrono::system_clock::time_point oldTime_;
+
+	// フレーム関係
+	float elapsedTime_ = 0.0f;
+	size_t frameCount_ = 0;
+	float frameRate_ = 0.0f;
 #pragma endregion
 
 #pragma region メンバ関数
