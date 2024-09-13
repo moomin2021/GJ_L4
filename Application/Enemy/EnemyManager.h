@@ -56,5 +56,11 @@ public:
 	/// </summary>
 	/// <returns> ミニオンの数 </returns>
 	size_t GetMinionAmount() { return leaders_.size() + followers_.size(); }
+
+	/// <summary>
+	/// ボスが生きているか
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsBossAlive() { return boss_->GetIsAlive(); }
 #pragma endregion
 };
