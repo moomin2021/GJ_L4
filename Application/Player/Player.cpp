@@ -276,6 +276,8 @@ void Player::Update(void)
         timer_lightUpButtons_[i] += TimeManager::GetInstance()->GetGameDeltaTime();
     }
 
+    commonInfomation_->sp_current = (std::min)(commonInfomation_->sp_current, commonInfomation_->kSp_max);
+
     FlashingUpdate();
     InvincibleUpdate();
     DeadBounceUpdate();
