@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseMinion.h"
+#include "Util.h"
 
 class MinionLeader : public BaseMinion
 {
@@ -29,6 +30,16 @@ private:
 	// 死ぬまでの時間
 	float nowTime_ = 0.0f;
 	float aliveTime_ = 4.0f;
+
+	// 召喚された時
+	Util::TimeInfo spawnTime_ = { 1.0f, 0.0f };
+	Vector2 targetPos_ = Vector2(0.0f, 700.0f);
+	Vector2 lastTargetPos_ = Vector2();
+	Vector2 stateMoveXAcc_ = Vector2();
+	float amolitude_ = 100.0f;
+	float baseY_ = 700.0f;
+	float stateMoveXTime_ = 0.0f;
+	float stateMoveXSpd_ = 1.0f;
 
     int32_t particleFrame_{};
 #pragma endregion
@@ -63,5 +74,7 @@ private:
 	void FirstBeaten();
 	void KnockBack();
 	void SecondBeaten();
+	void MoveX();
+	void Spawn();
 #pragma endregion
 };

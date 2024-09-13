@@ -5,6 +5,7 @@
 #include "ParticleMan.h"
 #include "SmokeEffect.h"
 #include <memory>
+#include "Pad.h"
 
 TitleScene::TitleScene(IScene* sceneIf) : BaseScene(sceneIf) {}
 
@@ -174,7 +175,7 @@ void TitleScene::Initialize()
 	titleTextures_[DaDaDaTex] = LoadTexture("DadadaFont.png");
 	titleTextures_[BoTex] = LoadTexture("Bo-Font.png");
 
-	titleStartKeyTex_ = LoadTexture("startKey.png");
+	titleStartKeyTex_ = LoadTexture("startKeyA.png");
 	wallOnlyTex = LoadTexture("wallKariOnly.png");
 	backGroundTex = LoadTexture("backGround.png");
 #pragma endregion
@@ -182,7 +183,7 @@ void TitleScene::Initialize()
 #pragma region 音
 	soundM_ = Sound::GetInstance();
 
-	bgm_ = soundM_->LoadWave("Resources/Sound/Lilac_loop.wav", 0.8f);
+	bgm_ = soundM_->LoadWave("Resources/Sound/Lilac_loop.wav", 0.6f);
 	IsPlayBgm_ = false;
 #pragma endregion
 
@@ -196,9 +197,8 @@ void TitleScene::Update()
 		IsPlayBgm_ = true;
 	}
 
-	if (key_->TriggerKey(DIK_SPACE)) {
+	if (Pad::GetInstance()->GetTriggerButton(BUTTON::PAD_A) || key_->TriggerKey(DIK_SPACE)) {
 		IsChangeScene_ = true;
-		
 	}
 
 	// タイトルのフォントの挙動更新処理

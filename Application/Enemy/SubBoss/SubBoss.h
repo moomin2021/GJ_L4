@@ -18,6 +18,8 @@ enum class SubBossStateType {
 };
 
 class Player;
+class MinionFactory;
+class EnemyManager;
 class SubBoss
 {
 #pragma region メンバ変数
@@ -45,12 +47,13 @@ private:
 	bool isDebug_ = false;
 	std::unique_ptr<Sprite> colSprite_ = nullptr;
 	uint16_t debugTexture_ = 0;
-	std::string debugMoveTypeStr_ = "DescentDive";
+	std::string debugMoveTypeStr_ = "StartIntro";
 
 	// ダメージ関連
 	Util::TimeInfo damageTime_ = { 0.2f, 0.0f };
 	float4 damageColor_ = float4(0.7f, 0.2f, 0.2f, 1.0f);
 	bool isDamage_ = false;
+	bool isGameClear_ = false;
 #pragma endregion
 
 #pragma region メンバ関数
@@ -60,7 +63,7 @@ public:
 	~SubBoss() {}
 
 	// 基本処理
-	void Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr);
+	void Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr, EnemyManager* enemyMgrPtr);
 	void Update();
 	void MatUpdate();
 	void Draw();
@@ -69,7 +72,7 @@ public:
 
 private:
 	// サブボスの情報の初期化処理
-	void InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr);
+	void InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* cameraPtr, MinionFactory* minionFactoryPtr, EnemyManager* enemyMgrPtr);
 
 	// 状態別処理
 	static void (SubBoss::* stateTable[]) ();

@@ -25,6 +25,16 @@ void GameScene::Initialize()
 	backGroundSprite_->SetPosition({ 960,540 });
 	backGroundSprite_->SetSize({ 1920, 1080 });
 	backGroundTex = LoadTexture("backGround.png");
+
+	blackOutSprite_= std::make_unique<Sprite>();
+	blackOutSprite_->SetAnchorPoint({ 0.5f,0.5f });
+	blackOutSprite_->SetPosition({ 960,540 });
+	blackOutSprite_->SetSize({ 1920, 1080 });
+	blackOutSprite_->SetColor({ 0,0,0,0 });
+	blackOutTex_ = LoadTexture("white.png");
+
+	IsGameOver = false;
+	IsGameClear = false;
 #pragma endregion
 
 
@@ -37,9 +47,12 @@ void GameScene::Initialize()
 
 	sound_ = Sound::GetInstance();
 
-	bgm_ = sound_->LoadWave("Resources/Sound/Beast-From-Hell_loop.wav", 1.0f);
+	bgm_ = sound_->LoadWave("Resources/Sound/Beast-From-Hell_loop.wav", 0.5f);
 
 	IsPlayBgm_ = false;
+
+	baseColor = { 0,0,0,0 };
+	whiteBaseColor = { 1,1,1,0 };
 }
 
 void GameScene::Update()
@@ -58,13 +71,40 @@ void GameScene::Update()
         particleManPtr_->AddParticle(std::make_unique<TrajectoryParticle>(), { 500,500 });
     }
 
+	if (player_.Get_IsDead())
+	{
+		// 徐々に暗くなる
+		float4 color;
+		baseColor.w += alphaValue_;
+		blackOutSprite_->SetColor(baseColor);
+
+		if (baseColor.w >= 1.0f)
+		{
+			// シーンチェンジ
+			sceneIf_->ChangeScene(Scene::OVER);
+		}
+	}
+
+	if (enemyMgr_->GetIsBossAlive()==false)
+	{
+
+		whiteBaseColor.w += alphaValue_;
+		blackOutSprite_->SetColor(whiteBaseColor);
+
+		if (whiteBaseColor.w >= 1.0f)
+		{
+			// シーンチェンジ
+			sceneIf_->ChangeScene(Scene::CLEAR);
+		}
+	}
+
     particleManPtr_->Update();
 
 	// 各クラス更新処理
 	enemyMgr_->Update();
 
     player_.Update();
-
+	
 #ifdef _DEBUG
 	// ImGuiの処理
 	enemyMgr_->ImGuiUpdate();
@@ -85,6 +125,7 @@ void GameScene::MatUpdate()
 	// 各クラス行列更新処理
 	enemyMgr_->MatUpdate();
     particleManPtr_->MatUpdate();
+	blackOutSprite_->MatUpdate();
 }
 
 void GameScene::Draw()
@@ -98,6 +139,8 @@ void GameScene::Draw()
 	enemyMgr_->Draw();
     player_.Draw();
 
+	// 画面の前面にあるシーンチェンジ用黒いもの
+	blackOutSprite_->Draw(blackOutTex_);
 }
 
 void GameScene::Finalize()

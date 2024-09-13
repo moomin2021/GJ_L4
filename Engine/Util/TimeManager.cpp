@@ -29,6 +29,15 @@ void TimeManager::Update()
 
 	// ゲームデルタタイムの計算
 	gameDeltaTime_ = deltaTime_ * gameSpd_;
+
+	// フレームレートを計算
+	frameCount_++;
+	elapsedTime_ += deltaTime_;
+	if (elapsedTime_ >= 1.0f) {
+		frameRate_ = frameCount_ / elapsedTime_;
+		elapsedTime_ = 0.0f;
+		frameCount_ = 0;
+	}
 }
 
 void TimeManager::ImGuiUpdate()
@@ -43,6 +52,7 @@ void TimeManager::ImGuiUpdate()
 	static float gameTime = 0.0f;
 	gameTime += deltaTime_;
 	imGuiMgr_->Text("ゲーム開始から%f秒", gameTime);
+	imGuiMgr_->Text("フレームレート = %.1f", frameRate_);
 	imGuiMgr_->EndWindow();
 #endif
 }

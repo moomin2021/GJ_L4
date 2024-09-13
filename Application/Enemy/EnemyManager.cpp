@@ -18,7 +18,7 @@ void EnemyManager::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, C
 
 	// サブボスの生成、初期化
 	subBoss_ = std::make_unique<SubBoss>();
-	subBoss_->Initialize(colMgrPtr, playerPtr, cameraPtr);
+	subBoss_->Initialize(colMgrPtr, playerPtr, cameraPtr, minionFactory_.get(), this);
 }
 
 void EnemyManager::Update()
@@ -63,9 +63,9 @@ void EnemyManager::MatUpdate()
 void EnemyManager::Draw()
 {
 	boss_->Draw();
-	subBoss_->Draw();
-	for (auto& it : leaders_) it->Draw();
 	for (auto& it : followers_) it->Draw();
+	for (auto& it : leaders_) it->Draw();
+	subBoss_->Draw();
 }
 
 void EnemyManager::Finalize()

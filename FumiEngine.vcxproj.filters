@@ -190,8 +190,11 @@
     <ClCompile Include="ParticleMan.cpp" />
     <ClCompile Include="Application\Effect\SmokeEffect.cpp" />
     <ClCompile Include="SmokeParticle.cpp" />
-    <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="Application\Effect\Trajectory.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\EndGameOutro.cpp" />
+    <ClCompile Include="Application\Scene\GameOverScene.cpp" />
+    <ClCompile Include="Application\Scene\GameClearScene.cpp" />
+    <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\SummonMinions.cpp" />
     <ClCompile Include="DeadParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -559,8 +562,11 @@
     <ClInclude Include="ParticleMan.h" />
     <ClInclude Include="Application\Effect\SmokeEffect.h" />
     <ClInclude Include="SmokeParticle.h" />
-    <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="Application\Effect\Trajectory.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\EndGameOutro.h" />
+    <ClInclude Include="Application\Scene\GameOverScene.h" />
+    <ClInclude Include="Application\Scene\GameClearScene.h" />
+    <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\SummonMinions.h" />
     <ClInclude Include="DeadParticle.h" />
   </ItemGroup>
   <ItemGroup>

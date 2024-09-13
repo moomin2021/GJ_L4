@@ -48,4 +48,19 @@ public:
 	void AddLeader(std::unique_ptr<BaseMinion> newLeader) { leaders_.emplace_back(std::move(newLeader)); }
 	void AddFollower(std::unique_ptr<BaseMinion> newFollower) { followers_.emplace_back(std::move(newFollower)); }
 #pragma endregion
+
+#pragma region ゲッター関数
+public:
+	/// <summary>
+	/// ミニオンの数を取得
+	/// </summary>
+	/// <returns> ミニオンの数 </returns>
+	size_t GetMinionAmount() { return leaders_.size() + followers_.size(); }
+
+	/// <summary>
+	/// ボスが生きているか
+	/// </summary>
+	/// <returns></returns>
+	bool GetIsBossAlive() { return boss_->GetIsAlive(); }
+#pragma endregion
 };
