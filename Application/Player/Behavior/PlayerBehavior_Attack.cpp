@@ -74,9 +74,4 @@ void PlayerBehavior_Attack::Exit(void)
 
 void PlayerBehavior_Attack::Callback(void)
 {
-    if (collider_attack_.IsDetect_Name("FloatingEnemy_0"))
-    {
-        int a = 0;
-        a;
-    }
 }
