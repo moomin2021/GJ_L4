@@ -2,6 +2,7 @@
 #include "M_RectCollider.h"
 #include "CollisionChecker.h"
 #include "Player.h"
+#include "Easing.h"
 
 using namespace EnemyStatus;
 
@@ -15,6 +16,10 @@ void MinionFollower::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus:
 	std::string name = "Minion";
 	auto callback = std::bind(&MinionFollower::CollisionCallBack, this);
 	collider_.Initialize(name, callback, colMgrPtr);
+
+	// ターゲット
+	lastTargetPos_ = stats_.position;
+	targetPos_.x = stats_.position.x;
 }
 
 void MinionFollower::Update()
@@ -89,6 +94,11 @@ void MinionFollower::CollisionCallBack()
 	for (size_t i = 0; i < 4; i++) {
 		// 壁か天井と当たったら
 		if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
+			// 押し出し処理
+			ICollider* hitCol = collider_.Extract_Collider("Boss" + std::to_string(i));
+			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
+			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
+			stats_.position += pushBack;
 			isWallCol = true;
 			wallName = "Boss" + std::to_string(i);
 		}
@@ -170,6 +180,14 @@ void MinionFollower::CollisionCallBack()
 			collider_.Data_Add("Damage", 20.0f);
 		}
 	}
+
+	// スプライトの更新
+	for (auto& it : sprites_) {
+		it->SetPosition(stats_.position);
+	}
+
+	// コライダーの更新
+	collider_.circle_.center = sprites_[0]->GetPosition();
 }
 
 void MinionFollower::MoveUpdate()
@@ -239,8 +257,18 @@ void MinionFollower::MoveX()
 
 void MinionFollower::Spawn()
 {
-	// 移動更新
-	MoveUpdate();
+	spawnTime_.elapsedTime += data_->timeMgrPtr->GetGameDeltaTime();
+
+	float rate = spawnTime_.GetElapsedRatio();
+	stats_.position.x = Easing::Quint::easeOut(lastTargetPos_.x, targetPos_.x, rate);
+	stats_.position.y = Easing::Quint::easeOut(lastTargetPos_.y, targetPos_.y, rate);
+
+	if (spawnTime_.GetIsExceeded()) {
+		stats_.state = MinionState::Normal;
+		if (stats_.position.x >= 960.0f) stateMoveXAcc_.x = -100.0f;
+		else stateMoveXAcc_.x = 100.0f;
+		stats_.acceleration = Vector2();
+	}
 }
 
 Vector2 MinionFollower::Separate(const std::vector<std::unique_ptr<BaseMinion>>& others)

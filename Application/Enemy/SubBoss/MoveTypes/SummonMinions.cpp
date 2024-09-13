@@ -52,7 +52,9 @@ void SummonMinions::Update(SubBossInfo* info)
 				return;
 			}
 			stage2Counter_++;
-			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Follower, MinionState::Spawn, Vector2(0.0f, 400.0f));
+			stage2Time_.elapsedTime = 0.0f;
+			float rndX = Util::GetRandomFloat(-50.0f, 50.0f);
+			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Follower, MinionState::Spawn, Vector2(rndX, 400.0f));
 		}
 	}
 }
