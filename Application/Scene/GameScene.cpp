@@ -71,7 +71,7 @@ void GameScene::Update()
         particleManPtr_->AddParticle(std::make_unique<TrajectoryParticle>(), { 500,500 });
     }
 
-	if (player_.Get_IsDead())
+	if (player_.Get_IsAllDead())
 	{
 		// 徐々に暗くなる
 		float4 color;

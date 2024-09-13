@@ -568,12 +568,12 @@ void Player::DeadBounceUpdate(void)
         static int32_t frame{};
         frame++;
 
-        if (frame == 0 || frame % 30 == 0)
+        if (frame == 0 || frame % 10 == 0)
         {
             Vector2 pPos = { commonInfomation_->position.x, k };
 
-            Vector2 posA = pPos + commonInfomation_->kDeadParticleMoveVec1 * 500;
-            Vector2 vec = commonInfomation_->kDeadParticleMoveVec2 * 500;
+            Vector2 posA = pPos + commonInfomation_->kDeadParticleMoveVec1 * 1000;
+            Vector2 vec = commonInfomation_->kDeadParticleMoveVec2 * 1000;
             Vector2 posB1 = pPos + vec;
             vec.x = -vec.x;
             Vector2 posB2 = pPos + vec;
