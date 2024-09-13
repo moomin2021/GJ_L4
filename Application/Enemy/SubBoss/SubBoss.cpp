@@ -101,7 +101,7 @@ void SubBoss::ImGuiUpdate()
 	ImGuiManager* imgui = ImGuiManager::GetInstance();
 
 	// ボスの状態を表示
-	imgui->Text("ボスの状態 = %s", subBossMoveTypeStr_[(size_t)currentMoveType_].c_str());
+	imgui->Text("ボスの状態 = %s", subBossMoveTypeStr_[(size_t)currentStateType_].c_str());
 
 	// 座標の表示
 	imgui->Text("座標 = { %f, %f }", subBossInfo_.position.x, subBossInfo_.position.y);
