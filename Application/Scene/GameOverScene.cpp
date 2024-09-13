@@ -36,6 +36,10 @@ void GameOverScene::Initialize()
 #pragma endregion
 
 	IsStartScene_ = false;
+
+	sound_ = Sound::GetInstance();
+
+	buttonSE_ = sound_->LoadWave("Resources/Sound/decision-8.wav", 0.4f);
 }
 
 void GameOverScene::Update()
@@ -58,6 +62,7 @@ void GameOverScene::Update()
 		if (Pad::GetInstance()->GetTriggerButton(BUTTON::PAD_A))
 		{
 			IsChageScene_ = true;
+			sound_->Play(buttonSE_, false);
 		}
 	}
 

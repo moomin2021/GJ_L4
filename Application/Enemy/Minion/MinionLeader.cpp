@@ -20,7 +20,8 @@ void MinionLeader::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::M
 	std::string name = "Minion";
 	auto callback = std::bind(&MinionLeader::CollisionCallBack, this);
 	collider_.Initialize(name, callback, colMgrPtr);
-	collider_.Data_Add("Damage", 20.0f);
+	collider_.Data_Add("Wall_Damage", 0.0f);
+	collider_.Data_Add("Player_Damage", 10.0f);
 
 	// ターゲット
 	lastTargetPos_ = stats_.position;
@@ -142,8 +143,8 @@ void MinionLeader::CollisionCallBack()
 
 
 			// ダメージの設定
-			collider_.Data_Remove("Damage");
-			collider_.Data_Add("Damage", 0.0f);
+			collider_.Data_Remove("Wall_Damage");
+			collider_.Data_Add("Wall_Damage", 0.0f);
 		}
 
 		// 二回目殴られた状態なら
@@ -179,7 +180,10 @@ void MinionLeader::CollisionCallBack()
 			moveSpd_ = firstBeatenMoveSpd_;
 			backRotaSpd_ = firstBeatenRotaSpd_;
 			// ダメージの設定
-			collider_.Data_Add("Damage", 20.0f);
+			collider_.Data_Remove("Wall_Damage");
+			collider_.Data_Add("Wall_Damage", 20.0f);
+			collider_.Data_Remove("Player_Damage");
+			collider_.Data_Add("Player_Damage", 0.0f);
 		}
 
 		// ノックバック状態なら
@@ -197,8 +201,8 @@ void MinionLeader::CollisionCallBack()
 			secondBeatenVec_.normalize();
 			moveVec_ = secondBeatenVec_;
 			// ダメージの設定
-			collider_.Data_Remove("Damage");
-			collider_.Data_Add("Damage", 20.0f);
+			collider_.Data_Remove("Wall_Damage");
+			collider_.Data_Add("Wall_Damage", 20.0f);
 		}
 	}
 

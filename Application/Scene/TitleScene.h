@@ -135,6 +135,8 @@ private:
 	uint16_t bgm_;
 	bool IsPlayBgm_;
 
+	uint16_t buttonSE_;
+
 #pragma endregion
 
 #pragma region メンバ関数
