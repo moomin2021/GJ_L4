@@ -19,6 +19,7 @@ void MinionFollower::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus:
 	std::string name = "Minion";
 	auto callback = std::bind(&MinionFollower::CollisionCallBack, this);
 	collider_.Initialize(name, callback, colMgrPtr);
+	collider_.Data_Add("Damage", 0.0f);
 
 	// ターゲット
 	float rndX = Util::GetRandomFloat(-50.0f, 50.0f);

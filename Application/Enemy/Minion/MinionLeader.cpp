@@ -20,6 +20,7 @@ void MinionLeader::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::M
 	std::string name = "Minion";
 	auto callback = std::bind(&MinionLeader::CollisionCallBack, this);
 	collider_.Initialize(name, callback, colMgrPtr);
+	collider_.Data_Add("Damage", 20.0f);
 
 	// ターゲット
 	lastTargetPos_ = stats_.position;
