@@ -161,6 +161,7 @@ struct PlayerCommonInfomation
 
     // sound
     uint16_t sound_jump{};
+    uint16_t sound_swingStick{};
     Sound* soundManagerPtr{};
 
     void Update(void);
