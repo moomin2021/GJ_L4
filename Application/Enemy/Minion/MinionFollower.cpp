@@ -72,10 +72,10 @@ void MinionFollower::UpdateFlockBehavior(std::vector<std::unique_ptr<BaseMinion>
 	else followLeader = FollowNearestLeader(leaders);
 
 	// 重み付けして加速度に加える
-	stats_.acceleration += sep * 100.0f;
+	stats_.acceleration += sep * 70.0f;
 	stats_.acceleration += ali;
 	stats_.acceleration += coh;
-	stats_.acceleration += followLeader * 1.0f;  // リーダー追従は強め
+	stats_.acceleration += followLeader * 2.0f;  // リーダー追従は強め
 
 	// 速度に加速度を加算して位置を更新
 	stats_.velocity += stats_.acceleration;
