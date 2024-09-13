@@ -158,7 +158,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
 
     commonInfomation_->Input();
     commonInfomation_->health_current = commonInfomation_->kHealth_max;
-    commonInfomation_->sp_current = commonInfomation_->kSp_max;
+    commonInfomation_->sp_current = 0;
 }
 
 void Player::Update(void)
