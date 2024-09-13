@@ -95,6 +95,8 @@ void MinionFollower::CollisionCallBack()
 
 	// 壁と天井の衝突判定
 	for (size_t i = 0; i < 4; i++) {
+		if (stats_.state == MinionState::KnockBack) break;
+
 		// 壁か天井と当たったら
 		if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
 			// 押し出し処理
@@ -188,6 +190,8 @@ void MinionFollower::CollisionCallBack()
 	for (auto& it : sprites_) {
 		it->SetPosition(stats_.position);
 	}
+
+	if (stats_.position.y >= 2100.0f) stats_.isAlive = false;
 
 	// コライダーの更新
 	collider_.circle_.center = sprites_[0]->GetPosition();
