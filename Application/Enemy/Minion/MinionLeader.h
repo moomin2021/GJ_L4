@@ -35,6 +35,11 @@ private:
 	Util::TimeInfo spawnTime_ = { 1.0f, 0.0f };
 	Vector2 targetPos_ = Vector2(0.0f, 700.0f);
 	Vector2 lastTargetPos_ = Vector2();
+	Vector2 stateMoveXAcc_ = Vector2();
+	float amolitude_ = 100.0f;
+	float baseY_ = 700.0f;
+	float stateMoveXTime_ = 0.0f;
+	float stateMoveXSpd_ = 1.0f;
 #pragma endregion
 
 #pragma region メンバ関数

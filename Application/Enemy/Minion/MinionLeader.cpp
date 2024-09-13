@@ -25,8 +25,8 @@ void MinionLeader::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::M
 
 void MinionLeader::Update()
 {
-	stats_.position.x += (Key::GetInstance()->PushKey(DIK_D) - Key::GetInstance()->PushKey(DIK_A)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
-	stats_.position.y += (Key::GetInstance()->PushKey(DIK_S) - Key::GetInstance()->PushKey(DIK_W)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
+	//stats_.position.x += (Key::GetInstance()->PushKey(DIK_D) - Key::GetInstance()->PushKey(DIK_A)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
+	//stats_.position.y += (Key::GetInstance()->PushKey(DIK_S) - Key::GetInstance()->PushKey(DIK_W)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
 
 	// 状態別更新処理
 	(this->*stateTable[(size_t)stats_.state])();
@@ -228,6 +228,18 @@ void MinionLeader::SecondBeaten()
 
 void MinionLeader::MoveX()
 {
+	stateMoveXTime_ += data_->timeMgrPtr->GetGameDeltaTime();
+
+	// 加速度を速度に加算
+	stats_.velocity += stateMoveXAcc_ * data_->timeMgrPtr->GetGameDeltaTime();
+	stats_.velocity.x = Util::Clamp(stats_.velocity.x, 120.0f, -120.0f);
+
+	// 速度を座標に反映
+	stats_.position.x += stats_.velocity.x * data_->timeMgrPtr->GetGameDeltaTime();
+	stats_.position.y = baseY_ + amolitude_ * std::sin(stateMoveXSpd_ * stateMoveXTime_);
+
+	if (stateMoveXAcc_.x < 0 && stats_.position.x <= 400.0f) stateMoveXAcc_ = -stateMoveXAcc_;
+	if (stateMoveXAcc_.x > 0 && stats_.position.x >= 1520.0f) stateMoveXAcc_ = -stateMoveXAcc_;
 }
 
 void MinionLeader::Spawn()
@@ -240,5 +252,7 @@ void MinionLeader::Spawn()
 
 	if (spawnTime_.GetIsExceeded()) {
 		stats_.state = MinionState::MoveX;
+		if (stats_.position.x >= 960.0f) stateMoveXAcc_.x = -100.0f;
+		else stateMoveXAcc_.x = 100.0f;
 	}
 }
