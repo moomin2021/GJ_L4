@@ -18,8 +18,11 @@ void MinionFollower::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus:
 	collider_.Initialize(name, callback, colMgrPtr);
 
 	// ターゲット
+	float rndX = Util::GetRandomFloat(-50.0f, 50.0f);
+	float rndY = Util::GetRandomFloat(-50.0f, 50.0f);
 	lastTargetPos_ = stats_.position;
-	targetPos_.x = stats_.position.x;
+	targetPos_.x = stats_.position.x + rndX;
+	targetPos_.y = 700.0f + rndY;
 }
 
 void MinionFollower::Update()
