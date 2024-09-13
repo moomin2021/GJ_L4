@@ -10,6 +10,8 @@
 #include "Easing.h"
 #include "TimeManager.h"
 #include "Mouse.h"
+#include "ParticleMan.h"
+#include "DeadParticle.h"
 
 Player::~Player(void)
 {
@@ -549,6 +551,8 @@ void Player::DeadBounceUpdate(void)
 {
     if (Get_IsDead() == false) { return; }
 
+    timer_deadAfter += TimeManager::GetInstance()->GetGameDeltaTime();
+
     static bool isJump{};
 
     if (isJump == false)
@@ -556,6 +560,27 @@ void Player::DeadBounceUpdate(void)
         isJump = true;
         commonInfomation_->gravity.Set_Current(-28);
         commonInfomation_->collider.Set_IsActive(false);
+    }
+
+    const float k = 940.f;
+    if (commonInfomation_->position.y >= k)
+    {
+        static int32_t frame{};
+        frame++;
+
+        if (frame == 0 || frame % 30 == 0)
+        {
+            Vector2 pPos = { commonInfomation_->position.x, k };
+
+            Vector2 posA = pPos + commonInfomation_->kDeadParticleMoveVec1 * 500;
+            Vector2 vec = commonInfomation_->kDeadParticleMoveVec2 * 500;
+            Vector2 posB1 = pPos + vec;
+            vec.x = -vec.x;
+            Vector2 posB2 = pPos + vec;
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posA);
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posB1);
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<DeadParticle>(), pPos, posB2);
+        }
     }
 
     commonInfomation_->sprite_player->SetRotation(commonInfomation_->rotate);

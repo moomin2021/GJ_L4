@@ -54,8 +54,11 @@ private:
     int32_t png_white_debug{};
     int32_t png_frame_debug{};
 
+    float timer_deadAfter{};
+
 public:
     PlayerCommonInfomation* Get_CommonInfomation(void) { return commonInfomation_.get(); }
     bool Get_IsDead(void) { return commonInfomation_->health_current <= 0; }
+    bool Get_IsAllDead(void) { return Get_IsDead() && timer_deadAfter >= 30.f; }
 };
 
