@@ -74,6 +74,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	bool GetIsAlive() { return nowHP_ > 0.0f; }
+
+	/// <summary>
+	/// ボスの体力を取得
+	/// </summary>
+	/// <returns> ボスの体力 </returns>
+	float GetBossHP() { return nowHP_; }
 #pragma endregion
 };
 

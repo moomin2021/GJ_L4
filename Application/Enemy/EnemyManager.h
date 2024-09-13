@@ -62,5 +62,11 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	bool GetIsBossAlive() { return boss_->GetIsAlive(); }
+
+	/// <summary>
+	/// ボスのHPの取得
+	/// </summary>
+	/// <returns> ボスのHP </returns>
+	float GetBossHP() { return boss_->GetBossHP(); }
 #pragma endregion
 };

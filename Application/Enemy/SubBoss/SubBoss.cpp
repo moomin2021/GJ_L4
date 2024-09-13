@@ -242,10 +242,19 @@ void SubBoss::MoveChance()
 
 	// ランダムで行動を決める
 	size_t rnd = Util::GetRandomInt(2, 3);
-	currentMoveType_ = (SubBossMoveType)rnd;
 
-	// 行動の生成
-	ChangeMove();
+	// 雑魚敵がまだいてHPが500以下なら雑魚敵がいる時も突進攻撃をする
+	if (subBossInfo_.enemyMgrPtr->GetMinionAmount() > 0 && subBossInfo_.enemyMgrPtr->GetBossHP() <= 500.0f) {
+		currentMoveType_ = SubBossMoveType::DescentDive;
+		// 行動の生成
+		ChangeMove();
+	}
+
+	if (subBossInfo_.enemyMgrPtr->GetMinionAmount() <= 0) {
+		currentMoveType_ = (SubBossMoveType)rnd;
+		// 行動の生成
+		ChangeMove();
+	}
 }
 
 void SubBoss::DebugStartAttack()
