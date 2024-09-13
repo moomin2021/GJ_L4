@@ -18,7 +18,7 @@ void EnemyManager::Initialize(M_ColliderManager* colMgrPtr, Player* playerPtr, C
 
 	// サブボスの生成、初期化
 	subBoss_ = std::make_unique<SubBoss>();
-	subBoss_->Initialize(colMgrPtr, playerPtr, cameraPtr);
+	subBoss_->Initialize(colMgrPtr, playerPtr, cameraPtr, minionFactory_.get());
 }
 
 void EnemyManager::Update()
