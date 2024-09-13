@@ -10,6 +10,8 @@ class GameOverScene : public BaseScene
 private:
 	// インスタンス
 	Key* key_ = nullptr;
+	// カメラ
+	std::unique_ptr<Camera> camera_ = nullptr;
 
 	std::unique_ptr<Sprite> backGroundSprite_ = nullptr;
 	int32_t backGroundTex = 0;
@@ -21,7 +23,7 @@ private:
 	float4 blackBaseColor = { 1,1,1,1 };
 	float4 baseInColor = { 0,0,0,1 };
 	float4 baseOutColor = { 0,0,0,0 };
-	float alphaValue_ = (1 / 60);
+	float alphaValue_ = 0.01f;
 
 	bool IsChageScene_ = false;
 	bool IsStartScene_ = false;

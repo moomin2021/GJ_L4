@@ -1,6 +1,7 @@
 #include "GameClearScene.h"
 #include "Texture.h"
 #include "Pad.h"
+#include "PipelineManager.h"
 
 GameClearScene::GameClearScene(IScene* sceneIf) : BaseScene(sceneIf)
 {
@@ -9,6 +10,13 @@ GameClearScene::GameClearScene(IScene* sceneIf) : BaseScene(sceneIf)
 
 void GameClearScene::Initialize()
 {
+#pragma region カメラ
+	camera_ = std::make_unique<Camera>();
+	camera_->SetEye({ 0.0f, 20.0f, -90.0f });
+	camera_->SetTarget({ 0.0f, 10.0f, 0.0f });
+	Sprite::SetCamera(camera_.get());
+#pragma endregion
+
 #pragma region テクスチャ＆スプライト
 	backGroundSprite_ = std::make_unique<Sprite>();
 	backGroundSprite_->SetAnchorPoint({ 0.5f,0.5f });
@@ -30,11 +38,10 @@ void GameClearScene::Update()
 	// 色を薄く
 	if (IsStartScene_ == false)
 	{
-		float4 color = baseInColor;
-		color.w = whiteBaseColor.w - alphaValue_;
-		blackOutSprite_->SetColor(color);
+		baseInColor.w -= alphaValue_;
+		blackOutSprite_->SetColor(baseInColor);
 
-		if (color.w <= 0.0f)
+		if (baseInColor.w <= 0.0f)
 		{
 			IsStartScene_ = true;
 
@@ -52,11 +59,10 @@ void GameClearScene::Update()
 	// 色を白く
 	if (IsChageScene_)
 	{
-		float4 color = baseOutColor;
-		color.w = whiteBaseColor.w + alphaValue_;
-		blackOutSprite_->SetColor(color);
+		baseOutColor.w+= alphaValue_;
+		blackOutSprite_->SetColor(baseOutColor);
 
-		if (color.w >= 1.0f)
+		if (baseOutColor.w >= 1.0f)
 		{
 			IsChageScene_ = false;
 			sceneIf_->ChangeScene(Scene::TITLE);
@@ -66,12 +72,16 @@ void GameClearScene::Update()
 
 void GameClearScene::MatUpdate()
 {
+	// カメラ更新
+	camera_->Update();
+
 	backGroundSprite_->MatUpdate();
 	blackOutSprite_->MatUpdate();
 }
 
 void GameClearScene::Draw()
 {
+	PipelineManager::PreDraw("Sprite");
 	backGroundSprite_->Draw(backGroundTex);
 	blackOutSprite_->Draw(blackOutTex_);
 }

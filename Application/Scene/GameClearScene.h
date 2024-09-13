@@ -11,6 +11,9 @@ private:
 	// インスタンス
 	Key* key_ = nullptr;
 
+	// カメラ
+	std::unique_ptr<Camera> camera_ = nullptr;
+
 	std::unique_ptr<Sprite> backGroundSprite_ = nullptr;
 	int32_t backGroundTex = 0;
 
@@ -21,7 +24,7 @@ private:
 	float4 whiteBaseColor = { 1,1,1,1 };
 	float4 baseInColor = { 1,1,1,1 };
 	float4 baseOutColor = { 1,1,1,0 };
-	float alphaValue_ = (1 / 60);
+	float alphaValue_ = 0.01f;
 
 	bool IsChageScene_ = false;
 	bool IsStartScene_ = false;

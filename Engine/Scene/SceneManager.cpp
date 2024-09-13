@@ -2,6 +2,9 @@
 
 #include "TitleScene.h"
 #include "GameScene.h"
+#include "GameOverScene.h"
+#include "GameClearScene.h"
+
 #include "TestScene.h"
 
 SceneManager::SceneManager()
@@ -46,6 +49,12 @@ void SceneManager::Update()
 				break;
 			case Scene::GAME:
 				nowScene_ = std::make_unique<GameScene>(this);
+				break;
+			case Scene::OVER:
+				nowScene_ = std::make_unique<GameOverScene>(this);
+				break;
+			case Scene::CLEAR:
+				nowScene_ = std::make_unique<GameClearScene>(this);
 				break;
 			case Scene::TEST:
 				nowScene_ = std::make_unique<TestScene>(this);

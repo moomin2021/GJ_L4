@@ -187,7 +187,6 @@
     <ClCompile Include="SmokeParticle.cpp" />
     <ClCompile Include="Application\Effect\Trajectory.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\SummonMinions.cpp" />
-    <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\StartIntro.cpp" />
   </ItemGroup>
@@ -294,7 +293,6 @@
     <ClInclude Include="SmokeParticle.h" />
     <ClInclude Include="Application\Effect\Trajectory.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\SummonMinions.h" />
-    <ClInclude Include="Trajectory.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\StartIntro.h" />
   </ItemGroup>

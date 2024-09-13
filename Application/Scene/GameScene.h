@@ -47,7 +47,7 @@ private:
 
 	float4 whiteBaseColor = { 1,1,1,0 };
 	float4 baseColor = { 0,0,0,0 };
-	float alphaValue_ = (1 / 60);
+	float alphaValue_ = 0.01f;
 
 	bool IsGameOver = false;
 	bool IsGameClear = false;
