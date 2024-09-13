@@ -25,6 +25,16 @@ void GameScene::Initialize()
 	backGroundSprite_->SetPosition({ 960,540 });
 	backGroundSprite_->SetSize({ 1920, 1080 });
 	backGroundTex = LoadTexture("backGround.png");
+
+	blackOutSprite_= std::make_unique<Sprite>();
+	blackOutSprite_->SetAnchorPoint({ 0.5f,0.5f });
+	blackOutSprite_->SetPosition({ 960,540 });
+	blackOutSprite_->SetSize({ 1920, 1080 });
+	blackOutSprite_->SetColor({ 0,0,0,0 });
+	blackOutTex_ = LoadTexture("white.png");
+
+	IsGameOver = false;
+	IsGameClear = false;
 #pragma endregion
 
 
@@ -58,13 +68,40 @@ void GameScene::Update()
         particleManPtr_->AddParticle(std::make_unique<TrajectoryParticle>(), { 500,500 });
     }
 
+	if (player_.)
+	{
+		// 徐々に暗くなる
+		float4 color;
+		color.w = baseColor.w + alphaValue_;
+		blackOutSprite_->SetColor(color);
+
+		if (color.w >= 1.0f)
+		{
+			// シーンチェンジ
+
+		}
+	}
+
+	if (IsGameClear)
+	{
+		float4 color;
+		color.w = whiteBaseColor.w + alphaValue_;
+		blackOutSprite_->SetColor(color);
+
+		if (color.w >= 1.0f)
+		{
+			// シーンチェンジ
+
+		}
+	}
+
     particleManPtr_->Update();
 
 	// 各クラス更新処理
 	enemyMgr_->Update();
 
     player_.Update();
-
+	
 #ifdef _DEBUG
 	// ImGuiの処理
 	enemyMgr_->ImGuiUpdate();

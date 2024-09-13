@@ -145,6 +145,8 @@
     <ClCompile Include="Application\Collision\ICollider.cpp" />
     <ClCompile Include="Application\Player\Gravity.cpp" />
     <ClCompile Include="Application\Player\Behavior\IPlayerBehavior.cpp" />
+    <ClCompile Include="Application\Scene\GameOverScene.cpp" />
+    <ClCompile Include="Application\Scene\GameClearScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\3d\Mesh.cpp" />
     <ClCompile Include="Engine\3d\Material.cpp" />
@@ -183,7 +185,7 @@
     <ClCompile Include="ParticleMan.cpp" />
     <ClCompile Include="Application\Effect\SmokeEffect.cpp" />
     <ClCompile Include="SmokeParticle.cpp" />
-    <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="Application\Effect\Trajectory.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\StartIntro.cpp" />
   </ItemGroup>
@@ -280,13 +282,15 @@
     <ClInclude Include="Application\Enemy\Minion\MinionLeader.h" />
     <ClInclude Include="Application\Enemy\Minion\MinionFollower.h" />
     <ClInclude Include="Application\Enemy\Minion\MinionFactory.h" />
+    <ClInclude Include="Application\Scene\GameOverScene.h" />
+    <ClInclude Include="Application\Scene\GameClearScene.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="Application\Enemy\SubBoss\SubBossInfo.h" />
     <ClInclude Include="Engine\Util\Shake.h" />
     <ClInclude Include="ParticleMan.h" />
     <ClInclude Include="Application\Effect\SmokeEffect.h" />
     <ClInclude Include="SmokeParticle.h" />
-    <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="Application\Effect\Trajectory.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\SubBossMoveState.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\StartIntro.h" />
   </ItemGroup>

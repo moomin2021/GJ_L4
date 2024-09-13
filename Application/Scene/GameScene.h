@@ -41,6 +41,16 @@ private:
 
 	bool IsPlayBgm_ = false;
 
+	// ブラック＆ホワイトアウト用の画像
+	std::unique_ptr<Sprite> blackOutSprite_ = nullptr;
+	int32_t blackOutTex_;
+
+	float4 whiteBaseColor = { 1,1,1,0 };
+	float4 baseColor = { 0,0,0,0 };
+	float alphaValue_ = (1 / 60);
+
+	bool IsGameOver = false;
+	bool IsGameClear = false;
 
 #pragma endregion
 
