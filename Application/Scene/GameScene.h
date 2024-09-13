@@ -11,6 +11,7 @@
 #include "ParticleMan.h"
 
 #include <memory>
+#include <Sound.h>
 
 class GameScene : public BaseScene
 {
@@ -32,7 +33,15 @@ private:
 	std::unique_ptr<EnemyManager> enemyMgr_ = nullptr;
     Player player_;
 
+	Sound* sound_ = nullptr;
+
     ParticleMan* particleManPtr_ = nullptr;
+
+	uint16_t bgm_;
+
+	bool IsPlayBgm_ = false;
+
+
 #pragma endregion
 
 #pragma region メンバ関数

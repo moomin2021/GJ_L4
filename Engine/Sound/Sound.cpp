@@ -1,4 +1,4 @@
-﻿#include "Sound.h"
+#include "Sound.h"
 
 #include <cassert>
 
@@ -87,13 +87,34 @@ uint16_t Sound::LoadWave(std::string fileName, float volume)
 	ChunkHeader data{};
 	file.read((char*)&data, sizeof(data));
 
-	// JUNKチャンクを検出した場合
-	if (strncmp(data.id, "JUNK", 4) == 0)
-	{
-		// 読み取り位置をJUNKチャンクの終わりまで進める
+	//bextチャンクを検出した場合
+	if (strncmp(data.id, "bext", 4) == 0) {
+		//読み込み位置をJUNKチャンクの終わるまで進める
 		file.seekg(data.size, std::ios_base::cur);
+		//再読み込み
+		file.read((char*)&data, sizeof(data));
+	}
 
-		// 再読み込み
+	//JUNKチャンクを検出した場合
+	if (strncmp(data.id, "JUNK", 4) == 0) {
+		//読み込み位置をJUNKチャンクの終わるまで進める
+		file.seekg(data.size, std::ios_base::cur);
+		//再読み込み
+		file.read((char*)&data, sizeof(data));
+	}
+
+	//JUNKチャンクを検出した場合
+	if (strncmp(data.id, "junk", 4) == 0) {
+		//読み込み位置をJUNKチャンクの終わるまで進める
+		file.seekg(data.size, std::ios_base::cur);
+		//再読み込み
+		file.read((char*)&data, sizeof(data));
+	}
+	//LISTチャンクを検出した場合
+	if (strncmp(data.id, "LIST", 4) == 0) {
+		//読み込み位置をJUNKチャンクの終わるまで進める
+		file.seekg(data.size, std::ios_base::cur);
+		//再読み込み
 		file.read((char*)&data, sizeof(data));
 	}
 

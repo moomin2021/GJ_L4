@@ -6,6 +6,7 @@
 #include "ImGuiManager.h"
 #include "AppEasing.h"
 #include <memory>
+#include "Sound.h"
 
 class TitleScene : public BaseScene
 {
@@ -128,6 +129,11 @@ private:
 	// チェンジフラグ
 	bool IsChangeScene_;
 	float alphaLossValue_;
+
+	// 音
+	Sound* soundM_;
+	uint16_t bgm_;
+	bool IsPlayBgm_;
 
 #pragma endregion
 

@@ -178,10 +178,24 @@ void TitleScene::Initialize()
 	wallOnlyTex = LoadTexture("wallKariOnly.png");
 	backGroundTex = LoadTexture("backGround.png");
 #pragma endregion
+
+#pragma region 音
+	soundM_ = Sound::GetInstance();
+
+	bgm_ = soundM_->LoadWave("Resources/Sound/Lilac_loop.wav", 0.8f);
+	IsPlayBgm_ = false;
+#pragma endregion
+
 }
 
 void TitleScene::Update()
 {
+	if (IsPlayBgm_ == false)
+	{
+		soundM_->Play(bgm_, true);
+		IsPlayBgm_ = true;
+	}
+
 	if (key_->TriggerKey(DIK_SPACE)) {
 		IsChangeScene_ = true;
 		
@@ -396,6 +410,7 @@ void TitleScene::TitleChangeSceneUpdate()
 			if (titleSpriteColor_[i].w <= 0)
 			{
 				IsChangeScene_ = false;
+				soundM_->Stop(bgm_);
 				sceneIf_->ChangeScene(Scene::GAME);
 			}
 		}
