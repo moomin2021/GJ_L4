@@ -3,6 +3,7 @@
 #include "float4.h"
 #include "M_CircleCollider.h"
 #include "Camera.h"
+#include "Sound.h"
 
 class Player;
 class MinionFactory;
@@ -40,6 +41,9 @@ struct SubBossInfo {
 
 	// 生成器のポインタ
 	MinionFactory* minionFactoryPtr = nullptr;
+
+	// サウンド
+	Sound* soundPtr = nullptr;
 
 	// 移動処理
 	void Move(float deltaTime);

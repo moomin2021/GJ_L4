@@ -1,6 +1,7 @@
 #include "SubBoss.h"
 #include "Texture.h"
 #include "ImGuiManager.h"
+#include "Sound.h"
 
 #include "CollisionChecker.h"
 #include "Player.h"
@@ -169,6 +170,9 @@ void SubBoss::InitializeSubBossInfo(M_ColliderManager* colMgrPtr, Camera* camera
 
 	// 生成器のポインタ受取
 	subBossInfo_.minionFactoryPtr = minionFactoryPtr;
+
+	// サウンドポインタ
+	subBossInfo_.soundPtr = Sound::GetInstance();
 
 	// 行動の設定
 	currentMoveState_ = std::make_unique<StartIntro>();
