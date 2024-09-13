@@ -46,7 +46,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     {
         sprite_operationSheet_divides_[i] = std::make_unique<Sprite>();
         sprite_operationSheet_divides_[i]->SetSize({ 224,64 });
-        sprite_operationSheet_divides_[i]->SetPosition({ 90 + (float)i * 224,1000});
+        sprite_operationSheet_divides_[i]->SetPosition({ 90 + (float)i * 224,1000 });
         sprite_operationSheet_divides_[i]->SetColor({ 1.0f, 1.0f, 1.0f, 1.f });
     }
 
@@ -260,6 +260,9 @@ void Player::Update(void)
         timer_lightUpButtons_[i] += TimeManager::GetInstance()->GetGameDeltaTime();
     }
 
+    FlashingUpdate();
+    InvincibleUpdate();
+
 #ifdef _DEBUG
     DrawImGUi();
 #endif // _DEBUG
@@ -286,23 +289,26 @@ void Player::MatUpdate(void)
 
 void Player::Draw(void)
 {
-    switch (behaviorMachine_.Get_Behavior())
+    if (commonInfomation_->isFlash_ == false)
     {
-    case PB_IDLE:
-        commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerIdle[commonInfomation_->num_idleSprite]);
-        break;
-    case PB_MOVE:
-        commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerMove[commonInfomation_->num_moveSprite]);
-        break;
-    case PB_ATTACK:
-        commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerAttack[commonInfomation_->num_attackSprite]);
-        break;
-    case PB_SPECIAL:
-        commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerSpecial[commonInfomation_->num_specialSprite]);
-        break;
-    default:
-        commonInfomation_->sprite_player->Draw(png_player_);
-        break;
+        switch (behaviorMachine_.Get_Behavior())
+        {
+        case PB_IDLE:
+            commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerIdle[commonInfomation_->num_idleSprite]);
+            break;
+        case PB_MOVE:
+            commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerMove[commonInfomation_->num_moveSprite]);
+            break;
+        case PB_ATTACK:
+            commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerAttack[commonInfomation_->num_attackSprite]);
+            break;
+        case PB_SPECIAL:
+            commonInfomation_->sprite_player->Draw(commonInfomation_->png_playerSpecial[commonInfomation_->num_specialSprite]);
+            break;
+        default:
+            commonInfomation_->sprite_player->Draw(png_player_);
+            break;
+        }
     }
 
     commonInfomation_->sprite_player_hpContent_shadow->Draw(png_HPBar_content_shadow_);
@@ -477,6 +483,57 @@ void Player::UseSP(float arg_sp)
     commonInfomation_->sp_current -= arg_sp;
 }
 
+void Player::FlashingUpdate(void)
+{
+    if (commonInfomation_->isDamaged_ == false) { return; }
+
+    //bool isTimeOver = commonInfomation_->timer_flashing_player >= commonInfomation_->kTime_flashing_player_max;
+    //bool isFlashCountOver = commonInfomation_->num_flashing_player >= commonInfomation_->kNum_flashing_player_max;
+    //if (isTimeOver || isFlashCountOver) { return; }
+
+    if (commonInfomation_->isDamaged_ && commonInfomation_->timer_flashing_player >= 1.6f && commonInfomation_->isFlash_ == true)
+    {
+        commonInfomation_->isFlash_ = !commonInfomation_->isFlash_;
+        commonInfomation_->isDamaged_ = false;
+        commonInfomation_->timer_flashing_player = 0.f;
+    }
+
+    commonInfomation_->timer_flashing_player += TimeManager::GetInstance()->GetGameDeltaTime();
+    if (commonInfomation_->timer_flashing_player >= 0 && commonInfomation_->timer_flashing_player <= 0.4)
+    {
+        commonInfomation_->isFlash_ = true;
+        commonInfomation_->isInvincible = true;
+    }
+    else if (commonInfomation_->timer_flashing_player >= 0.41f && commonInfomation_->timer_flashing_player <= 0.8f)
+    {
+        commonInfomation_->isFlash_ = !commonInfomation_->isFlash_;
+    }
+    else if (commonInfomation_->timer_flashing_player >= 0.81f && commonInfomation_->timer_flashing_player <= 1.2f)
+    {
+        commonInfomation_->isFlash_ = !commonInfomation_->isFlash_;
+    }
+    else if (commonInfomation_->timer_flashing_player >= 1.21f && commonInfomation_->timer_flashing_player <= 1.6f)
+    {
+        commonInfomation_->isFlash_ = false;
+        commonInfomation_->isDamaged_ = false;
+        commonInfomation_->timer_flashing_player = 0.f;
+    }
+}
+
+void Player::InvincibleUpdate(void)
+{
+    if (commonInfomation_->isInvincible)
+    {
+        if (commonInfomation_->timer_invincible >= commonInfomation_->kTime_Invincible_max)
+        {
+            commonInfomation_->isInvincible = false;
+            commonInfomation_->timer_invincible = 0.f;
+            return;
+        }
+        commonInfomation_->timer_invincible += TimeManager::GetInstance()->GetGameDeltaTime();
+    }
+}
+
 void Player::Callback(void)
 {
     auto& myCol = commonInfomation_->collider;
@@ -557,12 +614,20 @@ void Player::Callback(void)
         ICollider* subBossCol = myCol.Extract_Collider("SubBoss");
         float damage = subBossCol->Data_Get<float>("Damage");
 
-        Damage(damage);
+        if (commonInfomation_->isInvincible == false)
+        {
+            Damage(damage);
+            commonInfomation_->isDamaged_ = true;
+        }
     }
 
     if (myCol.IsTrigger_Name("Minion"))
     {
-        ICollider* minionCol = myCol.Extract_Collider("Minion");
-        
+        //ICollider* minionCol = myCol.Extract_Collider("Minion");
+
+        if (commonInfomation_->isInvincible == false)
+        {
+            commonInfomation_->isDamaged_ = true;
+        }
     }
 }

@@ -86,7 +86,7 @@ struct PlayerCommonInfomation
     float kTime_AttackAnimation_max = 0.2f;     
     float kTime_SpecialInterval_max = 20.f;
     float kTime_SpecialAnimation_max = 0.2f;
-    float kTime_Invincible_max = 20.f;          // sec
+    float kTime_Invincible_max = 1.6f;          // sec
     float kTime_Easing_hp_content_shadow_max = 2.2f;
     float kTime_Easing_sp_content_shadow_max = 2.2f;
 
@@ -101,6 +101,9 @@ struct PlayerCommonInfomation
     Vector2 position{};
     Gravity gravity{};
     Move move{};
+    bool isDamaged_{};
+    bool isFlash_{};
+    bool isInvincible{};
 
     // Time
     //*IDLE
@@ -123,6 +126,7 @@ struct PlayerCommonInfomation
     // Player
     float timer_easing_hp_content_shadow{};
     float timer_easing_sp_content_shadow{};
+    float timer_flashing_player{};
 
     // Collider
     M_ColliderManager* ptr_colliderManager{};
