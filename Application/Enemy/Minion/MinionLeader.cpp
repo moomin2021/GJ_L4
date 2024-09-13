@@ -3,7 +3,10 @@
 #include "CollisionChecker.h"
 #include "Player.h"
 #include "Key.h"
+#include "Easing.h"
 #include "SmokeEffect.h"
+#include "Util.h"
+#include "Trajectory.h"
 
 using namespace EnemyStatus;
 
@@ -17,12 +20,16 @@ void MinionLeader::Initialize(M_ColliderManager* colMgrPtr, const EnemyStatus::M
 	std::string name = "Minion";
 	auto callback = std::bind(&MinionLeader::CollisionCallBack, this);
 	collider_.Initialize(name, callback, colMgrPtr);
+
+	// ターゲット
+	lastTargetPos_ = stats_.position;
+	targetPos_.x = stats_.position.x;
 }
 
 void MinionLeader::Update()
 {
-	stats_.position.x += (Key::GetInstance()->PushKey(DIK_D) - Key::GetInstance()->PushKey(DIK_A)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
-	stats_.position.y += (Key::GetInstance()->PushKey(DIK_S) - Key::GetInstance()->PushKey(DIK_W)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
+	//stats_.position.x += (Key::GetInstance()->PushKey(DIK_D) - Key::GetInstance()->PushKey(DIK_A)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
+	//stats_.position.y += (Key::GetInstance()->PushKey(DIK_S) - Key::GetInstance()->PushKey(DIK_W)) * 100.0f * data_->timeMgrPtr->GetGameDeltaTime();
 
 	// 状態別更新処理
 	(this->*stateTable[(size_t)stats_.state])();
@@ -34,6 +41,22 @@ void MinionLeader::Update()
 	sprites_[0]->SetRotation(backRotation_);
 	sprites_[1]->SetRotation(backRotation_);
 	sprites_[2]->SetRotation(frontRotation_);
+
+    // パーティクル出す
+    if (moveVec_.x != 0 || moveVec_.y != 0)
+    {
+        particleFrame_++;
+        if (particleFrame_ >= 2)
+        {
+            Vector2 pos = { stats_.position.x + Util::GetRandomFloat(-18,18), + stats_.position.y + Util::GetRandomFloat(-18,18) };
+            particleFrame_ = 0;
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), pos);
+            Vector2 pos2 = { stats_.position.x + Util::GetRandomFloat(-18,18), + stats_.position.y + Util::GetRandomFloat(-18,18) };
+            ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), pos2);
+            //Vector2 pos3 = { position_.x + Util::GetRandomFloat(-18,18), +position_.y + Util::GetRandomFloat(-18,18) };
+            //ParticleMan::GetInstance()->AddParticle(std::make_unique<TrajectoryParticle>(), pos3);
+        }
+    }
 }
 
 void MinionLeader::MatUpdate()
@@ -71,11 +94,16 @@ void MinionLeader::CollisionCallBack()
 	// プレイヤーに攻撃されたか
 	bool isAttackedByPlayer = false;
 
-	// ボスと衝突しているか
-	for (size_t i = 0; i < 4; i++)
-	{
-		if (collider_.IsDetect_Name("Boss" + std::to_string(i)))
-		{
+	// 壁と天井の衝突判定
+	for (size_t i = 0; i < 4; i++) {
+		if (stats_.state == MinionState::KnockBack) break;
+		// 壁か天井と当たったら
+		if (collider_.IsDetect_Name("Boss" + std::to_string(i))) {
+			// 押し出し処理
+			ICollider* hitCol = collider_.Extract_Collider("Boss" + std::to_string(i));
+			M_RectCollider* rect = static_cast<M_RectCollider*>(hitCol);
+			Vector2 pushBack = CollisionResponse::PushBack_AABB2Circle(rect->square_, collider_.circle_);
+			stats_.position += pushBack;
 			isWallCol = true;
 			wallName = "Boss" + std::to_string(i);
 		}
@@ -143,7 +171,7 @@ void MinionLeader::CollisionCallBack()
 	// プレイヤーに攻撃されていたら
 	if (isAttackedByPlayer) {
 		// ノーマル状態なら
-		if (stats_.state == MinionState::Normal) {
+		if (stats_.state == MinionState::Normal || stats_.state == MinionState::MoveX) {
 			// 状態、移動方向、速度の設定
 			stats_.state = MinionState::FirstBeaten;
 			moveVec_ = firstBeatenVec_;
@@ -172,6 +200,16 @@ void MinionLeader::CollisionCallBack()
 			collider_.Data_Add("Damage", 20.0f);
 		}
 	}
+
+	// スプライトの更新
+	for (auto& it : sprites_) {
+		it->SetPosition(stats_.position);
+	}
+
+	if (stats_.position.y >= 2100.0f) stats_.isAlive = false;
+
+	// コライダーの更新
+	collider_.circle_.center = sprites_[0]->GetPosition();
 }
 
 void MinionLeader::MoveUpdate()
@@ -185,6 +223,8 @@ void MinionLeader::MoveUpdate()
 	// 指数減衰を適用して減速させる
 	stats_.velocity.x *= exp(-stats_.dampingFactor * data_->timeMgrPtr->GetGameDeltaTime());
 	stats_.velocity.y *= exp(-stats_.dampingFactor * data_->timeMgrPtr->GetGameDeltaTime());
+
+	stats_.acceleration *= exp(-0.98f * data_->timeMgrPtr->GetGameDeltaTime());
 }
 
 void (MinionLeader::* MinionLeader::stateTable[]) () = {
@@ -192,12 +232,14 @@ void (MinionLeader::* MinionLeader::stateTable[]) () = {
 	& MinionLeader::FirstBeaten,
 	& MinionLeader::KnockBack,
 	& MinionLeader::SecondBeaten,
+	& MinionLeader::MoveX,
+	& MinionLeader::Spawn,
 };
 
 void MinionLeader::Normal()
 {
 	// 移動更新
-	MoveUpdate();
+	//MoveUpdate();
 }
 
 void MinionLeader::FirstBeaten()
@@ -231,4 +273,35 @@ void MinionLeader::SecondBeaten()
 	stats_.position += moveVec_ * moveSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
 	backRotation_ += backRotaSpd_ * data_->timeMgrPtr->GetGameDeltaTime();
 	collider_.circle_.center = stats_.position;
+}
+
+void MinionLeader::MoveX()
+{
+	stateMoveXTime_ += data_->timeMgrPtr->GetGameDeltaTime();
+
+	// 加速度を速度に加算
+	stats_.velocity += stateMoveXAcc_ * data_->timeMgrPtr->GetGameDeltaTime();
+	stats_.velocity.x = Util::Clamp(stats_.velocity.x, 120.0f, -120.0f);
+
+	// 速度を座標に反映
+	stats_.position.x += stats_.velocity.x * data_->timeMgrPtr->GetGameDeltaTime();
+	stats_.position.y = baseY_ + amolitude_ * std::sin(stateMoveXSpd_ * stateMoveXTime_);
+
+	if (stateMoveXAcc_.x < 0 && stats_.position.x <= 400.0f) stateMoveXAcc_ = -stateMoveXAcc_;
+	if (stateMoveXAcc_.x > 0 && stats_.position.x >= 1520.0f) stateMoveXAcc_ = -stateMoveXAcc_;
+}
+
+void MinionLeader::Spawn()
+{
+	spawnTime_.elapsedTime += data_->timeMgrPtr->GetGameDeltaTime();
+
+	float rate = spawnTime_.GetElapsedRatio();
+	stats_.position.x = Easing::Quint::easeOut(lastTargetPos_.x, targetPos_.x, rate);
+	stats_.position.y = Easing::Quint::easeOut(lastTargetPos_.y, targetPos_.y, rate);
+
+	if (spawnTime_.GetIsExceeded()) {
+		stats_.state = MinionState::MoveX;
+		if (stats_.position.x >= 960.0f) stateMoveXAcc_.x = -100.0f;
+		else stateMoveXAcc_.x = 100.0f;
+	}
 }

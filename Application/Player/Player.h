@@ -22,6 +22,8 @@ private:
     void DrawImGUi(void);
     void Damage(float arg_damage);
     void UseSP(float arg_sp);
+    void FlashingUpdate(void);
+    void InvincibleUpdate(void);
     void Callback(void);
 
     ;
@@ -54,5 +56,6 @@ private:
 
 public:
     PlayerCommonInfomation* Get_CommonInfomation(void) { return commonInfomation_.get(); }
+    bool Get_IsDead(void) { return commonInfomation_->health_current <= 0; }
 };
 

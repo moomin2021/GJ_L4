@@ -40,6 +40,6 @@ public:
 	void ImGuiUpdate(ImGuiManager* imgui);
 
 	// 雑魚敵の生成
-	void CreateMinion(const Vector2& inPos, EnemyStatus::MinionType type);
+	void CreateMinion(const Vector2& inPos, EnemyStatus::MinionType type, EnemyStatus::MinionState inState, const Vector2& Acc = Vector2());
 #pragma endregion
 };

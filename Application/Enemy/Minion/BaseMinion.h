@@ -53,6 +53,21 @@ private:
 	virtual void CollisionCallBack() = 0;
 #pragma endregion
 
+#pragma region セッター関数
+public:
+	/// <summary>
+	/// 状態の設定
+	/// </summary>
+	/// <param name="inState"> 状態 </param>
+	void SetState(EnemyStatus::MinionState inState) { stats_.state = inState; }
+
+	/// <summary>
+	/// 加速度の設定
+	/// </summary>
+	/// <param name="inAcc"> 加速度 </param>
+	void SetAcceleration(const Vector2& inAcc) { stats_.acceleration = inAcc; }
+#pragma endregion
+
 #pragma region ゲッター関数
 public:
 	/// <summary>

@@ -23,7 +23,7 @@ void MinionFactory::Initialize(EnemyManager* enemyMgrPtr, M_ColliderManager* col
 	leaderData_.playerPtr = playerPtr;
 	leaderData_.timeMgrPtr = TimeManager::GetInstance();
 	leaderData_.textures.emplace_back(LoadTexture("zakoEnemyOutLine01.png"));
-	leaderData_.textures.emplace_back(LoadTexture("zakoEnemyBlade01.png"));
+	leaderData_.textures.emplace_back(LoadTexture("zakoEnemyBlade02.png"));
 	leaderData_.textures.emplace_back(LoadTexture("zakoEnemyFace01.png"));
 	followerData_.playerPtr = playerPtr;
 	followerData_.timeMgrPtr = TimeManager::GetInstance();
@@ -60,11 +60,11 @@ void MinionFactory::ImGuiUpdate(ImGuiManager* imgui)
 
 	// 敵を生成するボタン
 	if (imgui->Button("生成する")) {
-		CreateMinion(debugCreatePos_, debugType_);
+		CreateMinion(debugCreatePos_, debugType_, MinionState::Normal);
 	}
 }
 
-void MinionFactory::CreateMinion(const Vector2& inPos, EnemyStatus::MinionType type)
+void MinionFactory::CreateMinion(const Vector2& inPos, EnemyStatus::MinionType type, EnemyStatus::MinionState inState, const Vector2& Acc)
 {
 	// 雑魚敵新規作成
 	std::unique_ptr<BaseMinion> newMinion;
@@ -76,6 +76,8 @@ void MinionFactory::CreateMinion(const Vector2& inPos, EnemyStatus::MinionType t
 	if (type == EnemyStatus::MinionType::Leader) {
 		newMinion = std::make_unique<MinionLeader>();
 		newMinion->Initialize(pColMgr_, setStats_, &leaderData_);
+		newMinion->SetAcceleration(Acc);
+		newMinion->SetState(inState);
 		pEnemyMgr_->AddLeader(std::move(newMinion));
 	}
 
@@ -83,6 +85,8 @@ void MinionFactory::CreateMinion(const Vector2& inPos, EnemyStatus::MinionType t
 	else if (type == EnemyStatus::MinionType::Follower) {
 		newMinion = std::make_unique<MinionFollower>();
 		newMinion->Initialize(pColMgr_, setStats_, &followerData_);
+		newMinion->SetAcceleration(Acc);
+		newMinion->SetState(inState);
 		pEnemyMgr_->AddFollower(std::move(newMinion));
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseMinion.h"
+#include "Util.h"
 
 class MinionFollower : public BaseMinion
 {
@@ -29,6 +30,14 @@ private:
 	// 死ぬまでの時間
 	float nowTime_ = 0.0f;
 	float aliveTime_ = 4.0f;
+
+	// 召喚された時
+	Util::TimeInfo spawnTime_ = { 1.0f, 0.0f };
+	Vector2 targetPos_ = Vector2(0.0f, 700.0f);
+	Vector2 lastTargetPos_ = Vector2();
+	Vector2 stateMoveXAcc_ = Vector2();
+
+    int32_t particleFrame_{};
 #pragma endregion
 
 #pragma region メンバ関数
@@ -55,12 +64,16 @@ private:
 	// 移動の更新処理
 	void MoveUpdate();
 
+	// 
+
 	// 状態別処理
 	static void (MinionFollower::* stateTable[]) ();
 	void Normal();
 	void FirstBeaten();
 	void KnockBack();
 	void SecondBeaten();
+	void MoveX();
+	void Spawn();
 
 	// 分離行動
 	Vector2 Separate(const std::vector<std::unique_ptr<BaseMinion>>& others);
@@ -70,6 +83,8 @@ private:
 	Vector2 Cohesion(const std::vector<std::unique_ptr<BaseMinion>>& others);
 	// 近いリーダーに追従する
 	Vector2 FollowNearestLeader(const std::vector<std::unique_ptr<BaseMinion>>& leaders);
+	// プレイヤーに追従
+	Vector2 TargetPlayer(const Vector2& playerPos);
 	// 特定のターゲットに向かう
 	Vector2 Seek(const Vector2& target);
 	// ベクトルの大きさを制限する
