@@ -59,6 +59,6 @@ private:
 public:
     PlayerCommonInfomation* Get_CommonInfomation(void) { return commonInfomation_.get(); }
     bool Get_IsDead(void) { return commonInfomation_->health_current <= 0; }
-    bool Get_IsAllDead(void) { return Get_IsDead() && timer_deadAfter >= 30.f; }
+    bool Get_IsAllDead(void) { return Get_IsDead() && timer_deadAfter >= 4.f; }
 };
 
