@@ -33,10 +33,11 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     png_HPBar_content_shadow_ = LoadTexture("HpBarContentsShadow.png");
     png_SPBar_frame_ = LoadTexture("SpBarFrame.png");
     png_SPBar_content_ = LoadTexture("SpBarContents.png");
-    png_operationSheet_ = LoadDivTexture("operationSheet_224x64.png",3);
+    png_SPBar_content_shadow_ = LoadTexture("SpBarContentsShadow.png");
+    png_operationSheet_ = LoadDivTexture("operationSheet_224x64.png", 3);
     png_operationSheet_divide_ = LoadDivTexture("operationSheet_224x64.png", 3);
 
-    
+
 
 
     for (size_t i{}; i < 3; i++)
@@ -53,7 +54,7 @@ void Player::Initialize(M_ColliderManager* arg_colliderManagerPtr)
     float basePos = 224 - 100;
 
     sprite_operationSheet_[0]->SetPosition({ basePos,1000 });
-    sprite_operationSheet_[1]->SetPosition({ basePos +224*1,1000 });
+    sprite_operationSheet_[1]->SetPosition({ basePos + 224 * 1,1000 });
     sprite_operationSheet_[2]->SetPosition({ basePos + 224 * 1 + 140,1000 });
     sprite_operationSheet_divides_[0]->SetPosition({ basePos,1000 });
     sprite_operationSheet_divides_[1]->SetPosition({ basePos + 224 * 1,1000 });
@@ -271,6 +272,7 @@ void Player::Update(void)
 
     FlashingUpdate();
     InvincibleUpdate();
+    DeadBounceUpdate();
 
 #ifdef _DEBUG
     DrawImGUi();
@@ -327,7 +329,6 @@ void Player::Draw(void)
     commonInfomation_->sprite_player_spContent_shadow->Draw(png_SPBar_content_shadow_);
     commonInfomation_->sprite_player_spContent->Draw(png_SPBar_content_);
     commonInfomation_->sprite_player_spFrame->Draw(png_SPBar_frame_);
-
 
 
     for (size_t i = 0; i < operationButtons_.size(); i++)
@@ -542,6 +543,38 @@ void Player::InvincibleUpdate(void)
         }
         commonInfomation_->timer_invincible += TimeManager::GetInstance()->GetGameDeltaTime();
     }
+}
+
+void Player::DeadBounceUpdate(void)
+{
+    if (Get_IsDead() == false) { return; }
+
+    static bool isJump{};
+
+    if (isJump == false)
+    {
+        isJump = true;
+        commonInfomation_->gravity.Set_Current(-28);
+        commonInfomation_->collider.Set_IsActive(false);
+    }
+
+    commonInfomation_->sprite_player->SetRotation(commonInfomation_->rotate);
+
+    commonInfomation_->timer_deadAnimation += TimeManager::GetInstance()->GetGameDeltaTime();
+    float elapsed = commonInfomation_->timer_deadAnimation / commonInfomation_->kTime_DeadAnimetion_max;
+    elapsed = Util::Clamp(elapsed, 1.0f, 0.0f);
+    commonInfomation_->rotate = Easing::Circ::easeOut(0, -580, elapsed);
+
+    commonInfomation_->position.y = (std::min)(commonInfomation_->position.y, 1300.f);
+
+#ifdef _DEBUG
+    // imgui
+    ImGui::Begin("Player");
+    ImGui::Text("%f", commonInfomation_->rotate);
+    ImGui::End();
+#endif // _DEBUG
+
+    commonInfomation_->timer_deadAnimation += TimeManager::GetInstance()->GetGameDeltaTime();
 }
 
 void Player::Callback(void)

@@ -24,9 +24,9 @@ private:
     void UseSP(float arg_sp);
     void FlashingUpdate(void);
     void InvincibleUpdate(void);
+    void DeadBounceUpdate(void);
     void Callback(void);
 
-    ;
     PlayerBehaviorMachine behaviorMachine_;
     std::shared_ptr<PlayerCommonInfomation> commonInfomation_;
 

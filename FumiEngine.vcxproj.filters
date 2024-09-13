@@ -195,6 +195,7 @@
     <ClCompile Include="Application\Scene\GameOverScene.cpp" />
     <ClCompile Include="Application\Scene\GameClearScene.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\SummonMinions.cpp" />
+    <ClCompile Include="DeadParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Collision\ColliderShape.h" />
@@ -566,6 +567,7 @@
     <ClInclude Include="Application\Scene\GameOverScene.h" />
     <ClInclude Include="Application\Scene\GameClearScene.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\SummonMinions.h" />
+    <ClInclude Include="DeadParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Bloom.hlsli" />

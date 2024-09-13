@@ -89,6 +89,7 @@ struct PlayerCommonInfomation
     float kTime_Invincible_max = 1.6f;          // sec
     float kTime_Easing_hp_content_shadow_max = 2.2f;
     float kTime_Easing_sp_content_shadow_max = 2.2f;
+    float kTime_DeadAnimetion_max = 10.f;
 
     //-Variable-----------------------------
     // Player
@@ -104,6 +105,7 @@ struct PlayerCommonInfomation
     bool isDamaged_{};
     bool isFlash_{};
     bool isInvincible{};
+    float rotate{};
 
     // Time
     //*IDLE
@@ -127,6 +129,7 @@ struct PlayerCommonInfomation
     float timer_easing_hp_content_shadow{};
     float timer_easing_sp_content_shadow{};
     float timer_flashing_player{};
+    float timer_deadAnimation{};
 
     // Collider
     M_ColliderManager* ptr_colliderManager{};

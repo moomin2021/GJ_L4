@@ -2,6 +2,8 @@
 #include "WinAPI.h"
 #include "Texture.h"
 #include "ImGuiManager.h"
+#include "Easing.h"
+#include "Util.h"
 
 Boss::Boss() : bossColCenter_(4), bossColLength_(4), bossCol_(4), crackTextures_(3) {}
 
@@ -60,6 +62,7 @@ void Boss::Initialize(M_ColliderManager* colMgrPtr)
 void Boss::Update()
 {
 	for (auto& it : bossCol_) it.Update();
+	ColorUpdate();
 }
 
 void Boss::MatUpdate()
@@ -100,17 +103,29 @@ void Boss::AddDamage(float damage)
 
 	if (nowHP_ <= 250.0f) {
 		crackT_ = crackTextures_[2];
-		bossS_->SetColor({ 0.7f, 0.3f, 0.3f, 1.0f });
 	}
 
 	else if (nowHP_ <= 500.0f) {
 		crackT_ = crackTextures_[1];
-		bossS_->SetColor({ 0.7f, 0.7f, 0.3f, 1.0f });
 	}
 
 	else if (nowHP_ <= 750.0f) {
 		crackT_ = crackTextures_[0];
-		bossS_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 		crackS_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	}
+}
+
+void Boss::ColorUpdate()
+{
+	// 修正色
+	float4 nowColor = float4();
+	// 色の遷移
+	float rate = 1.0f - ((float)nowHP_ / maxHP_);
+	rate = Util::Clamp(rate, 1.0f, 0.0f);
+	nowColor.x = Easing::Quint::easeOut(startColor_.x, endColor_.x, rate);
+	nowColor.y = Easing::Quint::easeOut(startColor_.y, endColor_.y, rate);
+	nowColor.z = Easing::Quint::easeOut(startColor_.z, endColor_.z, rate);
+	nowColor.w = 1.0f;
+	// 色の設定
+	bossS_->SetColor(nowColor);
 }

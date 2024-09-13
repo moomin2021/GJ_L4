@@ -37,6 +37,10 @@ private:
 	std::vector<Vector2> bossColLength_;	// 各コライダーの直径
 	std::vector<BossCol> bossCol_;
 	bool isDisplayCol_ = false;	// 当たり判定を表示するか
+
+	// 色関連
+	float4 startColor_ = float4(1.0f, 1.0f, 1.0f, 1.0f);
+	float4 endColor_ = float4(0.7f, 0.3f, 0.3f, 1.0f);
 #pragma endregion
 
 #pragma region メンバ関数
@@ -55,6 +59,9 @@ public:
 
 	// ダメージの加算
 	void AddDamage(float damage);
+
+	// 色の更新
+	void ColorUpdate();
 
 private:
 	

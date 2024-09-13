@@ -107,6 +107,7 @@
     <ClCompile Include="Application\Enemy\Minion\BaseMinion.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\DescentDive.cpp" />
     <ClCompile Include="Application\Enemy\SubBoss\MoveTypes\EndGameOutro.cpp" />
+    <ClCompile Include="DeadParticle.cpp" />
     <ClCompile Include="Engine\Collision\CollisionManager3D.cpp" />
     <ClCompile Include="Engine\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\Util\Buffer.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Application\Player\Behavior\PlayerBehavior_Special.h" />
     <ClInclude Include="Application\Enemy\Minion\BaseMinion.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\DescentDive.h" />
+    <ClInclude Include="DeadParticle.h" />
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Application\Enemy\SubBoss\MoveTypes\EndGameOutro.h" />
     <ClInclude Include="Engine\Collision\CollisionManager3D.h" />
