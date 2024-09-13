@@ -551,4 +551,18 @@ void Player::Callback(void)
 
     // 押し出し後に座標を合わせる
     commonInfomation_->sprite_player->SetPosition(commonInfomation_->position);
+
+    if (myCol.IsTrigger_Name("SubBoss"))
+    {
+        ICollider* subBossCol = myCol.Extract_Collider("SubBoss");
+        float damage = subBossCol->Data_Get<float>("Damage");
+
+        Damage(damage);
+    }
+
+    if (myCol.IsTrigger_Name("Minion"))
+    {
+        ICollider* minionCol = myCol.Extract_Collider("Minion");
+        
+    }
 }
