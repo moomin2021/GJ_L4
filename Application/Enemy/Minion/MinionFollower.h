@@ -38,6 +38,7 @@ private:
 	Vector2 stateMoveXAcc_ = Vector2();
 
     int32_t particleFrame_{};
+    int32_t particleInterval_{8};
 #pragma endregion
 
 #pragma region メンバ関数
