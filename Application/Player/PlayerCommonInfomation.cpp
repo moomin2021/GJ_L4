@@ -145,4 +145,5 @@ void PlayerCommonInfomation::Update(void)
     collider.square_.center = position;
     gravity.Update();
     health_rate_ = health_current / (std::max)(kHealth_max, 1.f); // 0除算ケア
+    sp_rate_ = sp_current / (std::max)(kSp_max, 1.f);             // 0除算ケア
 }
