@@ -11,6 +11,10 @@ private:
 	Vector2 lastTargetPos0_ = Vector2();			// 目標前座標
 	// ステージ1で使う変数
 	Util::TimeInfo stage1Time_ = { 1.0f, 0.0f };	// ステージ1の時間
+	// ステージ2で使う変数
+	Util::TimeInfo stage2Time_ = { 0.2f, 0.0f };
+	uint16_t stage2MaxCount_ = 10;
+	uint16_t stage2Counter_ = 0;
 #pragma endregion
 
 #pragma region メンバ関数

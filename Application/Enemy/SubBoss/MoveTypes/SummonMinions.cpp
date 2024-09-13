@@ -40,6 +40,21 @@ void SummonMinions::Update(SubBossInfo* info)
 			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Leader, MinionState::Spawn, Vector2(0.0f, 400.0f));
 		}
 	}
+
+	// フォロワーの召喚
+	else if (moveStage_ == 2) {
+		// 時間の加算
+		stage2Time_.elapsedTime += timeMgr->GetGameDeltaTime();
+		// 時間を超えたら次の段階へ
+		if (stage2Time_.GetIsExceeded()) {
+			if (stage2Counter_ >= stage2MaxCount_) {
+				moveStage_++;
+				return;
+			}
+			stage2Counter_++;
+			info->minionFactoryPtr->CreateMinion(info->position, MinionType::Follower, MinionState::Spawn, Vector2(0.0f, 400.0f));
+		}
+	}
 }
 
 void SummonMinions::Finalize(SubBossInfo* info)
